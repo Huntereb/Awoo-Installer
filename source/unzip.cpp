@@ -1,6 +1,4 @@
-extern "C" {
-    #include <minizip/unzip.h>
-}
+#include <minizip/unzip.h>
 #include <algorithm>
 #include <dirent.h>
 #include <string>
