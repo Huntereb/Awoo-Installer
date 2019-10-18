@@ -4,6 +4,7 @@
 #include "curl.hpp"
 #include "main.hpp"
 #include "unzip.hpp"
+#include "netInstall.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
 
@@ -37,12 +38,12 @@ namespace inst::ui {
     }
 
     void MainPage::installMenuItem_Click() {
-        mainApp->CreateShowDialog("Not implemented yet", "", {"Cancel"}, true);
+        if (!netInstStuff::installNspLan()) mainApp->CreateShowDialog("Failure!", "", {"OK"}, true);
         return;
     }
 
     void MainPage::netInstallMenuItem_Click() {
-        mainApp->CreateShowDialog("Not implemented yet", "", {"Cancel"}, true);
+        mainApp->CreateShowDialog("Not implemented yet", "", {"OK"}, true);
         return;
     }
 

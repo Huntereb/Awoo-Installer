@@ -39,9 +39,9 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/ui
+SOURCES		:=	source source/ui source/data source/install source/nx source/nx/ipc source/util
 DATA		:=	data
-INCLUDES	:=	include include/ui
+INCLUDES	:=	include include/ui include/data include/install include/nx include/nx/ipc include/util
 APP_TITLE	:=	Awoo Installer
 APP_AUTHOR	:=	Huntereb
 APP_VERSION	:=	0.0.1

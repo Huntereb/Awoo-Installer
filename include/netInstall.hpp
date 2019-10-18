@@ -1,0 +1,3 @@
+namespace netInstStuff {
+    bool installNspLan ();
+}
