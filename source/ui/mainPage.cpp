@@ -2,7 +2,7 @@
 #include "MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "curl.hpp"
-#include "main.hpp"
+#include "util.hpp"
 #include "unzip.hpp"
 #include "netInstall.hpp"
 
@@ -10,6 +10,7 @@
 
 namespace inst::ui {
     extern MainApplication *mainApp;
+    extern MainApplication *netinstPage;
 
     MainPage::MainPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -38,12 +39,12 @@ namespace inst::ui {
     }
 
     void MainPage::installMenuItem_Click() {
-        if (!netInstStuff::installNspLan()) mainApp->CreateShowDialog("Failure!", "", {"OK"}, true);
+        mainApp->CreateShowDialog("Not implemented yet", "", {"OK"}, true);
         return;
     }
 
     void MainPage::netInstallMenuItem_Click() {
-        mainApp->CreateShowDialog("Not implemented yet", "", {"OK"}, true);
+        mainApp->LoadLayout(mainApp->netinstPage);
         return;
     }
 

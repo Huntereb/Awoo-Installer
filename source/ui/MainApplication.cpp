@@ -7,7 +7,9 @@ namespace inst::ui {
         mainApp = this;
 
         this->mainPage = MainPage::New();
+        this->netinstPage = netInstPage::New();
         this->mainPage->SetOnInput(std::bind(&MainPage::onInput, this->mainPage, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+        this->netinstPage->SetOnInput(std::bind(&netInstPage::onInput, this->netinstPage, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
         this->LoadLayout(this->mainPage);
     }
 }

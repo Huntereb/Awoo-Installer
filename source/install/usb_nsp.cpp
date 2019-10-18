@@ -123,7 +123,7 @@ namespace tin::install::nsp
             int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
-            consoleUpdate(NULL);
+            //consoleUpdate(NULL);
         }
 
         u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
@@ -134,7 +134,7 @@ namespace tin::install::nsp
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
-            consoleUpdate(NULL);
+            //consoleUpdate(NULL);
         }
 
         thrd_join(usbThread, NULL);

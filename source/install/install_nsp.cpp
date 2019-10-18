@@ -52,7 +52,7 @@ namespace tin::install::nsp
 
         // Finally, let's actually import the ticket
         ASSERT_OK(esImportTicket(tikBuf.get(), tikSize, certBuf.get(), certSize), "Failed to import ticket");
-        consoleUpdate(NULL);
+        //consoleUpdate(NULL);
     }
 
     void NSPInstallTask::InstallNCA(const NcmNcaId &ncaId)
@@ -94,7 +94,7 @@ namespace tin::install::nsp
                 
         float progress;
 
-        consoleUpdate(NULL);
+        //consoleUpdate(NULL);
                 
         while (fileOff < ncaSize) 
         {   
@@ -109,7 +109,7 @@ namespace tin::install::nsp
             ncaFile.Read(fileOff, readBuffer.get(), readSize);
             contentStorage.WritePlaceholder(ncaId, fileOff, readBuffer.get(), readSize);
             fileOff += readSize;
-            consoleUpdate(NULL);
+            //consoleUpdate(NULL);
         }
 
         // Clean up the line for whatever comes next
@@ -131,6 +131,6 @@ namespace tin::install::nsp
         }
         catch (...) {}
 
-        consoleUpdate(NULL);
+        //consoleUpdate(NULL);
     }
 }
