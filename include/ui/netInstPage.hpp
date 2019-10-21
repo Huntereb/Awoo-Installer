@@ -8,6 +8,7 @@ namespace inst::ui {
         public:
             netInstPage();
             PU_SMART_CTOR(netInstPage)
+            void startInstall();
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
         private:

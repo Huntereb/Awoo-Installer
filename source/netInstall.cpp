@@ -13,6 +13,9 @@
 #include "install/http_nsp.hpp"
 #include "install/install.hpp"
 #include "error.hpp"
+#include "netInstall.hpp"
+#include "ui/MainApplication.hpp"
+#include "netInstall.hpp"
 
 const unsigned int MAX_URL_SIZE = 1024;
 const unsigned int MAX_URLS = 256;
@@ -23,7 +26,21 @@ static int m_clientSocket = 0;
 std::vector<std::string> m_urls;
 FsStorageId m_destStorageId = FsStorageId_SdCard;
 
+namespace inst::ui {
+    extern MainApplication *mainApp;
+
+    void setInfoText(std::string ourText){
+        mainApp->netinstPage->pageInfoText->SetText(ourText);
+        mainApp->CallForRender();
+    }
+
+    void loadMainMenu(){
+        mainApp->LoadLayout(mainApp->mainPage);
+    }
+}
+
 namespace netInstStuff{
+
     void InitializeServerSocket() try
     {
         // Create a socket
@@ -31,6 +48,7 @@ namespace netInstStuff{
 
         if (m_serverSocket < -1)
         {
+            inst::ui::setInfoText("Failed to create a server socket.");
             THROW_FORMAT("Failed to create a server socket. Error code: %u\n", errno);
         }
 
@@ -41,6 +59,7 @@ namespace netInstStuff{
 
         if (bind(m_serverSocket, (struct sockaddr*) &server, sizeof(server)) < 0)
         {
+            inst::ui::setInfoText("Failed to bind server socket.");
             THROW_FORMAT("Failed to bind server socket. Error code: %u\n", errno);
         }
 
@@ -49,11 +68,13 @@ namespace netInstStuff{
 
         if (listen(m_serverSocket, 5) < 0) 
         {
+            inst::ui::setInfoText("Failed to listen on server socket.");
             THROW_FORMAT("Failed to listen on server socket. Error code: %u\n", errno);
         }
     }
     catch (std::exception& e)
     {
+        inst::ui::setInfoText("Failed to initialize server socket!");
         printf("Failed to initialize server socket!\n");
         fprintf(stdout, "%s", e.what());
 
@@ -92,10 +113,12 @@ namespace netInstStuff{
             printf("%s\n", "NSP_INSTALL_PREPARING");
             install.Prepare();
             printf("Pre Install Records: \n");
-            install.DebugPrintInstallData();
+            // These crash sometimes, if they're not needed then don't worry about em
+            //install.DebugPrintInstallData();
+            inst::ui::setInfoText("Installing NSP for real right now. Figure out how to get percentages");
             install.Begin();
             printf("Post Install Records: \n");
-            install.DebugPrintInstallData();
+            //install.DebugPrintInstallData();
             printf("\n");
         }
 
@@ -104,7 +127,7 @@ namespace netInstStuff{
         u8 ack = 0;
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
 
-        printf("Clearing buffer\n");
+        printf("Clearing url vector\n");
         m_urls.clear();
 
         return true;
@@ -130,23 +153,20 @@ namespace netInstStuff{
 
                 if (m_serverSocket <= 0)
                 {
+                    inst::ui::setInfoText("Server socket failed to initialize.");
                     THROW_FORMAT("Server socket failed to initialize.\n");
                 }
             }
 
             struct in_addr addr = {(in_addr_t) gethostid()};
+            std::string ourIPAddr(inet_ntoa(addr));
+            inst::ui::setInfoText(ourIPAddr + " - Waiting for connect... Press B to cancel.");
 
             printf("%s %s\n", "Switch IP is ", inet_ntoa(addr));
             printf("%s\n", "Waiting for network");
             printf("%s\n", "B to cancel");
             
             std::vector<std::string> urls;
-
-            bool canceled = false;
-
-            // Do this now because otherwise we won't get an opportunity whilst waiting
-            // in the loop
-            //consoleUpdate(NULL);
 
             while (true)
             {
@@ -158,7 +178,7 @@ namespace netInstStuff{
 
                 if (kDown & KEY_B)
                 {
-                    canceled = true;
+                    inst::ui::loadMainMenu();
                     break;
                 }
 
@@ -178,6 +198,7 @@ namespace netInstStuff{
 
                     if (size > MAX_URL_SIZE * MAX_URLS)
                     {
+                        inst::ui::setInfoText("URL size is too large!");
                         THROW_FORMAT("URL size %x is too large!\n", size);
                     }
 
@@ -202,6 +223,7 @@ namespace netInstStuff{
                 }
                 else if (errno != EAGAIN)
                 {
+                    inst::ui::setInfoText("Failed to open client socket");
                     THROW_FORMAT("Failed to open client socket with code %u\n", errno);
                 }
             }
@@ -211,9 +233,11 @@ namespace netInstStuff{
         }
         catch (std::runtime_error& e)
         {
+            inst::ui::setInfoText("Failed to perform remote install!");
             printf("Failed to perform remote install!\n");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
+            return {};
         }
     }
 }

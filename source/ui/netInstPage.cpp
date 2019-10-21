@@ -17,33 +17,35 @@ namespace inst::ui {
         this->SetBackgroundColor(COLOR("#670000FF"));
         this->topText = TextBlock::New(10, 2, "Awoo Installer", 35);
         this->topText->SetColor(COLOR("#FFFFFFFF"));
-        this->pageInfoText = TextBlock::New(10, 45, "Press A to start net install", 35);
+        this->pageInfoText = TextBlock::New(10, 45, "", 35);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->Add(this->topText);
         this->Add(this->pageInfoText);
     }
 
+    void netInstPage::startInstall() {
+        mainApp->LoadLayout(mainApp->netinstPage);
+        mainApp->CallForRender();
+        //gets our list of urls of nsps
+        ourUrls = netInstStuff::OnSelected();
+        if (ourUrls.size() == 0) {
+            return;
+        }
+        //make it so we fill a page with nsps here?
+        std::string ourSelectedNsp = "installing: " + ourUrls[0];
+        this->pageInfoText->SetText(ourSelectedNsp);
+        mainApp->CallForRender();
+        //automatically selecting first nsp and SD as storage
+        if (netInstStuff::OnNSPSelected(ourUrls[0], 1)) {
+            mainApp->CreateShowDialog(ourUrls[0] + " installed!", "", {"OK"}, true);
+            mainApp->LoadLayout(mainApp->mainPage);
+        }
+        return;
+    }
+
     void netInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
             mainApp->LoadLayout(mainApp->mainPage);
-        }
-        if (Down & KEY_A) {
-            this->pageInfoText->SetText("Waiting for connect... Press B to cancel.");
-            mainApp->CallForRender();
-            //gets our list of urls of nsps
-            ourUrls = netInstStuff::OnSelected();
-            if (ourUrls.size() == 0) {
-                this->pageInfoText->SetText("Canceled... Press A to try again.");
-                return;
-            }
-            //make it so we fill a page with nsps here?
-            std::string ourSelectedNsp = "installing: " + ourUrls[0];
-            this->pageInfoText->SetText(ourSelectedNsp);
-            mainApp->CallForRender();
-            //automatically selecting first nsp and SD as storage
-            printf("Selecting SD as storage and first NSP automatically\n");
-            if (netInstStuff::OnNSPSelected(ourUrls[0], 1)) this->pageInfoText->SetText("NSP Installed! Press B to return, or A to start another.");
-            else this->pageInfoText->SetText("Install failed for some reason!");
         }
     }
 }

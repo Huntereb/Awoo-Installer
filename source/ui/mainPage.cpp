@@ -44,7 +44,7 @@ namespace inst::ui {
     }
 
     void MainPage::netInstallMenuItem_Click() {
-        mainApp->LoadLayout(mainApp->netinstPage);
+        mainApp->netinstPage->startInstall();
         return;
     }
 
