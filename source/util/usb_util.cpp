@@ -1,8 +1,8 @@
 #include "util/usb_util.hpp"
 
 #include "data/byte_buffer.hpp"
-#include "debug.h"
-#include "error.hpp"
+#include "util/debug.h"
+#include "util/error.hpp"
 
 namespace tin::util
 {

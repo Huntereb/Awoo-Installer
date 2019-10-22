@@ -1,7 +1,7 @@
 #include "util/title_util.hpp"
 
 #include <machine/endian.h>
-#include "error.hpp"
+#include "util/error.hpp"
 
 namespace tin::util
 {

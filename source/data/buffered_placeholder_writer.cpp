@@ -4,8 +4,8 @@
 #include <math.h>
 #include <algorithm>
 #include <exception>
-#include "error.hpp"
-#include "debug.h"
+#include "util/error.hpp"
+#include "util/debug.h"
 
 namespace tin::data
 {

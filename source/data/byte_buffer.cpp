@@ -1,7 +1,7 @@
 #include "data/byte_buffer.hpp"
 
-#include "error.hpp"
-#include "debug.h"
+#include "util/error.hpp"
+#include "util/debug.h"
 
 namespace tin::data
 {

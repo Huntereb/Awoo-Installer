@@ -3,7 +3,7 @@
 #include <switch.h>
 #include <cstring>
 #include <memory>
-#include "error.hpp"
+#include "util/error.hpp"
 
 #include "nx/ncm.hpp"
 #include "util/title_util.hpp"

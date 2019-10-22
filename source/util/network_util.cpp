@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <cstring>
 #include <sstream>
-#include "error.hpp"
+#include "util/error.hpp"
 
 namespace tin::network
 {

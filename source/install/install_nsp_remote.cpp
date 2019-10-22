@@ -5,8 +5,8 @@
 #include "nx/ncm.hpp"
 #include "util/file_util.hpp"
 #include "util/title_util.hpp"
-#include "debug.h"
-#include "error.hpp"
+#include "util/debug.h"
+#include "util/error.hpp"
 
 namespace tin::install::nsp
 {

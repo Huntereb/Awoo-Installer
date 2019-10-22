@@ -3,8 +3,8 @@
 #include <threads.h>
 #include "data/buffered_placeholder_writer.hpp"
 #include "util/title_util.hpp"
-#include "error.hpp"
-#include "debug.h"
+#include "util/error.hpp"
+#include "util/debug.h"
 
 namespace tin::install::nsp
 {

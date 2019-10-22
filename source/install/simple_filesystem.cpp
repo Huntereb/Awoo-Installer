@@ -3,7 +3,7 @@
 #include <exception>
 #include <memory>
 #include "nx/fs.hpp"
-#include "error.hpp"
+#include "util/error.hpp"
 
 namespace tin::install::nsp
 {

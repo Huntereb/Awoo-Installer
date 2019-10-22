@@ -39,7 +39,7 @@ namespace inst::ui {
     }
 
     void MainPage::installMenuItem_Click() {
-        mainApp->CreateShowDialog("Not implemented yet", "", {"OK"}, true);
+        mainApp->LoadLayout(mainApp->nspinstPage);
         return;
     }
 
