@@ -25,11 +25,12 @@ namespace inst::ui {
 namespace nspInstStuff {
     FsStorageId m_destStorageId = FsStorageId_SdCard;
 
-    void OnIgnoreReqFirmVersionSelected(std::string ourNsp)
+    bool installNspFromFile(std::string ourNsp, int whereToInstall)
     {
-        //fix our string so it doesn't have sdmc:/ at the front
         std::vector<std::string> installList;
         installList.push_back(ourNsp);
+
+        if (whereToInstall) m_destStorageId = FsStorageId_NandUser;
 
         for (unsigned int i = 0; i < installList.size(); i++)
         {
@@ -54,21 +55,24 @@ namespace nspInstStuff {
                 //tin::util::PrintTextCentred(ss.str());
                 //manager.m_printConsole->flags &= ~CONSOLE_COLOR_BOLD;
 
+                inst::ui::setNspInfoText("Installing " + ourNsp + "...");
                 task.Begin();
                 printf("Post Install Records: \n");
                 //task.DebugPrintInstallData();
             }
             catch (std::exception& e)
             {
-                inst::ui::setNspInfoText("Failed to install NSP: " + *e.what());
+                inst::ui::setNspInfoText("Failed to install NSP");
                 printf("NSP_INSTALL_FAILED\n");
                 printf("Failed to install NSP");
                 printf("%s", e.what());
                 fprintf(stdout, "%s", e.what());
-                break;
+                return false;
             }
         }
 
         printf("Done");
+        inst::ui::loadMainMenu();
+        return true;
     }
 }

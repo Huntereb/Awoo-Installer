@@ -34,7 +34,6 @@ namespace inst::ui {
 }
 
 namespace netInstStuff{
-    std::vector<std::string> m_urls;
     FsStorageId m_destStorageId = FsStorageId_SdCard;
 
     void InitializeServerSocket() try
@@ -93,46 +92,34 @@ namespace netInstStuff{
         curl_global_cleanup();
     }
 
-    bool OnDestinationSelected(int ourStorage)
+    bool installNspLan(std::string ourUrl, int ourStorage)
     {
-        if (ourStorage == 0) m_destStorageId = FsStorageId_NandUser;
-        else m_destStorageId = FsStorageId_SdCard;
+        if (ourStorage) m_destStorageId = FsStorageId_NandUser;
                     
-        for (auto& url : m_urls)
-        {
-            tin::install::nsp::HTTPNSP httpNSP(url);
+        tin::install::nsp::HTTPNSP httpNSP(ourUrl);
 
-            printf("%s %s\n", "NSP_INSTALL_FROM", url.c_str());
-            // second var is ignoring required version
-            tin::install::nsp::RemoteNSPInstall install(m_destStorageId, true, &httpNSP);
+        printf("%s %s\n", "NSP_INSTALL_FROM", ourUrl.c_str());
+        // second var is ignoring required version
+        tin::install::nsp::RemoteNSPInstall install(m_destStorageId, true, &httpNSP);
 
-            printf("%s\n", "NSP_INSTALL_PREPARING");
-            install.Prepare();
-            printf("Pre Install Records: \n");
-            // These crash sometimes, if they're not needed then don't worry about em
-            //install.DebugPrintInstallData();
-            inst::ui::setNetInfoText("Installing NSP for real right now. Figure out how to get percentages");
-            install.Begin();
-            printf("Post Install Records: \n");
-            //install.DebugPrintInstallData();
-            printf("\n");
-        }
+        printf("%s\n", "NSP_INSTALL_PREPARING");
+        install.Prepare();
+        printf("Pre Install Records: \n");
+        // These crash sometimes, if they're not needed then don't worry about em
+        //install.DebugPrintInstallData();
+        inst::ui::setNetInfoText("Installing NSP for real right now. Figure out how to get percentages");
+        install.Begin();
+        printf("Post Install Records: \n");
+        //install.DebugPrintInstallData();
+        printf("\n");
 
         printf("%s\n", "NSP_INSTALL_NETWORK_SENDING_ACK");
         // Send 1 byte ack to close the server
         u8 ack = 0;
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
 
-        printf("Clearing url vector\n");
-        m_urls.clear();
-
+        inst::ui::loadMainMenu();
         return true;
-    }
-
-    bool OnNSPSelected(std::string ourUrl, int ourStorage)
-    {
-        m_urls.push_back(ourUrl);
-        return OnDestinationSelected(ourStorage);
     }
 
     std::vector<std::string> OnSelected()

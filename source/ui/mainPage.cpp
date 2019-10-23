@@ -10,7 +10,6 @@
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-    extern MainApplication *netinstPage;
 
     MainPage::MainPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -39,13 +38,15 @@ namespace inst::ui {
     }
 
     void MainPage::installMenuItem_Click() {
-        mainApp->LoadLayout(mainApp->nspinstPage);
-        return;
+        if (util::getDirectoryFiles("sdmc:/", {".nsp"}).size()) {
+            mainApp->LoadLayout(mainApp->nspinstPage);
+        } else {
+            mainApp->CreateShowDialog("No NSP files found!", "NSPs can be placed on the root of your SD card!", {"OK"}, true);
+        }
     }
 
     void MainPage::netInstallMenuItem_Click() {
-        mainApp->netinstPage->startInstall();
-        return;
+        mainApp->netinstPage->startNetwork();
     }
 
     void MainPage::sigPatchesMenuItem_Click() {

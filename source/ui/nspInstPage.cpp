@@ -9,7 +9,6 @@
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-    extern MainApplication *netinstPage;
 
     std::vector<std::filesystem::path> ourFiles;
 
@@ -17,7 +16,7 @@ namespace inst::ui {
         this->SetBackgroundColor(COLOR("#670000FF"));
         this->topText = TextBlock::New(10, 2, "Awoo Installer", 35);
         this->topText->SetColor(COLOR("#FFFFFFFF"));
-        this->pageInfoText = TextBlock::New(10, 45, "", 35);
+        this->pageInfoText = TextBlock::New(10, 45, "Select a NSP to install! Put NSP files on the root of your SD!", 35);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 160, 1280, COLOR("#FFFFFF00"), 80, (560 / 80));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
@@ -34,19 +33,23 @@ namespace inst::ui {
     }
 
     void nspInstPage::startInstall() {
-        nspInstStuff::OnIgnoreReqFirmVersionSelected(ourFiles[this->menu->GetSelectedIndex()].string().erase(0, 6));
-        mainApp->CreateShowDialog(ourFiles[this->menu->GetSelectedIndex()].string().erase(0, 6) + " installed!", "", {"OK"}, true);
-        this->pageInfoText->SetText("");
-        mainApp->LoadLayout(mainApp->mainPage);
-        return;
+        std::string ourNsp = ourFiles[this->menu->GetSelectedIndex()].string().erase(0, 6);
+        int dialogResult = mainApp->CreateShowDialog("Where should " + ourNsp + " be installed to?", "Press B to cancel", {"SD", "Internal Storage"}, false);
+        if (dialogResult == -1) return;
+        if (nspInstStuff::installNspFromFile(ourNsp, dialogResult)) {
+            mainApp->CreateShowDialog(ourNsp + " installed!", "", {"OK"}, true);
+            return;
+        } else return;
     }
 
     void nspInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
             mainApp->LoadLayout(mainApp->mainPage);
+            this->pageInfoText->SetText("Select a NSP to install! Put NSP files on the root of your SD!");
         }
         if (Down & KEY_A) {
             nspInstPage::startInstall();
+            this->pageInfoText->SetText("Select a NSP to install! Put NSP files on the root of your SD!");
         }
     }
 }

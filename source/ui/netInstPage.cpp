@@ -9,7 +9,6 @@
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-    extern MainApplication *netinstPage;
 
     std::vector<std::string> ourUrls;
 
@@ -19,26 +18,42 @@ namespace inst::ui {
         this->topText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 45, "", 35);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
+        this->menu = pu::ui::elm::Menu::New(0, 160, 1280, COLOR("#FFFFFF00"), 80, (560 / 80));
+        this->menu->SetOnFocusColor(COLOR("#00000033"));
         this->Add(this->topText);
         this->Add(this->pageInfoText);
+        this->Add(this->menu);
+    }
+
+    void netInstPage::startNetwork() {
+        this->menu->SetVisible(false);
+        this->menu->ClearItems();
+        mainApp->LoadLayout(mainApp->netinstPage);
+        mainApp->CallForRender();
+        ourUrls = netInstStuff::OnSelected();
+        if (!ourUrls.size()) {
+            return;
+        } else {
+            for (auto& url: ourUrls) {
+                pu::String itm = url;
+                auto ourEntry = pu::ui::elm::MenuItem::New(itm);
+                ourEntry->SetColor(COLOR("#FFFFFFFF"));
+                this->menu->AddItem(ourEntry);
+            }
+        }
+        this->menu->SetVisible(true);
+        this->pageInfoText->SetText("Select a NSP to install! Press B to cancel!");
+        return;
     }
 
     void netInstPage::startInstall() {
-        mainApp->LoadLayout(mainApp->netinstPage);
+        std::string ourUrl = ourUrls[this->menu->GetSelectedIndex()];
+        int dialogResult = mainApp->CreateShowDialog("Where should " + ourUrl + " be installed to?", "Press B to cancel", {"SD", "Internal Storage"}, false);
+        if (dialogResult == -1) return;
+        this->pageInfoText->SetText("installing: " + ourUrl);
         mainApp->CallForRender();
-        //gets our list of urls of nsps
-        ourUrls = netInstStuff::OnSelected();
-        if (ourUrls.size() == 0) {
-            return;
-        }
-        //make it so we fill a page with nsps here?
-        std::string ourSelectedNsp = "installing: " + ourUrls[0];
-        this->pageInfoText->SetText(ourSelectedNsp);
-        mainApp->CallForRender();
-        //automatically selecting first nsp and SD as storage
-        if (netInstStuff::OnNSPSelected(ourUrls[0], 1)) {
+        if (netInstStuff::installNspLan(ourUrl, dialogResult)) {
             mainApp->CreateShowDialog(ourUrls[0] + " installed!", "", {"OK"}, true);
-            mainApp->LoadLayout(mainApp->mainPage);
         }
         return;
     }
@@ -46,6 +61,9 @@ namespace inst::ui {
     void netInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
             mainApp->LoadLayout(mainApp->mainPage);
+        }
+        if (Down & KEY_A) {
+            if (this->menu->IsVisible()) startInstall();
         }
     }
 }

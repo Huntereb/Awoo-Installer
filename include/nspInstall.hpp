@@ -7,5 +7,5 @@ namespace inst::ui {
 }
 
 namespace nspInstStuff {
-    void OnIgnoreReqFirmVersionSelected(std::string ourNsp);
+    bool installNspFromFile(std::string ourNsp, int whereToInstall);
 }
