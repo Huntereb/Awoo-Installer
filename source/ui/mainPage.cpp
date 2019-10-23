@@ -1,5 +1,5 @@
 #include <filesystem>
-#include "MainApplication.hpp"
+#include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "curl.hpp"
 #include "util.hpp"
@@ -18,16 +18,16 @@ namespace inst::ui {
         this->optionMenu = pu::ui::elm::Menu::New(0, 160, 1280, COLOR("#FFFFFF00"), 80, (560 / 80));
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->installMenuItem = pu::ui::elm::MenuItem::New("Install NSP");
-        this->installMenuItem->AddOnClick(std::bind(&MainPage::installMenuItem_Click, this));
+        //this->installMenuItem->AddOnClick(std::bind(&MainPage::installMenuItem_Click, this));
         this->installMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install NSP Over LAN");
-        this->netInstallMenuItem->AddOnClick(std::bind(&MainPage::netInstallMenuItem_Click, this));
+        //this->netInstallMenuItem->AddOnClick(std::bind(&MainPage::netInstallMenuItem_Click, this));
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Install Signature Patches");
-        this->sigPatchesMenuItem->AddOnClick(std::bind(&MainPage::sigPatchesMenuItem_Click, this));
+        //this->sigPatchesMenuItem->AddOnClick(std::bind(&MainPage::sigPatchesMenuItem_Click, this));
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->exitMenuItem = pu::ui::elm::MenuItem::New("Exit");
-        this->exitMenuItem->AddOnClick(std::bind(&MainPage::exitMenuItem_Click, this));
+        //this->exitMenuItem->AddOnClick(std::bind(&MainPage::exitMenuItem_Click, this));
         this->exitMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->Add(this->topText);
         this->optionMenu->AddItem(this->installMenuItem);
@@ -74,6 +74,24 @@ namespace inst::ui {
     void MainPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if ((Down & KEY_PLUS) || (Down & KEY_MINUS) || (Down & KEY_B)) {
             mainApp->Close();
+        }
+        if (Down & KEY_A) {
+            switch (this->optionMenu->GetSelectedIndex()) {
+                case 0:
+                    MainPage::installMenuItem_Click();
+                    break;
+                case 1:
+                    MainPage::netInstallMenuItem_Click();
+                    break;
+                case 2:
+                    MainPage::sigPatchesMenuItem_Click();
+                    break;
+                case 3:
+                    MainPage::exitMenuItem_Click();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
