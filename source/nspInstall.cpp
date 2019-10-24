@@ -12,21 +12,28 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    void setNspInfoText(std::string ourText){
-        mainApp->nspinstPage->pageInfoText->SetText(ourText);
+    void setInstInfoText(std::string ourText){
+        mainApp->instpage->pageInfoText->SetText(ourText);
         mainApp->CallForRender();
     }
 
     void loadMainMenu(){
         mainApp->LoadLayout(mainApp->mainPage);
     }
+
+    void loadInstallScreen(){
+        mainApp->instpage->pageInfoText->SetText("");
+        mainApp->LoadLayout(mainApp->instpage);
+        mainApp->CallForRender();
+    }
 }
 
 namespace nspInstStuff {
     FsStorageId m_destStorageId = FsStorageId_SdCard;
 
-    bool installNspFromFile(std::string ourNsp, int whereToInstall)
+    void installNspFromFile(std::string ourNsp, int whereToInstall)
     {
+        inst::ui::loadInstallScreen();
         std::vector<std::string> installList;
         installList.push_back(ourNsp);
 
@@ -45,6 +52,7 @@ namespace nspInstStuff {
                 tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, 1);
 
                 printf("NSP_INSTALL_PREPARING\n");
+                inst::ui::setInstInfoText("Preparing installation...");
                 task.Prepare();
                 printf("Pre Install Records: \n");
                 //task.DebugPrintInstallData();
@@ -55,24 +63,24 @@ namespace nspInstStuff {
                 //tin::util::PrintTextCentred(ss.str());
                 //manager.m_printConsole->flags &= ~CONSOLE_COLOR_BOLD;
 
-                inst::ui::setNspInfoText("Installing " + ourNsp + "...");
+                inst::ui::setInstInfoText("Installing " + ourNsp + "...");
                 task.Begin();
                 printf("Post Install Records: \n");
                 //task.DebugPrintInstallData();
+                inst::ui::mainApp->CreateShowDialog(ourNsp + " installed!", "", {"OK"}, true);
             }
             catch (std::exception& e)
             {
-                inst::ui::setNspInfoText("Failed to install NSP");
                 printf("NSP_INSTALL_FAILED\n");
                 printf("Failed to install NSP");
                 printf("%s", e.what());
                 fprintf(stdout, "%s", e.what());
-                return false;
+                inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "", {"OK"}, true);
             }
         }
 
         printf("Done");
         inst::ui::loadMainMenu();
-        return true;
+        return;
     }
 }

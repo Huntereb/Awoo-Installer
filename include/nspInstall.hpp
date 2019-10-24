@@ -1,11 +1,12 @@
+#pragma once
 #include <string>
 
 namespace inst::ui {
-    void setNspInfoText(std::string ourText);
-    void setNetInfoText(std::string ourText);
+    void setInstInfoText(std::string ourText);
     void loadMainMenu();
+    void loadInstallScreen();
 }
 
 namespace nspInstStuff {
-    bool installNspFromFile(std::string ourNsp, int whereToInstall);
+    void installNspFromFile(std::string ourNsp, int whereToInstall);
 }

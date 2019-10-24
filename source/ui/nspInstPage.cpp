@@ -36,20 +36,15 @@ namespace inst::ui {
         std::string ourNsp = ourFiles[this->menu->GetSelectedIndex()].string().erase(0, 6);
         int dialogResult = mainApp->CreateShowDialog("Where should " + ourNsp + " be installed to?", "Press B to cancel", {"SD", "Internal Storage"}, false);
         if (dialogResult == -1) return;
-        if (nspInstStuff::installNspFromFile(ourNsp, dialogResult)) {
-            mainApp->CreateShowDialog(ourNsp + " installed!", "", {"OK"}, true);
-            return;
-        } else return;
+        nspInstStuff::installNspFromFile(ourNsp, dialogResult);
     }
 
     void nspInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
             mainApp->LoadLayout(mainApp->mainPage);
-            this->pageInfoText->SetText("Select a NSP to install! Put NSP files on the root of your SD!");
         }
         if (Down & KEY_A) {
             nspInstPage::startInstall();
-            this->pageInfoText->SetText("Select a NSP to install! Put NSP files on the root of your SD!");
         }
     }
 }

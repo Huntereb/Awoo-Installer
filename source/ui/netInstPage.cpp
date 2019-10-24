@@ -26,14 +26,16 @@ namespace inst::ui {
     }
 
     void netInstPage::startNetwork() {
+        this->pageInfoText->SetText("");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         mainApp->LoadLayout(mainApp->netinstPage);
-        mainApp->CallForRender();
         ourUrls = netInstStuff::OnSelected();
         if (!ourUrls.size()) {
+            mainApp->LoadLayout(mainApp->mainPage);
             return;
         } else {
+            this->pageInfoText->SetText("Select a NSP to install! Press B to cancel!");
             for (auto& url: ourUrls) {
                 pu::String itm = url;
                 auto ourEntry = pu::ui::elm::MenuItem::New(itm);
@@ -42,7 +44,6 @@ namespace inst::ui {
             }
         }
         this->menu->SetVisible(true);
-        this->pageInfoText->SetText("Select a NSP to install! Press B to cancel!");
         return;
     }
 
@@ -50,11 +51,7 @@ namespace inst::ui {
         std::string ourUrl = ourUrls[this->menu->GetSelectedIndex()];
         int dialogResult = mainApp->CreateShowDialog("Where should " + ourUrl + " be installed to?", "Press B to cancel", {"SD", "Internal Storage"}, false);
         if (dialogResult == -1) return;
-        this->pageInfoText->SetText("installing: " + ourUrl);
-        mainApp->CallForRender();
-        if (netInstStuff::installNspLan(ourUrl, dialogResult)) {
-            mainApp->CreateShowDialog(ourUrls[0] + " installed!", "", {"OK"}, true);
-        }
+        netInstStuff::installNspLan(ourUrl, dialogResult);
         return;
     }
 
