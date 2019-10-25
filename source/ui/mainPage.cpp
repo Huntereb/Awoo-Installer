@@ -1,9 +1,8 @@
 #include <filesystem>
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
-#include "curl.hpp"
-#include "util.hpp"
-#include "unzip.hpp"
+#include "util/util.hpp"
+#include "sigInstall.hpp"
 #include "netInstall.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
@@ -18,16 +17,12 @@ namespace inst::ui {
         this->optionMenu = pu::ui::elm::Menu::New(0, 160, 1280, COLOR("#FFFFFF00"), 80, (560 / 80));
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->installMenuItem = pu::ui::elm::MenuItem::New("Install NSP");
-        //this->installMenuItem->AddOnClick(std::bind(&MainPage::installMenuItem_Click, this));
         this->installMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install NSP Over LAN");
-        //this->netInstallMenuItem->AddOnClick(std::bind(&MainPage::netInstallMenuItem_Click, this));
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
-        this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Install Signature Patches");
-        //this->sigPatchesMenuItem->AddOnClick(std::bind(&MainPage::sigPatchesMenuItem_Click, this));
+        this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage Signature Patches");
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->exitMenuItem = pu::ui::elm::MenuItem::New("Exit");
-        //this->exitMenuItem->AddOnClick(std::bind(&MainPage::exitMenuItem_Click, this));
         this->exitMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->Add(this->topText);
         this->optionMenu->AddItem(this->installMenuItem);
@@ -50,21 +45,7 @@ namespace inst::ui {
     }
 
     void MainPage::sigPatchesMenuItem_Click() {
-        std::string ourPath = appVariables::appDir + "patches.zip";
-        bool didDownload = curlStuff::downloadFile("http://github.com/Joonie86/hekate/releases/download/5.0.0J/Kosmos_patches_10_09_2019.zip", ourPath.c_str());
-        bool didExtract = false;
-        if (didDownload) didExtract = zipStuff::extractFile(ourPath, "sdmc:/");
-        else {
-            mainApp->CreateShowDialog("Could not download signature patches!", "", {"OK"}, true);
-            return;
-        }
-        std::filesystem::remove(ourPath);
-        if (didExtract) mainApp->CreateShowDialog("Install complete! Restart your console to apply!", "", {"OK"}, true);
-        else {
-            mainApp->CreateShowDialog("Could not extract files!", "", {"OK"}, true);
-            return;
-        }
-        return;
+        sig::installSigPatches();
     }
 
     void MainPage::exitMenuItem_Click() {

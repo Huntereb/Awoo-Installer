@@ -6,6 +6,7 @@
 #include "util/title_util.hpp"
 #include "util/error.hpp"
 #include "util/debug.h"
+#include "nspInstall.hpp"
 
 namespace tin::install::nsp
 {
@@ -56,7 +57,7 @@ namespace tin::install::nsp
         return 0;
     }
 
-    void HTTPNSP::StreamToPlaceholder(nx::ncm::ContentStorage& contentStorage, NcmNcaId placeholderId)
+    void HTTPNSP::StreamToPlaceholder(nx::ncm::ContentStorage& contentStorage, NcmContentId placeholderId)
     {
         const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
@@ -103,6 +104,8 @@ namespace tin::install::nsp
             int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
+            inst::ui::setInstInfoText("Downloading " + ncaFileName + "...");
+            inst::ui::setInstBarPerc((double)downloadProgress);
             //consoleUpdate(NULL);
         }
 
@@ -114,9 +117,11 @@ namespace tin::install::nsp
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
+            inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
+            inst::ui::setInstBarPerc((double)installProgress);
             //consoleUpdate(NULL);
         }
-
+        
         thrd_join(curlThread, NULL);
         thrd_join(writeThread, NULL);
         //consoleUpdate(NULL);

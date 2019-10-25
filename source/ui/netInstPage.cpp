@@ -2,7 +2,7 @@
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "ui/netInstPage.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 #include "netInstall.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)

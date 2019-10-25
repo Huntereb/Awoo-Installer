@@ -17,12 +17,20 @@ namespace inst::ui {
         mainApp->CallForRender();
     }
 
+    void setInstBarPerc(double ourPercent){
+        mainApp->instpage->installBar->SetVisible(true);
+        mainApp->instpage->installBar->SetProgress(ourPercent);
+        mainApp->CallForRender();
+    }
+
     void loadMainMenu(){
         mainApp->LoadLayout(mainApp->mainPage);
     }
 
     void loadInstallScreen(){
         mainApp->instpage->pageInfoText->SetText("");
+        mainApp->instpage->installBar->SetProgress(0);
+        mainApp->instpage->installBar->SetVisible(false);
         mainApp->LoadLayout(mainApp->instpage);
         mainApp->CallForRender();
     }
@@ -75,7 +83,7 @@ namespace nspInstStuff {
                 printf("Failed to install NSP");
                 printf("%s", e.what());
                 fprintf(stdout, "%s", e.what());
-                inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "", {"OK"}, true);
+                inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", (std::string)e.what(), {"OK"}, true);
             }
         }
 

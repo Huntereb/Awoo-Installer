@@ -12,6 +12,7 @@
 #include "util/title_util.hpp"
 #include "util/debug.h"
 #include "util/error.hpp"
+#include "nspInstall.hpp"
 
 namespace tin::install::nsp
 {
@@ -55,7 +56,7 @@ namespace tin::install::nsp
         //consoleUpdate(NULL);
     }
 
-    void NSPInstallTask::InstallNCA(const NcmNcaId &ncaId)
+    void NSPInstallTask::InstallNCA(const NcmContentId &ncaId)
     {
         std::string ncaName = tin::util::GetNcaIdString(ncaId);
 
@@ -101,8 +102,11 @@ namespace tin::install::nsp
             // Clear the buffer before we read anything, just to be sure    
             progress = (float)fileOff / (float)ncaSize;
 
-            if (fileOff % (0x400000 * 3) == 0)
+            if (fileOff % (0x400000 * 3) == 0) {
                 printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
+                inst::ui::setInstInfoText("Installing " + ncaName + "...");
+                inst::ui::setInstBarPerc((double)(progress * 100.0));
+            }
 
             if (fileOff + readSize >= ncaSize) readSize = ncaSize - fileOff;
 

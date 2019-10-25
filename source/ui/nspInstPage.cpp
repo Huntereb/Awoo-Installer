@@ -3,7 +3,7 @@
 #include "ui/mainPage.hpp"
 #include "ui/nspInstPage.hpp"
 #include "nspInstall.hpp"
-#include "util.hpp"
+#include "util/util.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
 

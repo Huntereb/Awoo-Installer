@@ -43,7 +43,6 @@ namespace netInstStuff{
 
         if (m_serverSocket < -1)
         {
-            inst::ui::mainApp->CreateShowDialog("Failed to create a server socket.", "", {"OK"}, true);
             THROW_FORMAT("Failed to create a server socket. Error code: %u\n", errno);
         }
 
@@ -54,7 +53,6 @@ namespace netInstStuff{
 
         if (bind(m_serverSocket, (struct sockaddr*) &server, sizeof(server)) < 0)
         {
-            inst::ui::mainApp->CreateShowDialog("Failed to bind server socket.", "", {"OK"}, true);
             THROW_FORMAT("Failed to bind server socket. Error code: %u\n", errno);
         }
 
@@ -63,13 +61,11 @@ namespace netInstStuff{
 
         if (listen(m_serverSocket, 5) < 0) 
         {
-            inst::ui::mainApp->CreateShowDialog("Failed to listen on server socket.", "", {"OK"}, true);
             THROW_FORMAT("Failed to listen on server socket. Error code: %u\n", errno);
         }
     }
     catch (std::exception& e)
     {
-        inst::ui::mainApp->CreateShowDialog("Failed to initialize server socket!", "", {"OK"}, true);
         printf("Failed to initialize server socket!\n");
         fprintf(stdout, "%s", e.what());
 
@@ -78,6 +74,7 @@ namespace netInstStuff{
             close(m_serverSocket);
             m_serverSocket = 0;
         }
+        inst::ui::mainApp->CreateShowDialog("Failed to initialize server socket!", (std::string)e.what(), {"OK"}, true);
     }
 
     void OnUnwound()
@@ -100,7 +97,7 @@ namespace netInstStuff{
             tin::install::nsp::HTTPNSP httpNSP(ourUrl);
 
             printf("%s %s\n", "NSP_INSTALL_FROM", ourUrl.c_str());
-            // second var is ignoring required version
+            // second var is ignoring required version --- add config for this
             tin::install::nsp::RemoteNSPInstall install(m_destStorageId, true, &httpNSP);
 
             printf("%s\n", "NSP_INSTALL_PREPARING");
@@ -127,7 +124,7 @@ namespace netInstStuff{
             printf("Failed to install NSP");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "", {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", (std::string)e.what(), {"OK"}, true);
         }
         
         printf("Done");
@@ -149,7 +146,6 @@ namespace netInstStuff{
 
                 if (m_serverSocket <= 0)
                 {
-                    inst::ui::mainApp->CreateShowDialog("Server socket failed to initialize.", "", {"OK"}, true);
                     THROW_FORMAT("Server socket failed to initialize.\n");
                 }
             }
@@ -193,7 +189,6 @@ namespace netInstStuff{
 
                     if (size > MAX_URL_SIZE * MAX_URLS)
                     {
-                        inst::ui::mainApp->CreateShowDialog("URL size is too large!", "", {"OK"}, true);
                         THROW_FORMAT("URL size %x is too large!\n", size);
                     }
 
@@ -218,7 +213,6 @@ namespace netInstStuff{
                 }
                 else if (errno != EAGAIN)
                 {
-                    inst::ui::mainApp->CreateShowDialog("Failed to open client socket", "", {"OK"}, true);
                     THROW_FORMAT("Failed to open client socket with code %u\n", errno);
                 }
             }
@@ -228,10 +222,10 @@ namespace netInstStuff{
         }
         catch (std::runtime_error& e)
         {
-            inst::ui::mainApp->CreateShowDialog("Failed to perform remote install!", "", {"OK"}, true);
             printf("Failed to perform remote install!\n");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
+            inst::ui::mainApp->CreateShowDialog("Failed to perform remote install!", (std::string)e.what(), {"OK"}, true);
             return {};
         }
     }

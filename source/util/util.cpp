@@ -1,8 +1,10 @@
 #include <filesystem>
 #include <vector>
 #include <algorithm>
+#include <fstream>
+#include <unistd.h>
 #include "switch.h"
-#include "util.hpp"
+#include "util/util.hpp"
 #include "nx/ipc/tin_ipc.h"
 
 namespace util {
@@ -47,5 +49,33 @@ namespace util {
         std::sort(files.begin(), files.end());
         std::reverse(files.begin(), files.end());
         return files;
+    }
+
+    bool removeDirectory(std::string dir) {
+        try {
+            for(auto & p: std::filesystem::recursive_directory_iterator(dir))
+            {
+                if (std::filesystem::is_regular_file(p))
+                {
+                    std::filesystem::remove(p);
+                }
+            }
+            rmdir(dir.c_str());
+            return true;
+        }
+        catch (std::filesystem::filesystem_error & e) {
+            return false;
+        }
+    }
+
+    bool copyFile(std::string inFile, std::string outFile) {
+       char ch;
+       std::ifstream f1(inFile);
+       std::ofstream f2(outFile);
+
+       if(!f1 || !f2) return false;
+       
+       while(f1 && f1.get(ch)) f2.put(ch);
+       return true;
     }
 }

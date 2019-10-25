@@ -1,0 +1,3 @@
+namespace sig {
+    void installSigPatches ();
+}

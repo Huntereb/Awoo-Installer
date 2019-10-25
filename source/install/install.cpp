@@ -156,7 +156,7 @@ namespace tin::install
         }
 
         printf("Post Install Records: \n");
-        this->DebugPrintInstallData();
+        //this->DebugPrintInstallData();
     }
 
     u64 Install::GetTitleId()
