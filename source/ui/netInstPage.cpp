@@ -41,12 +41,12 @@ namespace inst::ui {
             rc = swkbdCreate(&kbd, 0);
             if (R_SUCCEEDED(rc)) {
                 swkbdConfigMakePresetDefault(&kbd);
+                swkbdConfigSetHeaderText(&kbd, "Enter the location of a NSP! URL must be HTTP.");
                 swkbdConfigSetInitialText(&kbd, "http://");
                 rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
                 swkbdClose(&kbd);
                 if (R_SUCCEEDED(rc) && (tmpoutstr[0] != 0 || tmpoutstr != "http://")) {
                     ourUrls[0] = tmpoutstr;
-                    this->pageInfoText->SetText(ourUrls[0]);
                     netInstPage::startInstall();
                     return;
                 } else {

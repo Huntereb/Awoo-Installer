@@ -17,7 +17,7 @@ namespace inst::ui {
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->installMenuItem = pu::ui::elm::MenuItem::New("Install NSP");
         this->installMenuItem->SetColor(COLOR("#FFFFFFFF"));
-        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install NSP Over LAN");
+        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install NSP Over LAN or Internet");
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage Signature Patches");
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
