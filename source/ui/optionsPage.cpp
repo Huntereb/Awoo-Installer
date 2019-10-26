@@ -10,7 +10,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourMenuEntries = {"Ignore Required Firmware Version - ", "Disable Anime - "};
+    std::vector<std::string> ourMenuEntries = {"Ignore Required Firmware Version - ", "Remove Anime - "};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
