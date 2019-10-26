@@ -2,6 +2,7 @@
 #include "util/curl.hpp"
 #include "util/util.hpp"
 #include "util/unzip.hpp"
+#include "config.hpp"
 
 namespace inst::ui {
     extern MainApplication *mainApp;
@@ -14,7 +15,7 @@ namespace sig {
             if (!util::copyFile("sdmc:/bootloader/patches.ini", "sdmc:/bootloader/patches.ini.old")) {
                 if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "", {"Yes", "No"}, false)) return;
             }
-            std::string ourPath = appVariables::appDir + "patches.zip";
+            std::string ourPath = config::appDir + "patches.zip";
             bool didDownload = curlStuff::downloadFile("http://github.com/Joonie86/hekate/releases/download/5.0.0J/Kosmos_patches_10_09_2019.zip", ourPath.c_str());
             bool didExtract = false;
             if (didDownload) didExtract = zipStuff::extractFile(ourPath, "sdmc:/");

@@ -17,6 +17,7 @@
 #include "ui/MainApplication.hpp"
 #include "netInstall.hpp"
 #include "nspInstall.hpp"
+#include "config.hpp"
 
 const unsigned int MAX_URL_SIZE = 1024;
 const unsigned int MAX_URLS = 256;
@@ -99,7 +100,7 @@ namespace netInstStuff{
 
             printf("%s %s\n", "NSP_INSTALL_FROM", ourUrl.c_str());
             // second var is ignoring required version --- add config for this
-            tin::install::nsp::RemoteNSPInstall install(m_destStorageId, true, &httpNSP);
+            tin::install::nsp::RemoteNSPInstall install(m_destStorageId, config::ignoreReqVers, &httpNSP);
 
             printf("%s\n", "NSP_INSTALL_PREPARING");
             inst::ui::setInstInfoText("Preparing installation...");

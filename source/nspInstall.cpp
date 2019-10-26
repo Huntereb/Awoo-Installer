@@ -9,6 +9,7 @@
 
 #include "nspInstall.hpp"
 #include "ui/MainApplication.hpp"
+#include "config.hpp"
 
 namespace inst::ui {
     extern MainApplication *mainApp;
@@ -60,7 +61,7 @@ namespace nspInstStuff {
                 fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
                 tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
                 //last arg is ignore required firm version, read from config for this
-                tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, 1);
+                tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, config::ignoreReqVers);
 
                 printf("NSP_INSTALL_PREPARING\n");
                 inst::ui::setInstInfoText("Preparing installation...");

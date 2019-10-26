@@ -6,11 +6,14 @@
 #include "switch.h"
 #include "util/util.hpp"
 #include "nx/ipc/tin_ipc.h"
+#include "util/INIReader.h"
+#include "config.hpp"
 
 namespace util {
     void initApp () {
         if (!std::filesystem::exists("sdmc:/switch")) std::filesystem::create_directory("sdmc:/switch");
-        if (!std::filesystem::exists(appVariables::appDir)) std::filesystem::create_directory(appVariables::appDir);
+        if (!std::filesystem::exists(config::appDir)) std::filesystem::create_directory(config::appDir);
+        config::parseConfig();
 
         socketInitializeDefault();
         #ifdef __DEBUG__

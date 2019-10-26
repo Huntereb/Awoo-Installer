@@ -22,12 +22,15 @@ namespace inst::ui {
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage Signature Patches");
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
+        this->settingsMenuItem = pu::ui::elm::MenuItem::New("Settings");
+        this->settingsMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->exitMenuItem = pu::ui::elm::MenuItem::New("Exit");
         this->exitMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->Add(this->topText);
         this->optionMenu->AddItem(this->installMenuItem);
         this->optionMenu->AddItem(this->netInstallMenuItem);
         this->optionMenu->AddItem(this->sigPatchesMenuItem);
+        this->optionMenu->AddItem(this->settingsMenuItem);
         this->optionMenu->AddItem(this->exitMenuItem);
         this->Add(this->optionMenu);
     }
@@ -52,6 +55,9 @@ namespace inst::ui {
         mainApp->Close();
     }
 
+    void MainPage::settingsMenuItem_Click() {
+    }
+
     void MainPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if ((Down & KEY_PLUS) || (Down & KEY_MINUS) || (Down & KEY_B)) {
             mainApp->Close();
@@ -68,6 +74,9 @@ namespace inst::ui {
                     MainPage::sigPatchesMenuItem_Click();
                     break;
                 case 3:
+                    MainPage::settingsMenuItem_Click();
+                    break;
+                case 4:
                     MainPage::exitMenuItem_Click();
                     break;
                 default:
