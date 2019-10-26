@@ -34,6 +34,26 @@ namespace inst::ui {
         if (!ourUrls.size()) {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
+        } else if (ourUrls[0] == "supplyUrl") {
+            Result rc=0;
+            SwkbdConfig kbd;
+            char tmpoutstr[128] = {0};
+            rc = swkbdCreate(&kbd, 0);
+            if (R_SUCCEEDED(rc)) {
+                swkbdConfigMakePresetDefault(&kbd);
+                swkbdConfigSetInitialText(&kbd, "http://");
+                rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
+                swkbdClose(&kbd);
+                if (R_SUCCEEDED(rc) && (tmpoutstr[0] != 0 || tmpoutstr != "http://")) {
+                    ourUrls[0] = tmpoutstr;
+                    this->pageInfoText->SetText(ourUrls[0]);
+                    netInstPage::startInstall();
+                    return;
+                } else {
+                    mainApp->LoadLayout(mainApp->mainPage);
+                    return;
+                } 
+            }
         } else {
             this->pageInfoText->SetText("Select a NSP to install! Press B to cancel!");
             for (auto& url: ourUrls) {

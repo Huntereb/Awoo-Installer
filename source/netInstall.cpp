@@ -175,6 +175,10 @@ namespace netInstStuff{
                 {
                     break;
                 }
+                if (kDown & KEY_Y)
+                {
+                    return {"supplyUrl"};
+                }
 
                 struct sockaddr_in client;
                 socklen_t clientLen = sizeof(client);
