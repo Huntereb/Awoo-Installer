@@ -37,7 +37,7 @@ namespace inst::ui {
         } else {
             this->pageInfoText->SetText("Select a NSP to install! Press B to cancel!");
             for (auto& url: ourUrls) {
-                pu::String itm = url;
+                pu::String itm = inst::util::formatUrlString(url);
                 auto ourEntry = pu::ui::elm::MenuItem::New(itm);
                 ourEntry->SetColor(COLOR("#FFFFFFFF"));
                 this->menu->AddItem(ourEntry);
@@ -49,7 +49,7 @@ namespace inst::ui {
 
     void netInstPage::startInstall() {
         std::string ourUrl = ourUrls[this->menu->GetSelectedIndex()];
-        int dialogResult = mainApp->CreateShowDialog("Where should " + ourUrl + " be installed to?", "Press B to cancel", {"SD", "Internal Storage"}, false);
+        int dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::formatUrlString(ourUrl) + " be installed to?", "Press B to cancel", {"SD", "Internal Storage"}, false);
         if (dialogResult == -1) return;
         netInstStuff::installNspLan(ourUrl, dialogResult);
         return;

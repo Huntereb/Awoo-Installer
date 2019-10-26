@@ -3,17 +3,19 @@
 #include <algorithm>
 #include <fstream>
 #include <unistd.h>
+#include <curl/curl.h>
 #include "switch.h"
 #include "util/util.hpp"
 #include "nx/ipc/tin_ipc.h"
 #include "util/INIReader.h"
-#include "config.hpp"
+#include "util/config.hpp"
 
-namespace util {
+namespace inst::util {
     void initApp () {
         if (!std::filesystem::exists("sdmc:/switch")) std::filesystem::create_directory("sdmc:/switch");
-        if (!std::filesystem::exists(config::appDir)) std::filesystem::create_directory(config::appDir);
-        config::parseConfig();
+        if (!std::filesystem::exists(inst::config::appDir)) std::filesystem::create_directory(inst::config::appDir);
+        if (std::filesystem::exists(inst::config::configPath)) inst::config::parseConfig();
+        else inst::config::setConfig();
 
         socketInitializeDefault();
         #ifdef __DEBUG__
@@ -80,5 +82,22 @@ namespace util {
        
        while(f1 && f1.get(ch)) f2.put(ch);
        return true;
+    }
+
+    std::string formatUrlString(std::string ourString) {
+        std::stringstream ourStream(ourString);
+        std::string segment;
+        std::vector<std::string> seglist;
+
+        while(std::getline(ourStream, segment, '/')) {
+            seglist.push_back(segment);
+        }
+
+        CURL *curl = curl_easy_init();
+        int outlength;
+        std::string finalString = curl_easy_unescape(curl, seglist[seglist.size() - 1].c_str(), seglist[seglist.size() - 1].length(), &outlength);
+        curl_easy_cleanup(curl);
+
+        return finalString;
     }
 }

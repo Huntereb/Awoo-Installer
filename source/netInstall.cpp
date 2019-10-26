@@ -17,7 +17,8 @@
 #include "ui/MainApplication.hpp"
 #include "netInstall.hpp"
 #include "nspInstall.hpp"
-#include "config.hpp"
+#include "util/config.hpp"
+#include "util/util.hpp"
 
 const unsigned int MAX_URL_SIZE = 1024;
 const unsigned int MAX_URLS = 256;
@@ -100,7 +101,7 @@ namespace netInstStuff{
 
             printf("%s %s\n", "NSP_INSTALL_FROM", ourUrl.c_str());
             // second var is ignoring required version --- add config for this
-            tin::install::nsp::RemoteNSPInstall install(m_destStorageId, config::ignoreReqVers, &httpNSP);
+            tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
 
             printf("%s\n", "NSP_INSTALL_PREPARING");
             inst::ui::setInstInfoText("Preparing installation...");
@@ -108,7 +109,6 @@ namespace netInstStuff{
             printf("Pre Install Records: \n");
             // These crash sometimes, if they're not needed then don't worry about em
             //install.DebugPrintInstallData();
-            inst::ui::setInstInfoText("Installing " + ourUrl + "...");
             install.Begin();
             printf("Post Install Records: \n");
             //install.DebugPrintInstallData();
@@ -119,7 +119,7 @@ namespace netInstStuff{
             // Send 1 byte ack to close the server
             u8 ack = 0;
             tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
-            inst::ui::mainApp->CreateShowDialog(ourUrl + " installed!", "", {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog(inst::util::formatUrlString(ourUrl) + " installed!", "", {"OK"}, true);
         }
         catch (std::exception& e) {
             printf("NSP_INSTALL_FAILED\n");

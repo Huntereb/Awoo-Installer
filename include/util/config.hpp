@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace config {
+namespace inst::config {
     extern const std::string appDir;
     extern const std::string configPath;
     extern bool ignoreReqVers;

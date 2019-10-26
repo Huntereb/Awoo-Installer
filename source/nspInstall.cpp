@@ -61,7 +61,7 @@ namespace nspInstStuff {
                 fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
                 tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
                 //last arg is ignore required firm version, read from config for this
-                tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, config::ignoreReqVers);
+                tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
 
                 printf("NSP_INSTALL_PREPARING\n");
                 inst::ui::setInstInfoText("Preparing installation...");
@@ -75,7 +75,6 @@ namespace nspInstStuff {
                 //tin::util::PrintTextCentred(ss.str());
                 //manager.m_printConsole->flags &= ~CONSOLE_COLOR_BOLD;
 
-                inst::ui::setInstInfoText("Installing " + ourNsp + "...");
                 task.Begin();
                 printf("Post Install Records: \n");
                 //task.DebugPrintInstallData();

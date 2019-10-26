@@ -1,5 +1,5 @@
 #include <string>
 
-namespace curlStuff {
+namespace inst::curl {
     bool downloadFile(const std::string ourUrl, const char *pagefilename);
 }

@@ -110,7 +110,7 @@ int _extractFile(const char * path, unzFile unz, unz_file_info_s * fileInfo) {
     return 0;
 }
 
-namespace zipStuff {
+namespace inst::zip {
     bool extractFile(const std::string filename, const std::string destination) {
         unzFile unz = unzOpen(filename.c_str());
 

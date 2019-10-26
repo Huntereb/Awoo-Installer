@@ -7,6 +7,7 @@
 #include "util/error.hpp"
 #include "util/debug.h"
 #include "nspInstall.hpp"
+#include "util/util.hpp"
 
 namespace tin::install::nsp
 {
@@ -104,7 +105,7 @@ namespace tin::install::nsp
             int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
-            inst::ui::setInstInfoText("Downloading " + ncaFileName + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
+            inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
             inst::ui::setInstBarPerc((double)downloadProgress);
             //consoleUpdate(NULL);
         }

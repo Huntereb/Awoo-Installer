@@ -7,7 +7,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return written;
 }
 
-namespace curlStuff {
+namespace inst::curl {
     bool downloadFile (const std::string ourUrl, const char *pagefilename) {
         CURL *curl_handle;
         CURLcode result;
