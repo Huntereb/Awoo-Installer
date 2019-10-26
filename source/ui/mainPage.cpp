@@ -3,7 +3,6 @@
 #include "ui/mainPage.hpp"
 #include "util/util.hpp"
 #include "sigInstall.hpp"
-#include "netInstall.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
 
@@ -56,6 +55,7 @@ namespace inst::ui {
     }
 
     void MainPage::settingsMenuItem_Click() {
+        mainApp->LoadLayout(mainApp->optionspage);
     }
 
     void MainPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {

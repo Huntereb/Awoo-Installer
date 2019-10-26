@@ -13,7 +13,7 @@ namespace inst::config {
         INIReader reader(inst::config::configPath);
         inst::config::ignoreReqVers = reader.GetBoolean("settings", "ignoreReqVers", true);
         inst::config::gayMode = reader.GetBoolean("settings", "gayMode", false);
-        return ;
+        return;
     }
 
     void setConfig() {

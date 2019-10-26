@@ -4,6 +4,7 @@
 #include "ui/netInstPage.hpp"
 #include "ui/nspInstPage.hpp"
 #include "ui/instPage.hpp"
+#include "ui/optionsPage.hpp"
 
 namespace inst::ui {
     class MainApplication : public pu::ui::Application {
@@ -15,5 +16,6 @@ namespace inst::ui {
             netInstPage::Ref netinstPage;
             nspInstPage::Ref nspinstPage;
             instPage::Ref instpage;
+            optionsPage::Ref optionspage;
     };
 }
