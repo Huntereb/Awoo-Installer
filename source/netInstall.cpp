@@ -91,6 +91,7 @@ namespace netInstStuff{
 
     void installNspLan(std::string ourUrl, int ourStorage)
     {
+        appletLockExit();
         inst::ui::loadInstallScreen();
         if (ourStorage) m_destStorageId = FsStorageId_NandUser;
         try {
@@ -128,6 +129,7 @@ namespace netInstStuff{
         }
         
         printf("Done");
+        appletUnlockExit();
         inst::ui::loadMainMenu();
         return;
     }

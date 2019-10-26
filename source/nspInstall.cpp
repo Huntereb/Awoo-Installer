@@ -1,5 +1,6 @@
 #include <cstring>
 #include <sstream>
+#include <filesystem>
 #include "install/install_nsp.hpp"
 #include "nx/fs.hpp"
 #include "util/file_util.hpp"
@@ -41,8 +42,10 @@ namespace nspInstStuff {
 
     void installNspFromFile(std::string ourNsp, int whereToInstall)
     {
+        appletLockExit();
         inst::ui::loadInstallScreen();
         std::vector<std::string> installList;
+        bool nspInstalled = false;
         installList.push_back(ourNsp);
 
         if (whereToInstall) m_destStorageId = FsStorageId_NandUser;
@@ -75,7 +78,7 @@ namespace nspInstStuff {
                 task.Begin();
                 printf("Post Install Records: \n");
                 //task.DebugPrintInstallData();
-                inst::ui::mainApp->CreateShowDialog(ourNsp + " installed!", "", {"OK"}, true);
+                nspInstalled = true;
             }
             catch (std::exception& e)
             {
@@ -87,7 +90,10 @@ namespace nspInstStuff {
             }
         }
 
+        if(nspInstalled) if(inst::ui::mainApp->CreateShowDialog(ourNsp + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false)) std::filesystem::remove("sdmc:/" + ourNsp);
+
         printf("Done");
+        appletUnlockExit();
         inst::ui::loadMainMenu();
         return;
     }
