@@ -104,7 +104,7 @@ namespace tin::install::nsp
             int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
-            inst::ui::setInstInfoText("Downloading " + ncaFileName + "...");
+            inst::ui::setInstInfoText("Downloading " + ncaFileName + "at " + std::to_string(speed) + "MB/s");
             inst::ui::setInstBarPerc((double)downloadProgress);
             //consoleUpdate(NULL);
         }
