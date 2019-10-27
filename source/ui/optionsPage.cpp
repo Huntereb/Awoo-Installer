@@ -11,7 +11,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourMenuEntries = {"Ignore Required Firmware Version - ", "Remove Anime - "};
+    std::vector<std::string> ourMenuEntries = {"Ignore Required Firmware Version: ", "Remove Anime: ", "Signature Patches Source URL: "};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -50,6 +50,12 @@ namespace inst::ui {
         auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[1] + getMenuOptionText(inst::config::gayMode));
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(gayModeOption);
+        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2] + inst::config::sigPatchesUrl);
+        sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
+        this->menu->AddItem(sigPatchesUrlOption);
+        auto creditsOption = pu::ui::elm::MenuItem::New("Credits");
+        creditsOption->SetColor(COLOR("#FFFFFFFF"));
+        this->menu->AddItem(creditsOption);
     }
 
     void optionsPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
@@ -57,6 +63,8 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if (Down & KEY_A) {
+            Result rc=0;
+            char tmpoutstr[128] = {0};
             switch (this->menu->GetSelectedIndex()) {
                 case 0:
                     if (inst::config::ignoreReqVers) inst::config::ignoreReqVers = false;
@@ -77,6 +85,25 @@ namespace inst::ui {
                     }
                     inst::config::setConfig();
                     optionsPage::setMenuText();
+                    break;
+                case 2:
+                    SwkbdConfig kbd;
+                    rc = swkbdCreate(&kbd, 0);
+                    if (R_SUCCEEDED(rc)) {
+                        swkbdConfigMakePresetDefault(&kbd);
+                        swkbdConfigSetGuideText(&kbd, "Enter the URL to obtain Signature Patches from");
+                        swkbdConfigSetInitialText(&kbd, inst::config::sigPatchesUrl.c_str());
+                        rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
+                        swkbdClose(&kbd);
+                        if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) {
+                            inst::config::sigPatchesUrl = tmpoutstr;
+                            inst::config::setConfig();
+                            optionsPage::setMenuText();
+                        }
+                    }
+                    break;
+                case 3:
+                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people for helping me!\n\n-HookedBehemoth for screen-nx (A great reference!)\n-Adubbz for Tinfoil\n-XorTroll for Plutonium and Goldleaf\n-The kind folks at the AtlasNX Discuck\n-The also kind folks at the RetroNX Discuck\n-TheXzoron for being a baka", "", {"Close"}, true);
                     break;
                 default:
                     break;

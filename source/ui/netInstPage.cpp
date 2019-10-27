@@ -63,7 +63,7 @@ namespace inst::ui {
                 } else {
                     mainApp->LoadLayout(mainApp->mainPage);
                     return;
-                } 
+                }
             }
         } else {
             this->pageInfoText->SetText("Select a NSP to install!");
