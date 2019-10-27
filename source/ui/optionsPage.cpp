@@ -20,7 +20,7 @@ namespace inst::ui {
         this->infoRect = Rectangle::New(0, 93, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
-        this->pageInfoText = TextBlock::New(10, 109, "Change application settings!", 30);
+        this->pageInfoText = TextBlock::New(10, 109, "Change Awoo Installer's settings!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->butText = TextBlock::New(10, 676, "(A)-Toggle (B)-Cancel", 30);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
@@ -103,7 +103,7 @@ namespace inst::ui {
                     }
                     break;
                 case 3:
-                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people for helping me!\n\n-HookedBehemoth for screen-nx (A great reference!)\n-Adubbz for Tinfoil\n-XorTroll for Plutonium and Goldleaf\n-The kind folks at the AtlasNX Discuck\n-The also kind folks at the RetroNX Discuck\n-TheXzoron for being a baka", "", {"Close"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people for helping me!\n\n-HookedBehemoth for screen-nx (A great reference!)\n-Adubbz for Tinfoil\n-XorTroll for Plutonium and Goldleaf\n-The kind folks at the AtlasNX Discuck\n-The also kind folks at the RetroNX Discuck\n-namako8982 for the Momiji art\n-TheXzoron for being a baka", "", {"Close"}, true);
                     break;
                 default:
                     break;

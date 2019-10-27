@@ -82,7 +82,7 @@ namespace inst::ui {
 
     void netInstPage::startInstall(bool urlMode) {
         std::string ourUrl = ourUrls[this->menu->GetSelectedIndex()];
-        int dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::formatUrlString(ourUrl) + " be installed to?", "Press B to cancel", {"SD", "Internal Storage"}, false);
+        int dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::formatUrlString(ourUrl) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
             mainApp->LoadLayout(mainApp->mainPage);

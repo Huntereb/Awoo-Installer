@@ -102,7 +102,6 @@ namespace netInstStuff{
             tin::install::nsp::HTTPNSP httpNSP(ourUrl);
 
             printf("%s %s\n", "NSP_INSTALL_FROM", ourUrl.c_str());
-            // second var is ignoring required version --- add config for this
             tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
 
             printf("%s\n", "NSP_INSTALL_PREPARING");
@@ -157,7 +156,7 @@ namespace netInstStuff{
 
             struct in_addr addr = {(in_addr_t) gethostid()};
             std::string ourIPAddr(inet_ntoa(addr));
-            inst::ui::setNetInfoText(ourIPAddr + " - Waiting for connect... Press B to cancel.");
+            inst::ui::setNetInfoText("Waiting for a connection... Your Switch's IP Address is: " + ourIPAddr);
 
             printf("%s %s\n", "Switch IP is ", inet_ntoa(addr));
             printf("%s\n", "Waiting for network");

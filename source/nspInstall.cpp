@@ -68,7 +68,6 @@ namespace nspInstStuff {
                 nx::fs::IFileSystem fileSystem;
                 fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
                 tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
-                //last arg is ignore required firm version, read from config for this
                 tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
 
                 printf("NSP_INSTALL_PREPARING\n");
