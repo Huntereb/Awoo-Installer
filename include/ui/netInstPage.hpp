@@ -8,12 +8,16 @@ namespace inst::ui {
         public:
             netInstPage();
             PU_SMART_CTOR(netInstPage)
-            void startInstall();
+            void startInstall(bool urlMode);
             void startNetwork();
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
         private:
-            TextBlock::Ref topText;
+            TextBlock::Ref butText;
+            Rectangle::Ref topRect;
+            Rectangle::Ref infoRect;
+            Rectangle::Ref botRect;
+            Image::Ref titleImage;
             pu::ui::elm::Menu::Ref menu;
     };
 }

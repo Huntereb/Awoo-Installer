@@ -10,8 +10,12 @@ namespace inst::ui {
             PU_SMART_CTOR(instPage)
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
+            TextBlock::Ref installInfoText;
             pu::ui::elm::ProgressBar::Ref installBar;
+            Image::Ref awooImage;
         private:
-            TextBlock::Ref topText;
+            Rectangle::Ref infoRect;
+            Rectangle::Ref topRect;
+            Image::Ref titleImage;
     };
 }

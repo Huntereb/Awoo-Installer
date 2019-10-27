@@ -12,7 +12,11 @@ namespace inst::ui {
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
         private:
-            TextBlock::Ref topText;
+            TextBlock::Ref butText;
+            Rectangle::Ref topRect;
+            Rectangle::Ref infoRect;
+            Rectangle::Ref botRect;
+            Image::Ref titleImage;
             pu::ui::elm::Menu::Ref menu;
     };
 }

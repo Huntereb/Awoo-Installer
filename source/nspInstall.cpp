@@ -14,8 +14,13 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    void setInstInfoText(std::string ourText){
+    void setTopInstInfoText(std::string ourText){
         mainApp->instpage->pageInfoText->SetText(ourText);
+        mainApp->CallForRender();
+    }
+
+    void setInstInfoText(std::string ourText){
+        mainApp->instpage->installInfoText->SetText(ourText);
         mainApp->CallForRender();
     }
 
@@ -31,6 +36,7 @@ namespace inst::ui {
 
     void loadInstallScreen(){
         mainApp->instpage->pageInfoText->SetText("");
+        mainApp->instpage->installInfoText->SetText("");
         mainApp->instpage->installBar->SetProgress(0);
         mainApp->instpage->installBar->SetVisible(false);
         mainApp->LoadLayout(mainApp->instpage);
@@ -57,6 +63,8 @@ namespace nspInstStuff {
 
             try
             {
+                inst::ui::setTopInstInfoText("Installing " + ourNsp + "...");
+
                 nx::fs::IFileSystem fileSystem;
                 fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
                 tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
@@ -90,7 +98,7 @@ namespace nspInstStuff {
             }
         }
 
-        if(nspInstalled) if(inst::ui::mainApp->CreateShowDialog(ourNsp + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false)) std::filesystem::remove("sdmc:/" + ourNsp);
+        if(nspInstalled) if(inst::ui::mainApp->CreateShowDialog(ourNsp + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove("sdmc:/" + ourNsp);
 
         printf("Done");
         appletUnlockExit();

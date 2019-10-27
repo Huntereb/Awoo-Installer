@@ -14,19 +14,17 @@ namespace inst::ui {
             void settingsMenuItem_Click();
             void exitMenuItem_Click();
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
+            Image::Ref awooImage;
         private:
-            TextBlock::Ref topText;
+            TextBlock::Ref butText;
+            Rectangle::Ref topRect;
+            Rectangle::Ref botRect;
+            Image::Ref titleImage;
             pu::ui::elm::Menu::Ref optionMenu;
             pu::ui::elm::MenuItem::Ref installMenuItem;
             pu::ui::elm::MenuItem::Ref netInstallMenuItem;
             pu::ui::elm::MenuItem::Ref sigPatchesMenuItem;
             pu::ui::elm::MenuItem::Ref settingsMenuItem;
             pu::ui::elm::MenuItem::Ref exitMenuItem;
-            TextBlock::Ref infoText;
-            Rectangle::Ref topRect;
-            TextBlock::Ref bottomText;
-            Image::Ref preview;
-            Image::Ref image;
-            std::string url;
     };
 }

@@ -2,6 +2,7 @@
 #include <string>
 
 namespace inst::ui {
+    void setTopInstInfoText(std::string ourText);
     void setInstInfoText(std::string ourText);
     void setInstBarPerc(double ourPercent);
     void hideInstBar(bool hidden);

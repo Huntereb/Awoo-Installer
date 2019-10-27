@@ -2,6 +2,7 @@
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "util/util.hpp"
+#include "util/config.hpp"
 #include "sigInstall.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
@@ -11,27 +12,43 @@ namespace inst::ui {
 
     MainPage::MainPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
-        this->topText = TextBlock::New(10, 2, "Awoo Installer", 35);
-        this->topText->SetColor(COLOR("#FFFFFFFF"));
-        this->optionMenu = pu::ui::elm::Menu::New(0, 160, 1280, COLOR("#FFFFFF00"), 80, (560 / 80));
+        this->SetBackgroundImage("romfs:/background.jpg");
+        this->topRect = Rectangle::New(0, 0, 1280, 93, COLOR("#170909FF"));
+        this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
+        this->titleImage = Image::New(0, 0, "romfs:/logo.png");
+        this->butText = TextBlock::New(10, 676, "(A)-Select (B)-Exit", 30);
+        this->butText->SetColor(COLOR("#FFFFFFFF"));
+        this->optionMenu = pu::ui::elm::Menu::New(0, 93, 1280, COLOR("#67000000"), 113, (567 / 113));
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
-        this->installMenuItem = pu::ui::elm::MenuItem::New("Install NSP");
+        this->optionMenu->SetScrollbarColor(COLOR("#170909FF"));
+        this->installMenuItem = pu::ui::elm::MenuItem::New("Install NSP from SD Card");
         this->installMenuItem->SetColor(COLOR("#FFFFFFFF"));
+        this->installMenuItem->SetIcon("romfs:/micro-sd.png");
         this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install NSP Over LAN or Internet");
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
+        this->netInstallMenuItem->SetIcon("romfs:/cloud-download.png");
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage Signature Patches");
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
+        this->sigPatchesMenuItem->SetIcon("romfs:/wrench.png");
         this->settingsMenuItem = pu::ui::elm::MenuItem::New("Settings");
         this->settingsMenuItem->SetColor(COLOR("#FFFFFFFF"));
+        this->settingsMenuItem->SetIcon("romfs:/settings.png");
         this->exitMenuItem = pu::ui::elm::MenuItem::New("Exit");
         this->exitMenuItem->SetColor(COLOR("#FFFFFFFF"));
-        this->Add(this->topText);
+        this->exitMenuItem->SetIcon("romfs:/exit-run.png");
+        this->awooImage = Image::New(410, 190, "romfs:/awoos/5bbdbcf9a5625cd307c9e9bc360d78bd.png");
+        this->Add(this->topRect);
+        this->Add(this->botRect);
+        this->Add(this->titleImage);
+        this->Add(this->butText);
         this->optionMenu->AddItem(this->installMenuItem);
         this->optionMenu->AddItem(this->netInstallMenuItem);
         this->optionMenu->AddItem(this->sigPatchesMenuItem);
         this->optionMenu->AddItem(this->settingsMenuItem);
         this->optionMenu->AddItem(this->exitMenuItem);
         this->Add(this->optionMenu);
+        this->Add(this->awooImage);
+        if (inst::config::gayMode) this->awooImage->SetVisible(false);
     }
 
     void MainPage::installMenuItem_Click() {

@@ -97,6 +97,8 @@ namespace netInstStuff{
         inst::ui::loadInstallScreen();
         if (ourStorage) m_destStorageId = FsStorageId_NandUser;
         try {
+            inst::ui::setTopInstInfoText("Installing " + inst::util::formatUrlString(ourUrl) + "...");
+
             tin::install::nsp::HTTPNSP httpNSP(ourUrl);
 
             printf("%s %s\n", "NSP_INSTALL_FROM", ourUrl.c_str());
