@@ -45,7 +45,7 @@ INCLUDES	:=	include include/ui include/data include/install include/nx include/n
 APP_TITLE	:=	Awoo Installer
 APP_AUTHOR	:=	Huntereb
 APP_VERSION	:=	0.0.1
-#ROMFS	:=	romfs
+ROMFS	:=	romfs
 
 #---------------------------------------------------------------------------------
 # options for code generation
