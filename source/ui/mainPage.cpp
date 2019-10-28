@@ -55,7 +55,7 @@ namespace inst::ui {
         if (inst::util::getDirectoryFiles("sdmc:/", {".nsp"}).size()) {
             mainApp->LoadLayout(mainApp->nspinstPage);
         } else {
-            mainApp->CreateShowDialog("No NSP files found!", "NSPs can be placed on the root of your SD card!", {"OK"}, true);
+            mainApp->CreateShowDialog("No NSP files found!", "Copy your NSP files to the root of your SD card!", {"OK"}, true);
         }
     }
 

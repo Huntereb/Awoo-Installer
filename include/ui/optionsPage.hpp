@@ -18,6 +18,6 @@ namespace inst::ui {
             TextBlock::Ref pageInfoText;
             pu::ui::elm::Menu::Ref menu;
             void setMenuText();
-            std::string getMenuOptionText(bool ourBool);
+            std::string getMenuOptionIcon(bool ourBool);
     };
 }

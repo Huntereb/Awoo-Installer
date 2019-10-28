@@ -116,7 +116,7 @@ namespace netInstStuff{
             printf("\n");
 
             printf("%s\n", "NSP_INSTALL_NETWORK_SENDING_ACK");
-            inst::ui::setInstInfoText("Sending acknowledgment of install to server...");
+            inst::ui::setInstInfoText("Telling the server we're done installing...");
             // Send 1 byte ack to close the server
             u8 ack = 0;
             tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));

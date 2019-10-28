@@ -11,7 +11,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourMenuEntries = {"Ignore Required Firmware Version: ", "Remove Anime: ", "Signature Patches Source URL: "};
+    std::vector<std::string> ourMenuEntries = {"Ignore Required Firmware Version", "Remove Anime", "Signature Patches Source URL: "};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -37,18 +37,20 @@ namespace inst::ui {
         this->Add(this->menu);
     }
 
-    std::string optionsPage::getMenuOptionText(bool ourBool) {
-        if(ourBool) return "Enabled";
-        else return "Disabled";
+    std::string optionsPage::getMenuOptionIcon(bool ourBool) {
+        if(ourBool) return "romfs:/check-box-outline.png";
+        else return "romfs:/checkbox-blank-outline.png";
     }
 
     void optionsPage::setMenuText() {
         this->menu->ClearItems();
-        auto ignoreFirmOption = pu::ui::elm::MenuItem::New(ourMenuEntries[0] + getMenuOptionText(inst::config::ignoreReqVers));
+        auto ignoreFirmOption = pu::ui::elm::MenuItem::New(ourMenuEntries[0]);
         ignoreFirmOption->SetColor(COLOR("#FFFFFFFF"));
+        ignoreFirmOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::ignoreReqVers));
         this->menu->AddItem(ignoreFirmOption);
-        auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[1] + getMenuOptionText(inst::config::gayMode));
+        auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[1]);
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
+        gayModeOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::gayMode));
         this->menu->AddItem(gayModeOption);
         auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2] + inst::config::sigPatchesUrl);
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
