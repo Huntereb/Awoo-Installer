@@ -52,7 +52,7 @@ namespace inst::ui {
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
         gayModeOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::gayMode));
         this->menu->AddItem(gayModeOption);
-        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2] + inst::config::sigPatchesUrl);
+        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2] + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(sigPatchesUrlOption);
         auto creditsOption = pu::ui::elm::MenuItem::New("Credits");

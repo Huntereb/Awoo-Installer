@@ -9,7 +9,8 @@
 
 #include "nspInstall.hpp"
 #include "ui/MainApplication.hpp"
-#include "config.hpp"
+#include "util/config.hpp"
+#include "util/util.hpp"
 
 namespace inst::ui {
     extern MainApplication *mainApp;
@@ -93,11 +94,11 @@ namespace nspInstStuff {
                 printf("Failed to install NSP");
                 printf("%s", e.what());
                 fprintf(stdout, "%s", e.what());
-                inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", (std::string)e.what(), {"OK"}, true);
+                inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "Partially installed NSP contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             }
         }
 
-        if(nspInstalled) if(inst::ui::mainApp->CreateShowDialog(ourNsp + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove("sdmc:/" + ourNsp);
+        if(nspInstalled) if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNsp, 64, true) + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove("sdmc:/" + ourNsp);
 
         printf("Done");
         appletUnlockExit();

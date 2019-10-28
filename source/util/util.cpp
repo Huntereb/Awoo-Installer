@@ -100,4 +100,12 @@ namespace inst::util {
 
         return finalString;
     }
+
+    std::string shortenString(std::string ourString, int ourLength, bool isFile) {
+        std::filesystem::path ourStringAsAPath = ourString;
+        if (ourString.size() > (unsigned long)ourLength) {
+            if(isFile) return (std::string)ourString.substr(0,ourLength) + "(...)" + ourStringAsAPath.extension().string();
+            else return (std::string)ourString.substr(0,ourLength) + "...";
+        } else return ourString;
+    }
 }

@@ -28,7 +28,7 @@ namespace inst::ui {
         this->menu->SetScrollbarColor(COLOR("#17090980"));
         ourFiles = util::getDirectoryFiles("sdmc:/", {".nsp"});
         for (auto& file: ourFiles) {
-            pu::String itm = file.string().erase(0, 6);
+            pu::String itm = inst::util::shortenString(file.string().erase(0, 6), 64, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/package.png");
@@ -45,7 +45,7 @@ namespace inst::ui {
 
     void nspInstPage::startInstall() {
         std::string ourNsp = ourFiles[this->menu->GetSelectedIndex()].string().erase(0, 6);
-        int dialogResult = mainApp->CreateShowDialog("Where should " + ourNsp + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        int dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
         nspInstStuff::installNspFromFile(ourNsp, dialogResult);
     }

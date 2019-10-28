@@ -9,4 +9,5 @@ namespace inst::util {
     bool removeDirectory(std::string dir);
     bool copyFile(std::string inFile, std::string outFile);
     std::string formatUrlString(std::string ourString);
+    std::string shortenString(std::string ourString, int ourLength, bool isFile);
 }

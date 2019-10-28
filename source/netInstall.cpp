@@ -120,14 +120,14 @@ namespace netInstStuff{
             // Send 1 byte ack to close the server
             u8 ack = 0;
             tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
-            inst::ui::mainApp->CreateShowDialog(inst::util::formatUrlString(ourUrl) + " installed!", "", {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrl), 64, true) + " installed!", "", {"OK"}, true);
         }
         catch (std::exception& e) {
             printf("NSP_INSTALL_FAILED\n");
             printf("Failed to install NSP");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "Partially installed NSP contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
         }
         
         printf("Done");
