@@ -21,7 +21,7 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
         this->pageInfoText = TextBlock::New(10, 109, "", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 676, "", 30);
+        this->butText = TextBlock::New(10, 678, "", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 153, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
@@ -37,7 +37,7 @@ namespace inst::ui {
 
     void netInstPage::startNetwork() {
         this->pageInfoText->SetText("");
-        this->butText->SetText("(B)-Cancel (Y)-Install From URL");
+        this->butText->SetText("\ue0e1 Cancel    \ue0e3 Install From URL ");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         mainApp->LoadLayout(mainApp->netinstPage);
@@ -67,7 +67,7 @@ namespace inst::ui {
             }
         } else {
             this->pageInfoText->SetText("Select a NSP to install!");
-            this->butText->SetText("(A)-Install NSP (B)-Cancel");
+            this->butText->SetText("\ue0e0 Install NSP    \ue0e1 Cancel ");
             for (auto& url: ourUrls) {
                 pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 64, true);
                 auto ourEntry = pu::ui::elm::MenuItem::New(itm);

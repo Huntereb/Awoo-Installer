@@ -16,7 +16,7 @@ namespace inst::ui {
         this->topRect = Rectangle::New(0, 0, 1280, 93, COLOR("#170909FF"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
-        this->butText = TextBlock::New(10, 676, "(A)-Select (B)-Exit", 30);
+        this->butText = TextBlock::New(10, 678, "\ue0e0 Select    \ue0e1 Exit ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->optionMenu = pu::ui::elm::Menu::New(0, 93, 1280, COLOR("#67000000"), 113, (567 / 113));
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));

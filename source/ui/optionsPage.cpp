@@ -22,7 +22,7 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
         this->pageInfoText = TextBlock::New(10, 109, "Change Awoo Installer's settings!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 676, "(A)-Toggle (B)-Cancel", 30);
+        this->butText = TextBlock::New(10, 678, "\ue0e0 Change    \ue0e1 Cancel ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 153, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
