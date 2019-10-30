@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 
 namespace inst::config {
     extern const std::string appDir;

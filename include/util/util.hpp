@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <filesystem>
 
 namespace inst::util {
@@ -10,4 +9,5 @@ namespace inst::util {
     bool copyFile(std::string inFile, std::string outFile);
     std::string formatUrlString(std::string ourString);
     std::string shortenString(std::string ourString, int ourLength, bool isFile);
+    std::string readTextFromFile(std::string ourFile);
 }

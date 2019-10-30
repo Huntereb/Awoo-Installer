@@ -108,4 +108,17 @@ namespace inst::util {
             else return (std::string)ourString.substr(0,ourLength) + "...";
         } else return ourString;
     }
+
+    std::string readTextFromFile(std::string ourFile) {
+        if (std::filesystem::exists(ourFile)) {
+            FILE * file = fopen(ourFile.c_str(), "r");
+            char line[1024];
+            fgets(line, 1024, file);
+            std::string url = line;
+            fflush(file);
+            fclose(file);
+            return url;
+        }
+        return "";
+    }
 }

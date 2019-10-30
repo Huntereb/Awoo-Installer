@@ -2,7 +2,7 @@
 #include "util/curl.hpp"
 #include "util/util.hpp"
 #include "util/unzip.hpp"
-#include "config.hpp"
+#include "util/config.hpp"
 
 namespace inst::ui {
     extern MainApplication *mainApp;
@@ -11,7 +11,10 @@ namespace inst::ui {
 namespace sig {
     void installSigPatches () {
         try {
-            int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents!", {"Install", "Uninstall", "Cancel"}, true);
+            std::string patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
+            std::string versionText = "";
+            if (patchesVersion != "") versionText = "You currently have signature patches installed for HOS version " + patchesVersion;
+            int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents." + versionText, {"Install", "Uninstall", "Cancel"}, true);
             if (ourResult == 0) {
                 if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
                     if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "", {"Yes", "No"}, false)) return;
@@ -25,7 +28,12 @@ namespace sig {
                     return;
                 }
                 std::filesystem::remove(ourPath);
-                if (didExtract) inst::ui::mainApp->CreateShowDialog("Install complete!", "Restart your console to apply!", {"OK"}, true);
+                if (didExtract) {
+                    patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
+                    versionText = "";
+                    if (patchesVersion != "") versionText = " Your signature patches have been updated for HOS version " + patchesVersion + "!";
+                    inst::ui::mainApp->CreateShowDialog("Install complete!" + versionText, "Restart your console to apply!", {"OK"}, true);
+                }
                 else {
                     inst::ui::mainApp->CreateShowDialog("Could not extract files!", "", {"OK"}, true);
                     return;

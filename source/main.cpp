@@ -1,7 +1,6 @@
 #include "switch.h"
 #include "ui/MainApplication.hpp"
-#include "util.hpp"
-#include <filesystem>
+#include "util/util.hpp"
 
 using namespace pu::ui::render;
 int main(int argc, char* argv[])

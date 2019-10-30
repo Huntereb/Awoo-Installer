@@ -1,12 +1,12 @@
 #include <filesystem>
 #include <unistd.h>
 #include "util/INIReader.h"
-#include "config.hpp"
+#include "util/config.hpp"
 
 namespace inst::config {
     const std::string appDir = "sdmc:/switch/Awoo-Installer";
     const std::string configPath = appDir + "/config.ini";
-    std::string sigPatchesUrl = "http://github.com/Joonie86/hekate/releases/download/5.0.0J/Kosmos_patches_10_09_2019.zip";
+    std::string sigPatchesUrl = "https://github.com/Huntereb/Awoo-Installer/releases/download/SignaturePatches/patches.zip";
     bool ignoreReqVers = true;
     bool gayMode = false;
 

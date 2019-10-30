@@ -1,14 +1,15 @@
 #include <cstring>
 #include <sstream>
 #include <filesystem>
+
 #include "install/install_nsp.hpp"
 #include "nx/fs.hpp"
 #include "util/file_util.hpp"
 #include "util/title_util.hpp"
 #include "util/error.hpp"
 
-#include "nspInstall.hpp"
 #include "ui/MainApplication.hpp"
+#include "nspInstall.hpp"
 #include "util/config.hpp"
 #include "util/util.hpp"
 

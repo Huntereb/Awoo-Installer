@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 
 namespace inst::ui {
     void setTopInstInfoText(std::string ourText);

@@ -105,7 +105,7 @@ namespace inst::ui {
                     }
                     break;
                 case 3:
-                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people for helping me!\n\n-HookedBehemoth for screen-nx (A great reference!)\n-Adubbz for Tinfoil\n-XorTroll for Plutonium and Goldleaf\n-The kind folks at the AtlasNX Discuck\n-The also kind folks at the RetroNX Discuck\n-namako8982 for the Momiji art\n-TheXzoron for being a baka", "", {"Close"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people for helping me!\n\n- HookedBehemoth for screen-nx and his Plutonium fork\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- The kind folks at the AtlasNX Discuck\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", "", {"Close"}, true);
                     break;
                 default:
                     break;
