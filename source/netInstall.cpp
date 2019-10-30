@@ -123,7 +123,6 @@ namespace netInstStuff{
             inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrl), 64, true) + " installed!", "", {"OK"}, true);
         }
         catch (std::exception& e) {
-            printf("NSP_INSTALL_FAILED\n");
             printf("Failed to install NSP");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());

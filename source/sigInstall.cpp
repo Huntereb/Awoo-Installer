@@ -10,32 +10,41 @@ namespace inst::ui {
 
 namespace sig {
     void installSigPatches () {
-        int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents!", {"Install", "Uninstall", "Cancel"}, true);
-        if (ourResult == 0) {
-            if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
-                if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "", {"Yes", "No"}, false)) return;
-            }
-            std::string ourPath = inst::config::appDir + "patches.zip";
-            bool didDownload = inst::curl::downloadFile(inst::config::sigPatchesUrl, ourPath.c_str());
-            bool didExtract = false;
-            if (didDownload) didExtract = inst::zip::extractFile(ourPath, "sdmc:/");
-            else {
-                inst::ui::mainApp->CreateShowDialog("Could not download signature patches!", "Check your internet connection and try again", {"OK"}, true);
+        try {
+            int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents!", {"Install", "Uninstall", "Cancel"}, true);
+            if (ourResult == 0) {
+                if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
+                    if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "", {"Yes", "No"}, false)) return;
+                }
+                std::string ourPath = inst::config::appDir + "patches.zip";
+                bool didDownload = inst::curl::downloadFile(inst::config::sigPatchesUrl, ourPath.c_str());
+                bool didExtract = false;
+                if (didDownload) didExtract = inst::zip::extractFile(ourPath, "sdmc:/");
+                else {
+                    inst::ui::mainApp->CreateShowDialog("Could not download signature patches!", "Check your internet connection and try again", {"OK"}, true);
+                    return;
+                }
+                std::filesystem::remove(ourPath);
+                if (didExtract) inst::ui::mainApp->CreateShowDialog("Install complete!", "Restart your console to apply!", {"OK"}, true);
+                else {
+                    inst::ui::mainApp->CreateShowDialog("Could not extract files!", "", {"OK"}, true);
+                    return;
+                }
                 return;
-            }
-            std::filesystem::remove(ourPath);
-            if (didExtract) inst::ui::mainApp->CreateShowDialog("Install complete!", "Restart your console to apply!", {"OK"}, true);
-            else {
-                inst::ui::mainApp->CreateShowDialog("Could not extract files!", "", {"OK"}, true);
-                return;
-            }
-            return;
-        } else if (ourResult == 1) {
-            if (!inst::util::copyFile( inst::config::appDir + "/patches.ini.old", "sdmc:/bootloader/patches.ini")) {
-                if (inst::ui::mainApp->CreateShowDialog("Unable to restore original Hekate patches.ini! Continue uninstalling?", "", {"Yes", "No"}, false)) return;
-            } else std::filesystem::remove(inst::config::appDir + "/patches.ini.old");
-            if (inst::util::removeDirectory("sdmc:/atmosphere/exefs_patches/es_patches")) inst::ui::mainApp->CreateShowDialog("Uninstall complete", "Restart your console to apply", {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog("Unable to remove signature patches", "Files may have been renamed or deleted", {"OK"}, true);
-        } else return;
+            } else if (ourResult == 1) {
+                if (!inst::util::copyFile( inst::config::appDir + "/patches.ini.old", "sdmc:/bootloader/patches.ini")) {
+                    if (inst::ui::mainApp->CreateShowDialog("Unable to restore original Hekate patches.ini! Continue uninstalling?", "", {"Yes", "No"}, false)) return;
+                } else std::filesystem::remove(inst::config::appDir + "/patches.ini.old");
+                if (inst::util::removeDirectory("sdmc:/atmosphere/exefs_patches/es_patches")) inst::ui::mainApp->CreateShowDialog("Uninstall complete", "Restart your console to apply", {"OK"}, true);
+                else inst::ui::mainApp->CreateShowDialog("Unable to remove signature patches", "Files may have been renamed or deleted", {"OK"}, true);
+            } else return;
+        }
+        catch (std::exception& e)
+        {
+            printf("Failed to install Signature Patches");
+            printf("%s", e.what());
+            fprintf(stdout, "%s", e.what());
+            inst::ui::mainApp->CreateShowDialog("Failed to install Signature Patches!", (std::string)e.what(), {"OK"}, true);
+        }
     }
 }

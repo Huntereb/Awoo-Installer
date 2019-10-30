@@ -90,7 +90,6 @@ namespace nspInstStuff {
             }
             catch (std::exception& e)
             {
-                printf("NSP_INSTALL_FAILED\n");
                 printf("Failed to install NSP");
                 printf("%s", e.what());
                 fprintf(stdout, "%s", e.what());
