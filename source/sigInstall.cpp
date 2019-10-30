@@ -13,7 +13,7 @@ namespace sig {
         try {
             std::string patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
             std::string versionText = "";
-            if (patchesVersion != "") versionText = "\nYou currently have signature patches installed for HOS version " + patchesVersion;
+            if (patchesVersion != "") versionText = "\n\nYou currently have signature patches installed for HOS version " + patchesVersion + ".";
             int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents." + versionText, {"Install", "Uninstall", "Cancel"}, true);
             if (ourResult == 0) {
                 if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
@@ -32,7 +32,7 @@ namespace sig {
                     patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
                     versionText = "";
                     if (patchesVersion != "") versionText = "Your signature patches have been updated for HOS version " + patchesVersion + "! ";
-                    inst::ui::mainApp->CreateShowDialog("Install complete!", versionText + "Restart your console to apply!", {"OK"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Install complete!", versionText + "\n\nRestart your console to apply!", {"OK"}, true);
                 }
                 else {
                     inst::ui::mainApp->CreateShowDialog("Could not extract files!", "", {"OK"}, true);
