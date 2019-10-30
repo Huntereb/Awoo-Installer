@@ -44,7 +44,7 @@ DATA		:=	data
 INCLUDES	:=	include include/ui include/data include/install include/nx include/nx/ipc include/util include/Plutonium/Plutonium/Output-switch/include
 APP_TITLE	:=	Awoo Installer
 APP_AUTHOR	:=	Huntereb
-APP_VERSION	:=	0.0.1
+APP_VERSION	:=	1.0.0
 ROMFS	:=	romfs
 
 #---------------------------------------------------------------------------------
