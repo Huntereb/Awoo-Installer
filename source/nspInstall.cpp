@@ -41,6 +41,8 @@ namespace inst::ui {
         mainApp->instpage->installInfoText->SetText("");
         mainApp->instpage->installBar->SetProgress(0);
         mainApp->instpage->installBar->SetVisible(false);
+        if (inst::config::gayMode) mainApp->instpage->awooImage->SetVisible(false);
+        else mainApp->instpage->awooImage->SetVisible(true);
         mainApp->LoadLayout(mainApp->instpage);
         mainApp->CallForRender();
     }
@@ -72,21 +74,11 @@ namespace nspInstStuff {
                 tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
                 tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
 
-                printf("NSP_INSTALL_PREPARING\n");
+                printf("Preparing installation\n");
                 inst::ui::setInstInfoText("Preparing installation...");
                 task.Prepare();
-                printf("Pre Install Records: \n");
-                //task.DebugPrintInstallData();
-
-                //std::stringstream ss;
-                //ss << translate(Translate::NSP_INSTALLING) << " " << tin::util::GetTitleName(task.GetTitleId(), task.GetContentMetaType()) << " (" << (i + 1) << "/" << installList.size() << ")";
-                //manager.m_printConsole->flags |= CONSOLE_COLOR_BOLD;
-                //tin::util::PrintTextCentred(ss.str());
-                //manager.m_printConsole->flags &= ~CONSOLE_COLOR_BOLD;
 
                 task.Begin();
-                printf("Post Install Records: \n");
-                //task.DebugPrintInstallData();
                 nspInstalled = true;
             }
             catch (std::exception& e)

@@ -101,21 +101,16 @@ namespace netInstStuff{
 
             tin::install::nsp::HTTPNSP httpNSP(ourUrl);
 
-            printf("%s %s\n", "NSP_INSTALL_FROM", ourUrl.c_str());
+            printf("%s %s\n", "NSP Install request from", ourUrl.c_str());
             tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
 
-            printf("%s\n", "NSP_INSTALL_PREPARING");
+            printf("%s\n", "Preparing installation");
             inst::ui::setInstInfoText("Preparing installation...");
             install.Prepare();
-            printf("Pre Install Records: \n");
-            // These crash sometimes, if they're not needed then don't worry about em
-            //install.DebugPrintInstallData();
-            install.Begin();
-            printf("Post Install Records: \n");
-            //install.DebugPrintInstallData();
-            printf("\n");
 
-            printf("%s\n", "NSP_INSTALL_NETWORK_SENDING_ACK");
+            install.Begin();
+
+            printf("%s\n", "Telling the server we're done installing");
             inst::ui::setInstInfoText("Telling the server we're done installing...");
             // Send 1 byte ack to close the server
             u8 ack = 0;
@@ -169,8 +164,6 @@ namespace netInstStuff{
                 hidScanInput();
                 u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
 
-                //consoleUpdate(NULL);
-
                 if (kDown & KEY_B)
                 {
                     break;
@@ -187,7 +180,7 @@ namespace netInstStuff{
 
                 if (m_clientSocket >= 0)
                 {
-                    printf("%s\n", "NSP_INSTALL_NETWORK_ACCEPT");
+                    printf("%s\n", "Server accepted");
                     u32 size = 0;
                     tin::network::WaitReceiveNetworkData(m_clientSocket, &size, sizeof(u32));
                     size = ntohl(size);
