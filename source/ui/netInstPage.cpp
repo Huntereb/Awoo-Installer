@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <switch.h>
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "ui/netInstPage.hpp"
@@ -52,8 +53,8 @@ namespace inst::ui {
             rc = swkbdCreate(&kbd, 0);
             if (R_SUCCEEDED(rc)) {
                 swkbdConfigMakePresetDefault(&kbd);
-                swkbdConfigSetGuideText(&kbd, "Enter the location of a NSP! URL must be HTTP.");
-                swkbdConfigSetInitialText(&kbd, "http://");
+                swkbdConfigSetGuideText(&kbd, "Enter the Internet address of a NSP file");
+                swkbdConfigSetInitialText(&kbd, "https://");
                 rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
                 swkbdClose(&kbd);
                 if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) {

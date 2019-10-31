@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <switch.h>
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "ui/instPage.hpp"
