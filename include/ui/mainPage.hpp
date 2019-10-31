@@ -26,5 +26,6 @@ namespace inst::ui {
             pu::ui::elm::MenuItem::Ref sigPatchesMenuItem;
             pu::ui::elm::MenuItem::Ref settingsMenuItem;
             pu::ui::elm::MenuItem::Ref exitMenuItem;
+            Image::Ref eggImage;
     };
 }

@@ -65,7 +65,7 @@ namespace inst::ui {
         if (Down & KEY_B) {
             mainApp->LoadLayout(mainApp->mainPage);
         }
-        if (Down & KEY_A) {
+        if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             Result rc=0;
             char tmpoutstr[128] = {0};
             switch (this->menu->GetSelectedIndex()) {

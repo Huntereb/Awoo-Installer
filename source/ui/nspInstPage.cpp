@@ -54,7 +54,7 @@ namespace inst::ui {
         if (Down & KEY_B) {
             mainApp->LoadLayout(mainApp->mainPage);
         }
-        if (Down & KEY_A) {
+        if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             nspInstPage::startInstall();
         }
     }
