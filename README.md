@@ -18,7 +18,7 @@ Because Goldleaf tends to not "Just werk". I wanted a *free software* solution t
 ## Thanks to
 - HookedBehemoth for [screen-nx](https://github.com/HookedBehemoth/screen-nx) and his [Plutonium fork](https://github.com/HookedBehemoth/Plutonium)
 - Adubbz and other contributors for [Tinfoil](https://github.com/Adubbz/Tinfoil)
-- XorTroll for [Plutonium](https://github.com/XorTroll/Plutonium) and [Goldleaf]https://github.com/XorTroll/Goldleaf
+- XorTroll for [Plutonium](https://github.com/XorTroll/Plutonium) and [Goldleaf](https://github.com/XorTroll/Goldleaf)
 - The kind folks at the AtlasNX Discuck
 - The also kind folks at the RetroNX Discuck
 - [namako8982](https://www.pixiv.net/member.php?id=14235616) for the Momiji art
