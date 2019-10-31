@@ -58,6 +58,11 @@ namespace inst::ui {
                 rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
                 swkbdClose(&kbd);
                 if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) {
+                    if (inst::util::formatUrlString(tmpoutstr) == "") {
+                        mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
+                        mainApp->LoadLayout(mainApp->mainPage);
+                        return;
+                    }
                     ourUrls[0] = tmpoutstr;
                     netInstPage::startInstall(true);
                     return;
