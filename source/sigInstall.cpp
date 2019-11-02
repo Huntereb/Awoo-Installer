@@ -24,7 +24,7 @@ namespace sig {
                 bool didExtract = false;
                 if (didDownload) didExtract = inst::zip::extractFile(ourPath, "sdmc:/");
                 else {
-                    inst::ui::mainApp->CreateShowDialog("Could not download signature patches!", "Check your internet connection and try again", {"OK"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
                     return;
                 }
                 std::filesystem::remove(ourPath);

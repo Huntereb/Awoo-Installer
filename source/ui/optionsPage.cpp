@@ -23,7 +23,7 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
         this->pageInfoText = TextBlock::New(10, 109, "Change Awoo Installer's settings!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 678, "\ue0e0 Change    \ue0e1 Cancel ", 24);
+        this->butText = TextBlock::New(10, 678, "\ue0e0 Select/Change    \ue0e1 Cancel ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 153, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
@@ -112,7 +112,7 @@ namespace inst::ui {
                     inst::ui::mainApp->CreateShowDialog("Thanks to the following people for helping me!", "- HookedBehemoth for screen-nx and his Plutonium fork\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- The kind folks at the AtlasNX Discuck\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
                     break;
                 case 4:
-                    inst::ui::mainApp->CreateShowDialog("Third Party Licenses", "Licenses to the libraries and software used in Awoo Installer are packaged with each release\nwithin the source code, or are distributed upon compilation of the software.\nPlease see the releases page for a copy of the source code and license information.", {"OK"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Third Party Licenses", "Licenses to the libraries and software used in Awoo Installer are packaged with each release\nwithin the source code, or are distributed upon compilation of the software.\nPlease see the releases page for a copy of the source code and license information.", {"Close"}, true);
                     break;
                 default:
                     break;

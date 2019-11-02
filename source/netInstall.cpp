@@ -209,6 +209,10 @@ namespace netInstStuff{
                 {
                     return {"supplyUrl"};
                 }
+                if (kDown & KEY_X)
+                {
+                    inst::ui::mainApp->CreateShowDialog("Help", "NSP files can be installed remotely from your other devices using tools\nsuch as ns-usbloader or Fluffy. To send your NSP files to your Switch,\nsimply open one of the pieces of software recomended above on your PC or\nmobile device, input your Switch's IP address (listed on your Switch's\nscreen), select your NSP files, then upload to your console!\n\nIf you can't figure it out, just copy the NSP to your SD card and try\nthe \"Install NSP from SD Card\" option on the main menu!", {"OK"}, true);
+                }
 
                 struct sockaddr_in client;
                 socklen_t clientLen = sizeof(client);

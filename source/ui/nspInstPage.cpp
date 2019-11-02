@@ -22,7 +22,7 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
         this->pageInfoText = TextBlock::New(10, 109, "Select NSP files to install, then press the Plus button!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0ef Install NSP(s)    \ue0e1 Cancel ", 24);
+        this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0ef Install NSP(s)    \ue0e2 Help    \ue0e1 Cancel ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 153, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
@@ -79,6 +79,9 @@ namespace inst::ui {
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             nspInstPage::selectNsp();
+        }
+        if ((Down & KEY_X)) {
+            inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP files to the root (top) of your SD card, select the ones\nyou want to install, then press the Plus button.", {"OK"}, true);
         }
         if (Down & KEY_PLUS) {
             if (nspInstPage::selectedNsps.size() == 0) nspInstPage::selectNsp();
