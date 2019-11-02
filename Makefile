@@ -45,7 +45,7 @@ INCLUDES	:=	include include/ui include/data include/install include/nx include/n
 APP_TITLE	:=	Awoo Installer
 APP_AUTHOR	:=	Huntereb
 APP_VERSION	:=	1.0.0
-ROMFS	:=	romfs
+ROMFS		:=	romfs
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -165,7 +165,7 @@ all: $(BUILD)
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@$(MAKE) --no-print-directory -C include/Plutonium/Plutonium -f Makefile
+	$(MAKE) --no-print-directory -C include/Plutonium -f Makefile lib-switch
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
