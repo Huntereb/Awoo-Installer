@@ -13,13 +13,17 @@ namespace sig {
         try {
             std::string patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
             std::string versionText = "";
-            if (patchesVersion != "") versionText = "\n\nYou currently have signature patches installed for HOS version " + patchesVersion + ".";
-            int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents." + versionText, {"Install", "Uninstall", "Cancel"}, true);
+            std::string installButtonText = "Install";
+            if (patchesVersion != "") {
+                versionText = "\n\nYou currently have signature patches installed for HOS version " + patchesVersion + ".";
+                installButtonText = "Update";
+            }
+            int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents." + versionText, {installButtonText, "Uninstall", "Cancel"}, true);
             if (ourResult == 0) {
                 if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
-                    if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "", {"Yes", "No"}, false)) return;
+                    if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "Installing patches requires the use of the Hekate bootloader.", {"Yes", "No"}, false)) return;
                 }
-                std::string ourPath = inst::config::appDir + "patches.zip";
+                std::string ourPath = inst::config::appDir + "/patches.zip";
                 bool didDownload = inst::curl::downloadFile(inst::config::sigPatchesUrl, ourPath.c_str());
                 bool didExtract = false;
                 if (didDownload) didExtract = inst::zip::extractFile(ourPath, "sdmc:/");
