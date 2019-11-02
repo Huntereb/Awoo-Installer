@@ -13,11 +13,15 @@ namespace inst::ui {
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
         private:
+            static std::vector<std::string> ourUrls;
+            static std::vector<std::string> selectedUrls;
             TextBlock::Ref butText;
             Rectangle::Ref topRect;
             Rectangle::Ref infoRect;
             Rectangle::Ref botRect;
             Image::Ref titleImage;
             pu::ui::elm::Menu::Ref menu;
+            void drawMenuItems(bool clearItems);
+            void selectNsp();
     };
 }

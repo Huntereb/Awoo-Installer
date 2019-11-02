@@ -73,46 +73,53 @@ namespace inst::ui {
 namespace nspInstStuff {
     FsStorageId m_destStorageId = FsStorageId_SdCard;
 
-    void installNspFromFile(std::string ourNsp, int whereToInstall)
+    void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall)
     {
         appletLockExit();
         inst::ui::loadInstallScreen();
-        std::vector<std::string> installList;
-        bool nspInstalled = false;
-        installList.push_back(ourNsp);
+        bool nspInstalled = true;
 
         if (whereToInstall) m_destStorageId = FsStorageId_NandUser;
 
-        for (unsigned int i = 0; i < installList.size(); i++)
+        try
         {
-            std::string path = "@Sdcard://" + installList[i];
+            for (unsigned int i = 0; i < ourNspList.size(); i++) {
+                std::string path = "@Sdcard://" + ourNspList[i].string().erase(0, 6);
 
-            try
-            {
-                inst::ui::setTopInstInfoText("Installing " + ourNsp + "...");
+                    inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[i].string().erase(0, 6), 64, true) + "...");
 
-                nx::fs::IFileSystem fileSystem;
-                fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
-                tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
-                tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
+                    nx::fs::IFileSystem fileSystem;
+                    fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
+                    tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
+                    tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
 
-                printf("Preparing installation\n");
-                inst::ui::setInstInfoText("Preparing installation...");
-                task.Prepare();
+                    printf("Preparing installation\n");
+                    inst::ui::setInstInfoText("Preparing installation...");
+                    task.Prepare();
 
-                task.Begin();
-                nspInstalled = true;
-            }
-            catch (std::exception& e)
-            {
-                printf("Failed to install NSP");
-                printf("%s", e.what());
-                fprintf(stdout, "%s", e.what());
-                inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "Partially installed NSP contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+                    task.Begin();
             }
         }
+        catch (std::exception& e)
+        {
+            printf("Failed to install NSP");
+            printf("%s", e.what());
+            fprintf(stdout, "%s", e.what());
+            inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "Partially installed NSP contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            nspInstalled = false;
+        }
 
-        if(nspInstalled) if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNsp, 64, true) + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove("sdmc:/" + ourNsp);
+        if(nspInstalled) {
+            if (ourNspList.size() > 1) {
+                if(inst::ui::mainApp->CreateShowDialog("Selected NSP files installed! Delete them from SD card?", "", {"No","Yes"}, false) == 1) {
+                    for (long unsigned int i = 0; i < ourNspList.size(); i++) {
+                        std::filesystem::remove(ourNspList[i]);
+                    }
+                }
+            } else {
+                if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 64, true) + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove(ourNspList[0]);
+            }
+        }
 
         printf("Done");
         appletUnlockExit();

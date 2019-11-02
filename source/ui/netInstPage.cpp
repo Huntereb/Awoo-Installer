@@ -11,7 +11,8 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourUrls;
+    std::vector<std::string> netInstPage::ourUrls;
+    std::vector<std::string> netInstPage::selectedUrls;
 
     netInstPage::netInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -36,17 +37,43 @@ namespace inst::ui {
         this->Add(this->menu);
     }
 
+    void netInstPage::drawMenuItems(bool clearItems) {
+        if (clearItems) netInstPage::selectedUrls = {};
+        this->menu->ClearItems();
+        for (auto& url: netInstPage::ourUrls) {
+            pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 64, true);
+            auto ourEntry = pu::ui::elm::MenuItem::New(itm);
+            ourEntry->SetColor(COLOR("#FFFFFFFF"));
+            ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
+            for (long unsigned int i = 0; i < netInstPage::selectedUrls.size(); i++) {
+                if (netInstPage::selectedUrls[i] == url) {
+                    ourEntry->SetIcon("romfs:/check-box-outline.png");
+                }
+            }
+            this->menu->AddItem(ourEntry);
+        }
+    }
+
+    void netInstPage::selectNsp() {
+        if (this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/check-box-outline.png") {
+            for (long unsigned int i = 0; i < netInstPage::selectedUrls.size(); i++) {
+                if (netInstPage::selectedUrls[i] == netInstPage::ourUrls[this->menu->GetSelectedIndex()]) netInstPage::selectedUrls.erase(netInstPage::selectedUrls.begin() + i);
+            }
+        } else netInstPage::selectedUrls.push_back(netInstPage::ourUrls[this->menu->GetSelectedIndex()]);
+        netInstPage::drawMenuItems(false);
+    }
+
     void netInstPage::startNetwork() {
         this->pageInfoText->SetText("");
         this->butText->SetText("\ue0e1 Cancel    \ue0e3 Install From URL ");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         mainApp->LoadLayout(mainApp->netinstPage);
-        ourUrls = netInstStuff::OnSelected();
-        if (!ourUrls.size()) {
+        netInstPage::ourUrls = netInstStuff::OnSelected();
+        if (!netInstPage::ourUrls.size()) {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
-        } else if (ourUrls[0] == "supplyUrl") {
+        } else if (netInstPage::ourUrls[0] == "supplyUrl") {
             Result rc=0;
             SwkbdConfig kbd;
             char tmpoutstr[128] = {0};
@@ -63,7 +90,7 @@ namespace inst::ui {
                         mainApp->LoadLayout(mainApp->mainPage);
                         return;
                     }
-                    ourUrls[0] = tmpoutstr;
+                    netInstPage::ourUrls[0] = tmpoutstr;
                     netInstPage::startInstall(true);
                     return;
                 } else {
@@ -72,29 +99,25 @@ namespace inst::ui {
                 }
             }
         } else {
-            this->pageInfoText->SetText("Select a NSP to install!");
-            this->butText->SetText("\ue0e0 Install NSP    \ue0e1 Cancel ");
-            for (auto& url: ourUrls) {
-                pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 64, true);
-                auto ourEntry = pu::ui::elm::MenuItem::New(itm);
-                ourEntry->SetColor(COLOR("#FFFFFFFF"));
-                ourEntry->SetIcon("romfs:/package-down.png");
-                this->menu->AddItem(ourEntry);
-            }
+            this->pageInfoText->SetText("Select NSP files to install from the server, then press the Plus button!");
+            this->butText->SetText("\ue0e0 Select NSP    \ue0ef Install NSP(s)    \ue0e1 Cancel ");
+            netInstPage::drawMenuItems(true);
         }
         this->menu->SetVisible(true);
         return;
     }
 
     void netInstPage::startInstall(bool urlMode) {
-        std::string ourUrl = ourUrls[this->menu->GetSelectedIndex()];
-        int dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(ourUrl), 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        int dialogResult = -1;
+        if (netInstPage::selectedUrls.size() == 1) {
+            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        } else dialogResult = mainApp->CreateShowDialog("Where should the selected NSP files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
         }
-        netInstStuff::installNspLan(ourUrl, dialogResult);
+        netInstStuff::installNspLan(netInstPage::selectedUrls, dialogResult);
         return;
     }
 
@@ -103,7 +126,11 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
-            if (this->menu->IsVisible()) startInstall(false);
+            netInstPage::selectNsp();
+        }
+        if (Down & KEY_PLUS) {
+            if (netInstPage::selectedUrls.size() == 0) netInstPage::selectNsp();
+            netInstPage::startInstall(false);
         }
     }
 }

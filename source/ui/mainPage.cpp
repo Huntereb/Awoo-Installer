@@ -56,6 +56,7 @@ namespace inst::ui {
 
     void MainPage::installMenuItem_Click() {
         if (inst::util::getDirectoryFiles("sdmc:/", {".nsp"}).size()) {
+            mainApp->nspinstPage->drawMenuItems(true);
             mainApp->LoadLayout(mainApp->nspinstPage);
         } else {
             mainApp->CreateShowDialog("No NSP files found!", "Copy your NSP files to the root of your SD card!", {"OK"}, true);

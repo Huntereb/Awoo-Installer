@@ -21,6 +21,6 @@ SOFTWARE.
 */
 
 namespace netInstStuff {
-    void installNspLan(std::string ourUrl, int ourStorage);
+    void installNspLan(std::vector<std::string> ourUrlList, int ourStorage);
     std::vector<std::string> OnSelected();
 }

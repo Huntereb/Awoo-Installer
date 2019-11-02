@@ -10,7 +10,8 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::filesystem::path> ourFiles;
+    std::vector<std::filesystem::path> nspInstPage::ourFiles;
+    std::vector<std::filesystem::path> nspInstPage::selectedNsps;
 
     nspInstPage::nspInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -19,21 +20,13 @@ namespace inst::ui {
         this->infoRect = Rectangle::New(0, 93, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
-        this->pageInfoText = TextBlock::New(10, 109, "Select a NSP to install! Put NSP files on the root of your SD!", 30);
+        this->pageInfoText = TextBlock::New(10, 109, "Select NSP files to install, then press the Plus button!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 678, "\ue0e0 Install NSP    \ue0e1 Cancel ", 24);
+        this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0ef Install NSP(s)    \ue0e1 Cancel ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 153, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
         this->menu->SetScrollbarColor(COLOR("#17090980"));
-        ourFiles = util::getDirectoryFiles("sdmc:/", {".nsp"});
-        for (auto& file: ourFiles) {
-            pu::String itm = inst::util::shortenString(file.string().erase(0, 6), 64, true);
-            auto ourEntry = pu::ui::elm::MenuItem::New(itm);
-            ourEntry->SetColor(COLOR("#FFFFFFFF"));
-            ourEntry->SetIcon("romfs:/package.png");
-            this->menu->AddItem(ourEntry);
-        }
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->botRect);
@@ -43,11 +36,41 @@ namespace inst::ui {
         this->Add(this->menu);
     }
 
+    void nspInstPage::drawMenuItems(bool clearItems) {
+        if (clearItems) nspInstPage::selectedNsps = {};
+        this->menu->ClearItems();
+        nspInstPage::ourFiles = util::getDirectoryFiles("sdmc:/", {".nsp"});
+        for (auto& file: nspInstPage::ourFiles) {
+            pu::String itm = inst::util::shortenString(file.string().erase(0, 6), 64, true);
+            auto ourEntry = pu::ui::elm::MenuItem::New(itm);
+            ourEntry->SetColor(COLOR("#FFFFFFFF"));
+            ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
+            for (long unsigned int i = 0; i < nspInstPage::selectedNsps.size(); i++) {
+                if (nspInstPage::selectedNsps[i] == file) {
+                    ourEntry->SetIcon("romfs:/check-box-outline.png");
+                }
+            }
+            this->menu->AddItem(ourEntry);
+        }
+    }
+
+    void nspInstPage::selectNsp() {
+        if (this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/check-box-outline.png") {
+            for (long unsigned int i = 0; i < nspInstPage::selectedNsps.size(); i++) {
+                if (nspInstPage::selectedNsps[i] == nspInstPage::ourFiles[this->menu->GetSelectedIndex()].string()) nspInstPage::selectedNsps.erase(nspInstPage::selectedNsps.begin() + i);
+            }
+        } else nspInstPage::selectedNsps.push_back(nspInstPage::ourFiles[this->menu->GetSelectedIndex()]);
+        nspInstPage::drawMenuItems(false);
+    }
+
     void nspInstPage::startInstall() {
-        std::string ourNsp = ourFiles[this->menu->GetSelectedIndex()].string().erase(0, 6);
-        int dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        int dialogResult = -1;
+        if (nspInstPage::selectedNsps.size() == 1) {
+            std::string ourNsp = nspInstPage::selectedNsps[0].string().erase(0, 6);
+            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        } else dialogResult = mainApp->CreateShowDialog("Where should the selected NSP files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
-        nspInstStuff::installNspFromFile(ourNsp, dialogResult);
+        nspInstStuff::installNspFromFile(nspInstPage::selectedNsps, dialogResult);
     }
 
     void nspInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
@@ -55,6 +78,10 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
+            nspInstPage::selectNsp();
+        }
+        if (Down & KEY_PLUS) {
+            if (nspInstPage::selectedNsps.size() == 0) nspInstPage::selectNsp();
             nspInstPage::startInstall();
         }
     }

@@ -113,37 +113,47 @@ namespace netInstStuff{
         curl_global_cleanup();
     }
 
-    void installNspLan(std::string ourUrl, int ourStorage)
+    void installNspLan(std::vector<std::string> ourUrlList, int ourStorage)
     {
         appletLockExit();
         inst::ui::loadInstallScreen();
+        bool nspInstalled = true;
+
         if (ourStorage) m_destStorageId = FsStorageId_NandUser;
+
         try {
-            inst::ui::setTopInstInfoText("Installing " + inst::util::formatUrlString(ourUrl) + "...");
+            for (unsigned int i = 0; i < ourUrlList.size(); i++) {
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[i]), 64, true) + "...");
 
-            tin::install::nsp::HTTPNSP httpNSP(ourUrl);
+                tin::install::nsp::HTTPNSP httpNSP(ourUrlList[i]);
 
-            printf("%s %s\n", "NSP Install request from", ourUrl.c_str());
-            tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
+                printf("%s %s\n", "NSP Install request from", ourUrlList[i].c_str());
+                tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
 
-            printf("%s\n", "Preparing installation");
-            inst::ui::setInstInfoText("Preparing installation...");
-            install.Prepare();
+                printf("%s\n", "Preparing installation");
+                inst::ui::setInstInfoText("Preparing installation...");
+                install.Prepare();
 
-            install.Begin();
-
-            printf("%s\n", "Telling the server we're done installing");
-            inst::ui::setInstInfoText("Telling the server we're done installing...");
-            // Send 1 byte ack to close the server
-            u8 ack = 0;
-            tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
-            inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrl), 64, true) + " installed!", "", {"OK"}, true);
+                install.Begin();
+            }
         }
         catch (std::exception& e) {
             printf("Failed to install NSP");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
             inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "Partially installed NSP contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            nspInstalled = false;
+        }
+
+        printf("%s\n", "Telling the server we're done installing");
+        inst::ui::setInstInfoText("Telling the server we're done installing...");
+        // Send 1 byte ack to close the server
+        u8 ack = 0;
+        tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
+
+        if(nspInstalled) {
+            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected NSP files installed!", "", {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 64, true) + " installed!", "", {"OK"}, true);
         }
         
         printf("Done");

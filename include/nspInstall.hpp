@@ -21,6 +21,7 @@ SOFTWARE.
 */
 
 #pragma once
+#include <filesystem>
 
 namespace inst::ui {
     void setTopInstInfoText(std::string ourText);
@@ -32,5 +33,5 @@ namespace inst::ui {
 }
 
 namespace nspInstStuff {
-    void installNspFromFile(std::string ourNsp, int whereToInstall);
+    void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall);
 }
