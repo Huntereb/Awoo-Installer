@@ -71,13 +71,13 @@ namespace inst::ui {
 }
 
 namespace nspInstStuff {
-    FsStorageId m_destStorageId = FsStorageId_SdCard;
 
     void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall)
     {
         appletLockExit();
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
+        FsStorageId m_destStorageId = FsStorageId_SdCard;
 
         if (whereToInstall) m_destStorageId = FsStorageId_NandUser;
 

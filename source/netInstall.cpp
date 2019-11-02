@@ -58,7 +58,6 @@ namespace inst::ui {
 }
 
 namespace netInstStuff{
-    FsStorageId m_destStorageId = FsStorageId_SdCard;
 
     void InitializeServerSocket() try
     {
@@ -118,6 +117,7 @@ namespace netInstStuff{
         appletLockExit();
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
+        FsStorageId m_destStorageId = FsStorageId_SdCard;
 
         if (ourStorage) m_destStorageId = FsStorageId_NandUser;
 
