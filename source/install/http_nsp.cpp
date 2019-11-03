@@ -106,7 +106,8 @@ namespace tin::install::nsp
         double speed = 0.0;
 
         //consoleUpdate(NULL);
-
+        
+        inst::ui::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsBufferDataComplete())
         {
             u64 newTime = armGetSystemTick();
@@ -135,6 +136,7 @@ namespace tin::install::nsp
         u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
 
         inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
+        inst::ui::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete())
         {
             u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;

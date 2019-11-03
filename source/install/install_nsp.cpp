@@ -125,33 +125,34 @@ namespace tin::install::nsp
 
         //consoleUpdate(NULL);
 
-          try
-          {
-               inst::ui::setInstInfoText("Installing " + ncaName + "...");
-               while (fileOff < ncaSize) 
-               {   
-                    // Clear the buffer before we read anything, just to be sure    
-                    progress = (float)fileOff / (float)ncaSize;
+        try
+        {
+            inst::ui::setInstInfoText("Installing " + ncaName + "...");
+            inst::ui::setInstBarPerc(0);
+            while (fileOff < ncaSize) 
+            {   
+                // Clear the buffer before we read anything, just to be sure    
+                progress = (float)fileOff / (float)ncaSize;
 
-                    if (fileOff % (0x400000 * 3) == 0) {
-                        printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
-                        inst::ui::setInstBarPerc((double)(progress * 100.0));
-                    }
+                if (fileOff % (0x400000 * 3) == 0) {
+                    printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
+                    inst::ui::setInstBarPerc((double)(progress * 100.0));
+                }
 
-                    if (fileOff + readSize >= ncaSize) readSize = ncaSize - fileOff;
+                if (fileOff + readSize >= ncaSize) readSize = ncaSize - fileOff;
 
-                    ncaFile.Read(fileOff, readBuffer.get(), readSize);
-                    writer.write(readBuffer.get(), readSize);
+                ncaFile.Read(fileOff, readBuffer.get(), readSize);
+                writer.write(readBuffer.get(), readSize);
 
-                    fileOff += readSize;
-                    //consoleUpdate(NULL);
-               }
-          }
-          catch (...)
-          {
-          }
+                fileOff += readSize;
+                //consoleUpdate(NULL);
+            }
+        }
+        catch (...)
+        {
+        }
 
-          writer.close();
+        writer.close();
 
         // Clean up the line for whatever comes next
         printf("                                                           \r");
