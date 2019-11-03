@@ -84,40 +84,54 @@ namespace nspInstStuff {
         try
         {
             for (unsigned int i = 0; i < ourNspList.size(); i++) {
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[i].string().erase(0, 6), 64, true) + "...");
+                
+                bool isNsz = false;
+                if (ourNspList[i].extension() == ".nsz") {
+                    std::string newfilename = ourNspList[i].string().substr(0, ourNspList[i].string().find_last_of('.'))+".nsp";
+                    ourNspList[i] = newfilename;
+                    rename(ourNspList[i], newfilename);
+                    isNsz = true;
+                }
+
                 std::string path = "@Sdcard://" + ourNspList[i].string().erase(0, 6);
 
-                    inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[i].string().erase(0, 6), 64, true) + "...");
+                nx::fs::IFileSystem fileSystem;
+                fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
+                tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
+                tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
 
-                    nx::fs::IFileSystem fileSystem;
-                    fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
-                    tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
-                    tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
+                printf("Preparing installation\n");
+                inst::ui::setInstInfoText("Preparing installation...");
+                task.Prepare();
 
-                    printf("Preparing installation\n");
-                    inst::ui::setInstInfoText("Preparing installation...");
-                    task.Prepare();
+                task.Begin();
 
-                    task.Begin();
+                if (isNsz && ourNspList[i].extension() == ".nsp") {
+                    std::string newfilename = ourNspList[i].string().substr(0, ourNspList[i].string().find_last_of('.'))+".nsz";
+                    ourNspList[i] = newfilename;
+                    rename(ourNspList[i], newfilename);
+                }
             }
         }
         catch (std::exception& e)
         {
-            printf("Failed to install NSP");
+            printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "Partially installed NSP contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
         if(nspInstalled) {
             if (ourNspList.size() > 1) {
-                if(inst::ui::mainApp->CreateShowDialog("Selected NSP files installed! Delete them from SD card?", "", {"No","Yes"}, false) == 1) {
+                if(inst::ui::mainApp->CreateShowDialog("Selected files installed! Delete them from the SD card?", "", {"No","Yes"}, false) == 1) {
                     for (long unsigned int i = 0; i < ourNspList.size(); i++) {
                         std::filesystem::remove(ourNspList[i]);
                     }
                 }
             } else {
-                if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 64, true) + " installed! Delete NSP from SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove(ourNspList[0]);
+                if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 64, true) + " installed! Delete it from the SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove(ourNspList[0]);
             }
         }
 

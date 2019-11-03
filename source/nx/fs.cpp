@@ -43,7 +43,7 @@ namespace nx::fs
     {
         u64 sizeRead;
         ASSERT_OK(fsFileRead(&m_file, offset, buf, size, FsReadOption_None, &sizeRead), "Failed to read file");
-        
+
         if (sizeRead != size)
         {
             std::string msg = "Size read " + std::string("" + sizeRead) + " doesn't match expected size " + std::string("" + size);

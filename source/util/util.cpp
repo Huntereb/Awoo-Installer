@@ -27,6 +27,9 @@ namespace inst::util {
         nsInitialize();
         nsextInitialize();
         esInitialize();
+        nifmInitialize();
+        splCryptoInitialize();
+        splInitialize();
     }
 
     void deinitApp () {
@@ -37,6 +40,9 @@ namespace inst::util {
         nsExit();
         nsextExit();
         esExit();
+        nifmExit();
+        splCryptoExit();
+        splExit();
     }
 
     std::vector<std::filesystem::path> getDirectoryFiles(const std::string & dir, const std::vector<std::string> & extensions) {

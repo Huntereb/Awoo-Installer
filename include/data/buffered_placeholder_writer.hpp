@@ -27,6 +27,7 @@ SOFTWARE.
 #include <memory>
 
 #include "nx/ncm.hpp"
+#include "nx/nca_writer.h"
 
 namespace tin::data
 {
@@ -56,13 +57,14 @@ namespace tin::data
 
             std::unique_ptr<BufferSegment[]> m_bufferSegments;
 
-            nx::ncm::ContentStorage* m_contentStorage;
+            std::shared_ptr<nx::ncm::ContentStorage> m_contentStorage;
             NcmContentId m_ncaId;
+			NcaWriter m_writer;
 
         public:
             static const int NUM_BUFFER_SEGMENTS = 4;
 
-            BufferedPlaceholderWriter(nx::ncm::ContentStorage* contentStorage, NcmContentId ncaId, size_t totalDataSize);
+            BufferedPlaceholderWriter(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId, size_t totalDataSize);
 
             void AppendData(void* source, size_t length);
             bool CanAppendData(size_t length);

@@ -80,7 +80,7 @@ namespace tin::install::nsp
         return 0;
     }
 
-    void HTTPNSP::StreamToPlaceholder(nx::ncm::ContentStorage& contentStorage, NcmContentId placeholderId)
+    void HTTPNSP::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId)
     {
         const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
@@ -88,7 +88,7 @@ namespace tin::install::nsp
         printf("Retrieving %s\n", ncaFileName.c_str());
         size_t ncaSize = fileEntry->fileSize;
 
-        tin::data::BufferedPlaceholderWriter bufferedPlaceholderWriter(&contentStorage, placeholderId, ncaSize);
+        tin::data::BufferedPlaceholderWriter bufferedPlaceholderWriter(contentStorage, placeholderId, ncaSize);
         StreamFuncArgs args;
         args.download = &m_download;
         args.bufferedPlaceholderWriter = &bufferedPlaceholderWriter;
@@ -99,8 +99,8 @@ namespace tin::install::nsp
 
         thrd_create(&curlThread, CurlStreamFunc, &args);
         thrd_create(&writeThread, PlaceholderWriteFunc, &args);
-        
-        u64 freq = armGetSystemTickFreq() / 2;
+
+        u64 freq = armGetSystemTickFreq();
         u64 startTime = armGetSystemTick();
         size_t startSizeBuffered = 0;
         double speed = 0.0;
@@ -134,17 +134,17 @@ namespace tin::install::nsp
 
         u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
 
+        inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete())
         {
             u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
-            inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
             inst::ui::setInstBarPerc((double)installProgress);
             //consoleUpdate(NULL);
         }
-        
+
         thrd_join(curlThread, NULL);
         thrd_join(writeThread, NULL);
         //consoleUpdate(NULL);

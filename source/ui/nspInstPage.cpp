@@ -39,7 +39,7 @@ namespace inst::ui {
     void nspInstPage::drawMenuItems(bool clearItems) {
         if (clearItems) nspInstPage::selectedNsps = {};
         this->menu->ClearItems();
-        nspInstPage::ourFiles = util::getDirectoryFiles("sdmc:/", {".nsp"});
+        nspInstPage::ourFiles = util::getDirectoryFiles("sdmc:/", {".nsp", ".nsz"});
         for (auto& file: nspInstPage::ourFiles) {
             pu::String itm = inst::util::shortenString(file.string().erase(0, 6), 64, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
@@ -68,7 +68,7 @@ namespace inst::ui {
         if (nspInstPage::selectedNsps.size() == 1) {
             std::string ourNsp = nspInstPage::selectedNsps[0].string().erase(0, 6);
             dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        } else dialogResult = mainApp->CreateShowDialog("Where should the selected NSP files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        } else dialogResult = mainApp->CreateShowDialog("Where should the selected files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
         nspInstStuff::installNspFromFile(nspInstPage::selectedNsps, dialogResult);
     }
@@ -81,7 +81,7 @@ namespace inst::ui {
             nspInstPage::selectNsp();
         }
         if ((Down & KEY_X)) {
-            inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP files to the root (top) of your SD card, select the ones\nyou want to install, then press the Plus button.", {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP or NSZ files to the root (top) of your SD card, select the ones\nyou want to install, then press the Plus button.", {"OK"}, true);
         }
         if (Down & KEY_PLUS) {
             if (nspInstPage::selectedNsps.size() == 0) nspInstPage::selectNsp();

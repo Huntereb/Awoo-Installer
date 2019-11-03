@@ -127,7 +127,7 @@ namespace netInstStuff{
 
                 tin::install::nsp::HTTPNSP httpNSP(ourUrlList[i]);
 
-                printf("%s %s\n", "NSP Install request from", ourUrlList[i].c_str());
+                printf("%s %s\n", "Install request from", ourUrlList[i].c_str());
                 tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
 
                 printf("%s\n", "Preparing installation");
@@ -138,10 +138,10 @@ namespace netInstStuff{
             }
         }
         catch (std::exception& e) {
-            printf("Failed to install NSP");
+            printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::mainApp->CreateShowDialog("Failed to install NSP!", "Partially installed NSP contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
@@ -152,7 +152,7 @@ namespace netInstStuff{
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
 
         if(nspInstalled) {
-            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected NSP files installed!", "", {"OK"}, true);
+            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected files installed!", "", {"OK"}, true);
             else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 64, true) + " installed!", "", {"OK"}, true);
         }
         
@@ -211,7 +211,7 @@ namespace netInstStuff{
                 }
                 if (kDown & KEY_X)
                 {
-                    inst::ui::mainApp->CreateShowDialog("Help", "NSP files can be installed remotely from your other devices using tools\nsuch as ns-usbloader or Fluffy. To send your NSP files to your Switch,\nsimply open one of the pieces of software recomended above on your PC or\nmobile device, input your Switch's IP address (listed on your Switch's\nscreen), select your NSP files, then upload to your console!\n\nIf you can't figure it out, just copy the NSP to your SD card and try\nthe \"Install NSP from SD Card\" option on the main menu!", {"OK"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Help", "NSP and NSZ files can be installed remotely from your other devices\nusing tools such as ns-usbloader or Fluffy. To send these files to your\nSwitch, simply open one of the pieces of software recomended above on\nyour PC or mobile device, input your Switch's IP address\n(listed on-screen), select your NSP and NSZ files, then upload to your\nconsole! If the software you're using won't let you select NSZ files,\ntry renaming the extension from NSZ to NSP.\n\nIf you can't figure it out, just copy the NSP or NSZ file to your SD\ncard and try the \"Install NSP from SD Card\" option on the main menu!", {"OK"}, true);
                 }
 
                 struct sockaddr_in client;
@@ -243,11 +243,12 @@ namespace netInstStuff{
                     std::stringstream urlStream(urlBuf.get());
                     std::string segment;
                     std::string nspExt = ".nsp";
+                    std::string nszExt = ".nsz";
 
                     while (std::getline(urlStream, segment, '\n'))
                     {
-                        if (segment.compare(segment.size() - nspExt.size(), nspExt.size(), nspExt) == 0)
-                            urls.push_back(segment);
+                        if (segment.compare(segment.size() - nspExt.size(), nspExt.size(), nspExt) == 0) urls.push_back(segment);
+                        else if (segment.compare(segment.size() - nszExt.size(), nszExt.size(), nszExt) == 0) urls.push_back(segment);
                     }
 
                     break;

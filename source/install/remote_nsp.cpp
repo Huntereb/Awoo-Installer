@@ -44,23 +44,23 @@ namespace tin::install::nsp
         m_headerBytes.resize(sizeof(PFS0BaseHeader), 0);
         this->BufferData(m_headerBytes.data(), 0x0, sizeof(PFS0BaseHeader));
 
-        printf("Base header: ");
-        printf("%.*s\n",(int)sizeof(PFS0BaseHeader),m_headerBytes.data());
+        printf("Base header: \n");
+        printBytes(nxlinkout, m_headerBytes.data(), sizeof(PFS0BaseHeader), true);
 
         // Retrieve the full header
         size_t remainingHeaderSize = this->GetBaseHeader()->numFiles * sizeof(PFS0FileEntry) + this->GetBaseHeader()->stringTableSize;
         m_headerBytes.resize(sizeof(PFS0BaseHeader) + remainingHeaderSize, 0);
         this->BufferData(m_headerBytes.data() + sizeof(PFS0BaseHeader), sizeof(PFS0BaseHeader), remainingHeaderSize);
 
-        printf("Full header: ");
-        printf("%.*s\n",(int)m_headerBytes.size(),m_headerBytes.data());
+        printf("Full header: \n");
+        printBytes(nxlinkout, m_headerBytes.data(), m_headerBytes.size(), true);
     }
 
     const PFS0FileEntry* RemoteNSP::GetFileEntry(unsigned int index)
     {
         if (index >= this->GetBaseHeader()->numFiles)
             THROW_FORMAT("File entry index is out of bounds\n")
-    
+
         size_t fileEntryOffset = sizeof(PFS0BaseHeader) + index * sizeof(PFS0FileEntry);
 
         if (m_headerBytes.size() < fileEntryOffset + sizeof(PFS0FileEntry))
@@ -107,7 +107,13 @@ namespace tin::install::nsp
         {
             if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.nca")) == nullptr)
             {
-                return nullptr;
+                    if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".ncz")) == nullptr)
+                    {
+                         if ((fileEntry = this->GetFileEntryByName(ncaIdStr + ".cnmt.ncz")) == nullptr)
+                         {
+                              return nullptr;
+                         }
+                    }
             }
         }
 

@@ -23,6 +23,7 @@ SOFTWARE.
 #pragma once
 
 #include "install/remote_nsp.hpp"
+#include <memory>
 
 namespace tin::install::nsp
 {
@@ -33,7 +34,7 @@ namespace tin::install::nsp
 
             HTTPNSP(std::string url);
 
-            virtual void StreamToPlaceholder(nx::ncm::ContentStorage& contentStorage, NcmContentId placeholderId) override;
+            virtual void StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId) override;
             virtual void BufferData(void* buf, off_t offset, size_t size) override;
     };
 }
