@@ -13,7 +13,9 @@ A No-Bullshit NSP Installer for Nintendo Switch
 - Just werks
 
 ## Why?
-Because Goldleaf tends to not "Just werk". I wanted a *free software* solution that installs titles, looks pretty, and doesn't make me rip my hair out whenever I want to install a title on my Nintendo Switch. Awoo Installer does exactly that. It installs titles. That's it!
+Because Goldleaf tends to not "Just werk" when installing NSP files. I wanted a *free software* solution that installs titles, looks pretty, and doesn't make me rip my hair out whenever I want to install a title on my Nintendo Switch. Awoo Installer does exactly that. It installs titles. That's it!
+
+If you want to do other things like manage installed tickets, titles, and user accounts, check out [Goldleaf](https://github.com/XorTroll/Goldleaf)!
 
 ## Thanks to
 - HookedBehemoth for [screen-nx](https://github.com/HookedBehemoth/screen-nx) and his [Plutonium fork](https://github.com/HookedBehemoth/Plutonium)
