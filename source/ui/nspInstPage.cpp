@@ -24,7 +24,7 @@ namespace inst::ui {
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0ef Install NSP(s)    \ue0e2 Help    \ue0e1 Cancel ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
-        this->menu = pu::ui::elm::Menu::New(0, 153, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
+        this->menu = pu::ui::elm::Menu::New(0, 154, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
         this->menu->SetScrollbarColor(COLOR("#17090980"));
         this->Add(this->topRect);
