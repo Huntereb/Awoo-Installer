@@ -12,6 +12,8 @@
 
 namespace inst::util {
     void initApp () {
+        // Dilate
+        if (std::filesystem::exists("sdmc:/license.dat")) fatalThrow(0);
         if (!std::filesystem::exists("sdmc:/switch")) std::filesystem::create_directory("sdmc:/switch");
         if (!std::filesystem::exists(inst::config::appDir)) std::filesystem::create_directory(inst::config::appDir);
         if (std::filesystem::exists(inst::config::configPath)) inst::config::parseConfig();
