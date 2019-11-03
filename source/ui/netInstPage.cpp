@@ -90,7 +90,7 @@ namespace inst::ui {
                         mainApp->LoadLayout(mainApp->mainPage);
                         return;
                     }
-                    netInstPage::ourUrls[0] = tmpoutstr;
+                    netInstPage::selectedUrls = {tmpoutstr};
                     netInstPage::startInstall(true);
                     return;
                 } else {
