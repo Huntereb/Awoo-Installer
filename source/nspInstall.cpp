@@ -81,6 +81,7 @@ namespace nspInstStuff {
 
     void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall)
     {
+        inst::util::initInstallServices();
         appletLockExit();
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
@@ -145,6 +146,7 @@ namespace nspInstStuff {
         printf("Done");
         appletUnlockExit();
         inst::ui::loadMainMenu();
+        inst::util::deinitInstallServices();
         return;
     }
 }

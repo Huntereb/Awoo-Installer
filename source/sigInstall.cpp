@@ -11,6 +11,7 @@ namespace inst::ui {
 
 namespace sig {
     void installSigPatches () {
+        bpcInitialize();
         try {
             std::string patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
             std::string versionText = "";
@@ -61,5 +62,6 @@ namespace sig {
             fprintf(stdout, "%s", e.what());
             inst::ui::mainApp->CreateShowDialog("Failed to install Signature Patches!", (std::string)e.what(), {"OK"}, true);
         }
+        bpcExit();
     }
 }

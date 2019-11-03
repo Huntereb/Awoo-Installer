@@ -21,30 +21,28 @@ namespace inst::util {
         #ifdef __DEBUG__
             nxlinkStdio();
         #endif
-        plInitialize();
-        setInitialize();
-        ncmInitialize();
-        nsInitialize();
-        nsextInitialize();
-        esInitialize();
-        nifmInitialize();
-        splCryptoInitialize();
-        splInitialize();
-        bpcInitialize();
     }
 
     void deinitApp () {
         socketExit();
-        plExit();
-        setExit();
+    }
+
+    void initInstallServices() {
+        ncmInitialize();
+        nsInitialize();
+        nsextInitialize();
+        esInitialize();
+        splCryptoInitialize();
+        splInitialize();
+    }
+
+    void deinitInstallServices() {
         ncmExit();
         nsExit();
         nsextExit();
         esExit();
-        nifmExit();
         splCryptoExit();
         splExit();
-        bpcExit();
     }
 
     std::vector<std::filesystem::path> getDirectoryFiles(const std::string & dir, const std::vector<std::string> & extensions) {

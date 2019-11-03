@@ -114,6 +114,7 @@ namespace netInstStuff{
 
     void installNspLan(std::vector<std::string> ourUrlList, int ourStorage)
     {
+        inst::util::initInstallServices();
         appletLockExit();
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
@@ -160,6 +161,7 @@ namespace netInstStuff{
         printf("Done");
         appletUnlockExit();
         inst::ui::loadMainMenu();
+        inst::util::deinitInstallServices();
         return;
     }
 
