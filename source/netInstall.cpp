@@ -150,10 +150,11 @@ namespace netInstStuff{
         // Send 1 byte ack to close the server
         u8 ack = 0;
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
+        inst::ui::setInstBarPerc(100);
 
         if(nspInstalled) {
-            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected files installed!", "", {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 64, true) + " installed!", "", {"OK"}, true);
+            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected files installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 64, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }
         
         printf("Done");

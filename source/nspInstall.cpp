@@ -23,6 +23,7 @@ SOFTWARE.
 #include <cstring>
 #include <sstream>
 #include <filesystem>
+#include <ctime>
 
 #include "install/install_nsp.hpp"
 #include "nx/fs.hpp"
@@ -71,6 +72,12 @@ namespace inst::ui {
 }
 
 namespace nspInstStuff {
+
+    std::string finishedMessage() {
+        std::vector<std::string> finishMessages = {"Enjoy your \"legal backups\"!", "I'm sure after you give the game a try you'll have tons of fun actually buying it!", "You buy gamu right? Nintendo-san thanka-you for your purchase!", "Bypassing DRM is great, isn't it?", "You probably saved like six trees by not buying the game! All that plastic goes somewhere!"};
+        srand(time(NULL));
+        return(finishMessages[rand() % finishMessages.size()]);
+    }
 
     void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall)
     {
@@ -125,13 +132,13 @@ namespace nspInstStuff {
 
         if(nspInstalled) {
             if (ourNspList.size() > 1) {
-                if(inst::ui::mainApp->CreateShowDialog("Selected files installed! Delete them from the SD card?", "", {"No","Yes"}, false) == 1) {
+                if(inst::ui::mainApp->CreateShowDialog("Selected files installed! Delete them from the SD card?", nspInstStuff::finishedMessage(), {"No","Yes"}, false) == 1) {
                     for (long unsigned int i = 0; i < ourNspList.size(); i++) {
                         std::filesystem::remove(ourNspList[i]);
                     }
                 }
             } else {
-                if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 64, true) + " installed! Delete it from the SD card?", "", {"No","Yes"}, false) == 1) std::filesystem::remove(ourNspList[0]);
+                if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 64, true) + " installed! Delete it from the SD card?", nspInstStuff::finishedMessage(), {"No","Yes"}, false) == 1) std::filesystem::remove(ourNspList[0]);
             }
         }
 

@@ -33,5 +33,6 @@ namespace inst::ui {
 }
 
 namespace nspInstStuff {
+    std::string finishedMessage();
     void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall);
 }
