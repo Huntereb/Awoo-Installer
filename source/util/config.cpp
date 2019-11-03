@@ -6,7 +6,7 @@
 namespace inst::config {
     const std::string appDir = "sdmc:/switch/Awoo-Installer";
     const std::string configPath = appDir + "/config.ini";
-    std::string sigPatchesUrl = "http://github.com/Huntereb/Awoo-Installer/releases/download/SignaturePatches/patches.zip";
+    std::string sigPatchesUrl = "https://github.com/Huntereb/Awoo-Installer/releases/download/SignaturePatches/patches.zip";
     bool ignoreReqVers = true;
     bool gayMode = false;
 
