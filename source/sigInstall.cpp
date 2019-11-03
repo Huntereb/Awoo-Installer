@@ -1,3 +1,4 @@
+#include <switch.h>
 #include "ui/MainApplication.hpp"
 #include "util/curl.hpp"
 #include "util/util.hpp"
@@ -36,7 +37,7 @@ namespace sig {
                     patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
                     versionText = "";
                     if (patchesVersion != "") versionText = "Your signature patches have been updated for HOS version " + patchesVersion + "! ";
-                    inst::ui::mainApp->CreateShowDialog("Install complete!", versionText + "\n\nRestart your console to apply!", {"OK"}, true);
+                    if (inst::ui::mainApp->CreateShowDialog("Install complete!", versionText + "\n\nRestart your console to apply!", {"Restart", "I'll do it later"}, false) == 0) bpcRebootSystem();
                 }
                 else {
                     inst::ui::mainApp->CreateShowDialog("Could not extract files!", "", {"OK"}, true);
@@ -47,7 +48,9 @@ namespace sig {
                 if (!inst::util::copyFile( inst::config::appDir + "/patches.ini.old", "sdmc:/bootloader/patches.ini")) {
                     if (inst::ui::mainApp->CreateShowDialog("Unable to restore original Hekate patches.ini! Continue uninstalling?", "", {"Yes", "No"}, false)) return;
                 } else std::filesystem::remove(inst::config::appDir + "/patches.ini.old");
-                if (inst::util::removeDirectory("sdmc:/atmosphere/exefs_patches/es_patches")) inst::ui::mainApp->CreateShowDialog("Uninstall complete", "Restart your console to apply", {"OK"}, true);
+                if (inst::util::removeDirectory("sdmc:/atmosphere/exefs_patches/es_patches")) {
+                    if (inst::ui::mainApp->CreateShowDialog("Uninstall complete", "Restart your console to apply", {"Restart", "I'll do it later"}, false) == 0) bpcRebootSystem();
+                }
                 else inst::ui::mainApp->CreateShowDialog("Unable to remove signature patches", "Files may have been renamed or deleted", {"OK"}, true);
             } else return;
         }

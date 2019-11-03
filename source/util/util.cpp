@@ -30,6 +30,7 @@ namespace inst::util {
         nifmInitialize();
         splCryptoInitialize();
         splInitialize();
+        bpcInitialize();
     }
 
     void deinitApp () {
@@ -43,6 +44,7 @@ namespace inst::util {
         nifmExit();
         splCryptoExit();
         splExit();
+        bpcExit();
     }
 
     std::vector<std::filesystem::path> getDirectoryFiles(const std::string & dir, const std::vector<std::string> & extensions) {
