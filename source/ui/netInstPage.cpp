@@ -110,7 +110,7 @@ namespace inst::ui {
     void netInstPage::startInstall(bool urlMode) {
         int dialogResult = -1;
         if (netInstPage::selectedUrls.size() == 1) {
-            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 48, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         } else dialogResult = mainApp->CreateShowDialog("Where should the selected files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {

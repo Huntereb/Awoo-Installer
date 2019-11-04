@@ -124,7 +124,7 @@ namespace netInstStuff{
 
         try {
             for (unsigned int i = 0; i < ourUrlList.size(); i++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[i]), 64, true) + "...");
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[i]), 48, true));
 
                 tin::install::nsp::HTTPNSP httpNSP(ourUrlList[i]);
 

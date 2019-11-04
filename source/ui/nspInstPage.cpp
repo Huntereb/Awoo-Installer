@@ -67,7 +67,7 @@ namespace inst::ui {
         int dialogResult = -1;
         if (nspInstPage::selectedNsps.size() == 1) {
             std::string ourNsp = nspInstPage::selectedNsps[0].string().erase(0, 6);
-            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 64, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 48, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         } else dialogResult = mainApp->CreateShowDialog("Where should the selected files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
         nspInstStuff::installNspFromFile(nspInstPage::selectedNsps, dialogResult);

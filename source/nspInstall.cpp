@@ -92,7 +92,7 @@ namespace nspInstStuff {
         try
         {
             for (unsigned int i = 0; i < ourNspList.size(); i++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[i].string().erase(0, 6), 64, true) + "...");
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[i].string().erase(0, 6), 48, true));
                 
                 bool isNsz = false;
                 if (ourNspList[i].extension() == ".nsz") {
