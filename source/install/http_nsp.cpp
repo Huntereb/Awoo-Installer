@@ -121,15 +121,15 @@ namespace tin::install::nsp
 
                 startTime = newTime;
                 startSizeBuffered = newSizeBuffered;
+
+                u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
+                u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
+                int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
+
+                printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
+                inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
+                inst::ui::setInstBarPerc((double)downloadProgress);
             }
-
-            u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
-            u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
-            int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
-
-            printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
-            inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
-            inst::ui::setInstBarPerc((double)downloadProgress);
             //consoleUpdate(NULL);
         }
         inst::ui::setInstBarPerc(100);
