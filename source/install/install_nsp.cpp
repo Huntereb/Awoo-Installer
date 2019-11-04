@@ -147,6 +147,7 @@ namespace tin::install::nsp
                 fileOff += readSize;
                 //consoleUpdate(NULL);
             }
+            inst::ui::setInstBarPerc(100);
         }
         catch (...)
         {

@@ -142,18 +142,20 @@ namespace netInstStuff{
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
+            inst::ui::setInstInfoText("Failed to install");
+            inst::ui::setInstBarPerc(0);
             inst::ui::mainApp->CreateShowDialog("Failed to install!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
         printf("%s\n", "Telling the server we're done installing");
-        inst::ui::setInstInfoText("Telling the server we're done installing...");
         // Send 1 byte ack to close the server
         u8 ack = 0;
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
-        inst::ui::setInstBarPerc(100);
 
         if(nspInstalled) {
+            inst::ui::setInstInfoText("Install complete");
+            inst::ui::setInstBarPerc(100);
             if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected files installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
             else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 64, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }

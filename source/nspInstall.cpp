@@ -127,11 +127,15 @@ namespace nspInstStuff {
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
+            inst::ui::setInstInfoText("Failed to install");
+            inst::ui::setInstBarPerc(0);
             inst::ui::mainApp->CreateShowDialog("Failed to install!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
         if(nspInstalled) {
+            inst::ui::setInstInfoText("Install complete");
+            inst::ui::setInstBarPerc(100);
             if (ourNspList.size() > 1) {
                 if(inst::ui::mainApp->CreateShowDialog("Selected files installed! Delete them from the SD card?", nspInstStuff::finishedMessage(), {"No","Yes"}, false) == 1) {
                     for (long unsigned int i = 0; i < ourNspList.size(); i++) {

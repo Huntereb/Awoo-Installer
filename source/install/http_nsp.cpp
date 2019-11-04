@@ -132,6 +132,7 @@ namespace tin::install::nsp
             inst::ui::setInstBarPerc((double)downloadProgress);
             //consoleUpdate(NULL);
         }
+        inst::ui::setInstBarPerc(100);
 
         u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
 
@@ -146,6 +147,7 @@ namespace tin::install::nsp
             inst::ui::setInstBarPerc((double)installProgress);
             //consoleUpdate(NULL);
         }
+        inst::ui::setInstBarPerc(100);
 
         thrd_join(curlThread, NULL);
         thrd_join(writeThread, NULL);
