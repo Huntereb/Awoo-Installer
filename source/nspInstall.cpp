@@ -149,8 +149,8 @@ namespace nspInstStuff {
                 } else inst::ui::mainApp->CreateShowDialog("Selected files installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
             } else {
                 if (inst::config::deletePrompt) {
-                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 64, true) + " installed! Delete it from the SD card?", "NSP/NSZ files are not required after installation to launch titles", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);
-                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 64, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 48, true) + " installed! Delete it from the SD card?", "NSP/NSZ files are not required after installation to launch titles", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);
+                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 48, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
             }
         }
 

@@ -157,7 +157,7 @@ namespace netInstStuff{
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
             if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected files installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 64, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 48, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }
         
         printf("Done");
