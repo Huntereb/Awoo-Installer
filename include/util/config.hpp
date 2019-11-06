@@ -5,6 +5,7 @@ namespace inst::config {
     extern const std::string configPath;
     extern std::string sigPatchesUrl;
     extern bool ignoreReqVers;
+    extern bool deletePrompt;
     extern bool gayMode;
 
     void parseConfig();

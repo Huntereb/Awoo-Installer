@@ -12,7 +12,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourMenuEntries = {"Ignore Required Firmware Version", "Remove Anime", "Signature Patches Source URL: "};
+    std::vector<std::string> ourMenuEntries = {"Ignore minimum firmware version required by NSP files", "Ask to delete NSP files after installation", "Remove anime", "Signature patches source URL: "};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -49,11 +49,15 @@ namespace inst::ui {
         ignoreFirmOption->SetColor(COLOR("#FFFFFFFF"));
         ignoreFirmOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::ignoreReqVers));
         this->menu->AddItem(ignoreFirmOption);
-        auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[1]);
+        auto deletePromptOption = pu::ui::elm::MenuItem::New(ourMenuEntries[1]);
+        deletePromptOption->SetColor(COLOR("#FFFFFFFF"));
+        deletePromptOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::deletePrompt));
+        this->menu->AddItem(deletePromptOption);
+        auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2]);
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
         gayModeOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::gayMode));
         this->menu->AddItem(gayModeOption);
-        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2] + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
+        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[3] + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(sigPatchesUrlOption);
         auto creditsOption = pu::ui::elm::MenuItem::New("Credits");
@@ -79,6 +83,12 @@ namespace inst::ui {
                     optionsPage::setMenuText();
                     break;
                 case 1:
+                    if (inst::config::deletePrompt) inst::config::deletePrompt = false;
+                    else inst::config::deletePrompt = true;
+                    inst::config::setConfig();
+                    optionsPage::setMenuText();
+                    break;
+                case 2:
                     if (inst::config::gayMode) {
                         inst::config::gayMode = false;
                         mainApp->mainPage->awooImage->SetVisible(true);
@@ -92,7 +102,7 @@ namespace inst::ui {
                     inst::config::setConfig();
                     optionsPage::setMenuText();
                     break;
-                case 2:
+                case 3:
                     SwkbdConfig kbd;
                     rc = swkbdCreate(&kbd, 0);
                     if (R_SUCCEEDED(rc)) {
@@ -108,10 +118,10 @@ namespace inst::ui {
                         }
                     }
                     break;
-                case 3:
+                case 4:
                     inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for screen-nx and his Plutonium fork\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
                     break;
-                case 4:
+                case 5:
                     inst::ui::mainApp->CreateShowDialog("Third Party Licenses", "Licenses to the libraries and software used in Awoo Installer are packaged with each release\nwithin the source code, or are distributed upon compilation of the software.\nPlease see the releases page for a copy of the source code and license information.", {"Close"}, true);
                     break;
                 default:
