@@ -127,9 +127,18 @@ namespace inst::ui {
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             netInstPage::selectNsp();
+            if (this->menu->GetItems().size() == 1) {
+                netInstPage::startInstall(false);
+                netInstPage::selectNsp();
+            }
         }
         if (Down & KEY_PLUS) {
-            if (netInstPage::selectedUrls.size() == 0) netInstPage::selectNsp();
+            if (netInstPage::selectedUrls.size() == 0) {
+                netInstPage::selectNsp();
+                netInstPage::startInstall(false);
+                netInstPage::selectNsp();
+                return;
+            }
             netInstPage::startInstall(false);
         }
     }

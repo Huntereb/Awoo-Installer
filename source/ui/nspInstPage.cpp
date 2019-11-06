@@ -79,12 +79,21 @@ namespace inst::ui {
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             nspInstPage::selectNsp();
+            if (this->menu->GetItems().size() == 1) {
+                nspInstPage::startInstall();
+                nspInstPage::selectNsp();
+            }
         }
         if ((Down & KEY_X)) {
             inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP or NSZ files to the root (top) of your SD card, select the ones\nyou want to install, then press the Plus button.", {"OK"}, true);
         }
         if (Down & KEY_PLUS) {
-            if (nspInstPage::selectedNsps.size() == 0) nspInstPage::selectNsp();
+            if (nspInstPage::selectedNsps.size() == 0) {
+                nspInstPage::selectNsp();
+                nspInstPage::startInstall();
+                nspInstPage::selectNsp();
+                return;
+            }
             nspInstPage::startInstall();
         }
     }
