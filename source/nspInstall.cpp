@@ -86,6 +86,8 @@ namespace nspInstStuff {
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
         FsStorageId m_destStorageId = FsStorageId_SdCard;
+        std::vector<std::string> filesToBeRenamed = {};
+        std::vector<std::string> oldNamesOfFiles = {};
 
         if (whereToInstall) m_destStorageId = FsStorageId_NandUser;
 
@@ -94,12 +96,12 @@ namespace nspInstStuff {
             for (unsigned int i = 0; i < ourNspList.size(); i++) {
                 inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[i].string().erase(0, 6), 48, true));
                 
-                bool isNsz = false;
                 if (ourNspList[i].extension() == ".nsz") {
-                    std::string newfilename = ourNspList[i].string().substr(0, ourNspList[i].string().find_last_of('.'))+".nsp";
-                    ourNspList[i] = newfilename;
+                    oldNamesOfFiles.push_back(ourNspList[i]);
+                    std::string newfilename = ourNspList[i].string().substr(0, ourNspList[i].string().find_last_of('.'))+"_temp.nsp";
                     rename(ourNspList[i], newfilename);
-                    isNsz = true;
+                    filesToBeRenamed.push_back(newfilename);
+                    ourNspList[i] = newfilename;
                 }
 
                 std::string path = "@Sdcard://" + ourNspList[i].string().erase(0, 6);
@@ -114,12 +116,6 @@ namespace nspInstStuff {
                 task.Prepare();
 
                 task.Begin();
-
-                if (isNsz && ourNspList[i].extension() == ".nsp") {
-                    std::string newfilename = ourNspList[i].string().substr(0, ourNspList[i].string().find_last_of('.'))+".nsz";
-                    ourNspList[i] = newfilename;
-                    rename(ourNspList[i], newfilename);
-                }
             }
         }
         catch (std::exception& e)
@@ -131,6 +127,13 @@ namespace nspInstStuff {
             inst::ui::setInstBarPerc(0);
             inst::ui::mainApp->CreateShowDialog("Failed to install!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
+        }
+
+        for (unsigned int i = 0; i < filesToBeRenamed.size(); i++) {
+            if (ourNspList.size() == 1) ourNspList[0] = oldNamesOfFiles[i];
+            if (std::filesystem::exists(filesToBeRenamed[i])) {
+                rename(filesToBeRenamed[i].c_str(), oldNamesOfFiles[i].c_str());
+            }
         }
 
         if(nspInstalled) {
