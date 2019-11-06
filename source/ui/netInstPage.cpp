@@ -85,7 +85,7 @@ namespace inst::ui {
                 rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
                 swkbdClose(&kbd);
                 if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) {
-                    if (inst::util::formatUrlString(tmpoutstr) == "") {
+                    if (inst::util::formatUrlString(tmpoutstr) == "" || tmpoutstr == (char *)"https://" || tmpoutstr == (char *)"http://") {
                         mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
                         mainApp->LoadLayout(mainApp->mainPage);
                         return;
