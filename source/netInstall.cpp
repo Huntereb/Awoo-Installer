@@ -169,7 +169,11 @@ namespace netInstStuff{
 
     std::vector<std::string> OnSelected()
     {
+        u64 freq = armGetSystemTickFreq();
+        u64 startTime = armGetSystemTick();
+
         OnUnwound();
+
         try
         {
             ASSERT_OK(curl_global_init(CURL_GLOBAL_ALL), "Curl failed to initialized");
@@ -202,6 +206,13 @@ namespace netInstStuff{
 
             while (true)
             {
+                // If we don't update the UI occasionally the Switch basically crashes on this screen if you press the home button
+                u64 newTime = armGetSystemTick();
+                if (newTime - startTime >= freq * 0.25) {
+                    startTime = newTime;
+                    inst::ui::mainApp->CallForRender();
+                }
+
                 // Break on input pressed
                 hidScanInput();
                 u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
