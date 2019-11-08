@@ -54,12 +54,12 @@ namespace inst::ui {
         }
     }
 
-    void netInstPage::selectNsp() {
-        if (this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/check-box-outline.png") {
+    void netInstPage::selectNsp(int selectedIndex) {
+        if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
             for (long unsigned int i = 0; i < netInstPage::selectedUrls.size(); i++) {
-                if (netInstPage::selectedUrls[i] == netInstPage::ourUrls[this->menu->GetSelectedIndex()]) netInstPage::selectedUrls.erase(netInstPage::selectedUrls.begin() + i);
+                if (netInstPage::selectedUrls[i] == netInstPage::ourUrls[selectedIndex]) netInstPage::selectedUrls.erase(netInstPage::selectedUrls.begin() + i);
             }
-        } else netInstPage::selectedUrls.push_back(netInstPage::ourUrls[this->menu->GetSelectedIndex()]);
+        } else netInstPage::selectedUrls.push_back(netInstPage::ourUrls[selectedIndex]);
         netInstPage::drawMenuItems(false);
     }
 
@@ -100,7 +100,7 @@ namespace inst::ui {
             }
         } else {
             this->pageInfoText->SetText("Select NSP files to install from the server, then press the Plus button!");
-            this->butText->SetText("\ue0e0 Select NSP    \ue0ef Install NSP(s)    \ue0e1 Cancel ");
+            this->butText->SetText("\ue0e0 Select NSP    \ue0e3 Select All    \ue0ef Install NSP(s)    \ue0e1 Cancel ");
             netInstPage::drawMenuItems(true);
         }
         this->menu->SetVisible(true);
@@ -111,7 +111,7 @@ namespace inst::ui {
         int dialogResult = -1;
         if (netInstPage::selectedUrls.size() == 1) {
             dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 48, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        } else dialogResult = mainApp->CreateShowDialog("Where should the selected files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(netInstPage::selectedUrls.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
             mainApp->LoadLayout(mainApp->mainPage);
@@ -126,17 +126,26 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
-            netInstPage::selectNsp();
+            netInstPage::selectNsp(this->menu->GetSelectedIndex());
             if (this->menu->GetItems().size() == 1) {
                 netInstPage::startInstall(false);
-                netInstPage::selectNsp();
+                netInstPage::selectNsp(this->menu->GetSelectedIndex());
+            }
+        }
+        if ((Down & KEY_Y)) {
+            if (netInstPage::selectedUrls.size() == this->menu->GetItems().size()) netInstPage::drawMenuItems(true);
+            else {
+                for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
+                    if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
+                    else netInstPage::selectNsp(i);
+                }
+                netInstPage::drawMenuItems(false);
             }
         }
         if (Down & KEY_PLUS) {
             if (netInstPage::selectedUrls.size() == 0) {
-                netInstPage::selectNsp();
+                netInstPage::selectNsp(this->menu->GetSelectedIndex());
                 netInstPage::startInstall(false);
-                netInstPage::selectNsp();
                 return;
             }
             netInstPage::startInstall(false);

@@ -22,6 +22,6 @@ namespace inst::ui {
             Rectangle::Ref botRect;
             Image::Ref titleImage;
             pu::ui::elm::Menu::Ref menu;
-            void selectNsp();
+            void selectNsp(int selectedIndex);
     };
 }

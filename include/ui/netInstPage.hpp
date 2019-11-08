@@ -22,6 +22,6 @@ namespace inst::ui {
             Image::Ref titleImage;
             pu::ui::elm::Menu::Ref menu;
             void drawMenuItems(bool clearItems);
-            void selectNsp();
+            void selectNsp(int selectedIndex);
     };
 }

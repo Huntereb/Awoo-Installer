@@ -22,7 +22,7 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
         this->pageInfoText = TextBlock::New(10, 109, "Select NSP files to install, then press the Plus button!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0ef Install NSP(s)    \ue0e2 Help    \ue0e1 Cancel ", 24);
+        this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0e3 Select All    \ue0ef Install NSP(s)    \ue0e2 Help    \ue0e1 Cancel ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 154, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
@@ -54,12 +54,12 @@ namespace inst::ui {
         }
     }
 
-    void nspInstPage::selectNsp() {
-        if (this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/check-box-outline.png") {
+    void nspInstPage::selectNsp(int selectedIndex) {
+        if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
             for (long unsigned int i = 0; i < nspInstPage::selectedNsps.size(); i++) {
-                if (nspInstPage::selectedNsps[i] == nspInstPage::ourFiles[this->menu->GetSelectedIndex()].string()) nspInstPage::selectedNsps.erase(nspInstPage::selectedNsps.begin() + i);
+                if (nspInstPage::selectedNsps[i] == nspInstPage::ourFiles[selectedIndex].string()) nspInstPage::selectedNsps.erase(nspInstPage::selectedNsps.begin() + i);
             }
-        } else nspInstPage::selectedNsps.push_back(nspInstPage::ourFiles[this->menu->GetSelectedIndex()]);
+        } else nspInstPage::selectedNsps.push_back(nspInstPage::ourFiles[selectedIndex]);
         nspInstPage::drawMenuItems(false);
     }
 
@@ -68,7 +68,7 @@ namespace inst::ui {
         if (nspInstPage::selectedNsps.size() == 1) {
             std::string ourNsp = nspInstPage::selectedNsps[0].string().erase(0, 6);
             dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 48, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        } else dialogResult = mainApp->CreateShowDialog("Where should the selected files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(nspInstPage::selectedNsps.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
         nspInstStuff::installNspFromFile(nspInstPage::selectedNsps, dialogResult);
     }
@@ -78,10 +78,20 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
-            nspInstPage::selectNsp();
+            nspInstPage::selectNsp(this->menu->GetSelectedIndex());
             if (this->menu->GetItems().size() == 1) {
                 nspInstPage::startInstall();
-                nspInstPage::selectNsp();
+                nspInstPage::selectNsp(this->menu->GetSelectedIndex());
+            }
+        }
+        if ((Down & KEY_Y)) {
+            if (nspInstPage::selectedNsps.size() == this->menu->GetItems().size()) nspInstPage::drawMenuItems(true);
+            else {
+                for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
+                    if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
+                    else nspInstPage::selectNsp(i);
+                }
+                nspInstPage::drawMenuItems(false);
             }
         }
         if ((Down & KEY_X)) {
@@ -89,9 +99,8 @@ namespace inst::ui {
         }
         if (Down & KEY_PLUS) {
             if (nspInstPage::selectedNsps.size() == 0) {
-                nspInstPage::selectNsp();
+                nspInstPage::selectNsp(this->menu->GetSelectedIndex());
                 nspInstPage::startInstall();
-                nspInstPage::selectNsp();
                 return;
             }
             nspInstPage::startInstall();
