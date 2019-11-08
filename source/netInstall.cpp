@@ -125,7 +125,7 @@ namespace netInstStuff{
 
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 48, true));
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 42, true));
 
                 tin::install::nsp::HTTPNSP httpNSP(ourUrlList[urlItr]);
 
@@ -143,9 +143,9 @@ namespace netInstStuff{
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 48, true));
+            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 42, true));
             inst::ui::setInstBarPerc(0);
-            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 48, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
@@ -158,7 +158,7 @@ namespace netInstStuff{
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
             if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 48, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }
         
         printf("Done");

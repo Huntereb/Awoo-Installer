@@ -41,7 +41,7 @@ namespace inst::ui {
         this->menu->ClearItems();
         nspInstPage::ourFiles = util::getDirectoryFiles("sdmc:/", {".nsp", ".nsz"});
         for (auto& file: nspInstPage::ourFiles) {
-            pu::String itm = inst::util::shortenString(file.string().erase(0, 6), 64, true);
+            pu::String itm = inst::util::shortenString(file.string().erase(0, 6), 56, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
@@ -67,7 +67,7 @@ namespace inst::ui {
         int dialogResult = -1;
         if (nspInstPage::selectedNsps.size() == 1) {
             std::string ourNsp = nspInstPage::selectedNsps[0].string().erase(0, 6);
-            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 48, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(ourNsp, 32, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(nspInstPage::selectedNsps.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
         nspInstStuff::installNspFromFile(nspInstPage::selectedNsps, dialogResult);

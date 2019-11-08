@@ -41,7 +41,7 @@ namespace inst::ui {
         if (clearItems) netInstPage::selectedUrls = {};
         this->menu->ClearItems();
         for (auto& url: netInstPage::ourUrls) {
-            pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 64, true);
+            pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 56, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
@@ -110,7 +110,7 @@ namespace inst::ui {
     void netInstPage::startInstall(bool urlMode) {
         int dialogResult = -1;
         if (netInstPage::selectedUrls.size() == 1) {
-            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 48, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 32, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(netInstPage::selectedUrls.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
