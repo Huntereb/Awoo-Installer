@@ -90,21 +90,22 @@ namespace nspInstStuff {
         std::vector<std::string> oldNamesOfFiles = {};
 
         if (whereToInstall) m_destStorageId = FsStorageId_NandUser;
+        unsigned int nspItr;
 
         try
         {
-            for (unsigned int i = 0; i < ourNspList.size(); i++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[i].string().erase(0, 6), 48, true));
+            for (nspItr = 0; nspItr < ourNspList.size(); nspItr++) {
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].string().erase(0, 6), 48, true));
                 
-                if (ourNspList[i].extension() == ".nsz") {
-                    oldNamesOfFiles.push_back(ourNspList[i]);
-                    std::string newfilename = ourNspList[i].string().substr(0, ourNspList[i].string().find_last_of('.'))+"_temp.nsp";
-                    rename(ourNspList[i], newfilename);
+                if (ourNspList[nspItr].extension() == ".nsz") {
+                    oldNamesOfFiles.push_back(ourNspList[nspItr]);
+                    std::string newfilename = ourNspList[nspItr].string().substr(0, ourNspList[nspItr].string().find_last_of('.'))+"_temp.nsp";
+                    rename(ourNspList[nspItr], newfilename);
                     filesToBeRenamed.push_back(newfilename);
-                    ourNspList[i] = newfilename;
+                    ourNspList[nspItr] = newfilename;
                 }
 
-                std::string path = "@Sdcard://" + ourNspList[i].string().erase(0, 6);
+                std::string path = "@Sdcard://" + ourNspList[nspItr].string().erase(0, 6);
 
                 nx::fs::IFileSystem fileSystem;
                 fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
@@ -123,9 +124,9 @@ namespace nspInstStuff {
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install");
+            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourNspList[nspItr].string().erase(0, 6), 48, true));
             inst::ui::setInstBarPerc(0);
-            inst::ui::mainApp->CreateShowDialog("Failed to install!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourNspList[nspItr].string().erase(0, 6), 48, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
@@ -141,12 +142,12 @@ namespace nspInstStuff {
             inst::ui::setInstBarPerc(100);
             if (ourNspList.size() > 1) {
                 if (inst::config::deletePrompt) {
-                    if(inst::ui::mainApp->CreateShowDialog("Selected files installed! Delete them from the SD card?", "NSP and NSZ files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) {
+                    if(inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully! Delete them from the SD card?", "NSP and NSZ files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) {
                         for (long unsigned int i = 0; i < ourNspList.size(); i++) {
                             if (std::filesystem::exists(ourNspList[i])) std::filesystem::remove(ourNspList[i]);
                         }
                     }
-                } else inst::ui::mainApp->CreateShowDialog("Selected files installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+                } else inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
             } else {
                 if (inst::config::deletePrompt) {
                     if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 48, true) + " installed! Delete it from the SD card?", "NSP and NSZ files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);

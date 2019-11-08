@@ -121,14 +121,15 @@ namespace netInstStuff{
         FsStorageId m_destStorageId = FsStorageId_SdCard;
 
         if (ourStorage) m_destStorageId = FsStorageId_NandUser;
+        unsigned int urlItr;
 
         try {
-            for (unsigned int i = 0; i < ourUrlList.size(); i++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[i]), 48, true));
+            for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 48, true));
 
-                tin::install::nsp::HTTPNSP httpNSP(ourUrlList[i]);
+                tin::install::nsp::HTTPNSP httpNSP(ourUrlList[urlItr]);
 
-                printf("%s %s\n", "Install request from", ourUrlList[i].c_str());
+                printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
                 tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
 
                 printf("%s\n", "Preparing installation");
@@ -142,9 +143,9 @@ namespace netInstStuff{
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install");
+            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 48, true));
             inst::ui::setInstBarPerc(0);
-            inst::ui::mainApp->CreateShowDialog("Failed to install!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 48, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
@@ -156,7 +157,7 @@ namespace netInstStuff{
         if(nspInstalled) {
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
-            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog("Selected files installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
             else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 48, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }
         
