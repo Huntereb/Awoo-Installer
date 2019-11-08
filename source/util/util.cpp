@@ -111,8 +111,9 @@ namespace inst::util {
 
     std::string shortenString(std::string ourString, int ourLength, bool isFile) {
         std::filesystem::path ourStringAsAPath = ourString;
-        if (ourString.size() > (unsigned long)ourLength) {
-            if(isFile) return (std::string)ourString.substr(0,ourLength) + "(...)" + ourStringAsAPath.extension().string();
+        std::string ourExtension = ourStringAsAPath.extension().string();
+        if (ourString.size() - ourExtension.size() > (unsigned long)ourLength) {
+            if(isFile) return (std::string)ourString.substr(0,ourLength) + "(...)" + ourExtension;
             else return (std::string)ourString.substr(0,ourLength) + "...";
         } else return ourString;
     }
