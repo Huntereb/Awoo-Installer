@@ -143,9 +143,9 @@ namespace netInstStuff{
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 42, true));
+            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 42, true));
             inst::ui::setInstBarPerc(0);
-            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourUrlList[urlItr].erase(0, 6), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
