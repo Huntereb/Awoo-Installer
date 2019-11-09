@@ -115,7 +115,7 @@ namespace netInstStuff{
     void installNspLan(std::vector<std::string> ourUrlList, int ourStorage)
     {
         inst::util::initInstallServices();
-        appletLockExit();
+        if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
         FsStorageId m_destStorageId = FsStorageId_SdCard;
@@ -162,7 +162,7 @@ namespace netInstStuff{
         }
         
         printf("Done");
-        appletUnlockExit();
+        if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletEndBlockingHomeButton();
         inst::ui::loadMainMenu();
         inst::util::deinitInstallServices();
         return;
