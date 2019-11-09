@@ -87,14 +87,14 @@ namespace inst::ui {
                 if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) {
                     if (inst::util::formatUrlString(tmpoutstr) == "" || tmpoutstr == (char *)"https://" || tmpoutstr == (char *)"http://") {
                         mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
-                        mainApp->LoadLayout(mainApp->mainPage);
+                        netInstPage::startNetwork();
                         return;
                     }
                     netInstPage::selectedUrls = {tmpoutstr};
                     netInstPage::startInstall(true);
                     return;
                 } else {
-                    mainApp->LoadLayout(mainApp->mainPage);
+                    netInstPage::startNetwork();
                     return;
                 }
             }
@@ -114,7 +114,7 @@ namespace inst::ui {
         } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(netInstPage::selectedUrls.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
-            mainApp->LoadLayout(mainApp->mainPage);
+            netInstPage::startNetwork();
             return;
         }
         netInstStuff::installNspLan(netInstPage::selectedUrls, dialogResult);
