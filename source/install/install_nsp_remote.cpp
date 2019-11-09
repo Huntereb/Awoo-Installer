@@ -79,7 +79,7 @@ namespace tin::install::nsp
         // Attempt to delete any leftover placeholders
         try
         {
-            contentStorage->DeletePlaceholder(ncaId);
+            contentStorage->DeletePlaceholder(*(NcmPlaceHolderId*)&ncaId);
         }
         catch (...) {}
 
@@ -93,7 +93,7 @@ namespace tin::install::nsp
 
         try
         {
-            contentStorage->Register(ncaId, ncaId);
+            contentStorage->Register(*(NcmPlaceHolderId*)&ncaId, ncaId);
         }
         catch (...)
         {
@@ -102,7 +102,7 @@ namespace tin::install::nsp
 
         try
         {
-            contentStorage->DeletePlaceholder(ncaId);
+            contentStorage->DeletePlaceholder(*(NcmPlaceHolderId*)&ncaId);
         }
         catch (...) {}
 

@@ -179,7 +179,7 @@ u64 NcaBodyWriter::write(const  u8* ptr, u64 sz)
 {
      if(isOpen())
      {
-          m_contentStorage->WritePlaceholder(m_ncaId, m_offset, (void*)ptr, sz);
+          m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, m_offset, (void*)ptr, sz);
           m_offset += sz;
           return sz;
      }
@@ -324,7 +324,7 @@ public:
 
           if (m_deflateBuffer.size())
           {
-               m_contentStorage->WritePlaceholder(m_ncaId, m_offset, m_deflateBuffer.data(), m_deflateBuffer.size());
+               m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, m_offset, m_deflateBuffer.data(), m_deflateBuffer.size());
                m_offset += m_deflateBuffer.size();
                m_deflateBuffer.resize(0);
           }
@@ -503,8 +503,8 @@ bool NcaWriter::close()
      {
           if(isOpen())
           {
-               m_contentStorage->CreatePlaceholder(m_ncaId, m_ncaId, m_buffer.size());
-               m_contentStorage->WritePlaceholder(m_ncaId, 0, m_buffer.data(), m_buffer.size());
+               m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, m_buffer.size());
+               m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
           }
 
           m_buffer.resize(0);
@@ -548,7 +548,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
                {
                     if(isOpen())
                     {
-                         m_contentStorage->CreatePlaceholder(m_ncaId, m_ncaId, header.nca_size);
+                         m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
                     }
                }
                else
@@ -558,7 +558,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
 
                if(isOpen())
                {
-                    m_contentStorage->WritePlaceholder(m_ncaId, 0, m_buffer.data(), m_buffer.size());
+                    m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
                }
           }
      }
