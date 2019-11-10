@@ -127,9 +127,8 @@ namespace inst::ui {
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             netInstPage::selectNsp(this->menu->GetSelectedIndex());
-            if (this->menu->GetItems().size() == 1) {
+            if (this->menu->GetItems().size() == 1 && netInstPage::selectedUrls.size() == 1) {
                 netInstPage::startInstall(false);
-                netInstPage::selectNsp(this->menu->GetSelectedIndex());
             }
         }
         if ((Down & KEY_Y)) {

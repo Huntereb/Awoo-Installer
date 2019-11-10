@@ -79,9 +79,8 @@ namespace inst::ui {
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             nspInstPage::selectNsp(this->menu->GetSelectedIndex());
-            if (this->menu->GetItems().size() == 1) {
+            if (this->menu->GetItems().size() == 1 && nspInstPage::selectedNsps.size() == 1) {
                 nspInstPage::startInstall();
-                nspInstPage::selectNsp(this->menu->GetSelectedIndex());
             }
         }
         if ((Down & KEY_Y)) {
