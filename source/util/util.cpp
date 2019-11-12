@@ -53,7 +53,9 @@ namespace inst::util {
         {
             if (std::filesystem::is_regular_file(p))
             {
-                    if (extensions.empty() || std::find(extensions.begin(), extensions.end(), p.path().extension().string()) != extensions.end())
+                std::string ourExtension = p.path().extension().string();
+                std::transform(ourExtension.begin(), ourExtension.end(), ourExtension.begin(), ::tolower);
+                if (extensions.empty() || std::find(extensions.begin(), extensions.end(), ourExtension) != extensions.end())
                 {
                     files.push_back(p.path());
                 }
