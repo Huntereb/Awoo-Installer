@@ -31,6 +31,7 @@ namespace inst::ui {
         this->Add(this->installInfoText);
         this->Add(this->installBar);
         this->Add(this->awooImage);
+        if (inst::config::gayMode) this->awooImage->SetVisible(false);
     }
 
     void instPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
