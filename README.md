@@ -6,7 +6,7 @@ A No-Bullshit NSP Installer for Nintendo Switch
 ## Features
 - Installs NSP/NSZ files and split NSPs from your SD card
 - Installs NSP/NSZ files over LAN from tools such as [ns-usbloader](https://github.com/developersu/ns-usbloader)
-- Installs NSP/NSZ files over the internet by supplying a URL
+- Installs NSP/NSZ files over the internet by URL or Google Drive
 - Installs and manages the latest signature patches quickly and easily
 - Based on [Adubbz Tinfoil](https://github.com/Adubbz/Tinfoil), and will continue to receive updates alongside it
 - Uses [XorTroll's Plutonium](https://github.com/XorTroll/Plutonium) for a pretty graphical interface
