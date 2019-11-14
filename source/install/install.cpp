@@ -35,7 +35,7 @@ SOFTWARE.
 // TODO: Check tik/cert is present
 namespace tin::install
 {
-    Install::Install(FsStorageId destStorageId, bool ignoreReqFirmVersion) :
+    Install::Install(NcmStorageId destStorageId, bool ignoreReqFirmVersion) :
         m_destStorageId(destStorageId), m_ignoreReqFirmVersion(ignoreReqFirmVersion), m_contentMeta()
     {
         appletSetMediaPlaybackState(true);

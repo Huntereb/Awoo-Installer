@@ -40,6 +40,6 @@ namespace tin::install::nsp
             void InstallTicketCert() override;
 
         public:
-            RemoteNSPInstall(FsStorageId destStorageId, bool ignoreReqFirmVersion, RemoteNSP* remoteNSP);
+            RemoteNSPInstall(NcmStorageId destStorageId, bool ignoreReqFirmVersion, RemoteNSP* remoteNSP);
     };
 }

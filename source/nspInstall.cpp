@@ -85,11 +85,11 @@ namespace nspInstStuff {
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
-        FsStorageId m_destStorageId = FsStorageId_SdCard;
+        NcmStorageId m_destStorageId = NcmStorageId_SdCard;
         std::vector<std::string> filesToBeRenamed = {};
         std::vector<std::string> oldNamesOfFiles = {};
 
-        if (whereToInstall) m_destStorageId = FsStorageId_NandUser;
+        if (whereToInstall) m_destStorageId = NcmStorageId_BuiltInUser;
         unsigned int nspItr;
 
         try

@@ -39,7 +39,7 @@ SOFTWARE.
 
 namespace tin::install::nsp
 {
-    NSPInstallTask::NSPInstallTask(tin::install::nsp::SimpleFileSystem& simpleFileSystem, FsStorageId destStorageId, bool ignoreReqFirmVersion) :
+    NSPInstallTask::NSPInstallTask(tin::install::nsp::SimpleFileSystem& simpleFileSystem, NcmStorageId destStorageId, bool ignoreReqFirmVersion) :
         Install(destStorageId, ignoreReqFirmVersion), m_simpleFileSystem(&simpleFileSystem)
     {
 

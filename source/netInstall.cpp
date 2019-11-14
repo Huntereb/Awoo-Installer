@@ -118,9 +118,9 @@ namespace netInstStuff{
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
-        FsStorageId m_destStorageId = FsStorageId_SdCard;
+        NcmStorageId m_destStorageId = NcmStorageId_SdCard;
 
-        if (ourStorage) m_destStorageId = FsStorageId_NandUser;
+        if (ourStorage) m_destStorageId = NcmStorageId_BuiltInUser;
         unsigned int urlItr;
 
         std::vector<std::string> urlNames;

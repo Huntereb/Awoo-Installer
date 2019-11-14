@@ -32,7 +32,7 @@ SOFTWARE.
 
 namespace tin::install::nsp
 {
-    RemoteNSPInstall::RemoteNSPInstall(FsStorageId destStorageId, bool ignoreReqFirmVersion, RemoteNSP* remoteNSP) :
+    RemoteNSPInstall::RemoteNSPInstall(NcmStorageId destStorageId, bool ignoreReqFirmVersion, RemoteNSP* remoteNSP) :
         Install(destStorageId, ignoreReqFirmVersion), m_remoteNSP(remoteNSP)
     {
         m_remoteNSP->RetrieveHeader();

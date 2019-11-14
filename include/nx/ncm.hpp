@@ -44,7 +44,7 @@ namespace nx::ncm
             ContentStorage& operator=(const ContentStorage&) = delete;
             ContentStorage(const ContentStorage&) = delete;   
 
-            ContentStorage(FsStorageId storageId);
+            ContentStorage(NcmStorageId storageId);
             ~ContentStorage();
 
             void CreatePlaceholder(const NcmContentId &placeholderId, const NcmPlaceHolderId &registeredId, size_t size);

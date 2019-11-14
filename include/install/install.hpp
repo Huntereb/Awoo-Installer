@@ -42,12 +42,12 @@ namespace tin::install
     class Install
     {
         protected:
-            const FsStorageId m_destStorageId;
+            const NcmStorageId m_destStorageId;
             bool m_ignoreReqFirmVersion = false;
 
             nx::ncm::ContentMeta m_contentMeta;
 
-            Install(FsStorageId destStorageId, bool ignoreReqFirmVersion);
+            Install(NcmStorageId destStorageId, bool ignoreReqFirmVersion);
             virtual ~Install();
 
             virtual std::tuple<nx::ncm::ContentMeta, NcmContentInfo> ReadCNMT() = 0;

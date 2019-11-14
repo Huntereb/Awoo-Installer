@@ -41,7 +41,7 @@ namespace tin::install::nsp
             void InstallTicketCert() override;
 
         public:
-            NSPInstallTask(tin::install::nsp::SimpleFileSystem& simpleFileSystem, FsStorageId destStorageId, bool ignoreReqFirmVersion);
+            NSPInstallTask(tin::install::nsp::SimpleFileSystem& simpleFileSystem, NcmStorageId destStorageId, bool ignoreReqFirmVersion);
     };
 };
 
