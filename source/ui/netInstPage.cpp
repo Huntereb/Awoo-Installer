@@ -4,6 +4,8 @@
 #include "ui/mainPage.hpp"
 #include "ui/netInstPage.hpp"
 #include "util/util.hpp"
+#include "util/config.hpp"
+#include "util/curl.hpp"
 #include "netInstall.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
@@ -13,6 +15,7 @@ namespace inst::ui {
 
     std::vector<std::string> netInstPage::ourUrls;
     std::vector<std::string> netInstPage::selectedUrls;
+    std::vector<std::string> netInstPage::alternativeNames;
 
     netInstPage::netInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -39,6 +42,7 @@ namespace inst::ui {
 
     void netInstPage::drawMenuItems(bool clearItems) {
         if (clearItems) netInstPage::selectedUrls = {};
+        if (clearItems) netInstPage::alternativeNames = {};
         this->menu->ClearItems();
         for (auto& url: netInstPage::ourUrls) {
             pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 56, true);
@@ -65,7 +69,7 @@ namespace inst::ui {
 
     void netInstPage::startNetwork() {
         this->pageInfoText->SetText("");
-        this->butText->SetText("\ue0e3 Install From URL    \ue0e2 Help    \ue0e1 Cancel ");
+        this->butText->SetText("\ue0e3 Install Over Internet    \ue0e2 Help    \ue0e1 Cancel ");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         mainApp->LoadLayout(mainApp->netinstPage);
@@ -74,30 +78,34 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
         } else if (netInstPage::ourUrls[0] == "supplyUrl") {
-            Result rc=0;
-            SwkbdConfig kbd;
-            char tmpoutstr[128] = {0};
-            rc = swkbdCreate(&kbd, 0);
-            if (R_SUCCEEDED(rc)) {
-                swkbdConfigMakePresetDefault(&kbd);
-                swkbdConfigSetGuideText(&kbd, "Enter the Internet address of a NSP file");
-                swkbdConfigSetInitialText(&kbd, "https://");
-                rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
-                swkbdClose(&kbd);
-                if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) {
-                    if (inst::util::formatUrlString(tmpoutstr) == "" || tmpoutstr == (char *)"https://" || tmpoutstr == (char *)"http://") {
-                        mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
-                        netInstPage::startNetwork();
+            std::string keyboardResult;
+            switch (mainApp->CreateShowDialog("Where do you want to install from?", "Press B to cancel", {"URL", "Google Drive"}, false)) {
+                case 0:
+                    keyboardResult = inst::util::softwareKeyboard("Enter the Internet address of a file", "https://", 500);
+                    if (keyboardResult.size() > 0) {
+                        if (inst::util::formatUrlString(keyboardResult) == "" || keyboardResult == "https://" || keyboardResult == "http://") {
+                            mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
+                            break;
+                        }
+                        netInstPage::selectedUrls = {keyboardResult};
+                        netInstPage::startInstall(true);
                         return;
                     }
-                    netInstPage::selectedUrls = {tmpoutstr};
-                    netInstPage::startInstall(true);
-                    return;
-                } else {
-                    netInstPage::startNetwork();
-                    return;
-                }
+                    break;
+                case 1:
+                    keyboardResult = inst::util::softwareKeyboard("Enter the file ID of a public Google Drive file", "", 50);
+                    if (keyboardResult.size() > 0) {
+                        std::string fileName = inst::util::getDriveFileName(keyboardResult);
+                        if (fileName.size() > 0) netInstPage::alternativeNames = {fileName};
+                        else netInstPage::alternativeNames = {"Google Drive File"};
+                        netInstPage::selectedUrls = {"https://www.googleapis.com/drive/v3/files/" + keyboardResult + "?key=" + inst::config::gAuthKey + "&alt=media"};
+                        netInstPage::startInstall(true);
+                        return;
+                    }
+                    break;
             }
+            netInstPage::startNetwork();
+            return;
         } else {
             this->pageInfoText->SetText("Select NSP files to install from the server, then press the Plus button!");
             this->butText->SetText("\ue0e0 Select NSP    \ue0e3 Select All    \ue0ef Install NSP(s)    \ue0e1 Cancel ");
@@ -110,14 +118,17 @@ namespace inst::ui {
     void netInstPage::startInstall(bool urlMode) {
         int dialogResult = -1;
         if (netInstPage::selectedUrls.size() == 1) {
-            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 32, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+            std::string ourUrlString;
+            if (netInstPage::alternativeNames.size() > 0) ourUrlString = inst::util::shortenString(netInstPage::alternativeNames[0], 32, true);
+            else ourUrlString = inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 32, true);
+            dialogResult = mainApp->CreateShowDialog("Where should " + ourUrlString + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(netInstPage::selectedUrls.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
             netInstPage::startNetwork();
             return;
         }
-        netInstStuff::installNspLan(netInstPage::selectedUrls, dialogResult);
+        netInstStuff::installNspLan(netInstPage::selectedUrls, dialogResult, netInstPage::alternativeNames);
         return;
     }
 

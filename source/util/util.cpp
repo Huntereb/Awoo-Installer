@@ -4,11 +4,13 @@
 #include <fstream>
 #include <unistd.h>
 #include <curl/curl.h>
+#include <json-c/json.h>
 #include "switch.h"
 #include "util/util.hpp"
 #include "nx/ipc/tin_ipc.h"
 #include "util/INIReader.h"
 #include "util/config.hpp"
+#include "util/curl.hpp"
 
 namespace inst::util {
     void initApp () {
@@ -129,6 +131,33 @@ namespace inst::util {
             fflush(file);
             fclose(file);
             return url;
+        }
+        return "";
+    }
+
+    std::string softwareKeyboard(std::string guideText, std::string initialText, int LenMax) {
+        Result rc=0;
+        SwkbdConfig kbd;
+        char tmpoutstr[LenMax + 1] = {0};
+        rc = swkbdCreate(&kbd, 0);
+        if (R_SUCCEEDED(rc)) {
+            swkbdConfigMakePresetDefault(&kbd);
+            swkbdConfigSetGuideText(&kbd, guideText.c_str());
+            swkbdConfigSetInitialText(&kbd, initialText.c_str());
+            swkbdConfigSetStringLenMax(&kbd, LenMax);
+            rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
+            swkbdClose(&kbd);
+            if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) return(((std::string)(tmpoutstr)));
+        }
+        return "";
+    }
+
+    std::string getDriveFileName(std::string fileId) {
+        std::string jsonData = inst::curl::downloadToBuffer("https://www.googleapis.com/drive/v3/files/" + fileId + "?key=" + inst::config::gAuthKey + "&fields=name");
+        if (jsonData.size() > 0) {
+            struct json_object *parsed_json = json_tokener_parse(jsonData.c_str());
+            struct json_object *name;
+            if (json_object_object_get_ex(parsed_json, "name", &name)) return json_object_get_string(name);
         }
         return "";
     }

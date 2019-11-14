@@ -15,6 +15,7 @@ namespace inst::ui {
         private:
             static std::vector<std::string> ourUrls;
             static std::vector<std::string> selectedUrls;
+            static std::vector<std::string> alternativeNames;
             TextBlock::Ref butText;
             Rectangle::Ref topRect;
             Rectangle::Ref infoRect;

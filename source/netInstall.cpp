@@ -112,7 +112,7 @@ namespace netInstStuff{
         curl_global_cleanup();
     }
 
-    void installNspLan(std::vector<std::string> ourUrlList, int ourStorage)
+    void installNspLan(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames)
     {
         inst::util::initInstallServices();
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
@@ -123,9 +123,20 @@ namespace netInstStuff{
         if (ourStorage) m_destStorageId = FsStorageId_NandUser;
         unsigned int urlItr;
 
+        std::vector<std::string> urlNames;
+        if (urlListAltNames.size() > 0) {
+            for (long unsigned int i = 0; i < urlListAltNames.size(); i++) {
+                urlNames.push_back(inst::util::shortenString(urlListAltNames[i], 42, true));
+            }
+        } else {
+            for (long unsigned int i = 0; i < ourUrlList.size(); i++) {
+                urlNames.push_back(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[i]), 42, true));
+            }
+        }
+
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 42, true));
+                inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
 
                 tin::install::nsp::HTTPNSP httpNSP(ourUrlList[urlItr]);
 
@@ -143,9 +154,9 @@ namespace netInstStuff{
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 42, true));
+            inst::ui::setInstInfoText("Failed to install " + urlNames[urlItr]);
             inst::ui::setInstBarPerc(0);
-            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(inst::util::formatUrlString(ourUrlList[urlItr]), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + urlNames[urlItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
@@ -158,7 +169,7 @@ namespace netInstStuff{
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
             if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[0]), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(urlNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }
         
         printf("Done");

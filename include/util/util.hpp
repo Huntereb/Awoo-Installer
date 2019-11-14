@@ -12,4 +12,6 @@ namespace inst::util {
     std::string formatUrlString(std::string ourString);
     std::string shortenString(std::string ourString, int ourLength, bool isFile);
     std::string readTextFromFile(std::string ourFile);
+    std::string softwareKeyboard(std::string guideText, std::string initialText, int LenMax);
+    std::string getDriveFileName(std::string fileId);
 }
