@@ -20,6 +20,7 @@ namespace inst::ui {
             Rectangle::Ref topRect;
             Rectangle::Ref botRect;
             Image::Ref titleImage;
+            TextBlock::Ref appVersionText;
             pu::ui::elm::Menu::Ref optionMenu;
             pu::ui::elm::MenuItem::Ref installMenuItem;
             pu::ui::elm::MenuItem::Ref netInstallMenuItem;

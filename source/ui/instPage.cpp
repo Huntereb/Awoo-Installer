@@ -14,6 +14,8 @@ namespace inst::ui {
         this->topRect = Rectangle::New(0, 0, 1280, 93, COLOR("#170909FF"));
         this->infoRect = Rectangle::New(0, 93, 1280, 60, COLOR("#17090980"));
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
+        this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
+        this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->installInfoText = TextBlock::New(15, 568, "", 22);
@@ -24,6 +26,7 @@ namespace inst::ui {
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->titleImage);
+        this->Add(this->appVersionText);
         this->Add(this->pageInfoText);
         this->Add(this->installInfoText);
         this->Add(this->installBar);

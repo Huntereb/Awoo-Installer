@@ -15,6 +15,7 @@ namespace inst::ui {
             Rectangle::Ref infoRect;
             Rectangle::Ref botRect;
             Image::Ref titleImage;
+            TextBlock::Ref appVersionText;
             TextBlock::Ref pageInfoText;
             pu::ui::elm::Menu::Ref menu;
             void setMenuText();

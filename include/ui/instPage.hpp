@@ -17,5 +17,6 @@ namespace inst::ui {
             Rectangle::Ref infoRect;
             Rectangle::Ref topRect;
             Image::Ref titleImage;
+            TextBlock::Ref appVersionText;
     };
 }

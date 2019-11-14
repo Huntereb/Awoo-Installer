@@ -21,6 +21,8 @@ namespace inst::ui {
         this->infoRect = Rectangle::New(0, 93, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
+        this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
+        this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "Change Awoo Installer's settings!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->butText = TextBlock::New(10, 678, "\ue0e0 Select/Change    \ue0e1 Cancel ", 24);
@@ -32,6 +34,7 @@ namespace inst::ui {
         this->Add(this->infoRect);
         this->Add(this->botRect);
         this->Add(this->titleImage);
+        this->Add(this->appVersionText);
         this->Add(this->butText);
         this->Add(this->pageInfoText);
         optionsPage::setMenuText();

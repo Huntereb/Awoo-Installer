@@ -4,6 +4,7 @@
 #include "ui/nspInstPage.hpp"
 #include "nspInstall.hpp"
 #include "util/util.hpp"
+#include "util/config.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
 
@@ -20,6 +21,8 @@ namespace inst::ui {
         this->infoRect = Rectangle::New(0, 93, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
+        this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
+        this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "Select NSP files to install, then press the Plus button!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0e3 Select All    \ue0ef Install NSP(s)    \ue0e2 Help    \ue0e1 Cancel ", 24);
@@ -31,6 +34,7 @@ namespace inst::ui {
         this->Add(this->infoRect);
         this->Add(this->botRect);
         this->Add(this->titleImage);
+        this->Add(this->appVersionText);
         this->Add(this->butText);
         this->Add(this->pageInfoText);
         this->Add(this->menu);
