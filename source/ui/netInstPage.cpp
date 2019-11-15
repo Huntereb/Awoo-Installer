@@ -16,6 +16,8 @@ namespace inst::ui {
     std::vector<std::string> netInstPage::ourUrls;
     std::vector<std::string> netInstPage::selectedUrls;
     std::vector<std::string> netInstPage::alternativeNames;
+    std::string lastUrl = "https://";
+    std::string lastFileID = "";
 
     netInstPage::netInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -84,8 +86,9 @@ namespace inst::ui {
             std::string keyboardResult;
             switch (mainApp->CreateShowDialog("Where do you want to install from?", "Press B to cancel", {"URL", "Google Drive"}, false)) {
                 case 0:
-                    keyboardResult = inst::util::softwareKeyboard("Enter the Internet address of a file", "https://", 500);
+                    keyboardResult = inst::util::softwareKeyboard("Enter the Internet address of a file", lastUrl, 500);
                     if (keyboardResult.size() > 0) {
+                        lastUrl = keyboardResult;
                         if (inst::util::formatUrlString(keyboardResult) == "" || keyboardResult == "https://" || keyboardResult == "http://") {
                             mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
                             break;
@@ -96,8 +99,9 @@ namespace inst::ui {
                     }
                     break;
                 case 1:
-                    keyboardResult = inst::util::softwareKeyboard("Enter the file ID of a public Google Drive file", "", 50);
+                    keyboardResult = inst::util::softwareKeyboard("Enter the file ID of a public Google Drive file", lastFileID, 50);
                     if (keyboardResult.size() > 0) {
+                        lastFileID = keyboardResult;
                         std::string fileName = inst::util::getDriveFileName(keyboardResult);
                         if (fileName.size() > 0) netInstPage::alternativeNames = {fileName};
                         else netInstPage::alternativeNames = {"Google Drive File"};
