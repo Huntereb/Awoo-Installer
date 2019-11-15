@@ -4,7 +4,7 @@
 #include <fstream>
 #include <unistd.h>
 #include <curl/curl.h>
-#include <json-c/json.h>
+#include <regex>
 #include "switch.h"
 #include "util/util.hpp"
 #include "nx/ipc/tin_ipc.h"
@@ -153,11 +153,15 @@ namespace inst::util {
     }
 
     std::string getDriveFileName(std::string fileId) {
-        std::string jsonData = inst::curl::downloadToBuffer("https://www.googleapis.com/drive/v3/files/" + fileId + "?key=" + inst::config::gAuthKey + "&fields=name");
-        if (jsonData.size() > 0) {
-            struct json_object *parsed_json = json_tokener_parse(jsonData.c_str());
-            struct json_object *name;
-            if (json_object_object_get_ex(parsed_json, "name", &name)) return json_object_get_string(name);
+        std::string htmlData = inst::curl::downloadToBuffer("https://drive.google.com/file/d/" + fileId  + "/view");
+        if (htmlData.size() > 0) {
+            std::smatch ourMatches;
+            std::regex ourRegex("<title>\\s*(.+?)\\s*</title>");
+            std::regex_search(htmlData, ourMatches, ourRegex);
+            if (ourMatches.size() > 1) {
+                if (ourMatches[1].str() == "Google Drive -- Page Not Found") return "";
+                return ourMatches[1].str().substr(0, ourMatches[1].str().size() - 15);
+             }
         }
         return "";
     }
