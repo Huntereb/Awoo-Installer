@@ -43,7 +43,7 @@ namespace inst::ui {
     void nspInstPage::drawMenuItems(bool clearItems) {
         if (clearItems) nspInstPage::selectedNsps = {};
         this->menu->ClearItems();
-        nspInstPage::ourFiles = util::getDirectoryFiles("sdmc:/tinfoil/nsp/", {".nsp", ".nsz"});
+        nspInstPage::ourFiles = util::getDirectoryFiles("sdmc:/", {".nsp", ".nsz"});
         for (auto& file: nspInstPage::ourFiles) {
             pu::String itm = inst::util::shortenString(file.string().erase(0, 6), 56, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
