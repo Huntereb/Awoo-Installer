@@ -38,7 +38,8 @@ namespace inst::ui {
         this->exitMenuItem = pu::ui::elm::MenuItem::New("Exit");
         this->exitMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->exitMenuItem->SetIcon("romfs:/exit-run.png");
-        this->awooImage = Image::New(410, 190, "romfs:/awoos/5bbdbcf9a5625cd307c9e9bc360d78bd.png");
+        if (std::filesystem::exists(inst::config::appDir + "/awoo_main.png")) this->awooImage = Image::New(410, 190, inst::config::appDir + "/awoo_main.png");
+        else this->awooImage = Image::New(410, 190, "romfs:/awoos/5bbdbcf9a5625cd307c9e9bc360d78bd.png");
         this->eggImage = Image::New(410, 190, "romfs:/awoos/a8cb40e465dadaf9708c9b1896777ce6.png");
         this->Add(this->topRect);
         this->Add(this->botRect);
