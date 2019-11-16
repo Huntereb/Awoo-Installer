@@ -23,10 +23,10 @@ namespace inst::ui {
         this->optionMenu = pu::ui::elm::Menu::New(0, 93, 1280, COLOR("#67000000"), 113, (567 / 113));
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->optionMenu->SetScrollbarColor(COLOR("#170909FF"));
-        this->installMenuItem = pu::ui::elm::MenuItem::New("Install NSP from SD Card");
+        this->installMenuItem = pu::ui::elm::MenuItem::New("Install from SD Card");
         this->installMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->installMenuItem->SetIcon("romfs:/micro-sd.png");
-        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install NSP Over LAN or Internet");
+        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install Over LAN or Internet");
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem->SetIcon("romfs:/cloud-download.png");
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage Signature Patches");
@@ -62,7 +62,7 @@ namespace inst::ui {
             mainApp->nspinstPage->drawMenuItems(true);
             mainApp->LoadLayout(mainApp->nspinstPage);
         } else {
-            mainApp->CreateShowDialog("No NSP or NSZ files found!", "Copy them to the root of your SD card!", {"OK"}, true);
+            mainApp->CreateShowDialog("No installable files found!", "Copy NSP or NSZ files to the root of your SD card!", {"OK"}, true);
         }
     }
 

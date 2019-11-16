@@ -12,7 +12,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourMenuEntries = {"Ignore minimum firmware version required by NSP files", "Verify NCA signatures before installation", "Ask to delete NSP files after installation", "Remove anime", "Signature patches source URL: "};
+    std::vector<std::string> ourMenuEntries = {"Ignore minimum firmware version required by titles", "Verify NCA signatures before installation", "Ask to delete installable files after installation", "Remove anime", "Signature patches source URL: "};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
