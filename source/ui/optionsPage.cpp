@@ -89,7 +89,7 @@ namespace inst::ui {
                     break;
                 case 1:
                     if (inst::config::validateNCAs) {
-                        if (inst::ui::mainApp->CreateShowDialog("Warning!", "Some installable files my contain malicious contents! Only disable this\nfeature if you are absolutely certain the software you will be installing\nis trustworthy!\n\nDo you still want to disable NCA signature verification?", {"Cancel", "Yes, I want a brick"}, false) == 1) inst::config::validateNCAs = false;
+                        if (inst::ui::mainApp->CreateShowDialog("Warning!", "Some installable files may contain malicious contents! Only disable this\nfeature if you are absolutely certain the software you will be installing\nis trustworthy!\n\nDo you still want to disable NCA signature verification?", {"Cancel", "Yes, I want a brick"}, false) == 1) inst::config::validateNCAs = false;
                     } else inst::config::validateNCAs = true;
                     inst::config::setConfig();
                     optionsPage::setMenuText();
