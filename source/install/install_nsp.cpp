@@ -30,12 +30,20 @@ SOFTWARE.
 #include <machine/endian.h>
 
 #include "nx/ncm.hpp"
-#include "util/file_util.hpp"
-#include "util/title_util.hpp"
+#include "install/nca.hpp"
+#include "util/config.hpp"
+#include "util/crypto.hpp"
 #include "nx/nca_writer.h"
 #include "util/debug.h"
 #include "util/error.hpp"
+#include "util/file_util.hpp"
+#include "util/title_util.hpp"
 #include "nspInstall.hpp"
+#include "ui/MainApplication.hpp"
+
+namespace inst::ui {
+     extern MainApplication *mainApp;
+}
 
 namespace tin::install::nsp
 {
@@ -109,6 +117,25 @@ namespace tin::install::nsp
         catch (...) {}
 
         auto ncaFile = m_simpleFileSystem->OpenFile(ncaName);
+
+        if (inst::config::validateNCAs)
+        {
+            tin::install::NcaHeader header;
+            ncaFile.Read(0, &header, 0xc00);
+            Crypto::AesXtr crypto(Crypto::Keys().headerKey);
+            crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
+
+            if (header.magic != MAGIC_NCA3)
+                throw "Invalid NCA magic";
+
+            if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
+            {
+                int rc = inst::ui::mainApp->CreateShowDialog("NCA validation failed", "The followings NCA's signature failed:\n" + tin::util::GetNcaIdString(ncaId) + "\n\nDo you really want to risk bricking your switch?", {"No", "Of cause not", "*sigh* Yes", "Cancel"}, true);
+                if (rc != 2)
+                    return;// should be a throw but that will get stuck and idk sh my head...
+            }
+        }
+
         size_t ncaSize = ncaFile.GetSize();
         u64 fileOff = 0;
         size_t readSize = 0x400000; // 4MB buff

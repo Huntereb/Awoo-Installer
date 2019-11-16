@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include <switch.h>
 
 namespace Crypto
 {
@@ -25,6 +26,76 @@ namespace Crypto
         0x04, 0x40, 0x1A, 0x9E, 0x9A, 0x67, 0xF6, 0x72, 0x29, 0xFA, 0x04, 0xF0, 0x9D, 0xE4, 0xF4, 0x03    
     };
 
+    class Keys
+    {
+    public:
+        Keys()
+        {
+            u8 kek[0x10] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+            splCryptoGenerateAesKek(headerKekSource, 0, 0, kek);
+            splCryptoGenerateAesKey(kek, headerKeySource, headerKey);
+            splCryptoGenerateAesKey(kek, headerKeySource + 0x10, headerKey + 0x10);
+        }
+
+        u8 headerKekSource[0x10] = { 0x1F, 0x12, 0x91, 0x3A, 0x4A, 0xCB, 0xF0, 0x0D, 0x4C, 0xDE, 0x3A, 0xF6, 0xD5, 0x23, 0x88, 0x2A };
+        u8 headerKeySource[0x20] = { 0x5A, 0x3E, 0xD8, 0x4F, 0xDE, 0xC0, 0xD8, 0x26, 0x31, 0xF7, 0xE2, 0x5D, 0x19, 0x7B, 0xF5, 0xD0, 0x1C, 0x9B, 0x7B, 0xFA, 0xF6, 0x28, 0x18, 0x3D, 0x71, 0xF6, 0x4D, 0x73, 0xF1, 0x50, 0xB9, 0xD2 };
+
+        u8 headerKey[0x20] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    };
+
     void calculateMGF1andXOR(unsigned char* data, size_t data_size, const void* source, size_t source_size);
     bool rsa2048PssVerify(const void *data, size_t len, const unsigned char *signature, const unsigned char *modulus);
+
+    template<class T>
+    T swapEndian(T s)
+    {
+        T result;
+        u8* dest = (u8*)&result;
+        u8* src = (u8*)&s;
+        for (unsigned int i = 0; i < sizeof(s); i++)
+        {
+            dest[i] = src[sizeof(s) - i - 1];
+        }
+        return result;
+    }
+    class AesCtr
+    {
+    public:
+        AesCtr();
+        AesCtr(u64 iv);
+
+        inline u64& high() { return m_high; }
+        inline u64& low() { return m_low; }
+    private:
+        u64 m_high;
+        u64 m_low;
+    };
+
+
+    class Aes128Ctr
+    {
+    public:
+        Aes128Ctr(const u8* key, const AesCtr& iv);
+        virtual ~Aes128Ctr();
+
+        void seek(u64 offset);
+        void encrypt(void *dst, const void *src, size_t l);
+        void decrypt(void *dst, const void *src, size_t l);
+    protected:
+        AesCtr counter;
+        Aes128CtrContext ctx;
+    };
+
+    class AesXtr
+    {
+    public:
+        AesXtr(const u8* key);
+        virtual ~AesXtr();
+
+        void encrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size);
+        void decrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size);
+    protected:
+        Aes128XtsContext ctx;
+    };
 }

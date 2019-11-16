@@ -162,8 +162,6 @@ namespace tin::install
         {
             printf("WARNING: Ticket installation failed! This may not be an issue, depending on your use case.\nProceed with caution!\n");
         }
-
-        //consoleUpdate(NULL);
     }
 
     void Install::Begin()

@@ -165,17 +165,14 @@ all: $(BUILD)
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	$(MAKE) --no-print-directory -C include/Plutonium -f Makefile lib-switch
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
 ifeq ($(strip $(APP_JSON)),)
-	@$(MAKE) --no-print-directory -C include/Plutonium/Plutonium -f Makefile clean
 	@rm -fr $(BUILD) $(TARGET).nro $(TARGET).nacp $(TARGET).elf
 else
-	@$(MAKE) --no-print-directory -C include/Plutonium/Plutonium -f Makefile clean
 	@rm -fr $(BUILD) $(TARGET).nsp $(TARGET).nso $(TARGET).npdm $(TARGET).elf
 endif
 
