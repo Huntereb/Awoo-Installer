@@ -27,11 +27,6 @@ SOFTWARE.
 #include "util/config.hpp"
 #include "util/title_util.hpp"
 #include "install/nca.hpp"
-#include "ui/MainApplication.hpp"
-
-namespace inst::ui {
-     extern MainApplication *mainApp;
-}
 
 void append(std::vector<u8>& buffer, const u8* ptr, u64 sz)
 {

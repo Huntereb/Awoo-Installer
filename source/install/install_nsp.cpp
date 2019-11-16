@@ -42,7 +42,7 @@ SOFTWARE.
 #include "ui/MainApplication.hpp"
 
 namespace inst::ui {
-     extern MainApplication *mainApp;
+    extern MainApplication *mainApp;
 }
 
 namespace tin::install::nsp
@@ -118,7 +118,7 @@ namespace tin::install::nsp
 
         auto ncaFile = m_simpleFileSystem->OpenFile(ncaName);
 
-        if (inst::config::validateNCAs)
+        if (inst::config::validateNCAs && !declinedValidation)
         {
             tin::install::NcaHeader header;
             ncaFile.Read(0, &header, 0xc00);
@@ -126,13 +126,14 @@ namespace tin::install::nsp
             crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
 
             if (header.magic != MAGIC_NCA3)
-                throw "Invalid NCA magic";
+                THROW_FORMAT("Invalid NCA magic");
 
             if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
             {
                 int rc = inst::ui::mainApp->CreateShowDialog("NCA validation failed", "The followings NCA's signature failed:\n" + tin::util::GetNcaIdString(ncaId) + "\n\nDo you really want to risk bricking your switch?", {"No", "Of cause not", "*sigh* Yes", "Cancel"}, true);
                 if (rc != 2)
-                    return;// should be a throw but that will get stuck and idk sh my head...
+                    THROW_FORMAT("Unsigned NCA");
+                declinedValidation = true;
             }
         }
 

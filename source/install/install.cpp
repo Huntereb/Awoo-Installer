@@ -174,6 +174,7 @@ namespace tin::install
             //consoleUpdate(NULL);
             this->InstallNCA(record.content_id);
         }
+        declinedValidation = false;
 
         printf("Post Install Records: \n");
         //this->DebugPrintInstallData();
