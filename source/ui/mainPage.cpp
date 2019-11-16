@@ -53,7 +53,7 @@ namespace inst::ui {
         this->Add(this->optionMenu);
         this->Add(this->awooImage);
         this->Add(this->eggImage);
-        if (inst::config::gayMode) this->awooImage->SetVisible(false);
+        this->awooImage->SetVisible(!inst::config::gayMode);
         this->eggImage->SetVisible(false);
     }
 
