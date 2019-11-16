@@ -17,7 +17,7 @@ namespace sig {
             std::string versionText = "";
             std::string installButtonText = "Install";
             if (patchesVersion != "") {
-                versionText = "\n\nYou currently have signature patches installed for HOS version " + patchesVersion + ".";
+                versionText = "\n\nYou currently have signature patches installed for up to HOS version " + patchesVersion + ".";
                 installButtonText = "Update";
             }
             int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents." + versionText, {installButtonText, "Uninstall", "Cancel"}, true);
@@ -37,7 +37,7 @@ namespace sig {
                 if (didExtract) {
                     patchesVersion = inst::util::readTextFromFile("sdmc:/atmosphere/exefs_patches/es_patches/patches.txt");
                     versionText = "";
-                    if (patchesVersion != "") versionText = "Your signature patches have been updated for HOS version " + patchesVersion + "! ";
+                    if (patchesVersion != "") versionText = "Your signature patches have been updated for up to HOS version " + patchesVersion + "! ";
                     if (inst::ui::mainApp->CreateShowDialog("Install complete!", versionText + "\n\nRestart your console to apply!", {"Restart", "I'll do it later"}, false) == 0) bpcRebootSystem();
                 }
                 else {
