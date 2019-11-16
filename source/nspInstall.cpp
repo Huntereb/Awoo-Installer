@@ -114,6 +114,7 @@ namespace nspInstStuff {
 
                 printf("Preparing installation\n");
                 inst::ui::setInstInfoText("Preparing installation...");
+                inst::ui::setInstBarPerc(0);
                 task.Prepare();
 
                 task.Begin();

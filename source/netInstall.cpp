@@ -145,6 +145,7 @@ namespace netInstStuff{
 
                 printf("%s\n", "Preparing installation");
                 inst::ui::setInstInfoText("Preparing installation...");
+                inst::ui::setInstBarPerc(0);
                 install.Prepare();
 
                 install.Begin();

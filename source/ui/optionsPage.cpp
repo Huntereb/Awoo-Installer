@@ -12,7 +12,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourMenuEntries = {"Ignore minimum firmware version required by NSP files", "Validate NCA signature (brick protection)", "Ask to delete NSP files after installation", "Remove anime", "Signature patches source URL: "};
+    std::vector<std::string> ourMenuEntries = {"Ignore minimum firmware version required by NSP files", "Verify NCA signatures before installation", "Ask to delete NSP files after installation", "Remove anime", "Signature patches source URL: "};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -80,8 +80,7 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
-            Result rc=0;
-            char tmpoutstr[128] = {0};
+            std::string keyboardResult;
             switch (this->menu->GetSelectedIndex()) {
                 case 0:
                     inst::config::ignoreReqVers = !inst::config::ignoreReqVers;
@@ -89,13 +88,14 @@ namespace inst::ui {
                     optionsPage::setMenuText();
                     break;
                 case 1:
-                    inst::config::validateNCAs = !inst::config::validateNCAs;
+                    if (inst::config::validateNCAs) {
+                        if (inst::ui::mainApp->CreateShowDialog("Warning!", "Some installable files my contain malicious contents! Only disable this\nfeature if you are absolutely certain the software you will be installing\nis trustworthy!\n\nDo you still want to disable NCA signature verification?", {"Cancel", "Yes, I want a brick"}, false) == 1) inst::config::validateNCAs = false;
+                    } else inst::config::validateNCAs = true;
                     inst::config::setConfig();
                     optionsPage::setMenuText();
                     break;
                 case 2:
-                    if (inst::config::deletePrompt) inst::config::deletePrompt = false;
-                    else inst::config::deletePrompt = true;
+                    inst::config::deletePrompt = !inst::config::deletePrompt;
                     inst::config::setConfig();
                     optionsPage::setMenuText();
                     break;
@@ -114,26 +114,18 @@ namespace inst::ui {
                     optionsPage::setMenuText();
                     break;
                 case 4:
-                    SwkbdConfig kbd;
-                    rc = swkbdCreate(&kbd, 0);
-                    if (R_SUCCEEDED(rc)) {
-                        swkbdConfigMakePresetDefault(&kbd);
-                        swkbdConfigSetGuideText(&kbd, "Enter the URL to obtain Signature Patches from");
-                        swkbdConfigSetInitialText(&kbd, inst::config::sigPatchesUrl.c_str());
-                        rc = swkbdShow(&kbd, tmpoutstr, sizeof(tmpoutstr));
-                        swkbdClose(&kbd);
-                        if (R_SUCCEEDED(rc) && tmpoutstr[0] != 0) {
-                            inst::config::sigPatchesUrl = tmpoutstr;
-                            inst::config::setConfig();
-                            optionsPage::setMenuText();
-                        }
+                    keyboardResult = inst::util::softwareKeyboard("Enter the URL to obtain Signature Patches from", inst::config::sigPatchesUrl.c_str(), 500);
+                    if (keyboardResult.size() > 0) {
+                        inst::config::sigPatchesUrl = keyboardResult;
+                        inst::config::setConfig();
+                        optionsPage::setMenuText();
                     }
                     break;
                 case 5:
-                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for screen-nx and his Plutonium fork\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
                     break;
                 case 6:
-                    inst::ui::mainApp->CreateShowDialog("Third Party Licenses", "Licenses to the libraries and software used in Awoo Installer are packaged with each release\nwithin the source code, or are distributed upon compilation of the software.\nPlease see the releases page for a copy of the source code and license information.", {"Close"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Third Party Licenses", "Licenses to the libraries and software used in Awoo Installer are\npackaged with each release within the source code, or are distributed\nupon compilation of the software. Please see the releases page for a\ncopy of the source code and license information.", {"Close"}, true);
                     break;
                 default:
                     break;
