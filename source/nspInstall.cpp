@@ -143,7 +143,7 @@ namespace nspInstStuff {
             inst::ui::setInstBarPerc(100);
             if (ourNspList.size() > 1) {
                 if (inst::config::deletePrompt) {
-                    if(inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully! Delete them from the SD card?", "Installable files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) {
+                    if(inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully! Delete them from the SD card?", "The original files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) {
                         for (long unsigned int i = 0; i < ourNspList.size(); i++) {
                             if (std::filesystem::exists(ourNspList[i])) std::filesystem::remove(ourNspList[i]);
                         }
@@ -151,7 +151,7 @@ namespace nspInstStuff {
                 } else inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
             } else {
                 if (inst::config::deletePrompt) {
-                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 32, true) + " installed! Delete it from the SD card?", "Installable files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);
+                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 32, true) + " installed! Delete it from the SD card?", "The original file isn't needed anymore after it's been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);
                 } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
             }
         }
