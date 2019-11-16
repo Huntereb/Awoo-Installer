@@ -23,6 +23,14 @@ SOFTWARE.
 #include "nx/nca_writer.h"
 #include <zstd.h>
 #include <string.h>
+#include "util/crypto.hpp"
+#include "util/config.hpp"
+#include "util/title_util.hpp"
+#include "ui/MainApplication.hpp"
+
+namespace inst::ui {
+     extern MainApplication *mainApp;
+}
 
 class Keys
 {
@@ -544,20 +552,21 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
                AesXtr crypto(keys().headerKey);
                crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
 
-               if (header.magic == MAGIC_NCA3)
-               {
-                    if(isOpen())
-                    {
-                         m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
-                    }
-               }
-               else
-               {
+               if (header.magic != MAGIC_NCA3)
                     throw "Invalid NCA magic";
+
+               if (inst::config::validateNCAs) {
+                    if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
+                    {
+                         int rc = inst::ui::mainApp->CreateShowDialog("NCA validation failed", "The followings NCA's signature failed:\n" + tin::util::GetNcaIdString(m_ncaId) + "\n\nDo you really want to risk bricking your switch?", {"No", "Of cause not", "*sigh* Yes", "Cancel"}, true);
+                         if (rc != 2)
+                              throw "Invalid NCA signature";
+                    }
                }
 
                if(isOpen())
                {
+                    m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
                     m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
                }
           }

@@ -119,9 +119,10 @@ namespace tin::install::nsp
 
         printf("Size: 0x%lx\n", ncaSize);
 
-          NcaWriter writer(ncaId, contentStorage);
+        NcaWriter writer(ncaId, contentStorage);
 
         float progress;
+        bool failed = false;
 
         //consoleUpdate(NULL);
 
@@ -151,6 +152,7 @@ namespace tin::install::nsp
         }
         catch (...)
         {
+            failed = true;
         }
 
         writer.close();
@@ -159,13 +161,16 @@ namespace tin::install::nsp
         printf("                                                           \r");
         printf("Registering placeholder...\n");
 
-        try
+        if (!failed)
         {
-            contentStorage->Register(*(NcmPlaceHolderId*)&ncaId, ncaId);
-        }
-        catch (...)
-        {
-            printf(("Failed to register " + ncaName + ". It may already exist.\n").c_str());
+            try
+            {
+                contentStorage->Register(*(NcmPlaceHolderId*)&ncaId, ncaId);
+            }
+            catch (...)
+            {
+                printf(("Failed to register " + ncaName + ". It may already exist.\n").c_str());
+            }
         }
 
         try
@@ -173,7 +178,5 @@ namespace tin::install::nsp
             contentStorage->DeletePlaceholder(*(NcmPlaceHolderId*)&ncaId);
         }
         catch (...) {}
-
-        //consoleUpdate(NULL);
     }
 }
