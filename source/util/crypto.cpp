@@ -1,6 +1,7 @@
 #include "util/crypto.hpp"
 #include <string.h>
 #include <mbedtls/bignum.h>
+#include <stdexcept>
 
 void Crypto::calculateMGF1andXOR(unsigned char* data, size_t data_size, const void* source, size_t source_size) {
     unsigned char h_buf[RSA_2048_BYTES] = {0};
@@ -44,7 +45,7 @@ bool Crypto::rsa2048PssVerify(const void *data, size_t len, const unsigned char 
     mbedtls_mpi_exp_mod(&message_mpi, &signature_mpi, &e_mpi, &modulus_mpi, NULL);
 
     if (mbedtls_mpi_write_binary(&message_mpi, m_buf, RSA_2048_BYTES) != 0) {
-        throw "Failed to export exponentiated RSA message!";
+        throw std::runtime_error("Failed to export exponentiated RSA message!");
     }
 
     mbedtls_mpi_free(&signature_mpi);

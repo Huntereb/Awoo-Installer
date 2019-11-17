@@ -413,7 +413,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
                crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
 
                if (header.magic != MAGIC_NCA3)
-                    throw "Invalid NCA magic";
+                    throw std::runtime_error("Invalid NCA magic");
 
                if(isOpen())
                {
@@ -440,7 +440,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
                }
                else
                {
-                    throw "not enough data to read ncz header";
+                    throw std::runtime_error("not enough data to read ncz header");
                }
           }
 
@@ -450,7 +450,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
           }
           else
           {
-               throw "null writer";
+               throw std::runtime_error("null writer");
           }
      }
 
