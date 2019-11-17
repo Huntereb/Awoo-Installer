@@ -5,10 +5,11 @@
 #include "util/config.hpp"
 
 namespace inst::config {
-    static const char* configBase = "[settings]\nignoreReqVers=%d\nvalidateNCAs=%d\ndeletePrompt=%d\ngayMode=%d\nsigPatchesUrl=%s\n";
+    static const char* configBase = "[settings]\nignoreReqVers=%d\nvalidateNCAs=%d\noverClock=%d\ndeletePrompt=%d\ngayMode=%d\nsigPatchesUrl=%s\n";
     std::string sigPatchesUrl;
     bool ignoreReqVers;
     bool validateNCAs;
+    bool overClock;
     bool deletePrompt;
     bool gayMode;
 
@@ -16,6 +17,7 @@ namespace inst::config {
         INIReader reader(configPath);
         ignoreReqVers = reader.GetBoolean("settings", "ignoreReqVers", true);
         validateNCAs = reader.GetBoolean("settings", "validateNCAs", true);
+        overClock = reader.GetBoolean("settings", "overClock", false);
         deletePrompt = reader.GetBoolean("settings", "deletePrompt", true);
         gayMode = reader.GetBoolean("settings", "gayMode", false);
         sigPatchesUrl = reader.GetString("settings", "sigPatchesUrl", "https://github.com/Huntereb/Awoo-Installer/releases/download/SignaturePatches/patches.zip");
@@ -25,7 +27,7 @@ namespace inst::config {
     void setConfig() {
         std::filesystem::remove(inst::config::configPath);
         char data[82 + sigPatchesUrl.size()];
-        sprintf(data, configBase, ignoreReqVers, validateNCAs, deletePrompt, gayMode, sigPatchesUrl.c_str());
+        sprintf(data, configBase, ignoreReqVers, validateNCAs, overClock, deletePrompt, gayMode, sigPatchesUrl.c_str());
         FILE * configFile = fopen(inst::config::configPath.c_str(), "w");
         fwrite(data, sizeof(char), strlen(data), configFile);
         fflush(configFile);

@@ -134,6 +134,13 @@ namespace netInstStuff{
             }
         }
 
+        std::vector<int> previousClockValues;
+        if (inst::config::overClock) {
+            previousClockValues.push_back(inst::util::setClockSpeed(0, 1785000000)[0]);
+            previousClockValues.push_back(inst::util::setClockSpeed(1, 76800000)[0]);
+            previousClockValues.push_back(inst::util::setClockSpeed(2, 1600000000)[0]);
+        }
+
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
                 inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
@@ -159,6 +166,12 @@ namespace netInstStuff{
             inst::ui::setInstBarPerc(0);
             inst::ui::mainApp->CreateShowDialog("Failed to install " + urlNames[urlItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
+        }
+
+        if (previousClockValues.size() > 0) {
+            inst::util::setClockSpeed(0, previousClockValues[0]);
+            inst::util::setClockSpeed(1, previousClockValues[1]);
+            inst::util::setClockSpeed(2, previousClockValues[2]);
         }
 
         printf("%s\n", "Telling the server we're done installing");

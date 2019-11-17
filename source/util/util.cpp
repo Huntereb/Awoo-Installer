@@ -165,4 +165,64 @@ namespace inst::util {
         }
         return "";
     }
+
+    std::vector<uint32_t> setClockSpeed(int deviceToClock, uint32_t clockSpeed) {
+        uint32_t hz = 0;
+        uint32_t previousHz = 0;
+
+        if (deviceToClock > 2 || deviceToClock < 0) return {0,0};
+
+        if(hosversionAtLeast(8,0,0)) {
+            ClkrstSession session = {0};
+            PcvModuleId pcvModuleId;
+            pcvInitialize();
+            clkrstInitialize();
+
+            switch (deviceToClock) {
+                case 0:
+                    pcvGetModuleId(&pcvModuleId, PcvModule_CpuBus);
+                    break;
+                case 1:
+                    pcvGetModuleId(&pcvModuleId, PcvModule_GPU);
+                    break;
+                case 2:
+                    pcvGetModuleId(&pcvModuleId, PcvModule_EMC);
+                    break;
+            }
+
+            clkrstOpenSession(&session, pcvModuleId, 3);
+            clkrstGetClockRate(&session, &previousHz);
+            clkrstSetClockRate(&session, clockSpeed);
+            clkrstGetClockRate(&session, &hz);
+
+            pcvExit();
+            clkrstCloseSession(&session);
+            clkrstExit();
+
+            return {previousHz, hz};
+        } else {
+            PcvModule pcvModule;
+            pcvInitialize();
+
+            switch (deviceToClock) {
+                case 0:
+                    pcvModule = PcvModule_CpuBus;
+                    break;
+                case 1:
+                    pcvModule = PcvModule_GPU;
+                    break;
+                case 2:
+                    pcvModule = PcvModule_EMC;
+                    break;
+            }
+
+            pcvGetClockRate(pcvModule, &previousHz);
+            pcvSetClockRate(pcvModule, clockSpeed);
+            pcvGetClockRate(pcvModule, &hz);
+            
+            pcvExit();
+
+            return {previousHz, hz};
+        }
+    }
 }

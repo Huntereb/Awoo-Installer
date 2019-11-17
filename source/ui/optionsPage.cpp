@@ -12,7 +12,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> ourMenuEntries = {"Ignore minimum firmware version required by titles", "Verify NCA signatures before installation", "Ask to delete original files after installation", "Remove anime", "Signature patches source URL: "};
+    std::vector<std::string> ourMenuEntries = {"Ignore minimum firmware version required by titles", "Verify NCA signatures before installation", "Enable \"boost mode\" during installations", "Ask to delete original files after installation", "Remove anime", "Signature patches source URL: "};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -56,15 +56,19 @@ namespace inst::ui {
         validateOption->SetColor(COLOR("#FFFFFFFF"));
         validateOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::validateNCAs));
         this->menu->AddItem(validateOption);
-        auto deletePromptOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2]);
+        auto overclockOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2]);
+        overclockOption->SetColor(COLOR("#FFFFFFFF"));
+        overclockOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::overClock));
+        this->menu->AddItem(overclockOption);
+        auto deletePromptOption = pu::ui::elm::MenuItem::New(ourMenuEntries[3]);
         deletePromptOption->SetColor(COLOR("#FFFFFFFF"));
         deletePromptOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::deletePrompt));
         this->menu->AddItem(deletePromptOption);
-        auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[3]);
+        auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[4]);
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
         gayModeOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::gayMode));
         this->menu->AddItem(gayModeOption);
-        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[4] + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
+        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[5] + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(sigPatchesUrlOption);
         auto creditsOption = pu::ui::elm::MenuItem::New("Credits");
@@ -95,11 +99,16 @@ namespace inst::ui {
                     optionsPage::setMenuText();
                     break;
                 case 2:
-                    inst::config::deletePrompt = !inst::config::deletePrompt;
+                    inst::config::overClock = !inst::config::overClock;
                     inst::config::setConfig();
                     optionsPage::setMenuText();
                     break;
                 case 3:
+                    inst::config::deletePrompt = !inst::config::deletePrompt;
+                    inst::config::setConfig();
+                    optionsPage::setMenuText();
+                    break;
+                case 4:
                     if (inst::config::gayMode) {
                         inst::config::gayMode = false;
                         mainApp->mainPage->awooImage->SetVisible(true);
@@ -113,7 +122,7 @@ namespace inst::ui {
                     inst::config::setConfig();
                     optionsPage::setMenuText();
                     break;
-                case 4:
+                case 5:
                     keyboardResult = inst::util::softwareKeyboard("Enter the URL to obtain Signature Patches from", inst::config::sigPatchesUrl.c_str(), 500);
                     if (keyboardResult.size() > 0) {
                         inst::config::sigPatchesUrl = keyboardResult;
@@ -121,10 +130,10 @@ namespace inst::ui {
                         optionsPage::setMenuText();
                     }
                     break;
-                case 5:
+                case 6:
                     inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
                     break;
-                case 6:
+                case 7:
                     inst::ui::mainApp->CreateShowDialog("Third Party Licenses", "Licenses to the libraries and software used in Awoo Installer are\npackaged with each release within the source code, or are distributed\nupon compilation of the software. Please see the releases page for a\ncopy of the source code and license information.", {"Close"}, true);
                     break;
                 default:

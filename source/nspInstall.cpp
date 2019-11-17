@@ -92,6 +92,13 @@ namespace nspInstStuff {
         if (whereToInstall) m_destStorageId = NcmStorageId_BuiltInUser;
         unsigned int nspItr;
 
+        std::vector<int> previousClockValues;
+        if (inst::config::overClock) {
+            previousClockValues.push_back(inst::util::setClockSpeed(0, 1785000000)[0]);
+            previousClockValues.push_back(inst::util::setClockSpeed(1, 76800000)[0]);
+            previousClockValues.push_back(inst::util::setClockSpeed(2, 1600000000)[0]);
+        }
+
         try
         {
             for (nspItr = 0; nspItr < ourNspList.size(); nspItr++) {
@@ -129,6 +136,12 @@ namespace nspInstStuff {
             inst::ui::setInstBarPerc(0);
             inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourNspList[nspItr].string().erase(0, 6), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
+        }
+
+        if (previousClockValues.size() > 0) {
+            inst::util::setClockSpeed(0, previousClockValues[0]);
+            inst::util::setClockSpeed(1, previousClockValues[1]);
+            inst::util::setClockSpeed(2, previousClockValues[2]);
         }
 
         for (unsigned int i = 0; i < filesToBeRenamed.size(); i++) {

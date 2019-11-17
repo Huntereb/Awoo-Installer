@@ -9,6 +9,7 @@ namespace inst::config {
     extern std::string sigPatchesUrl;
     extern bool ignoreReqVers;
     extern bool validateNCAs;
+    extern bool overClock;
     extern bool deletePrompt;
     extern bool gayMode;
 
