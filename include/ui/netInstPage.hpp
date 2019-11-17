@@ -16,8 +16,6 @@ namespace inst::ui {
             static std::vector<std::string> ourUrls;
             static std::vector<std::string> selectedUrls;
             static std::vector<std::string> alternativeNames;
-            std::string lastUrl;
-            std::string lastFileID;
             TextBlock::Ref butText;
             Rectangle::Ref topRect;
             Rectangle::Ref infoRect;
