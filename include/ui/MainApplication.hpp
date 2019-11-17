@@ -3,6 +3,7 @@
 #include "ui/mainPage.hpp"
 #include "ui/netInstPage.hpp"
 #include "ui/nspInstPage.hpp"
+#include "ui/usbInstPage.hpp"
 #include "ui/instPage.hpp"
 #include "ui/optionsPage.hpp"
 
@@ -15,6 +16,7 @@ namespace inst::ui {
             MainPage::Ref mainPage;
             netInstPage::Ref netinstPage;
             nspInstPage::Ref nspinstPage;
+            usbInstPage::Ref usbinstPage;
             instPage::Ref instpage;
             optionsPage::Ref optionspage;
     };

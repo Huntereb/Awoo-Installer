@@ -64,8 +64,7 @@ namespace inst::ui {
         mainApp->instpage->installInfoText->SetText("");
         mainApp->instpage->installBar->SetProgress(0);
         mainApp->instpage->installBar->SetVisible(false);
-        if (inst::config::gayMode) mainApp->instpage->awooImage->SetVisible(false);
-        else mainApp->instpage->awooImage->SetVisible(true);
+        mainApp->instpage->awooImage->SetVisible(!inst::config::gayMode);
         mainApp->LoadLayout(mainApp->instpage);
         mainApp->CallForRender();
     }

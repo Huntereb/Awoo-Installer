@@ -80,13 +80,6 @@ namespace tin::install::nsp
         return 0;
     }
 
-    void HTTPNSP::BufferNCAHeader(void* buf, NcmContentId placeholderId)
-    {
-        const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
-        u64 pfs0Offset = this->GetDataOffset() + fileEntry->dataOffset;
-        this->BufferData(buf, pfs0Offset, 0xc00);
-    }
-
     void HTTPNSP::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId)
     {
         const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
@@ -133,7 +126,7 @@ namespace tin::install::nsp
                 u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
                 int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-                printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
+                //printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::setInstBarPerc((double)downloadProgress);
             }
@@ -150,7 +143,7 @@ namespace tin::install::nsp
             u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-            printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
+            //printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
             inst::ui::setInstBarPerc((double)installProgress);
             //consoleUpdate(NULL);
         }

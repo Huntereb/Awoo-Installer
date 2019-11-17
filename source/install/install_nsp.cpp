@@ -164,7 +164,7 @@ namespace tin::install::nsp
                 progress = (float)fileOff / (float)ncaSize;
 
                 if (fileOff % (0x400000 * 3) == 0) {
-                    printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
+                    //printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
                     inst::ui::setInstBarPerc((double)(progress * 100.0));
                 }
 
@@ -186,7 +186,7 @@ namespace tin::install::nsp
         writer.close();
 
         // Clean up the line for whatever comes next
-        printf("                                                           \r");
+        //printf("                                                           \r");
         printf("Registering placeholder...\n");
 
         if (!failed)

@@ -230,9 +230,9 @@ namespace tin::install
             }
 
             printf("Application content meta key: \n");
-            printBytes(nxlinkout, (u8*)&latestApplicationContentMetaKey, sizeof(NcmContentMetaKey), true);
+            printBytes((u8*)&latestApplicationContentMetaKey, sizeof(NcmContentMetaKey), true);
             printf("Application content meta: \n");
-            printBytes(nxlinkout, appContentRecordBuf.get(), appContentRecordSize, true);
+            printBytes(appContentRecordBuf.get(), appContentRecordSize, true);
 
             if (hasUpdate)
             {
@@ -249,9 +249,9 @@ namespace tin::install
                 }
 
                 printf("Patch content meta key: \n");
-                printBytes(nxlinkout, (u8*)&latestPatchContentMetaKey, sizeof(NcmContentMetaKey), true);
+                printBytes((u8*)&latestPatchContentMetaKey, sizeof(NcmContentMetaKey), true);
                 printf("Patch content meta: \n");
-                printBytes(nxlinkout, patchContentRecordBuf.get(), patchContentRecordsSize, true);
+                printBytes(patchContentRecordBuf.get(), patchContentRecordsSize, true);
             }
             else
             {
@@ -263,7 +263,7 @@ namespace tin::install
             ASSERT_OK(nsListApplicationRecordContentMeta(0, baseTitleId, appRecordBuf.get(), 0x100, &numEntriesRead), "Failed to list application record content meta");
 
             printf("Application record content meta: \n");
-            printBytes(nxlinkout, appRecordBuf.get(), 0x100, true);
+            printBytes(appRecordBuf.get(), 0x100, true);
         }
         catch (std::runtime_error& e)
         {

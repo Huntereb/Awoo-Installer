@@ -69,7 +69,6 @@ namespace tin::install::nsp
         cnmtContentInfo.content_id = cnmtContentId;
         *(u64*)&cnmtContentInfo.size = cnmtNcaSize & 0xFFFFFFFFFFFF;
         cnmtContentInfo.content_type = NcmContentType_Meta;
-        //consoleUpdate(NULL);
 
         return { tin::util::GetContentMetaFromNCA(cnmtNCAFullPath), cnmtContentInfo };
     }
@@ -115,7 +114,7 @@ namespace tin::install::nsp
         m_remoteNSP->StreamToPlaceholder(contentStorage, ncaId);
 
         // Clean up the line for whatever comes next
-        printf("                                                           \r");
+        //printf("                                                           \r");
         printf("Registering placeholder...\n");
 
         try

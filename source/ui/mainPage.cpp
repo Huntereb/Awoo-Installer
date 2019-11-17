@@ -116,5 +116,8 @@ namespace inst::ui {
             this->eggImage->SetVisible(false);
             if (!inst::config::gayMode) this->awooImage->SetVisible(true);
         }
+        if (Down & KEY_Y) {
+            mainApp->usbinstPage->startUsb();
+        }
     }
 }

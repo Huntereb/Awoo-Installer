@@ -45,7 +45,7 @@ namespace tin::install::nsp
         this->BufferData(m_headerBytes.data(), 0x0, sizeof(PFS0BaseHeader));
 
         printf("Base header: \n");
-        printBytes(nxlinkout, m_headerBytes.data(), sizeof(PFS0BaseHeader), true);
+        printBytes(m_headerBytes.data(), sizeof(PFS0BaseHeader), true);
 
         // Retrieve the full header
         size_t remainingHeaderSize = this->GetBaseHeader()->numFiles * sizeof(PFS0FileEntry) + this->GetBaseHeader()->stringTableSize;
@@ -53,7 +53,7 @@ namespace tin::install::nsp
         this->BufferData(m_headerBytes.data() + sizeof(PFS0BaseHeader), sizeof(PFS0BaseHeader), remainingHeaderSize);
 
         printf("Full header: \n");
-        printBytes(nxlinkout, m_headerBytes.data(), m_headerBytes.size(), true);
+        printBytes(m_headerBytes.data(), m_headerBytes.size(), true);
     }
 
     const PFS0FileEntry* RemoteNSP::GetFileEntry(unsigned int index)
@@ -132,6 +132,13 @@ namespace tin::install::nsp
             THROW_FORMAT("Cannot retrieve header as header bytes are empty. Have you retrieved it yet?\n");
 
         return reinterpret_cast<PFS0BaseHeader*>(m_headerBytes.data());
+    }
+
+    void RemoteNSP::BufferNCAHeader(void* buf, NcmContentId placeholderId)
+    {
+        const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
+        u64 pfs0Offset = this->GetDataOffset() + fileEntry->dataOffset;
+        this->BufferData(buf, pfs0Offset, 0xc00);
     }
 
     u64 RemoteNSP::GetDataOffset()
