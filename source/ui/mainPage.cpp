@@ -12,7 +12,8 @@ namespace inst::ui {
 
     MainPage::MainPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
-        this->SetBackgroundImage("romfs:/background.jpg");
+		if (std::filesystem::exists(inst::config::appDir + "/background.png")) this->SetBackgroundImage(inst::config::appDir + "/background.png");
+		else this->SetBackgroundImage("romfs:/background.jpg");
         this->topRect = Rectangle::New(0, 0, 1280, 93, COLOR("#170909FF"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
