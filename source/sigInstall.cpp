@@ -20,7 +20,7 @@ namespace sig {
                 versionText = "\n\nYou currently have signature patches installed for up to HOS version " + patchesVersion + ".";
                 installButtonText = "Update";
             }
-            int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing NSP contents." + versionText, {installButtonText, "Uninstall", "Cancel"}, true);
+            int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing official software." + versionText, {installButtonText, "Uninstall", "Cancel"}, true);
             if (ourResult == 0) {
                 if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
                     if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "Installing patches requires the use of the Hekate bootloader.", {"Yes", "No"}, false)) return;
