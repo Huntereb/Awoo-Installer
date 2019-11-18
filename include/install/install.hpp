@@ -44,6 +44,7 @@ namespace tin::install
         protected:
             const NcmStorageId m_destStorageId;
             bool m_ignoreReqFirmVersion = false;
+            bool declinedValidation = false;
 
             nx::ncm::ContentMeta m_contentMeta;
 

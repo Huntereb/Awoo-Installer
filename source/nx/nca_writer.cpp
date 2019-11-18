@@ -23,48 +23,10 @@ SOFTWARE.
 #include "nx/nca_writer.h"
 #include <zstd.h>
 #include <string.h>
-
-class Keys
-{
-public:
-     Keys()
-     {
-          u8 kek[0x10] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-
-          splCryptoGenerateAesKek(headerKekSource, 0, 0, kek);
-          splCryptoGenerateAesKey(kek, headerKeySource, headerKey);
-          splCryptoGenerateAesKey(kek, headerKeySource + 0x10, headerKey + 0x10);
-     }
-
-     u8 headerKekSource[0x10] = { 0x1F, 0x12, 0x91, 0x3A, 0x4A, 0xCB, 0xF0, 0x0D, 0x4C, 0xDE, 0x3A, 0xF6, 0xD5, 0x23, 0x88, 0x2A };
-     u8 headerKeySource[0x20] = { 0x5A, 0x3E, 0xD8, 0x4F, 0xDE, 0xC0, 0xD8, 0x26, 0x31, 0xF7, 0xE2, 0x5D, 0x19, 0x7B, 0xF5, 0xD0, 0x1C, 0x9B, 0x7B, 0xFA, 0xF6, 0x28, 0x18, 0x3D, 0x71, 0xF6, 0x4D, 0x73, 0xF1, 0x50, 0xB9, 0xD2 };
-
-     u8 headerKey[0x20] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-};
-
-Keys* g_keys = NULL;
-
-const Keys& keys()
-{
-     if(!g_keys)
-     {
-          g_keys = new Keys();
-     }
-     return *g_keys;
-}
-
-template<class T>
-T swapEndian(T s)
-{
-     T result;
-     u8* dest = (u8*)&result;
-     u8* src = (u8*)&s;
-     for (unsigned int i = 0; i < sizeof(s); i++)
-     {
-          dest[i] = src[sizeof(s) - i - 1];
-     }
-     return result;
-}
+#include "util/crypto.hpp"
+#include "util/config.hpp"
+#include "util/title_util.hpp"
+#include "install/nca.hpp"
 
 void append(std::vector<u8>& buffer, const u8* ptr, u64 sz)
 {
@@ -72,100 +34,6 @@ void append(std::vector<u8>& buffer, const u8* ptr, u64 sz)
      buffer.resize(offset + sz);
      memcpy(buffer.data() + offset, ptr, sz);
 }
-
-class AesCtr
-{
-public:
-     AesCtr() : m_high(0), m_low(0)
-     {
-     }
-
-     AesCtr(u64 iv) : m_high(swapEndian(iv)), m_low(0)
-     {
-     }
-
-     u64& high() { return m_high; }
-     u64& low() { return m_low; }
-private:
-     u64 m_high;
-     u64 m_low;
-};
-
-
-class Aes128Ctr
-{
-public:
-     Aes128Ctr(const u8* key, const AesCtr& iv)
-     {
-          counter = iv;
-          aes128CtrContextCreate(&ctx, key, &iv);
-          seek(0);
-     }
-
-     virtual ~Aes128Ctr()
-     {
-     }
-
-     void seek(u64 offset)
-     {
-          counter.low() = swapEndian(offset >> 4);
-          aes128CtrContextResetCtr(&ctx, &counter);
-     }
-
-     void encrypt(void *dst, const void *src, size_t l)
-     {
-          aes128CtrCrypt(&ctx, dst, src, l);
-     }
-
-     void decrypt(void *dst, const void *src, size_t l)
-     {
-          encrypt(dst, src, l);
-     }
-protected:
-     AesCtr counter;
-
-     Aes128CtrContext ctx;
-};
-
-class AesXtr
-{
-public:
-     AesXtr(const u8* key)
-     {
-          aes128XtsContextCreate(&ctx, key, key + 0x10, false);
-     }
-
-     virtual ~AesXtr()
-     {
-     }
-
-     void encrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size)
-     {
-          for (size_t i = 0; i < l; i += sector_size)
-          {
-               aes128XtsContextResetSector(&ctx, sector++, true);
-               aes128XtsEncrypt(&ctx, dst, src, sector_size);
-
-               dst = (u8*)dst + sector_size;
-               src = (const u8*)src + sector_size;
-          }
-     }
-
-     void decrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size)
-     {
-          for (size_t i = 0; i < l; i += sector_size)
-          {
-               aes128XtsContextResetSector(&ctx, sector++, true);
-               aes128XtsDecrypt(&ctx, dst, src, sector_size);
-
-               dst = (u8*)dst + sector_size;
-               src = (const u8*)src + sector_size;
-          }
-     }
-protected:
-     Aes128XtsContext ctx;
-};
-
 
 NcaBodyWriter::NcaBodyWriter(const NcmContentId& ncaId, u64 offset, std::shared_ptr<nx::ncm::ContentStorage>& contentStorage) : m_contentStorage(contentStorage), m_ncaId(ncaId), m_offset(offset)
 {
@@ -213,7 +81,7 @@ public:
      class SectionContext : public Section
      {
      public:
-          SectionContext(const Section& s) : Section(s), crypto(s.cryptoKey, AesCtr(swapEndian(((u64*)&s.cryptoCounter)[0])))
+          SectionContext(const Section& s) : Section(s), crypto(s.cryptoKey, Crypto::AesCtr(Crypto::swapEndian(((u64*)&s.cryptoCounter)[0])))
           {
           }
 
@@ -243,7 +111,7 @@ public:
                crypto.encrypt(p, p, sz);
           }
 
-          Aes128Ctr crypto;
+          Crypto::Aes128Ctr crypto;
      };
 
      const bool isValid()
@@ -539,25 +407,17 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
 
           if (m_buffer.size() == NCA_HEADER_SIZE)
           {
-               NcaHeader header;
+               tin::install::NcaHeader header;
                memcpy(&header, m_buffer.data(), sizeof(header));
-               AesXtr crypto(keys().headerKey);
+               Crypto::AesXtr crypto(Crypto::Keys().headerKey);
                crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
 
-               if (header.magic == MAGIC_NCA3)
-               {
-                    if(isOpen())
-                    {
-                         m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
-                    }
-               }
-               else
-               {
-                    throw "Invalid NCA magic";
-               }
+               if (header.magic != MAGIC_NCA3)
+                    throw std::runtime_error("Invalid NCA magic");
 
                if(isOpen())
                {
+                    m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
                     m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
                }
           }
@@ -580,7 +440,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
                }
                else
                {
-                    throw "not enough data to read ncz header";
+                    throw std::runtime_error("not enough data to read ncz header");
                }
           }
 
@@ -590,7 +450,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
           }
           else
           {
-               throw "null writer";
+               throw std::runtime_error("null writer");
           }
      }
 

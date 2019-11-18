@@ -4,18 +4,19 @@
 #include <fstream>
 #include <unistd.h>
 #include <curl/curl.h>
-#include <json-c/json.h>
+#include <regex>
 #include "switch.h"
 #include "util/util.hpp"
 #include "nx/ipc/tin_ipc.h"
 #include "util/INIReader.h"
 #include "util/config.hpp"
 #include "util/curl.hpp"
+#include "ui/MainApplication.hpp"
 
 namespace inst::util {
     void initApp () {
-        // Dilate
-        if (std::filesystem::exists("sdmc:/license.dat")) fatalThrow(0);
+        // Seethe
+        if (!pu::IsReiNX()) pu::IsAtmosphere();
         if (!std::filesystem::exists("sdmc:/switch")) std::filesystem::create_directory("sdmc:/switch");
         if (!std::filesystem::exists(inst::config::appDir)) std::filesystem::create_directory(inst::config::appDir);
         if (std::filesystem::exists(inst::config::configPath)) inst::config::parseConfig();
@@ -153,12 +154,76 @@ namespace inst::util {
     }
 
     std::string getDriveFileName(std::string fileId) {
-        std::string jsonData = inst::curl::downloadToBuffer("https://www.googleapis.com/drive/v3/files/" + fileId + "?key=" + inst::config::gAuthKey + "&fields=name");
-        if (jsonData.size() > 0) {
-            struct json_object *parsed_json = json_tokener_parse(jsonData.c_str());
-            struct json_object *name;
-            if (json_object_object_get_ex(parsed_json, "name", &name)) return json_object_get_string(name);
+        std::string htmlData = inst::curl::downloadToBuffer("https://drive.google.com/file/d/" + fileId  + "/view");
+        if (htmlData.size() > 0) {
+            std::smatch ourMatches;
+            std::regex ourRegex("<title>\\s*(.+?)\\s*</title>");
+            std::regex_search(htmlData, ourMatches, ourRegex);
+            if (ourMatches.size() > 1) {
+                if (ourMatches[1].str() == "Google Drive -- Page Not Found") return "";
+                return ourMatches[1].str().substr(0, ourMatches[1].str().size() - 15);
+             }
         }
         return "";
+    }
+
+    std::vector<uint32_t> setClockSpeed(int deviceToClock, uint32_t clockSpeed) {
+        uint32_t hz = 0;
+        uint32_t previousHz = 0;
+
+        if (deviceToClock > 2 || deviceToClock < 0) return {0,0};
+
+        if(hosversionAtLeast(8,0,0)) {
+            ClkrstSession session = {0};
+            PcvModuleId pcvModuleId;
+            pcvInitialize();
+            clkrstInitialize();
+
+            switch (deviceToClock) {
+                case 0:
+                    pcvGetModuleId(&pcvModuleId, PcvModule_CpuBus);
+                    break;
+                case 1:
+                    pcvGetModuleId(&pcvModuleId, PcvModule_GPU);
+                    break;
+                case 2:
+                    pcvGetModuleId(&pcvModuleId, PcvModule_EMC);
+                    break;
+            }
+
+            clkrstOpenSession(&session, pcvModuleId, 3);
+            clkrstGetClockRate(&session, &previousHz);
+            clkrstSetClockRate(&session, clockSpeed);
+            clkrstGetClockRate(&session, &hz);
+
+            pcvExit();
+            clkrstCloseSession(&session);
+            clkrstExit();
+
+            return {previousHz, hz};
+        } else {
+            PcvModule pcvModule;
+            pcvInitialize();
+
+            switch (deviceToClock) {
+                case 0:
+                    pcvModule = PcvModule_CpuBus;
+                    break;
+                case 1:
+                    pcvModule = PcvModule_GPU;
+                    break;
+                case 2:
+                    pcvModule = PcvModule_EMC;
+                    break;
+            }
+
+            pcvGetClockRate(pcvModule, &previousHz);
+            pcvSetClockRate(pcvModule, clockSpeed);
+            pcvGetClockRate(pcvModule, &hz);
+            
+            pcvExit();
+
+            return {previousHz, hz};
+        }
     }
 }

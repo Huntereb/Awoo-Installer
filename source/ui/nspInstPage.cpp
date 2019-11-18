@@ -23,9 +23,9 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
-        this->pageInfoText = TextBlock::New(10, 109, "Select NSP files to install, then press the Plus button!", 30);
+        this->pageInfoText = TextBlock::New(10, 109, "Select what files you want to install, then press the Plus button!", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 678, "\ue0e0 Select NSP    \ue0e3 Select All    \ue0ef Install NSP(s)    \ue0e2 Help    \ue0e1 Cancel ", 24);
+        this->butText = TextBlock::New(10, 678, "\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e2 Help    \ue0e1 Cancel ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 154, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));

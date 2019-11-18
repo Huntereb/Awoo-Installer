@@ -31,8 +31,8 @@ namespace inst::curl {
         curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
         curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 0L);
-        curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, 1000L);
-        curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT_MS, 1000L);
+        curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, 5000L);
+        curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT_MS, 5000L);
         curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, writeDataFile);
         
         pagefile = fopen(pagefilename, "wb");
@@ -63,8 +63,8 @@ namespace inst::curl {
         curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
         curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 0L);
-        curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, 1000L);
-        curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT_MS, 1000L);
+        curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, 5000L);
+        curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT_MS, 5000L);
         curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, writeDataBuffer);
         
         curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &stream);

@@ -23,12 +23,20 @@ SOFTWARE.
 #include "install/install_nsp_remote.hpp"
 
 #include <machine/endian.h>
+#include "install/nca.hpp"
 #include "nx/fs.hpp"
 #include "nx/ncm.hpp"
+#include "util/config.hpp"
+#include "util/crypto.hpp"
 #include "util/file_util.hpp"
 #include "util/title_util.hpp"
 #include "util/debug.h"
 #include "util/error.hpp"
+#include "ui/MainApplication.hpp"
+
+namespace inst::ui {
+     extern MainApplication *mainApp;
+}
 
 namespace tin::install::nsp
 {
@@ -85,6 +93,25 @@ namespace tin::install::nsp
 
         printf("Size: 0x%lx\n", ncaSize);
 
+        if (inst::config::validateNCAs && !declinedValidation)
+        {
+            tin::install::NcaHeader header;
+            m_remoteNSP->BufferNCAHeader(&header, ncaId);
+            Crypto::AesXtr crypto(Crypto::Keys().headerKey);
+            crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
+
+            if (header.magic != MAGIC_NCA3)
+                THROW_FORMAT("Invalid NCA magic");
+
+            if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
+            {
+                int rc = inst::ui::mainApp->CreateShowDialog("Invalid NCA signature detected!", "The software you are trying to install may contain malicious contents!\nOnly install improperly signed software from trustworthy sources!\nThis warning can be disabled in Awoo Installer's settings.\n\nAre you sure you want to continue the installation?", {"Cancel", "Yes, I want a brick"}, false);
+                if (rc != 1)
+                    THROW_FORMAT(("The requested NCA (" + tin::util::GetNcaIdString(ncaId) + ") is not properly signed").c_str());
+                declinedValidation = true;
+            }
+        }
+
         m_remoteNSP->StreamToPlaceholder(contentStorage, ncaId);
 
         // Clean up the line for whatever comes next
@@ -105,8 +132,6 @@ namespace tin::install::nsp
             contentStorage->DeletePlaceholder(*(NcmPlaceHolderId*)&ncaId);
         }
         catch (...) {}
-
-        //consoleUpdate(NULL);
     }
 
     void RemoteNSPInstall::InstallTicketCert()

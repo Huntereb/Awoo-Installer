@@ -30,12 +30,20 @@ SOFTWARE.
 #include <machine/endian.h>
 
 #include "nx/ncm.hpp"
-#include "util/file_util.hpp"
-#include "util/title_util.hpp"
+#include "install/nca.hpp"
+#include "util/config.hpp"
+#include "util/crypto.hpp"
 #include "nx/nca_writer.h"
 #include "util/debug.h"
 #include "util/error.hpp"
+#include "util/file_util.hpp"
+#include "util/title_util.hpp"
 #include "nspInstall.hpp"
+#include "ui/MainApplication.hpp"
+
+namespace inst::ui {
+    extern MainApplication *mainApp;
+}
 
 namespace tin::install::nsp
 {
@@ -109,6 +117,26 @@ namespace tin::install::nsp
         catch (...) {}
 
         auto ncaFile = m_simpleFileSystem->OpenFile(ncaName);
+
+        if (inst::config::validateNCAs && !declinedValidation)
+        {
+            tin::install::NcaHeader header;
+            ncaFile.Read(0, &header, 0xc00);
+            Crypto::AesXtr crypto(Crypto::Keys().headerKey);
+            crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
+
+            if (header.magic != MAGIC_NCA3)
+                THROW_FORMAT("Invalid NCA magic");
+
+            if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
+            {
+                int rc = inst::ui::mainApp->CreateShowDialog("Invalid NCA signature detected!", "The software you are trying to install may contain malicious contents!\nOnly install improperly signed software from trustworthy sources!\nThis warning can be disabled in Awoo Installer's settings.\n\nAre you sure you want to continue the installation?", {"Cancel", "Yes, I want a brick"}, false);
+                if (rc != 1)
+                    THROW_FORMAT(("The requested NCA (" + tin::util::GetNcaIdString(ncaId) + ") is not properly signed").c_str());
+                declinedValidation = true;
+            }
+        }
+
         size_t ncaSize = ncaFile.GetSize();
         u64 fileOff = 0;
         size_t readSize = 0x400000; // 4MB buff
@@ -119,9 +147,10 @@ namespace tin::install::nsp
 
         printf("Size: 0x%lx\n", ncaSize);
 
-          NcaWriter writer(ncaId, contentStorage);
+        NcaWriter writer(ncaId, contentStorage);
 
         float progress;
+        bool failed = false;
 
         //consoleUpdate(NULL);
 
@@ -151,6 +180,7 @@ namespace tin::install::nsp
         }
         catch (...)
         {
+            failed = true;
         }
 
         writer.close();
@@ -159,13 +189,16 @@ namespace tin::install::nsp
         printf("                                                           \r");
         printf("Registering placeholder...\n");
 
-        try
+        if (!failed)
         {
-            contentStorage->Register(*(NcmPlaceHolderId*)&ncaId, ncaId);
-        }
-        catch (...)
-        {
-            printf(("Failed to register " + ncaName + ". It may already exist.\n").c_str());
+            try
+            {
+                contentStorage->Register(*(NcmPlaceHolderId*)&ncaId, ncaId);
+            }
+            catch (...)
+            {
+                printf(("Failed to register " + ncaName + ". It may already exist.\n").c_str());
+            }
         }
 
         try
@@ -173,7 +206,5 @@ namespace tin::install::nsp
             contentStorage->DeletePlaceholder(*(NcmPlaceHolderId*)&ncaId);
         }
         catch (...) {}
-
-        //consoleUpdate(NULL);
     }
 }

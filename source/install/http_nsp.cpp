@@ -80,6 +80,13 @@ namespace tin::install::nsp
         return 0;
     }
 
+    void HTTPNSP::BufferNCAHeader(void* buf, NcmContentId placeholderId)
+    {
+        const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
+        u64 pfs0Offset = this->GetDataOffset() + fileEntry->dataOffset;
+        this->BufferData(buf, pfs0Offset, 0xc00);
+    }
+
     void HTTPNSP::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId)
     {
         const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
