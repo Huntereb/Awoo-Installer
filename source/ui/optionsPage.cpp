@@ -75,9 +75,6 @@ namespace inst::ui {
         auto creditsOption = pu::ui::elm::MenuItem::New("Credits");
         creditsOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(creditsOption);
-        auto licenseOption = pu::ui::elm::MenuItem::New("Third Party Licenses");
-        licenseOption->SetColor(COLOR("#FFFFFFFF"));
-        this->menu->AddItem(licenseOption);
     }
 
     void optionsPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
@@ -133,9 +130,6 @@ namespace inst::ui {
                     break;
                 case 6:
                     inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
-                    break;
-                case 7:
-                    inst::ui::mainApp->CreateShowDialog("Third Party Licenses", "Licenses to the libraries and software used in Awoo Installer are\npackaged with each release within the source code, or are distributed\nupon compilation of the software. Please see the releases page for a\ncopy of the source code and license information.", {"Close"}, true);
                     break;
                 default:
                     break;
