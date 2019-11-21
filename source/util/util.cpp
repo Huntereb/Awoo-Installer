@@ -65,7 +65,6 @@ namespace inst::util {
             }
         }
         std::sort(files.begin(), files.end());
-        std::reverse(files.begin(), files.end());
         return files;
     }
 
