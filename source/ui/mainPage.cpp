@@ -88,19 +88,19 @@ namespace inst::ui {
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             switch (this->optionMenu->GetSelectedIndex()) {
                 case 0:
-                    MainPage::installMenuItem_Click();
+                    this->installMenuItem_Click();
                     break;
                 case 1:
-                    MainPage::netInstallMenuItem_Click();
+                    this->netInstallMenuItem_Click();
                     break;
                 case 2:
-                    MainPage::sigPatchesMenuItem_Click();
+                    this->sigPatchesMenuItem_Click();
                     break;
                 case 3:
-                    MainPage::settingsMenuItem_Click();
+                    this->settingsMenuItem_Click();
                     break;
                 case 4:
-                    MainPage::exitMenuItem_Click();
+                    this->exitMenuItem_Click();
                     break;
                 default:
                     break;

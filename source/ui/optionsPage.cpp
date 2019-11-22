@@ -38,7 +38,7 @@ namespace inst::ui {
         this->Add(this->appVersionText);
         this->Add(this->butText);
         this->Add(this->pageInfoText);
-        optionsPage::setMenuText();
+        this->setMenuText();
         this->Add(this->menu);
     }
 
@@ -51,23 +51,23 @@ namespace inst::ui {
         this->menu->ClearItems();
         auto ignoreFirmOption = pu::ui::elm::MenuItem::New(ourMenuEntries[0]);
         ignoreFirmOption->SetColor(COLOR("#FFFFFFFF"));
-        ignoreFirmOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::ignoreReqVers));
+        ignoreFirmOption->SetIcon(this->getMenuOptionIcon(inst::config::ignoreReqVers));
         this->menu->AddItem(ignoreFirmOption);
         auto validateOption = pu::ui::elm::MenuItem::New(ourMenuEntries[1]);
         validateOption->SetColor(COLOR("#FFFFFFFF"));
-        validateOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::validateNCAs));
+        validateOption->SetIcon(this->getMenuOptionIcon(inst::config::validateNCAs));
         this->menu->AddItem(validateOption);
         auto overclockOption = pu::ui::elm::MenuItem::New(ourMenuEntries[2]);
         overclockOption->SetColor(COLOR("#FFFFFFFF"));
-        overclockOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::overClock));
+        overclockOption->SetIcon(this->getMenuOptionIcon(inst::config::overClock));
         this->menu->AddItem(overclockOption);
         auto deletePromptOption = pu::ui::elm::MenuItem::New(ourMenuEntries[3]);
         deletePromptOption->SetColor(COLOR("#FFFFFFFF"));
-        deletePromptOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::deletePrompt));
+        deletePromptOption->SetIcon(this->getMenuOptionIcon(inst::config::deletePrompt));
         this->menu->AddItem(deletePromptOption);
         auto gayModeOption = pu::ui::elm::MenuItem::New(ourMenuEntries[4]);
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
-        gayModeOption->SetIcon(optionsPage::getMenuOptionIcon(inst::config::gayMode));
+        gayModeOption->SetIcon(this->getMenuOptionIcon(inst::config::gayMode));
         this->menu->AddItem(gayModeOption);
         auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New(ourMenuEntries[5] + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
@@ -87,24 +87,24 @@ namespace inst::ui {
                 case 0:
                     inst::config::ignoreReqVers = !inst::config::ignoreReqVers;
                     inst::config::setConfig();
-                    optionsPage::setMenuText();
+                    this->setMenuText();
                     break;
                 case 1:
                     if (inst::config::validateNCAs) {
                         if (inst::ui::mainApp->CreateShowDialog("Warning!", "Some installable files may contain malicious contents! Only disable this\nfeature if you are absolutely certain the software you will be installing\nis trustworthy!\n\nDo you still want to disable NCA signature verification?", {"Cancel", "Yes, I want a brick"}, false) == 1) inst::config::validateNCAs = false;
                     } else inst::config::validateNCAs = true;
                     inst::config::setConfig();
-                    optionsPage::setMenuText();
+                    this->setMenuText();
                     break;
                 case 2:
                     inst::config::overClock = !inst::config::overClock;
                     inst::config::setConfig();
-                    optionsPage::setMenuText();
+                    this->setMenuText();
                     break;
                 case 3:
                     inst::config::deletePrompt = !inst::config::deletePrompt;
                     inst::config::setConfig();
-                    optionsPage::setMenuText();
+                    this->setMenuText();
                     break;
                 case 4:
                     if (inst::config::gayMode) {
@@ -118,14 +118,14 @@ namespace inst::ui {
                         mainApp->instpage->awooImage->SetVisible(false);
                     }
                     inst::config::setConfig();
-                    optionsPage::setMenuText();
+                    this->setMenuText();
                     break;
                 case 5:
                     keyboardResult = inst::util::softwareKeyboard("Enter the URL to obtain Signature Patches from", inst::config::sigPatchesUrl.c_str(), 500);
                     if (keyboardResult.size() > 0) {
                         inst::config::sigPatchesUrl = keyboardResult;
                         inst::config::setConfig();
-                        optionsPage::setMenuText();
+                        this->setMenuText();
                     }
                     break;
                 case 6:

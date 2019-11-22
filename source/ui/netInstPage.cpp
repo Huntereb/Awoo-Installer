@@ -47,16 +47,16 @@ namespace inst::ui {
     }
 
     void netInstPage::drawMenuItems(bool clearItems) {
-        if (clearItems) netInstPage::selectedUrls = {};
-        if (clearItems) netInstPage::alternativeNames = {};
+        if (clearItems) this->selectedUrls = {};
+        if (clearItems) this->alternativeNames = {};
         this->menu->ClearItems();
-        for (auto& url: netInstPage::ourUrls) {
+        for (auto& url: this->ourUrls) {
             pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 56, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
-            for (long unsigned int i = 0; i < netInstPage::selectedUrls.size(); i++) {
-                if (netInstPage::selectedUrls[i] == url) {
+            for (long unsigned int i = 0; i < this->selectedUrls.size(); i++) {
+                if (this->selectedUrls[i] == url) {
                     ourEntry->SetIcon("romfs:/check-box-outline.png");
                 }
             }
@@ -66,11 +66,11 @@ namespace inst::ui {
 
     void netInstPage::selectNsp(int selectedIndex) {
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
-            for (long unsigned int i = 0; i < netInstPage::selectedUrls.size(); i++) {
-                if (netInstPage::selectedUrls[i] == netInstPage::ourUrls[selectedIndex]) netInstPage::selectedUrls.erase(netInstPage::selectedUrls.begin() + i);
+            for (long unsigned int i = 0; i < this->selectedUrls.size(); i++) {
+                if (this->selectedUrls[i] == this->ourUrls[selectedIndex]) this->selectedUrls.erase(this->selectedUrls.begin() + i);
             }
-        } else netInstPage::selectedUrls.push_back(netInstPage::ourUrls[selectedIndex]);
-        netInstPage::drawMenuItems(false);
+        } else this->selectedUrls.push_back(this->ourUrls[selectedIndex]);
+        this->drawMenuItems(false);
     }
 
     void netInstPage::startNetwork() {
@@ -79,11 +79,11 @@ namespace inst::ui {
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         mainApp->LoadLayout(mainApp->netinstPage);
-        netInstPage::ourUrls = netInstStuff::OnSelected();
-        if (!netInstPage::ourUrls.size()) {
+        this->ourUrls = netInstStuff::OnSelected();
+        if (!this->ourUrls.size()) {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
-        } else if (netInstPage::ourUrls[0] == "supplyUrl") {
+        } else if (this->ourUrls[0] == "supplyUrl") {
             std::string keyboardResult;
             switch (mainApp->CreateShowDialog("Where do you want to install from?", "Press B to cancel", {"URL", "Google Drive"}, false)) {
                 case 0:
@@ -94,8 +94,8 @@ namespace inst::ui {
                             mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
                             break;
                         }
-                        netInstPage::selectedUrls = {keyboardResult};
-                        netInstPage::startInstall(true);
+                        this->selectedUrls = {keyboardResult};
+                        this->startInstall(true);
                         return;
                     }
                     break;
@@ -104,20 +104,20 @@ namespace inst::ui {
                     if (keyboardResult.size() > 0) {
                         lastFileID = keyboardResult;
                         std::string fileName = inst::util::getDriveFileName(keyboardResult);
-                        if (fileName.size() > 0) netInstPage::alternativeNames = {fileName};
-                        else netInstPage::alternativeNames = {"Google Drive File"};
-                        netInstPage::selectedUrls = {"https://www.googleapis.com/drive/v3/files/" + keyboardResult + "?key=" + inst::config::gAuthKey + "&alt=media"};
-                        netInstPage::startInstall(true);
+                        if (fileName.size() > 0) this->alternativeNames = {fileName};
+                        else this->alternativeNames = {"Google Drive File"};
+                        this->selectedUrls = {"https://www.googleapis.com/drive/v3/files/" + keyboardResult + "?key=" + inst::config::gAuthKey + "&alt=media"};
+                        this->startInstall(true);
                         return;
                     }
                     break;
             }
-            netInstPage::startNetwork();
+            this->startNetwork();
             return;
         } else {
             this->pageInfoText->SetText("Select what files you want to install from the server, then press the Plus button!");
             this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
-            netInstPage::drawMenuItems(true);
+            this->drawMenuItems(true);
         }
         this->menu->SetVisible(true);
         return;
@@ -125,18 +125,18 @@ namespace inst::ui {
 
     void netInstPage::startInstall(bool urlMode) {
         int dialogResult = -1;
-        if (netInstPage::selectedUrls.size() == 1) {
+        if (this->selectedUrls.size() == 1) {
             std::string ourUrlString;
-            if (netInstPage::alternativeNames.size() > 0) ourUrlString = inst::util::shortenString(netInstPage::alternativeNames[0], 32, true);
-            else ourUrlString = inst::util::shortenString(inst::util::formatUrlString(netInstPage::selectedUrls[0]), 32, true);
+            if (this->alternativeNames.size() > 0) ourUrlString = inst::util::shortenString(this->alternativeNames[0], 32, true);
+            else ourUrlString = inst::util::shortenString(inst::util::formatUrlString(this->selectedUrls[0]), 32, true);
             dialogResult = mainApp->CreateShowDialog("Where should " + ourUrlString + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(netInstPage::selectedUrls.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(this->selectedUrls.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
-            netInstPage::startNetwork();
+            this->startNetwork();
             return;
         }
-        netInstStuff::installNspLan(netInstPage::selectedUrls, dialogResult, netInstPage::alternativeNames);
+        netInstStuff::installNspLan(this->selectedUrls, dialogResult, this->alternativeNames);
         return;
     }
 
@@ -145,28 +145,28 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
-            netInstPage::selectNsp(this->menu->GetSelectedIndex());
-            if (this->menu->GetItems().size() == 1 && netInstPage::selectedUrls.size() == 1) {
-                netInstPage::startInstall(false);
+            this->selectNsp(this->menu->GetSelectedIndex());
+            if (this->menu->GetItems().size() == 1 && this->selectedUrls.size() == 1) {
+                this->startInstall(false);
             }
         }
         if ((Down & KEY_Y)) {
-            if (netInstPage::selectedUrls.size() == this->menu->GetItems().size()) netInstPage::drawMenuItems(true);
+            if (this->selectedUrls.size() == this->menu->GetItems().size()) this->drawMenuItems(true);
             else {
                 for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
                     if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
-                    else netInstPage::selectNsp(i);
+                    else this->selectNsp(i);
                 }
-                netInstPage::drawMenuItems(false);
+                this->drawMenuItems(false);
             }
         }
         if (Down & KEY_PLUS) {
-            if (netInstPage::selectedUrls.size() == 0) {
-                netInstPage::selectNsp(this->menu->GetSelectedIndex());
-                netInstPage::startInstall(false);
+            if (this->selectedUrls.size() == 0) {
+                this->selectNsp(this->menu->GetSelectedIndex());
+                this->startInstall(false);
                 return;
             }
-            netInstPage::startInstall(false);
+            this->startInstall(false);
         }
     }
 }
