@@ -24,13 +24,13 @@ namespace inst::ui {
         this->optionMenu = pu::ui::elm::Menu::New(0, 93, 1280, COLOR("#67000000"), 113, (567 / 113));
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->optionMenu->SetScrollbarColor(COLOR("#170909FF"));
-        this->installMenuItem = pu::ui::elm::MenuItem::New("Install from SD Card");
+        this->installMenuItem = pu::ui::elm::MenuItem::New("Install from SD card");
         this->installMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->installMenuItem->SetIcon("romfs:/micro-sd.png");
-        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install Over LAN or Internet");
+        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install over LAN or internet");
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem->SetIcon("romfs:/cloud-download.png");
-        this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage Signature Patches");
+        this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage signature patches");
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->sigPatchesMenuItem->SetIcon("romfs:/wrench.png");
         this->settingsMenuItem = pu::ui::elm::MenuItem::New("Settings");
