@@ -31,7 +31,7 @@ namespace tin::install
         u8 _0x148[0xB8]; /* Padding. */
     } PACKED;
 
-    static_assert(sizeof(NcaFsHeader) == 0x200, "PFS0FileEntry must be 0x18");
+    static_assert(sizeof(NcaFsHeader) == 0x200, "NcaFsHeader must be 0x200");
 
     struct NcaSectionEntry
     {
@@ -40,7 +40,7 @@ namespace tin::install
         u8 _0x8[0x8]; /* Padding. */
     } PACKED;
 
-    static_assert(sizeof(NcaSectionEntry) == 0x10, "PFS0FileEntry must be 0x18");
+    static_assert(sizeof(NcaSectionEntry) == 0x10, "NcaSectionEntry must be 0x10");
 
     struct NcaHeader
     {
@@ -73,5 +73,5 @@ namespace tin::install
         NcaFsHeader fs_headers[4]; /* FS section headers. */
     } PACKED;
 
-    static_assert(sizeof(NcaHeader) == 0xc00, "PFS0FileEntry must be 0x18");
+    static_assert(sizeof(NcaHeader) == 0xc00, "NcaHeader must be 0xc00");
 }
