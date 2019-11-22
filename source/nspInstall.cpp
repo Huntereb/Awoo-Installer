@@ -102,7 +102,7 @@ namespace nspInstStuff {
         try
         {
             for (nspItr = 0; nspItr < ourNspList.size(); nspItr++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].string().erase(0, 6), 42, true));
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
                 
                 if (ourNspList[nspItr].extension() == ".nsz") {
                     oldNamesOfFiles.push_back(ourNspList[nspItr]);
@@ -132,9 +132,9 @@ namespace nspInstStuff {
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourNspList[nspItr].string().erase(0, 6), 42, true));
+            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
             inst::ui::setInstBarPerc(0);
-            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourNspList[nspItr].string().erase(0, 6), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
@@ -164,8 +164,8 @@ namespace nspInstStuff {
                 } else inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
             } else {
                 if (inst::config::deletePrompt) {
-                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 32, true) + " installed! Delete it from the SD card?", "The original file isn't needed anymore after it's been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);
-                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].string().erase(0, 6), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].filename().string(), 32, true) + " installed! Delete it from the SD card?", "The original file isn't needed anymore after it's been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);
+                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].filename().string(), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
             }
         }
 

@@ -68,6 +68,19 @@ namespace inst::util {
         return files;
     }
 
+    std::vector<std::filesystem::path> getDirsAtPath(const std::string & dir) {
+        std::vector<std::filesystem::path> files;
+        for(auto & p: std::filesystem::directory_iterator(dir))
+        {
+            if (std::filesystem::is_directory(p))
+            {
+                    files.push_back(p.path());
+            }
+        }
+        std::sort(files.begin(), files.end());
+        return files;
+    }
+
     bool removeDirectory(std::string dir) {
         try {
             for(auto & p: std::filesystem::recursive_directory_iterator(dir))
