@@ -13,15 +13,7 @@ int main(int argc, char* argv[])
         main->Prepare();
         main->Show();
     } catch (std::exception& e) {
-        printf("An error occurred:\n%s\n\nPress any button to exit.", e.what());
-
-        u64 kDown = 0;
-
-        while (!kDown)
-        {
-            hidScanInput();
-            kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-        }
+        printf("An error occurred:\n%s", e.what());
     }
     inst::util::deinitApp();
     return 0;
