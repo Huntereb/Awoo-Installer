@@ -36,7 +36,7 @@ namespace inst::ui {
         this->menu = pu::ui::elm::Menu::New(0, 154, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
         this->menu->SetScrollbarColor(COLOR("#17090980"));
-        this->infoImage = Image::New(500, 270, "romfs:/connection-waiting.png");
+        this->infoImage = Image::New(453, 292, "romfs:/lan-connection-waiting.png");
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->botRect);
