@@ -36,6 +36,7 @@ namespace inst::ui {
         this->menu = pu::ui::elm::Menu::New(0, 154, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
         this->menu->SetScrollbarColor(COLOR("#17090980"));
+        this->infoImage = Image::New(500, 270, "romfs:/connection-waiting.png");
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->botRect);
@@ -44,6 +45,7 @@ namespace inst::ui {
         this->Add(this->butText);
         this->Add(this->pageInfoText);
         this->Add(this->menu);
+        this->Add(this->infoImage);
     }
 
     void netInstPage::drawMenuItems(bool clearItems) {
@@ -74,10 +76,11 @@ namespace inst::ui {
     }
 
     void netInstPage::startNetwork() {
-        this->pageInfoText->SetText("");
+        this->pageInfoText->SetText("Waiting for a connection...");
         this->butText->SetText("\ue0e3 Install Over Internet    \ue0e2 Help    \ue0e1 Cancel ");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
+        this->infoImage->SetVisible(true);
         mainApp->LoadLayout(mainApp->netinstPage);
         this->ourUrls = netInstStuff::OnSelected();
         if (!this->ourUrls.size()) {
@@ -119,6 +122,7 @@ namespace inst::ui {
             this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
             this->drawMenuItems(true);
         }
+        this->infoImage->SetVisible(false);
         this->menu->SetVisible(true);
         return;
     }

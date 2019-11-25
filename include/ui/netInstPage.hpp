@@ -23,6 +23,7 @@ namespace inst::ui {
             Image::Ref titleImage;
             TextBlock::Ref appVersionText;
             pu::ui::elm::Menu::Ref menu;
+            Image::Ref infoImage;
             void drawMenuItems(bool clearItems);
             void selectNsp(int selectedIndex);
     };
