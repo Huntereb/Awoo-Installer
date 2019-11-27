@@ -94,15 +94,16 @@ namespace tin::install::nsp
 
         if (inst::config::validateNCAs && !declinedValidation)
         {
-            tin::install::NcaHeader header;
-            m_remoteNSP->BufferNCAHeader(&header, ncaId);
-            Crypto::AesXtr crypto(Crypto::Keys().headerKey);
-            crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
+            tin::install::NcaHeader* header = new NcaHeader;
+            m_remoteNSP->BufferData(header, m_remoteNSP->GetDataOffset() + fileEntry->dataOffset, sizeof(tin::install::NcaHeader));
 
-            if (header.magic != MAGIC_NCA3)
+            Crypto::AesXtr crypto(Crypto::Keys().headerKey);
+            crypto.decrypt(header, header, sizeof(tin::install::NcaHeader), 0, 0x200);
+
+            if (header->magic != MAGIC_NCA3)
                 THROW_FORMAT("Invalid NCA magic");
 
-            if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
+            if (!Crypto::rsa2048PssVerify(&header->magic, 0x200, header->fixed_key_sig, Crypto::NCAHeaderSignature))
             {
                 int rc = inst::ui::mainApp->CreateShowDialog("Invalid NCA signature detected!", "The software you are trying to install may contain malicious contents!\nOnly install improperly signed software from trustworthy sources!\nThis warning can be disabled in Awoo Installer's settings.\n\nAre you sure you want to continue the installation?", {"Cancel", "Yes, I want a brick"}, false);
                 if (rc != 1)

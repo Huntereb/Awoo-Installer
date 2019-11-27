@@ -134,13 +134,6 @@ namespace tin::install::nsp
         return reinterpret_cast<PFS0BaseHeader*>(m_headerBytes.data());
     }
 
-    void RemoteNSP::BufferNCAHeader(void* buf, NcmContentId placeholderId)
-    {
-        const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
-        u64 pfs0Offset = this->GetDataOffset() + fileEntry->dataOffset;
-        this->BufferData(buf, pfs0Offset, 0xc00);
-    }
-
     u64 RemoteNSP::GetDataOffset()
     {
         if (m_headerBytes.empty())

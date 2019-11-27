@@ -45,7 +45,6 @@ namespace tin::install::nsp
 
             virtual void RetrieveHeader();
             virtual const PFS0BaseHeader* GetBaseHeader();
-            virtual void BufferNCAHeader(void* buf, NcmContentId placeholderId);
             virtual u64 GetDataOffset();
 
             virtual const PFS0FileEntry* GetFileEntry(unsigned int index);
