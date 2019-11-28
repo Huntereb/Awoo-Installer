@@ -76,7 +76,6 @@ namespace inst::ui {
     }
 
     void netInstPage::startNetwork() {
-        this->pageInfoText->SetText("Waiting for a connection...");
         this->butText->SetText("\ue0e3 Install Over Internet    \ue0e2 Help    \ue0e1 Cancel ");
         this->menu->SetVisible(false);
         this->menu->ClearItems();

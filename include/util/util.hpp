@@ -16,4 +16,5 @@ namespace inst::util {
     std::string softwareKeyboard(std::string guideText, std::string initialText, int LenMax);
     std::string getDriveFileName(std::string fileId);
     std::vector<uint32_t> setClockSpeed(int deviceToClock, uint32_t clockSpeed);
+    std::string getIPAddress();
 }

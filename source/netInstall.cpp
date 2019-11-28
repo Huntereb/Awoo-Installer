@@ -22,10 +22,8 @@ SOFTWARE.
 
 #include <cstring>
 #include <sys/socket.h>
-#include <arpa/inet.h>
 #include <sys/errno.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <sstream>
 #include <curl/curl.h>
 
@@ -215,16 +213,9 @@ namespace netInstStuff{
                 }
             }
 
-            struct in_addr addr = {(in_addr_t) gethostid()};
-            std::string ourIPAddr(inet_ntoa(addr));
-            // If our IP is 127.0.0.1, cancel because we aren't connected to a network
-            if (ourIPAddr == "1.0.0.127") {
-                inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
-                return {};
-            }
-            inst::ui::setNetInfoText("Waiting for a connection... Your Switch's IP Address is: " + ourIPAddr);
-
-            printf("%s %s\n", "Switch IP is ", inet_ntoa(addr));
+            std::string ourIPAddress = inst::util::getIPAddress();
+            inst::ui::setNetInfoText("Waiting for a connection... Your Switch's IP Address is: " + ourIPAddress);
+            printf("%s %s\n", "Switch IP is ", ourIPAddress.c_str());
             printf("%s\n", "Waiting for network");
             printf("%s\n", "B to cancel");
             
@@ -287,11 +278,7 @@ namespace netInstStuff{
                     std::string nspExt = ".nsp";
                     std::string nszExt = ".nsz";
 
-                    while (std::getline(urlStream, segment, '\n'))
-                    {
-                        if (segment.compare(segment.size() - nspExt.size(), nspExt.size(), nspExt) == 0) urls.push_back(segment);
-                        else if (segment.compare(segment.size() - nszExt.size(), nszExt.size(), nszExt) == 0) urls.push_back(segment);
-                    }
+                    while (std::getline(urlStream, segment, '\n')) urls.push_back(segment);
 
                     break;
                 }

@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <curl/curl.h>
 #include <regex>
+#include <arpa/inet.h>
+#include <unistd.h>
 #include "switch.h"
 #include "util/util.hpp"
 #include "nx/ipc/tin_ipc.h"
@@ -247,5 +249,10 @@ namespace inst::util {
 
             return {previousHz, hz};
         }
+    }
+
+    std::string getIPAddress() {
+        struct in_addr addr = {(in_addr_t) gethostid()};
+        return inet_ntoa(addr);
     }
 }

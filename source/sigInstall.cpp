@@ -22,15 +22,19 @@ namespace sig {
             }
             int ourResult = inst::ui::mainApp->CreateShowDialog("Install signature patches?", "Signature patches are required for installing and playing official software." + versionText, {installButtonText, "Uninstall", "Cancel"}, true);
             if (ourResult == 0) {
+                if (inst::util::getIPAddress() == "1.0.0.127") {
+                    inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
+                    return;
+                }
                 if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
-                    if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "Installing patches requires the use of the Hekate bootloader.", {"Yes", "No"}, false)) return;
+                    if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "Installing patches requires use of the Hekate bootloader.", {"Yes", "No"}, false)) return;
                 }
                 std::string ourPath = inst::config::appDir + "/patches.zip";
                 bool didDownload = inst::curl::downloadFile(inst::config::sigPatchesUrl, ourPath.c_str());
                 bool didExtract = false;
                 if (didDownload) didExtract = inst::zip::extractFile(ourPath, "sdmc:/");
                 else {
-                    inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Could not download signature patches", "You may have supplied an invalid source in Awoo Installer's settings,\nor the host may just be down right now.", {"OK"}, true);
                     return;
                 }
                 std::filesystem::remove(ourPath);

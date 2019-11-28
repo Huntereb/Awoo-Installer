@@ -66,6 +66,10 @@ namespace inst::ui {
     }
 
     void MainPage::netInstallMenuItem_Click() {
+        if (inst::util::getIPAddress() == "1.0.0.127") {
+            inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
+            return;
+        }
         mainApp->netinstPage->startNetwork();
     }
 
