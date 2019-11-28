@@ -14,7 +14,6 @@ namespace inst::ui {
     std::vector<std::string> usbInstPage::selectedNsps;
 
     usbInstPage::usbInstPage() : Layout::Layout() {
-        usbCommsInitialize();
         this->SetBackgroundColor(COLOR("#670000FF"));
         this->SetBackgroundImage("romfs:/background.jpg");
         this->topRect = Rectangle::New(0, 0, 1280, 93, COLOR("#170909FF"));
@@ -41,15 +40,15 @@ namespace inst::ui {
     }
 
     void usbInstPage::drawMenuItems(bool clearItems) {
-        if (clearItems) usbInstPage::selectedNsps = {};
+        if (clearItems) this->selectedNsps = {};
         this->menu->ClearItems();
-        for (auto& url: usbInstPage::ourNsps) {
+        for (auto& url: this->ourNsps) {
             pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 56, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
-            for (long unsigned int i = 0; i < usbInstPage::selectedNsps.size(); i++) {
-                if (usbInstPage::selectedNsps[i] == url) {
+            for (long unsigned int i = 0; i < this->selectedNsps.size(); i++) {
+                if (this->selectedNsps[i] == url) {
                     ourEntry->SetIcon("romfs:/check-box-outline.png");
                 }
             }
@@ -59,27 +58,27 @@ namespace inst::ui {
 
     void usbInstPage::selectNsp(int selectedIndex) {
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
-            for (long unsigned int i = 0; i < usbInstPage::selectedNsps.size(); i++) {
-                if (usbInstPage::selectedNsps[i] == usbInstPage::ourNsps[selectedIndex]) usbInstPage::selectedNsps.erase(usbInstPage::selectedNsps.begin() + i);
+            for (long unsigned int i = 0; i < this->selectedNsps.size(); i++) {
+                if (this->selectedNsps[i] == this->ourNsps[selectedIndex]) this->selectedNsps.erase(this->selectedNsps.begin() + i);
             }
-        } else usbInstPage::selectedNsps.push_back(usbInstPage::ourNsps[selectedIndex]);
-        usbInstPage::drawMenuItems(false);
+        } else this->selectedNsps.push_back(this->ourNsps[selectedIndex]);
+        this->drawMenuItems(false);
     }
 
     void usbInstPage::startUsb() {
         this->pageInfoText->SetText("");
-        this->butText->SetText("\ue0e2 Help    \ue0e1 Cancel ");
+        this->butText->SetText("");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         mainApp->LoadLayout(mainApp->usbinstPage);
-        usbInstPage::ourNsps = usbInstStuff::OnSelected();
-        if (!usbInstPage::ourNsps.size()) {
+        this->ourNsps = usbInstStuff::OnSelected();
+        if (!this->ourNsps.size()) {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
         } else {
-            this->pageInfoText->SetText("Select what files you want to install from the usb, then press the Plus button!");
+            this->pageInfoText->SetText("Select what files you want to install from usb, then press the Plus button!");
             this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
-            usbInstPage::drawMenuItems(true);
+            this->drawMenuItems(true);
         }
         this->menu->SetVisible(true);
         return;
@@ -87,41 +86,40 @@ namespace inst::ui {
 
     void usbInstPage::startInstall() {
         int dialogResult = -1;
-        if (usbInstPage::selectedNsps.size() == 1) dialogResult = mainApp->CreateShowDialog("Where should " + selectedNsps[0] + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(usbInstPage::selectedNsps.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        if (this->selectedNsps.size() == 1) dialogResult = mainApp->CreateShowDialog("Where should " + selectedNsps[0] + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(this->selectedNsps.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
-        usbInstStuff::installNspUsb(usbInstPage::selectedNsps, dialogResult);
+        usbInstStuff::installNspUsb(this->selectedNsps, dialogResult);
         return;
     }
 
     void usbInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
-            usbCommsExit();
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
-            usbInstPage::selectNsp(this->menu->GetSelectedIndex());
-            if (this->menu->GetItems().size() == 1 && usbInstPage::selectedNsps.size() == 1) {
-                usbInstPage::startInstall();
+            this->selectNsp(this->menu->GetSelectedIndex());
+            if (this->menu->GetItems().size() == 1 && this->selectedNsps.size() == 1) {
+                this->startInstall();
             }
         }
         if ((Down & KEY_Y)) {
-            if (usbInstPage::selectedNsps.size() == this->menu->GetItems().size()) usbInstPage::drawMenuItems(true);
+            if (this->selectedNsps.size() == this->menu->GetItems().size()) this->drawMenuItems(true);
             else {
                 for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
                     if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
-                    else usbInstPage::selectNsp(i);
+                    else this->selectNsp(i);
                 }
-                usbInstPage::drawMenuItems(false);
+                this->drawMenuItems(false);
             }
         }
         if (Down & KEY_PLUS) {
-            if (usbInstPage::selectedNsps.size() == 0) {
-                usbInstPage::selectNsp(this->menu->GetSelectedIndex());
-                usbInstPage::startInstall();
+            if (this->selectedNsps.size() == 0) {
+                this->selectNsp(this->menu->GetSelectedIndex());
+                this->startInstall();
                 return;
             }
-            usbInstPage::startInstall();
+            this->startInstall();
         }
     }
 }

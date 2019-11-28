@@ -1,3 +1,4 @@
+#include <string>
 #include "usbInstall.hpp"
 #include "install/usb_nsp.hpp"
 #include "install/install_nsp_remote.hpp"
@@ -11,6 +12,11 @@
 
 namespace inst::ui {
     extern MainApplication *mainApp;
+
+    void setUsbInfoText(std::string ourText){
+        mainApp->usbinstPage->pageInfoText->SetText(ourText);
+        mainApp->CallForRender();
+    }
 }
 
 namespace usbInstStuff {
@@ -23,7 +29,13 @@ namespace usbInstStuff {
 
     std::vector<std::string> OnSelected() {
         Result rc = 0;
-        inst::ui::setInstInfoText("waiting for usb...\n");
+
+        u32 usbState = 0;
+        usbDsGetState(&usbState);
+        if (usbState != 5) {
+            inst::ui::mainApp->CreateShowDialog("Plug in usb ya faggot!", "", {"OK"}, false);
+            return {};
+        }
 
         while(true) {
             hidScanInput();
@@ -51,45 +63,79 @@ namespace usbInstStuff {
         // Split the string up into individual nsp names
         std::stringstream nspNameStream(nspListBuf.get());
         std::string segment;
-        std::string nspExt = ".nsp";
-        std::string nszExt = ".nsz";
-
         while (std::getline(nspNameStream, segment, '\n')) {
-            if (segment.compare(segment.size() - nspExt.size(), nspExt.size(), nspExt) == 0 || segment.compare(segment.size() - nszExt.size(), nszExt.size(), nszExt) == 0)
-                nspNames.push_back(segment);
+            nspNames.push_back(segment);
         }
 
         return nspNames;
     }
 
-    void installNspUsb(std::vector<std::string> ourNspList, int ourStorage) {
+    void installNspUsb(std::vector<std::string> ourNspList, int ourStorage)
+    {
         inst::util::initInstallServices();
-
         inst::ui::loadInstallScreen();
+        bool nspInstalled = true;
         NcmStorageId m_destStorageId = NcmStorageId_SdCard;
 
         if (ourStorage) m_destStorageId = NcmStorageId_BuiltInUser;
+        unsigned int fileItr;
 
-        for (std::string nspName: ourNspList) {
-            try {
-                tin::install::nsp::USBNSP usbNSP(nspName);
-                inst::ui::setInstInfoText("installing" + nspName);
+        std::vector<std::string> fileNames;
+        for (long unsigned int i = 0; i < ourNspList.size(); i++) {
+            fileNames.push_back(inst::util::shortenString(ourNspList[i], 42, true));
+        }
+/*
+        std::vector<int> previousClockValues;
+        if (inst::config::overClock) {
+            previousClockValues.push_back(inst::util::setClockSpeed(0, 1785000000)[0]);
+            previousClockValues.push_back(inst::util::setClockSpeed(1, 76800000)[0]);
+            previousClockValues.push_back(inst::util::setClockSpeed(2, 1600000000)[0]);
+        }
+*/
+        try {
+            for (fileItr = 0; fileItr < ourNspList.size(); fileItr++) {
+                inst::ui::setTopInstInfoText("Installing " + fileNames[fileItr]);
+
+                tin::install::nsp::USBNSP usbNSP(ourNspList[fileItr]);
                 tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &usbNSP);
 
+                printf("%s\n", "Preparing installation");
+                inst::ui::setInstInfoText("Preparing installation...");
+                inst::ui::setInstBarPerc(0);
                 install.Prepare();
+
                 install.Begin();
-            } catch(...) {
-                int rc = inst::ui::mainApp->CreateShowDialog("install failed", nspName + " failed\ndo you want to continue?", {"yes", "cancel"}, true);
-                if (rc == 1)
-                    break;
             }
+        }
+        catch (std::exception& e) {
+            printf("Failed to install");
+            printf("%s", e.what());
+            fprintf(stdout, "%s", e.what());
+            inst::ui::setInstInfoText("Failed to install " + fileNames[fileItr]);
+            inst::ui::setInstBarPerc(0);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + fileNames[fileItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            nspInstalled = false;
         }
 
         tin::util::USBCmdManager::SendExitCmd();
+/*
+        if (previousClockValues.size() > 0) {
+            inst::util::setClockSpeed(0, previousClockValues[0]);
+            inst::util::setClockSpeed(1, previousClockValues[1]);
+            inst::util::setClockSpeed(2, previousClockValues[2]);
+        }
+*/
 
-        inst::ui::setInstInfoText("finished installation");
-        inst::ui::mainApp->CreateShowDialog("Done", "Back to menu?", {"ok"}, true);
+        if(nspInstalled) {
+            inst::ui::setInstInfoText("Install complete");
+            inst::ui::setInstBarPerc(100);
+            if (ourNspList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(fileNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+        }
+        
+        printf("Done");
         inst::ui::loadMainMenu();
-        inst::util::deinitInstallServices();        
+        inst::util::deinitInstallServices();
+        return;
     }
 }

@@ -10,6 +10,8 @@
 #include "util/usb_util.hpp"
 #include "error.hpp"
 #include "debug.h"
+#include "nspInstall.hpp"
+#include "util/util.hpp"
 
 namespace tin::install::nsp
 {
@@ -113,13 +115,15 @@ namespace tin::install::nsp
 
                 startTime = newTime;
                 startSizeBuffered = newSizeBuffered;
+
+                u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
+                u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
+                int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
+
+                //printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
+                inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
+                inst::ui::setInstBarPerc((double)downloadProgress);
             }
-
-            u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
-            u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
-            int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
-
-            //printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
         }
 
         u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
@@ -130,6 +134,7 @@ namespace tin::install::nsp
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             //printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
+            inst::ui::setInstBarPerc((double)installProgress);
         }
 
         thrd_join(usbThread, NULL);
