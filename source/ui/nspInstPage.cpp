@@ -138,7 +138,9 @@ namespace inst::ui {
         if ((Down & KEY_Y)) {
             if (this->selectedNsps.size() == this->ourFiles.size()) this->drawMenuItems(true, currentDir);
             else {
-                for (long unsigned int i = this->ourDirectories.size(); i < this->menu->GetItems().size(); i++) {
+                int topDir = 0;
+                if (this->currentDir != "sdmc:/") topDir++;
+                for (long unsigned int i = this->ourDirectories.size() + topDir; i < this->menu->GetItems().size(); i++) {
                     if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
                     else this->selectNsp(i);
                 }
