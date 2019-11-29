@@ -26,8 +26,15 @@ SOFTWARE.
 #include "nx/nca_writer.h"
 #include "util/debug.h"
 #include "util/error.hpp"
+#include "util/config.hpp"
+#include "util/crypto.hpp"
+#include "install/nca.hpp"
 #include "nspInstall.hpp"
 #include "ui/MainApplication.hpp"
+
+namespace inst::ui {
+    extern MainApplication *mainApp;
+}
 
 namespace tin::install::xci
 {
@@ -86,6 +93,27 @@ namespace tin::install::xci
         catch (...) {}
 
         printf("Size: 0x%lx\n", ncaSize);
+
+        if (inst::config::validateNCAs && !declinedValidation)
+        {
+            tin::install::NcaHeader header;
+            u64 hfs0Offset = m_xci->GetDataOffset() + fileEntry->dataOffset;
+            m_xci->BufferData(&header, hfs0Offset, 0xc00);
+
+            Crypto::AesXtr decryptor(Crypto::Keys().headerKey, false);
+            decryptor.decrypt(&header, &header, sizeof(header), 0, 0x200);
+
+            if (header.magic != MAGIC_NCA3)
+                THROW_FORMAT("Invalid NCA magic");
+
+            if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
+            {
+                int rc = inst::ui::mainApp->CreateShowDialog("Invalid NCA signature detected!", "Improperly signed software should only be installed from trustworthy\nsources. Files containing cartridge repacks and DLC unlockers will always\nshow this warning. You can disable this check in Awoo Installer's settings.\n\nAre you sure you want to continue the installation?", {"Cancel", "Yes, I understand the risks"}, false);
+                if (rc != 1)
+                    THROW_FORMAT(("The requested NCA (" + tin::util::GetNcaIdString(ncaId) + ") is not properly signed").c_str());
+                declinedValidation = true;
+            }
+        }
 
         if (m_xci->CanStream()) {
             m_xci->StreamToPlaceholder(contentStorage, ncaId);
