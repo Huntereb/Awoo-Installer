@@ -106,9 +106,18 @@ namespace tin::util
             FsDirectoryEntry dirEntry = dirEntries[i];
             std::string dirEntryName(dirEntry.name);
             std::string nspExt = ".nsp";
-               std::string nszExt = ".nsz";
+            std::string nszExt = ".nsz";
+            std::string xciExt = ".xci";
+            std::string xczExt = ".xcz";
 
-            if (dirEntry.type != FsDirEntryType_File || (dirEntryName.compare(dirEntryName.size() - nspExt.size(), nspExt.size(), nspExt) != 0 && dirEntryName.compare(dirEntryName.size() - nszExt.size(), nszExt.size(), nszExt) != 0))
+            if (dirEntry.type != FsDirEntryType_File ||
+                (
+                    dirEntryName.compare(dirEntryName.size() - nspExt.size(), nspExt.size(), nspExt) != 0 &&
+                    dirEntryName.compare(dirEntryName.size() - nszExt.size(), nszExt.size(), nszExt) != 0 &&
+                    dirEntryName.compare(dirEntryName.size() - xciExt.size(), xciExt.size(), xciExt) != 0 &&
+                    dirEntryName.compare(dirEntryName.size() - xczExt.size(), xczExt.size(), xczExt) != 0
+                    )
+                )
                 continue;
 
             nspList.push_back(dirEntry.name);
