@@ -62,11 +62,16 @@ namespace Crypto
     class AesCtr
     {
     public:
-        AesCtr();
-        AesCtr(u64 iv);
+        AesCtr() : m_high(0), m_low(0)
+        {
+        }
 
-        inline u64& high() { return m_high; }
-        inline u64& low() { return m_low; }
+        AesCtr(u64 iv) : m_high(swapEndian(iv)), m_low(0)
+        {
+        }
+
+        u64& high() { return m_high; }
+        u64& low() { return m_low; }
     private:
         u64 m_high;
         u64 m_low;
@@ -76,25 +81,73 @@ namespace Crypto
     class Aes128Ctr
     {
     public:
-        Aes128Ctr(const u8* key, const AesCtr& iv);
-        virtual ~Aes128Ctr();
+        Aes128Ctr(const u8* key, const AesCtr& iv)
+        {
+            counter = iv;
+            aes128CtrContextCreate(&ctx, key, &iv);
+            seek(0);
+        }
 
-        void seek(u64 offset);
-        void encrypt(void *dst, const void *src, size_t l);
-        void decrypt(void *dst, const void *src, size_t l);
+        virtual ~Aes128Ctr()
+        {
+        }
+
+        void seek(u64 offset)
+        {
+            counter.low() = swapEndian(offset >> 4);
+            aes128CtrContextResetCtr(&ctx, &counter);
+        }
+
+        void encrypt(void *dst, const void *src, size_t l)
+        {
+            aes128CtrCrypt(&ctx, dst, src, l);
+        }
+
+        void decrypt(void *dst, const void *src, size_t l)
+        {
+            encrypt(dst, src, l);
+        }
     protected:
         AesCtr counter;
+
         Aes128CtrContext ctx;
     };
 
     class AesXtr
     {
     public:
-        AesXtr(const u8* key);
-        virtual ~AesXtr();
+        AesXtr(const u8* key, bool is_encryptor)
+        {
+            aes128XtsContextCreate(&ctx, key, key + 0x10, is_encryptor);
+        }
 
-        void encrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size);
-        void decrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size);
+        virtual ~AesXtr()
+        {
+        }
+
+        void encrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size)
+        {
+            for (size_t i = 0; i < l; i += sector_size)
+            {
+                aes128XtsContextResetSector(&ctx, sector++, true);
+                aes128XtsEncrypt(&ctx, dst, src, sector_size);
+
+                dst = (u8*)dst + sector_size;
+                src = (const u8*)src + sector_size;
+            }
+        }
+
+        void decrypt(void *dst, const void *src, size_t l, size_t sector, size_t sector_size)
+        {
+            for (size_t i = 0; i < l; i += sector_size)
+            {
+                aes128XtsContextResetSector(&ctx, sector++, true);
+                aes128XtsDecrypt(&ctx, dst, src, sector_size);
+
+                dst = (u8*)dst + sector_size;
+                src = (const u8*)src + sector_size;
+            }
+        }
     protected:
         Aes128XtsContext ctx;
     };

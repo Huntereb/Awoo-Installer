@@ -409,15 +409,30 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
           {
                tin::install::NcaHeader header;
                memcpy(&header, m_buffer.data(), sizeof(header));
-               Crypto::AesXtr crypto(Crypto::Keys().headerKey);
-               crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
+               Crypto::AesXtr decryptor(Crypto::Keys().headerKey, false);
+               Crypto::AesXtr encryptor(Crypto::Keys().headerKey, true);
+               decryptor.decrypt(&header, &header, sizeof(header), 0, 0x200);
 
-               if (header.magic != MAGIC_NCA3)
-                    throw std::runtime_error("Invalid NCA magic");
+               if (header.magic == MAGIC_NCA3)
+               {
+                    if(isOpen())
+                    {
+                         m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
+                    }
+               }
+               else
+               {
+                    throw "Invalid NCA magic";
+               }
+
+               if (header.distribution == 1)
+               {
+                    header.distribution = 0;
+               }
+               encryptor.encrypt(m_buffer.data(), &header, sizeof(header), 0, 0x200);
 
                if(isOpen())
                {
-                    m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
                     m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
                }
           }

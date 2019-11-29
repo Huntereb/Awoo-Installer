@@ -96,8 +96,8 @@ namespace tin::install::nsp
         {
             tin::install::NcaHeader header;
             m_remoteNSP->BufferNCAHeader(&header, ncaId);
-            Crypto::AesXtr crypto(Crypto::Keys().headerKey);
-            crypto.decrypt(&header, &header, sizeof(header), 0, 0x200);
+            Crypto::AesXtr decryptor(Crypto::Keys().headerKey, false);
+            decryptor.decrypt(&header, &header, sizeof(header), 0, 0x200);
 
             if (header.magic != MAGIC_NCA3)
                 THROW_FORMAT("Invalid NCA magic");
