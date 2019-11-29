@@ -46,7 +46,7 @@ namespace tin::install::nsp
         m_remoteNSP->RetrieveHeader();
     }
 
-    std::tuple<nx::ncm::ContentMeta, NcmContentInfo> RemoteNSPInstall::ReadCNMT()
+    std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> RemoteNSPInstall::ReadCNMT()
     {
         const PFS0FileEntry* fileEntry = m_remoteNSP->GetFileEntryByExtension("cnmt.nca");
 
@@ -69,9 +69,8 @@ namespace tin::install::nsp
         cnmtContentInfo.content_id = cnmtContentId;
         *(u64*)&cnmtContentInfo.size = cnmtNcaSize & 0xFFFFFFFFFFFF;
         cnmtContentInfo.content_type = NcmContentType_Meta;
-        //consoleUpdate(NULL);
 
-        return { tin::util::GetContentMetaFromNCA(cnmtNCAFullPath), cnmtContentInfo };
+        return { { tin::util::GetContentMetaFromNCA(cnmtNCAFullPath), cnmtContentInfo } };
     }
 
     void RemoteNSPInstall::InstallNCA(const NcmContentId& ncaId)
@@ -135,7 +134,7 @@ namespace tin::install::nsp
     }
 
     void RemoteNSPInstall::InstallTicketCert()
-    {        
+    {
         // Read the tik file and put it into a buffer
         const PFS0FileEntry* tikFileEntry = m_remoteNSP->GetFileEntryByExtension("tik");
 
@@ -166,6 +165,5 @@ namespace tin::install::nsp
 
         // Finally, let's actually import the ticket
         ASSERT_OK(esImportTicket(tikBuf.get(), tikSize, certBuf.get(), certSize), "Failed to import ticket");
-        //consoleUpdate(NULL);
     }
 }

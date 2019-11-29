@@ -47,10 +47,10 @@ namespace tin::install
     }
 
     // TODO: Implement RAII on NcmContentMetaDatabase
-    void Install::InstallContentMetaRecords(tin::data::ByteBuffer& installContentMetaBuf)
+    void Install::InstallContentMetaRecords(tin::data::ByteBuffer& installContentMetaBuf, int i)
     {
         NcmContentMetaDatabase contentMetaDatabase;
-        NcmContentMetaKey contentMetaKey = m_contentMeta.GetContentMetaKey();
+        NcmContentMetaKey contentMetaKey = m_contentMeta[i].GetContentMetaKey();
 
         try
         {
@@ -65,14 +65,13 @@ namespace tin::install
         }
 
         serviceClose(&contentMetaDatabase.s);
-        //consoleUpdate(NULL);
     }
 
-    void Install::InstallApplicationRecord()
+    void Install::InstallApplicationRecord(int i)
     {
         Result rc = 0;
         std::vector<ContentStorageRecord> storageRecords;
-        u64 baseTitleId = tin::util::GetBaseTitleId(this->GetTitleId(), this->GetContentMetaType());
+        u64 baseTitleId = tin::util::GetBaseTitleId(this->GetTitleId(i), this->GetContentMetaType(i));
         u32 contentMetaCount = 0;
 
         printf("Base title Id: 0x%lx", baseTitleId);
@@ -107,7 +106,7 @@ namespace tin::install
 
         // Add our new content meta
         ContentStorageRecord storageRecord;
-        storageRecord.metaRecord = m_contentMeta.GetContentMetaKey();
+        storageRecord.metaRecord = m_contentMeta[i].GetContentMetaKey();
         storageRecord.storageId = m_destStorageId;
         storageRecords.push_back(storageRecord);
 
@@ -120,39 +119,47 @@ namespace tin::install
 
         printf("Pushing application record...\n");
         ASSERT_OK(nsPushApplicationRecord(baseTitleId, 0x3, storageRecords.data(), storageRecords.size() * sizeof(ContentStorageRecord)), "Failed to push application record");
-        //consoleUpdate(NULL);
     }
 
     // Validate and obtain all data needed for install
     void Install::Prepare()
     {
         tin::data::ByteBuffer cnmtBuf;
-        auto cnmtTuple = this->ReadCNMT();
-        m_contentMeta = std::get<0>(cnmtTuple);
-        NcmContentInfo cnmtContentRecord = std::get<1>(cnmtTuple);
 
-        nx::ncm::ContentStorage contentStorage(m_destStorageId);
+        std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> tupelList = this->ReadCNMT();
+        
+        for (size_t i = 0; i < tupelList.size(); i++) {
+            std::tuple<nx::ncm::ContentMeta, NcmContentInfo> cnmtTuple = tupelList[i];
+            
+            m_contentMeta.push_back(std::get<0>(cnmtTuple));
+            NcmContentInfo cnmtContentRecord = std::get<1>(cnmtTuple);
 
-        if (!contentStorage.Has(cnmtContentRecord.content_id))
-        {
-            printf("Installing CNMT NCA...\n");
-            this->InstallNCA(cnmtContentRecord.content_id);
+            nx::ncm::ContentStorage contentStorage(m_destStorageId);
+
+            if (!contentStorage.Has(cnmtContentRecord.content_id))
+            {
+                printf("Installing CNMT NCA...\n");
+                this->InstallNCA(cnmtContentRecord.content_id);
+            }
+            else
+            {
+                printf("CNMT NCA already installed. Proceeding...\n");
+            }
+
+            // Parse data and create install content meta
+            if (m_ignoreReqFirmVersion)
+                printf("WARNING: Required system firmware version is being IGNORED!\n");
+
+            tin::data::ByteBuffer installContentMetaBuf;
+            m_contentMeta[i].GetInstallContentMeta(installContentMetaBuf, cnmtContentRecord, m_ignoreReqFirmVersion);
+
+            this->InstallContentMetaRecords(installContentMetaBuf, i);
+            this->InstallApplicationRecord(i);
         }
-        else
-        {
-            printf("CNMT NCA already installed. Proceeding...\n");
-        }
+    }
 
-        // Parse data and create install content meta
-        if (m_ignoreReqFirmVersion)
-            printf("WARNING: Required system firmware version is being IGNORED!\n");
-
-        tin::data::ByteBuffer installContentMetaBuf;
-        m_contentMeta.GetInstallContentMeta(installContentMetaBuf, cnmtContentRecord, m_ignoreReqFirmVersion);
-
-        this->InstallContentMetaRecords(installContentMetaBuf);
-        this->InstallApplicationRecord();
-
+    void Install::Begin()
+    {
         printf("Installing ticket and cert...\n");
         try
         {
@@ -162,36 +169,32 @@ namespace tin::install
         {
             printf("WARNING: Ticket installation failed! This may not be an issue, depending on your use case.\nProceed with caution!\n");
         }
-    }
 
-    void Install::Begin()
-    {
-        printf("Installing NCAs...\n");
-        //consoleUpdate(NULL);
-        for (auto& record : m_contentMeta.GetContentInfos())
-        {
-            printf("Installing from %s\n", tin::util::GetNcaIdString(record.content_id).c_str());
-            //consoleUpdate(NULL);
-            this->InstallNCA(record.content_id);
+        for (nx::ncm::ContentMeta contentMeta: m_contentMeta) {
+            printf("Installing NCAs...\n");
+            for (auto& record : contentMeta.GetContentInfos())
+            {
+                printf("Installing from %s\n", tin::util::GetNcaIdString(record.content_id).c_str());
+                this->InstallNCA(record.content_id);
+            }
+
+            printf("Post Install Records: \n");
         }
-        declinedValidation = false;
-
-        printf("Post Install Records: \n");
-        //this->DebugPrintInstallData();
     }
 
-    u64 Install::GetTitleId()
+    u64 Install::GetTitleId(int i)
     {
-        return m_contentMeta.GetContentMetaKey().id;
+        return m_contentMeta[i].GetContentMetaKey().id;
     }
 
-    NcmContentMetaType Install::GetContentMetaType()
+    NcmContentMetaType Install::GetContentMetaType(int i)
     {
-        return static_cast<NcmContentMetaType>(m_contentMeta.GetContentMetaKey().type);
+        return static_cast<NcmContentMetaType>(m_contentMeta[i].GetContentMetaKey().type);
     }
 
     void Install::DebugPrintInstallData()
     {
+        /*
         #ifdef NXLINK_DEBUG
 
         NcmContentMetaDatabase contentMetaDatabase;
@@ -272,5 +275,6 @@ namespace tin::install
         }
 
         #endif
+        */
     }
 }

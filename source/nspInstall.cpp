@@ -26,6 +26,8 @@ SOFTWARE.
 #include <ctime>
 
 #include "install/install_nsp.hpp"
+#include "install/install_xci.hpp"
+#include "install/local_xci.hpp"
 #include "nx/fs.hpp"
 #include "util/file_util.hpp"
 #include "util/title_util.hpp"
@@ -102,29 +104,44 @@ namespace nspInstStuff {
         try
         {
             for (nspItr = 0; nspItr < ourNspList.size(); nspItr++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
-                
-                if (ourNspList[nspItr].extension() == ".nsz") {
-                    oldNamesOfFiles.push_back(ourNspList[nspItr]);
-                    std::string newfilename = ourNspList[nspItr].string().substr(0, ourNspList[nspItr].string().find_last_of('.'))+"_temp.nsp";
-                    rename(ourNspList[nspItr], newfilename);
-                    filesToBeRenamed.push_back(newfilename);
-                    ourNspList[nspItr] = newfilename;
+                if (ourNspList[nspItr].extension() == ".xci" || ourNspList[nspItr].extension() == ".xcz") {
+                    inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
+
+                    tin::install::xci::LocalXCI xci(ourNspList[nspItr]);
+                    tin::install::xci::XCIInstallTask task(xci, m_destStorageId, inst::config::ignoreReqVers);
+
+                    printf("Preparing installation\n");
+                    inst::ui::setInstInfoText("Preparing installation...");
+                    inst::ui::setInstBarPerc(0);
+                    task.Prepare();
+
+                    task.Begin();
+                } else {
+                    inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
+                    
+                    if (ourNspList[nspItr].extension() == ".nsz") {
+                        oldNamesOfFiles.push_back(ourNspList[nspItr]);
+                        std::string newfilename = ourNspList[nspItr].string().substr(0, ourNspList[nspItr].string().find_last_of('.'))+"_temp.nsp";
+                        rename(ourNspList[nspItr], newfilename);
+                        filesToBeRenamed.push_back(newfilename);
+                        ourNspList[nspItr] = newfilename;
+                    }
+
+                    std::string path = "@Sdcard://" + ourNspList[nspItr].string().erase(0, 6);
+
+                    nx::fs::IFileSystem fileSystem;
+                    fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
+                    tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
+                    tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
+
+                    printf("Preparing installation\n");
+                    inst::ui::setInstInfoText("Preparing installation...");
+                    inst::ui::setInstBarPerc(0);
+                    task.Prepare();
+
+                    task.Begin();
                 }
 
-                std::string path = "@Sdcard://" + ourNspList[nspItr].string().erase(0, 6);
-
-                nx::fs::IFileSystem fileSystem;
-                fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
-                tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
-                tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
-
-                printf("Preparing installation\n");
-                inst::ui::setInstInfoText("Preparing installation...");
-                inst::ui::setInstBarPerc(0);
-                task.Prepare();
-
-                task.Begin();
             }
         }
         catch (std::exception& e)

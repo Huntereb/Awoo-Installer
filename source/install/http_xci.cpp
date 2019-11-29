@@ -20,20 +20,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "install/http_nsp.hpp"
+#include "install/http_xci.hpp"
 
-#include <switch.h>
 #include <threads.h>
 #include "data/buffered_placeholder_writer.hpp"
-#include "util/title_util.hpp"
 #include "util/error.hpp"
-#include "util/debug.h"
 #include "nspInstall.hpp"
 #include "util/util.hpp"
 
-namespace tin::install::nsp
+namespace tin::install::xci
 {
-    HTTPNSP::HTTPNSP(std::string url) :
+    HTTPXCI::HTTPXCI(std::string url) :
         m_download(url)
     {
 
@@ -80,16 +77,13 @@ namespace tin::install::nsp
         return 0;
     }
 
-    void HTTPNSP::BufferNCAHeader(void* buf, NcmContentId placeholderId)
-    {
-        const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
-        u64 pfs0Offset = this->GetDataOffset() + fileEntry->dataOffset;
-        this->BufferData(buf, pfs0Offset, 0xc00);
+    bool HTTPXCI::CanStream() {
+        return true;
     }
 
-    void HTTPNSP::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId)
+    void HTTPXCI::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId)
     {
-        const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
+        const HFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
 
         printf("Retrieving %s\n", ncaFileName.c_str());
@@ -117,7 +111,7 @@ namespace tin::install::nsp
         {
             u64 newTime = armGetSystemTick();
 
-            if (newTime - startTime >= freq * 0.5)
+            if (newTime - startTime >= freq)
             {
                 size_t newSizeBuffered = bufferedPlaceholderWriter.GetSizeBuffered();
                 double mbBuffered = (newSizeBuffered / 1000000.0) - (startSizeBuffered / 1000000.0);
@@ -148,7 +142,6 @@ namespace tin::install::nsp
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
             printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
-            inst::ui::setInstBarPerc((double)installProgress);
         }
         inst::ui::setInstBarPerc(100);
 
@@ -156,7 +149,7 @@ namespace tin::install::nsp
         thrd_join(writeThread, NULL);
     }
 
-    void HTTPNSP::BufferData(void* buf, off_t offset, size_t size)
+    void HTTPXCI::BufferData(void* buf, off_t offset, size_t size)
     {
         m_download.BufferDataRange(buf, offset, size, nullptr);
     }

@@ -50,7 +50,7 @@ namespace inst::ui {
         this->menu->ClearItems();
         try {
             this->ourDirectories = util::getDirsAtPath(this->currentDir);
-            this->ourFiles = util::getDirectoryFiles(this->currentDir, {".nsp", ".nsz"});
+            this->ourFiles = util::getDirectoryFiles(this->currentDir, {".nsp", ".nsz", ".xci", ".xcz"});
         } catch (std::exception& e) {
             this->drawMenuItems(false, this->currentDir.parent_path());
             return;

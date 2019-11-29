@@ -20,28 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#include "install/local_xci.hpp"
+#include "error.hpp"
+#include "debug.h"
 
-#include <switch.h>
-#include "install/install.hpp"
-#include "install/simple_filesystem.hpp"
-#include "nx/content_meta.hpp"
-#include "nx/ipc/tin_ipc.h"
-
-namespace tin::install::nsp
+namespace tin::install::xci
 {
-    class NSPInstallTask : public Install
+    LocalXCI::LocalXCI(std::string path)
     {
-        private:
-            tin::install::nsp::SimpleFileSystem* const m_simpleFileSystem;
+        m_xciFile = fopen((path).c_str(), "rb");
+        if (!m_xciFile)
+            THROW_FORMAT("can't open file at %s\n", path.c_str());
+    }
 
-        protected:
-            std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> ReadCNMT() override;
-            void InstallNCA(const NcmContentId& ncaId) override;
-            void InstallTicketCert() override;
+    LocalXCI::~LocalXCI()
+    {
+        fclose(m_xciFile);
+    }
 
-        public:
-            NSPInstallTask(tin::install::nsp::SimpleFileSystem& simpleFileSystem, NcmStorageId destStorageId, bool ignoreReqFirmVersion);
-    };
-};
+    bool LocalXCI::CanStream() {
+        return false;
+    }
 
+    void LocalXCI::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId)
+    {
+        THROW_FORMAT("not streamable\n");
+    }
+
+    void LocalXCI::BufferData(void* buf, off_t offset, size_t size)
+    {
+        fseeko(m_xciFile, offset, SEEK_SET);
+        fread(buf, 1, size, m_xciFile);
+    }
+}

@@ -22,26 +22,20 @@ SOFTWARE.
 
 #pragma once
 
-#include <switch.h>
-#include "install/install.hpp"
-#include "install/simple_filesystem.hpp"
-#include "nx/content_meta.hpp"
-#include "nx/ipc/tin_ipc.h"
+#include "install/xci.hpp"
 
-namespace tin::install::nsp
+namespace tin::install::xci
 {
-    class NSPInstallTask : public Install
+    class LocalXCI : public XCI
     {
-        private:
-            tin::install::nsp::SimpleFileSystem* const m_simpleFileSystem;
+    public:
+        LocalXCI(std::string path);
+        ~LocalXCI();
 
-        protected:
-            std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> ReadCNMT() override;
-            void InstallNCA(const NcmContentId& ncaId) override;
-            void InstallTicketCert() override;
-
-        public:
-            NSPInstallTask(tin::install::nsp::SimpleFileSystem& simpleFileSystem, NcmStorageId destStorageId, bool ignoreReqFirmVersion);
+        virtual bool CanStream() override;
+        virtual void StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId) override;
+        virtual void BufferData(void* buf, off_t offset, size_t size) override;
+    private:
+        FILE* m_xciFile;
     };
-};
-
+}

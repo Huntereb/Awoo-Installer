@@ -31,6 +31,8 @@ SOFTWARE.
 #include "util/network_util.hpp"
 #include "install/install_nsp_remote.hpp"
 #include "install/http_nsp.hpp"
+#include "install/install_xci.hpp"
+#include "install/http_xci.hpp"
 #include "install/install.hpp"
 #include "util/error.hpp"
 
@@ -39,6 +41,7 @@ SOFTWARE.
 #include "nspInstall.hpp"
 #include "util/config.hpp"
 #include "util/util.hpp"
+#include "util/curl.hpp"
 
 const unsigned int MAX_URL_SIZE = 1024;
 const unsigned int MAX_URLS = 256;
@@ -141,19 +144,35 @@ namespace netInstStuff{
 
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
-                inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
+                if (inst::curl::downloadToBuffer(ourUrlList[urlItr], 0x100, 0x103) == "HEAD") {
+                    inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
 
-                tin::install::nsp::HTTPNSP httpNSP(ourUrlList[urlItr]);
+                    tin::install::xci::HTTPXCI httpXCI(ourUrlList[urlItr]);
 
-                printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
-                tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
+                    printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
+                    tin::install::xci::XCIInstallTask install(httpXCI, m_destStorageId, inst::config::ignoreReqVers);
 
-                printf("%s\n", "Preparing installation");
-                inst::ui::setInstInfoText("Preparing installation...");
-                inst::ui::setInstBarPerc(0);
-                install.Prepare();
+                    printf("%s\n", "Preparing installation");
+                    inst::ui::setInstInfoText("Preparing installation...");
+                    inst::ui::setInstBarPerc(0);
+                    install.Prepare();
 
-                install.Begin();
+                    install.Begin();
+                } else {
+                    inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
+
+                    tin::install::nsp::HTTPNSP httpNSP(ourUrlList[urlItr]);
+
+                    printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
+                    tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
+
+                    printf("%s\n", "Preparing installation");
+                    inst::ui::setInstInfoText("Preparing installation...");
+                    inst::ui::setInstBarPerc(0);
+                    install.Prepare();
+
+                    install.Begin();
+                }
             }
         }
         catch (std::exception& e) {

@@ -53,13 +53,13 @@ namespace tin::install::nsp
 
     }
 
-    std::tuple<nx::ncm::ContentMeta, NcmContentInfo> NSPInstallTask::ReadCNMT()
+    std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> NSPInstallTask::ReadCNMT()
     {
         NcmContentInfo cnmtRecord = tin::util::CreateNSPCNMTContentRecord(this->m_simpleFileSystem->m_absoluteRootPath.substr(0, this->m_simpleFileSystem->m_absoluteRootPath.size() - 1));
         nx::ncm::ContentStorage contentStorage(m_destStorageId);
         this->InstallNCA(cnmtRecord.content_id);
         std::string cnmtNCAFullPath = contentStorage.GetPath(cnmtRecord.content_id);
-        return { tin::util::GetContentMetaFromNCA(cnmtNCAFullPath), cnmtRecord };
+        return { { tin::util::GetContentMetaFromNCA(cnmtNCAFullPath), cnmtRecord } };
     }
 
     void NSPInstallTask::InstallTicketCert()
@@ -84,7 +84,6 @@ namespace tin::install::nsp
 
         // Finally, let's actually import the ticket
         ASSERT_OK(esImportTicket(tikBuf.get(), tikSize, certBuf.get(), certSize), "Failed to import ticket");
-        //consoleUpdate(NULL);
     }
 
     void NSPInstallTask::InstallNCA(const NcmContentId &ncaId)
@@ -95,7 +94,7 @@ namespace tin::install::nsp
             ncaName += ".nca";
         else if (m_simpleFileSystem->HasFile(ncaName + ".cnmt.nca"))
             ncaName += ".cnmt.nca";
-          else if (m_simpleFileSystem->HasFile(ncaName + ".ncz"))
+        else if (m_simpleFileSystem->HasFile(ncaName + ".ncz"))
             ncaName += ".ncz";
         else if (m_simpleFileSystem->HasFile(ncaName + ".cnmt.ncz"))
             ncaName += ".cnmt.ncz";
@@ -152,15 +151,14 @@ namespace tin::install::nsp
         float progress;
         bool failed = false;
 
-        //consoleUpdate(NULL);
 
         try
         {
             inst::ui::setInstInfoText("Installing " + ncaName + "...");
             inst::ui::setInstBarPerc(0);
-            while (fileOff < ncaSize) 
-            {   
-                // Clear the buffer before we read anything, just to be sure    
+            while (fileOff < ncaSize)
+            {
+                // Clear the buffer before we read anything, just to be sure
                 progress = (float)fileOff / (float)ncaSize;
 
                 if (fileOff % (0x400000 * 3) == 0) {
@@ -174,7 +172,6 @@ namespace tin::install::nsp
                 writer.write(readBuffer.get(), readSize);
 
                 fileOff += readSize;
-                //consoleUpdate(NULL);
             }
             inst::ui::setInstBarPerc(100);
         }
