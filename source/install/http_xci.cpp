@@ -116,28 +116,33 @@ namespace tin::install::xci
 
                 startTime = newTime;
                 startSizeBuffered = newSizeBuffered;
-
-                u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
-                u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
+                #ifdef NXLINK_DEBUG
+                    u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
+                    u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
+                    LOG_DEBUG("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
+                #endif
                 int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-                LOG_DEBUG("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::setInstBarPerc((double)downloadProgress);
             }
         }
         inst::ui::setInstBarPerc(100);
-
-        u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
+        
+        #ifdef NXLINK_DEBUG
+            u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
+        #endif
 
         inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
         inst::ui::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete())
         {
-            u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
+            #ifdef NXLINK_DEBUG
+                u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
+                LOG_DEBUG("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
+            #endif
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
-
-            LOG_DEBUG("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
+            inst::ui::setInstBarPerc((double)installProgress);
         }
         inst::ui::setInstBarPerc(100);
 
