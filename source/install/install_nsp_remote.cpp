@@ -59,7 +59,7 @@ namespace tin::install::nsp
 
         nx::ncm::ContentStorage contentStorage(m_destStorageId);
 
-        printf("CNMT Name: %s\n", cnmtNcaName.c_str());
+        LOG_DEBUG("CNMT Name: %s\n", cnmtNcaName.c_str());
 
         // We install the cnmt nca early to read from it later
         this->InstallNCA(cnmtContentId);
@@ -79,7 +79,7 @@ namespace tin::install::nsp
         std::string ncaFileName = m_remoteNSP->GetFileEntryName(fileEntry);
         size_t ncaSize = fileEntry->fileSize;
 
-        printf("Installing %s to storage Id %u\n", ncaFileName.c_str(), m_destStorageId);
+        LOG_DEBUG("Installing %s to storage Id %u\n", ncaFileName.c_str(), m_destStorageId);
 
         std::shared_ptr<nx::ncm::ContentStorage> contentStorage(new nx::ncm::ContentStorage(m_destStorageId));
 
@@ -90,7 +90,7 @@ namespace tin::install::nsp
         }
         catch (...) {}
 
-        printf("Size: 0x%lx\n", ncaSize);
+        LOG_DEBUG("Size: 0x%lx\n", ncaSize);
 
         if (inst::config::validateNCAs && !declinedValidation)
         {
@@ -114,9 +114,7 @@ namespace tin::install::nsp
 
         m_remoteNSP->StreamToPlaceholder(contentStorage, ncaId);
 
-        // Clean up the line for whatever comes next
-        //printf("                                                           \r");
-        printf("Registering placeholder...\n");
+        LOG_DEBUG("Registering placeholder...\n");
 
         try
         {
@@ -124,7 +122,7 @@ namespace tin::install::nsp
         }
         catch (...)
         {
-            printf(("Failed to register " + ncaFileName + ". It may already exist.\n").c_str());
+            LOG_DEBUG(("Failed to register " + ncaFileName + ". It may already exist.\n").c_str());
         }
 
         try
@@ -141,13 +139,13 @@ namespace tin::install::nsp
 
         if (tikFileEntry == nullptr)
         {
-            printf("Remote tik file is missing.\n");
+            LOG_DEBUG("Remote tik file is missing.\n");
             throw std::runtime_error("Remote tik file is not present!");
         }
 
         u64 tikSize = tikFileEntry->fileSize;
         auto tikBuf = std::make_unique<u8[]>(tikSize);
-        printf("> Reading tik\n");
+        LOG_DEBUG("> Reading tik\n");
         m_remoteNSP->BufferData(tikBuf.get(), m_remoteNSP->GetDataOffset() + tikFileEntry->dataOffset, tikSize);
 
         // Read the cert file and put it into a buffer
@@ -155,13 +153,13 @@ namespace tin::install::nsp
 
         if (certFileEntry == nullptr)
         {
-            printf("Remote cert file is missing.\n");
+            LOG_DEBUG("Remote cert file is missing.\n");
             throw std::runtime_error("Remote cert file is not present!");
         }
 
         u64 certSize = certFileEntry->fileSize;
         auto certBuf = std::make_unique<u8[]>(certSize);
-        printf("> Reading cert\n");
+        LOG_DEBUG("> Reading cert\n");
         m_remoteNSP->BufferData(certBuf.get(), m_remoteNSP->GetDataOffset() + certFileEntry->dataOffset, certSize);
 
         // Finally, let's actually import the ticket

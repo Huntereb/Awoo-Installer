@@ -55,7 +55,7 @@ namespace tin::install
         catch (std::exception& e)
         {
             this->PrintCritical("NSP is invalid and cannot be opened! Error: " + std::string(e.what()));
-            printf("> NSP Path: %s\n", m_nspPath.c_str());
+            LOG_DEBUG("> NSP Path: %s\n", m_nspPath.c_str());
             return false;
         }
         this->PrintSuccess("PFS0 structure is valid");
@@ -189,17 +189,17 @@ namespace tin::install
 
     void NSPVerifier::PrintCritical(std::string text)
     {
-        printf("[%sCRITICAL%s] %s\n", CONSOLE_RED, CONSOLE_RESET, text.c_str());
+        LOG_DEBUG("[%sCRITICAL%s] %s\n", CONSOLE_RED, CONSOLE_RESET, text.c_str());
     }
 
     void NSPVerifier::PrintWarning(std::string text)
     {
-        printf("[%sWARNING%s] %s\n", CONSOLE_YELLOW, CONSOLE_RESET, text.c_str());
+        LOG_DEBUG("[%sWARNING%s] %s\n", CONSOLE_YELLOW, CONSOLE_RESET, text.c_str());
     }
 
     void NSPVerifier::PrintSuccess(std::string text)
     {
-        printf("[%sOK%s] %s\n", CONSOLE_GREEN, CONSOLE_RESET, text.c_str());
+        LOG_DEBUG("[%sOK%s] %s\n", CONSOLE_GREEN, CONSOLE_RESET, text.c_str());
     }
 }
 #endif

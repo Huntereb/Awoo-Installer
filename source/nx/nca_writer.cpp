@@ -21,6 +21,7 @@ SOFTWARE.
 */
 
 #include "nx/nca_writer.h"
+#include "util/error.hpp"
 #include <zstd.h>
 #include <string.h>
 #include "util/crypto.hpp"
@@ -247,7 +248,7 @@ public:
 
                if (ZSTD_isError(ret))
                {
-                    printf("%s\n", ZSTD_getErrorName(ret));
+                    LOG_DEBUG("%s\n", ZSTD_getErrorName(ret));
                     return false;
                }
 

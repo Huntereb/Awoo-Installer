@@ -175,7 +175,7 @@ namespace tin::network
         {
             if (sizeRead + streamBufSize > size)
             {
-                printf("New read size 0x%lx would exceed total expected size 0x%lx\n", sizeRead + streamBufSize, size);
+                LOG_DEBUG("New read size 0x%lx would exceed total expected size 0x%lx\n", sizeRead + streamBufSize, size);
                 return 0;
             }
 
@@ -210,8 +210,6 @@ namespace tin::network
         std::stringstream ss;
         ss << offset << "-" << (offset + size - 1);
         auto range = ss.str();
-        // printf("Requesting from range: %s\n", range.c_str());
-        // printf("Read size: %lx\n", size); NOTE: For some reason including these causes the cursor to disappear?
 
         curl_easy_setopt(curl, CURLOPT_URL, m_url.c_str());
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);

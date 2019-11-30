@@ -38,13 +38,13 @@ namespace tin::install::nsp
     // TODO: Do verification: PFS0 magic, sizes not zero
     void RemoteNSP::RetrieveHeader()
     {
-        printf("Retrieving remote NSP header...\n");
+        LOG_DEBUG("Retrieving remote NSP header...\n");
 
         // Retrieve the base header
         m_headerBytes.resize(sizeof(PFS0BaseHeader), 0);
         this->BufferData(m_headerBytes.data(), 0x0, sizeof(PFS0BaseHeader));
 
-        printf("Base header: \n");
+        LOG_DEBUG("Base header: \n");
         printBytes(m_headerBytes.data(), sizeof(PFS0BaseHeader), true);
 
         // Retrieve the full header
@@ -52,7 +52,7 @@ namespace tin::install::nsp
         m_headerBytes.resize(sizeof(PFS0BaseHeader) + remainingHeaderSize, 0);
         this->BufferData(m_headerBytes.data() + sizeof(PFS0BaseHeader), sizeof(PFS0BaseHeader), remainingHeaderSize);
 
-        printf("Full header: \n");
+        LOG_DEBUG("Full header: \n");
         printBytes(m_headerBytes.data(), m_headerBytes.size(), true);
     }
 

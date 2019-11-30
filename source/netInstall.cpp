@@ -90,7 +90,7 @@ namespace netInstStuff{
     }
     catch (std::exception& e)
     {
-        printf("Failed to initialize server socket!\n");
+        LOG_DEBUG("Failed to initialize server socket!\n");
         fprintf(stdout, "%s", e.what());
 
         if (m_serverSocket != 0)
@@ -103,7 +103,7 @@ namespace netInstStuff{
 
     void OnUnwound()
     {
-        printf("unwinding view\n");
+        LOG_DEBUG("unwinding view\n");
         if (m_clientSocket != 0)
         {
             close(m_clientSocket);
@@ -144,7 +144,7 @@ namespace netInstStuff{
 
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
-                printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
+                LOG_DEBUG("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
                 inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
 
                 tin::install::Install* installTask;
@@ -157,7 +157,7 @@ namespace netInstStuff{
                     installTask = new tin::install::nsp::RemoteNSPInstall(m_destStorageId, inst::config::ignoreReqVers, httpNSP);
                 }
 
-                printf("%s\n", "Preparing installation");
+                LOG_DEBUG("%s\n", "Preparing installation");
                 inst::ui::setInstInfoText("Preparing installation...");
                 inst::ui::setInstBarPerc(0);
                 installTask->Prepare();
@@ -166,8 +166,8 @@ namespace netInstStuff{
             }
         }
         catch (std::exception& e) {
-            printf("Failed to install");
-            printf("%s", e.what());
+            LOG_DEBUG("Failed to install");
+            LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
             inst::ui::setInstInfoText("Failed to install " + urlNames[urlItr]);
             inst::ui::setInstBarPerc(0);
@@ -181,7 +181,7 @@ namespace netInstStuff{
             inst::util::setClockSpeed(2, previousClockValues[2]);
         }
 
-        printf("%s\n", "Telling the server we're done installing");
+        LOG_DEBUG("%s\n", "Telling the server we're done installing");
         // Send 1 byte ack to close the server
         u8 ack = 0;
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
@@ -193,7 +193,7 @@ namespace netInstStuff{
             else inst::ui::mainApp->CreateShowDialog(urlNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }
         
-        printf("Done");
+        LOG_DEBUG("Done");
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletEndBlockingHomeButton();
         inst::ui::loadMainMenu();
         inst::util::deinitInstallServices();
@@ -224,9 +224,9 @@ namespace netInstStuff{
 
             std::string ourIPAddress = inst::util::getIPAddress();
             inst::ui::setNetInfoText("Waiting for a connection... Your Switch's IP Address is: " + ourIPAddress);
-            printf("%s %s\n", "Switch IP is ", ourIPAddress.c_str());
-            printf("%s\n", "Waiting for network");
-            printf("%s\n", "B to cancel");
+            LOG_DEBUG("%s %s\n", "Switch IP is ", ourIPAddress.c_str());
+            LOG_DEBUG("%s\n", "Waiting for network");
+            LOG_DEBUG("%s\n", "B to cancel");
             
             std::vector<std::string> urls;
 
@@ -263,12 +263,12 @@ namespace netInstStuff{
 
                 if (m_clientSocket >= 0)
                 {
-                    printf("%s\n", "Server accepted");
+                    LOG_DEBUG("%s\n", "Server accepted");
                     u32 size = 0;
                     tin::network::WaitReceiveNetworkData(m_clientSocket, &size, sizeof(u32));
                     size = ntohl(size);
 
-                    printf("Received url buf size: 0x%x\n", size);
+                    LOG_DEBUG("Received url buf size: 0x%x\n", size);
 
                     if (size > MAX_URL_SIZE * MAX_URLS)
                     {
@@ -302,8 +302,8 @@ namespace netInstStuff{
         }
         catch (std::runtime_error& e)
         {
-            printf("Failed to perform remote install!\n");
-            printf("%s", e.what());
+            LOG_DEBUG("Failed to perform remote install!\n");
+            LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
             inst::ui::mainApp->CreateShowDialog("Failed to perform remote install!", (std::string)e.what(), {"OK"}, true);
             return {};

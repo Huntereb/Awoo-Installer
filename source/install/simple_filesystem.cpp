@@ -44,7 +44,7 @@ namespace tin::install::nsp
     {
         try
         {
-            printf(("Attempting to find file at " + m_rootPath + path + "\n").c_str());
+            LOG_DEBUG(("Attempting to find file at " + m_rootPath + path + "\n").c_str());
             m_fileSystem->OpenFile(m_rootPath + path);
             return true;
         }

@@ -1,4 +1,5 @@
 #include "switch.h"
+#include "util/error.hpp"
 #include "ui/MainApplication.hpp"
 #include "util/util.hpp"
 
@@ -13,7 +14,7 @@ int main(int argc, char* argv[])
         main->Prepare();
         main->Show();
     } catch (std::exception& e) {
-        printf("An error occurred:\n%s", e.what());
+        LOG_DEBUG("An error occurred:\n%s", e.what());
     }
     inst::util::deinitApp();
     return 0;

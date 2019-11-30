@@ -83,13 +83,13 @@ namespace tin::util
 
         if (R_FAILED(rc = nsGetApplicationControlData(NsApplicationControlSource_Storage, baseTitleId, &appControlData, sizeof(NsApplicationControlData), &sizeRead)))
         {
-            printf("Failed to get application control data. Error code: 0x%08x\n", rc);
+            LOG_DEBUG("Failed to get application control data. Error code: 0x%08x\n", rc);
             return "Unknown";
         }
 
         if (sizeRead < sizeof(appControlData.nacp))
         {
-            printf("Incorrect size for nacp\n");
+            LOG_DEBUG("Incorrect size for nacp\n");
             return "Unknown";
         }
 
@@ -97,13 +97,13 @@ namespace tin::util
 
         if (R_FAILED(rc = nacpGetLanguageEntry(&appControlData.nacp, &languageEntry)))
         {
-            printf("Failed to get language entry. Error code: 0x%08x\n", rc);
+            LOG_DEBUG("Failed to get language entry. Error code: 0x%08x\n", rc);
             return "Unknown";
         }
 
         if (languageEntry == NULL)
         {
-            printf("Language entry is null! Error code: 0x%08x\n", rc);
+            LOG_DEBUG("Language entry is null! Error code: 0x%08x\n", rc);
             return "Unknown";
         }
 

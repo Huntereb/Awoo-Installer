@@ -31,6 +31,7 @@ SOFTWARE.
 
 void printBytes(u8 *bytes, size_t size, bool includeHeader)
 {
+#ifdef NXLINK_DEBUG
     int count = 0;
 
     if (includeHeader)
@@ -48,4 +49,5 @@ void printBytes(u8 *bytes, size_t size, bool includeHeader)
     }
 
     printf("\n");
+#endif
 }

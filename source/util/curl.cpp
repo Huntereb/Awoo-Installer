@@ -1,5 +1,6 @@
 #include "util/curl.hpp"
 #include "util/config.hpp"
+#include "util/error.hpp"
 #include <curl/curl.h>
 #include <string>
 #include <sstream>
@@ -45,7 +46,7 @@ namespace inst::curl {
 
         if (result == CURLE_OK) return true;
         else {
-            printf(curl_easy_strerror(result));
+            LOG_DEBUG(curl_easy_strerror(result));
             return false;
         }
     }
@@ -79,7 +80,7 @@ namespace inst::curl {
 
         if (result == CURLE_OK) return stream.str();
         else {
-            printf(curl_easy_strerror(result));
+            LOG_DEBUG(curl_easy_strerror(result));
             return "";
         }
     }
