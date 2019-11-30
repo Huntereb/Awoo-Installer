@@ -77,19 +77,15 @@ namespace tin::install::xci
         return 0;
     }
 
-    bool HTTPXCI::CanStream() {
-        return true;
-    }
-
-    void HTTPXCI::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId)
+    void HTTPXCI::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId)
     {
-        const HFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
+        const HFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(ncaId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
 
         printf("Retrieving %s\n", ncaFileName.c_str());
         size_t ncaSize = fileEntry->fileSize;
 
-        tin::data::BufferedPlaceholderWriter bufferedPlaceholderWriter(contentStorage, placeholderId, ncaSize);
+        tin::data::BufferedPlaceholderWriter bufferedPlaceholderWriter(contentStorage, ncaId, ncaSize);
         StreamFuncArgs args;
         args.download = &m_download;
         args.bufferedPlaceholderWriter = &bufferedPlaceholderWriter;

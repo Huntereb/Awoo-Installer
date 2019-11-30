@@ -41,7 +41,6 @@ namespace tin::install::xci
             XCI();
 
         public:
-            virtual bool CanStream() = 0;
             virtual void StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId) = 0;
             virtual void BufferData(void* buf, off_t offset, size_t size) = 0;
 

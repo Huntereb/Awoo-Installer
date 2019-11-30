@@ -23,7 +23,6 @@ SOFTWARE.
 #include "install/install_xci.hpp"
 #include "util/file_util.hpp"
 #include "util/title_util.hpp"
-#include "nx/nca_writer.h"
 #include "util/debug.h"
 #include "util/error.hpp"
 #include "util/config.hpp"
@@ -115,47 +114,7 @@ namespace tin::install::xci
             }
         }
 
-        if (m_xci->CanStream()) {
-            m_xci->StreamToPlaceholder(contentStorage, ncaId);
-        } else {
-            NcaWriter writer(ncaId, contentStorage);
-
-            float progress;
-
-            u64 fileStart = m_xci->GetDataOffset() + fileEntry->dataOffset;
-            u64 fileOff = 0;
-            size_t readSize = 0x400000; // 4MB buff
-            auto readBuffer = std::make_unique<u8[]>(readSize);
-
-            try
-            {
-                inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
-                inst::ui::setInstBarPerc(0);
-                while (fileOff < ncaSize)
-                {
-                    progress = (float) fileOff / (float) ncaSize;
-
-                    if (fileOff % (0x400000 * 3) == 0) {
-                        printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
-                        inst::ui::setInstBarPerc((double)(progress * 100.0));
-                    }
-
-                    if (fileOff + readSize >= ncaSize) readSize = ncaSize - fileOff;
-
-                    m_xci->BufferData(readBuffer.get(), fileOff + fileStart, readSize);
-                    writer.write(readBuffer.get(), readSize);
-
-                    fileOff += readSize;
-                }
-                inst::ui::setInstBarPerc(100);
-            }
-            catch (std::exception& e)
-            {
-                printf("something went wrong: %s\n", e.what());
-            }
-
-            writer.close();
-        }
+        m_xci->StreamToPlaceholder(contentStorage, ncaId);
 
         // Clean up the line for whatever comes next
         printf("                                                           \r");

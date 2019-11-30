@@ -32,8 +32,7 @@ namespace tin::install::xci
         LocalXCI(std::string path);
         ~LocalXCI();
 
-        virtual bool CanStream() override;
-        virtual void StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId) override;
+        virtual void StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId) override;
         virtual void BufferData(void* buf, off_t offset, size_t size) override;
     private:
         FILE* m_xciFile;
