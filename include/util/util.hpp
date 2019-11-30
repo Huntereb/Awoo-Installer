@@ -14,4 +14,5 @@ namespace inst::util {
     std::string readTextFromFile(std::string ourFile);
     std::string softwareKeyboard(std::string guideText, std::string initialText, int LenMax);
     std::string getDriveFileName(std::string fileId);
+    int getUsbState();
 }

@@ -30,24 +30,13 @@ namespace usbInstStuff {
     std::vector<std::string> OnSelected() {
         Result rc = 0;
 
-        u32 usbState = 0;
-        usbDsGetState(&usbState);
-        if (usbState != 5) {
-            inst::ui::mainApp->CreateShowDialog("Plug in usb ya faggot!", "", {"OK"}, false);
-            return {};
-        }
-
         while(true) {
-            hidScanInput();
-            if (hidKeysDown(CONTROLLER_P1_AUTO) & KEY_B)
-                break;
             rc = usbDsWaitReady(1000000);
             if (R_SUCCEEDED(rc)) break;
             else if ((rc & 0x3FFFFF) != 0xEA01)
                 return {};
         }
 
-        inst::ui::setInstInfoText("USB install ready!\n");
         TUSHeader header;
         tin::util::USBRead(&header, sizeof(TUSHeader));
 

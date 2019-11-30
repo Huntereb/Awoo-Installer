@@ -167,4 +167,10 @@ namespace inst::util {
         }
         return "";
     }
+
+    int getUsbState() {
+        u32 usbState = 0;
+        usbDsGetState(&usbState);
+        return usbState;
+    }
 }

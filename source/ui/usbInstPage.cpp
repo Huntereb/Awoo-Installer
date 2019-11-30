@@ -29,6 +29,7 @@ namespace inst::ui {
         this->menu = pu::ui::elm::Menu::New(0, 154, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
         this->menu->SetScrollbarColor(COLOR("#17090980"));
+        this->infoImage = Image::New(460, 332, "romfs:/usb-connection-waiting.png");
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->botRect);
@@ -37,6 +38,7 @@ namespace inst::ui {
         this->Add(this->butText);
         this->Add(this->pageInfoText);
         this->Add(this->menu);
+        this->Add(this->infoImage);
     }
 
     void usbInstPage::drawMenuItems(bool clearItems) {
@@ -66,20 +68,23 @@ namespace inst::ui {
     }
 
     void usbInstPage::startUsb() {
-        this->pageInfoText->SetText("");
+        this->pageInfoText->SetText("USB connection successful! Waiting for files to be sent...");
         this->butText->SetText("");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
+        this->infoImage->SetVisible(true);
         mainApp->LoadLayout(mainApp->usbinstPage);
+        mainApp->CallForRender();
         this->ourNsps = usbInstStuff::OnSelected();
         if (!this->ourNsps.size()) {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
         } else {
-            this->pageInfoText->SetText("Select what files you want to install from usb, then press the Plus button!");
+            this->pageInfoText->SetText("Select what files you want to install over USB, then press the Plus button!");
             this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
             this->drawMenuItems(true);
         }
+        this->infoImage->SetVisible(false);
         this->menu->SetVisible(true);
         return;
     }
