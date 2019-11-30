@@ -73,16 +73,16 @@ namespace usbInstStuff {
 
         std::vector<std::string> fileNames;
         for (long unsigned int i = 0; i < ourTitleList.size(); i++) {
-            fileNames.push_back(inst::util::shortenString(ourTitleList[i], 40, true));
+            fileNames.push_back(inst::util::shortenString(inst::util::formatUrlString(ourTitleList[i]), 40, true));
         }
-/*
+
         std::vector<int> previousClockValues;
         if (inst::config::overClock) {
             previousClockValues.push_back(inst::util::setClockSpeed(0, 1785000000)[0]);
             previousClockValues.push_back(inst::util::setClockSpeed(1, 76800000)[0]);
             previousClockValues.push_back(inst::util::setClockSpeed(2, 1600000000)[0]);
         }
-*/
+
         try {
             for (fileItr = 0; fileItr < ourTitleList.size(); fileItr++) {
                 inst::ui::setTopInstInfoText("Installing " + fileNames[fileItr] + " over USB");
@@ -116,13 +116,13 @@ namespace usbInstStuff {
         }
 
         tin::util::USBCmdManager::SendExitCmd();
-/*
+
         if (previousClockValues.size() > 0) {
             inst::util::setClockSpeed(0, previousClockValues[0]);
             inst::util::setClockSpeed(1, previousClockValues[1]);
             inst::util::setClockSpeed(2, previousClockValues[2]);
         }
-*/
+
 
         if(nspInstalled) {
             inst::ui::setInstInfoText("Install complete");

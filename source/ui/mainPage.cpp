@@ -30,7 +30,7 @@ namespace inst::ui {
         this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install over LAN or internet");
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem->SetIcon("romfs:/cloud-download.png");
-        this->usbInstallMenuItem = pu::ui::elm::MenuItem::New("Install Over USB");
+        this->usbInstallMenuItem = pu::ui::elm::MenuItem::New("Install over USB");
         this->usbInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->usbInstallMenuItem->SetIcon("romfs:/usb-port.png");
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage signature patches");

@@ -88,7 +88,7 @@ namespace inst::ui {
 
     void usbInstPage::startInstall() {
         int dialogResult = -1;
-        if (this->selectedTitles.size() == 1) dialogResult = mainApp->CreateShowDialog("Where should " + selectedTitles[0] + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        if (this->selectedTitles.size() == 1) dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(this->selectedTitles[0]), 32, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(this->selectedTitles.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
         usbInstStuff::installTitleUsb(this->selectedTitles, dialogResult);
