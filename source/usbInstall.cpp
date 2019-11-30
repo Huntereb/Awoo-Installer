@@ -73,7 +73,7 @@ namespace usbInstStuff {
 
         std::vector<std::string> fileNames;
         for (long unsigned int i = 0; i < ourTitleList.size(); i++) {
-            fileNames.push_back(inst::util::shortenString(ourTitleList[i], 42, true));
+            fileNames.push_back(inst::util::shortenString(ourTitleList[i], 40, true));
         }
 /*
         std::vector<int> previousClockValues;
@@ -85,7 +85,7 @@ namespace usbInstStuff {
 */
         try {
             for (fileItr = 0; fileItr < ourTitleList.size(); fileItr++) {
-                inst::ui::setTopInstInfoText("Installing " + fileNames[fileItr]);
+                inst::ui::setTopInstInfoText("Installing " + fileNames[fileItr] + " over USB");
 
                 tin::install::Install* installTask;
 

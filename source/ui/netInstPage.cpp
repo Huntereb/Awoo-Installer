@@ -15,6 +15,7 @@ namespace inst::ui {
 
     std::string lastUrl = "https://";
     std::string lastFileID = "";
+    std::string sourceString = "";
 
     netInstPage::netInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -93,6 +94,7 @@ namespace inst::ui {
                             mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
                             break;
                         }
+                        sourceString = " from URL";
                         this->selectedUrls = {keyboardResult};
                         this->startInstall(true);
                         return;
@@ -105,6 +107,7 @@ namespace inst::ui {
                         std::string fileName = inst::util::getDriveFileName(keyboardResult);
                         if (fileName.size() > 0) this->alternativeNames = {fileName};
                         else this->alternativeNames = {"Google Drive File"};
+                        sourceString = " from Google Drive";
                         this->selectedUrls = {"https://www.googleapis.com/drive/v3/files/" + keyboardResult + "?key=" + inst::config::gAuthKey + "&alt=media"};
                         this->startInstall(true);
                         return;
@@ -114,6 +117,7 @@ namespace inst::ui {
             this->startNetwork();
             return;
         } else {
+            sourceString = " over local network";
             this->pageInfoText->SetText("Select what files you want to install from the server, then press the Plus button!");
             this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
             this->drawMenuItems(true);
@@ -136,7 +140,7 @@ namespace inst::ui {
             this->startNetwork();
             return;
         }
-        netInstStuff::installTitleNet(this->selectedUrls, dialogResult, this->alternativeNames);
+        netInstStuff::installTitleNet(this->selectedUrls, dialogResult, this->alternativeNames, sourceString);
         return;
     }
 

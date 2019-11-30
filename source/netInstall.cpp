@@ -113,7 +113,7 @@ namespace netInstStuff{
         curl_global_cleanup();
     }
 
-    void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames)
+    void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames, std::string ourSource)
     {
         inst::util::initInstallServices();
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
@@ -127,11 +127,11 @@ namespace netInstStuff{
         std::vector<std::string> urlNames;
         if (urlListAltNames.size() > 0) {
             for (long unsigned int i = 0; i < urlListAltNames.size(); i++) {
-                urlNames.push_back(inst::util::shortenString(urlListAltNames[i], 42, true));
+                urlNames.push_back(inst::util::shortenString(urlListAltNames[i], 38, true));
             }
         } else {
             for (long unsigned int i = 0; i < ourUrlList.size(); i++) {
-                urlNames.push_back(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[i]), 42, true));
+                urlNames.push_back(inst::util::shortenString(inst::util::formatUrlString(ourUrlList[i]), 38, true));
             }
         }
 
@@ -145,7 +145,7 @@ namespace netInstStuff{
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
                 printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
-                inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
+                inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr] + ourSource);
 
                 tin::install::Install* installTask;
 

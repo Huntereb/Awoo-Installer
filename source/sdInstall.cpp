@@ -103,7 +103,7 @@ namespace nspInstStuff {
         try
         {
             for (titleItr = 0; titleItr < ourTitleList.size(); titleItr++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true));
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 40, true) + " from SD card");
                 tin::install::Install* installTask;
 
                 inst::ui::mainApp->CreateShowDialog(ourTitleList[titleItr].filename().string(), ourTitleList[titleItr].filename().string(), {ourTitleList[titleItr].filename().string()}, true);
