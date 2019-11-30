@@ -148,7 +148,7 @@ namespace inst::ui {
             }
         }
         if ((Down & KEY_X)) {
-            inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP or NSZ files to your SD card, browse to and select the\nones you want to install, then press the Plus button.", {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP, NSZ, XCI, or XCZ files to your SD card, browse to and\nselect the ones you want to install, then press the Plus button.", {"OK"}, true);
         }
         if (Down & KEY_PLUS) {
             if (this->selectedNsps.size() == 0 && this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/checkbox-blank-outline.png") {
