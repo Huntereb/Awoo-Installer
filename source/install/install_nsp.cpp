@@ -66,20 +66,20 @@ namespace tin::install::nsp
     {
         // Read the tik file and put it into a buffer
         auto tikName = m_simpleFileSystem->GetFileNameFromExtension("", "tik");
-        printf("> Getting tik size\n");
+        LOG_DEBUG("> Getting tik size\n");
         auto tikFile = m_simpleFileSystem->OpenFile(tikName);
         u64 tikSize = tikFile.GetSize();
         auto tikBuf = std::make_unique<u8[]>(tikSize);
-        printf("> Reading tik\n");
+        LOG_DEBUG("> Reading tik\n");
         tikFile.Read(0x0, tikBuf.get(), tikSize);
 
         // Read the cert file and put it into a buffer
         auto certName = m_simpleFileSystem->GetFileNameFromExtension("", "cert");
-        printf("> Getting cert size\n");
+        LOG_DEBUG("> Getting cert size\n");
         auto certFile = m_simpleFileSystem->OpenFile(certName);
         u64 certSize = certFile.GetSize();
         auto certBuf = std::make_unique<u8[]>(certSize);
-        printf("> Reading cert\n");
+        LOG_DEBUG("> Reading cert\n");
         certFile.Read(0x0, certBuf.get(), certSize);
 
         // Finally, let's actually import the ticket
@@ -100,11 +100,11 @@ namespace tin::install::nsp
             ncaName += ".cnmt.ncz";
         else
         {
-            throw std::runtime_error(("Failed to find NCA file " + ncaName + ".nca/.cnmt.nca").c_str());
+            throw std::runtime_error(("Failed to find NCA file " + ncaName + ".nca/.cnmt.nca/.ncz/.cnmt.ncz").c_str());
         }
 
-        printf("NcaId: %s\n", ncaName.c_str());
-        printf("Dest storage Id: %u\n", m_destStorageId);
+        LOG_DEBUG("NcaId: %s\n", ncaName.c_str());
+        LOG_DEBUG("Dest storage Id: %u\n", m_destStorageId);
 
         std::shared_ptr<nx::ncm::ContentStorage> contentStorage(new nx::ncm::ContentStorage(m_destStorageId));
 
@@ -133,6 +133,8 @@ namespace tin::install::nsp
                 if (rc != 1)
                     THROW_FORMAT(("The requested NCA (" + tin::util::GetNcaIdString(ncaId) + ") is not properly signed").c_str());
                 declinedValidation = true;
+            } else {
+                LOG_DEBUG("NCA signature is valid\n")
             }
         }
 
@@ -144,7 +146,7 @@ namespace tin::install::nsp
         if (readBuffer == NULL) 
             throw std::runtime_error(("Failed to allocate read buffer for " + ncaName).c_str());
 
-        printf("Size: 0x%lx\n", ncaSize);
+        LOG_DEBUG("Size: 0x%lx\n", ncaSize);
 
         NcaWriter writer(ncaId, contentStorage);
 
@@ -158,11 +160,9 @@ namespace tin::install::nsp
             inst::ui::setInstBarPerc(0);
             while (fileOff < ncaSize)
             {
-                // Clear the buffer before we read anything, just to be sure
                 progress = (float)fileOff / (float)ncaSize;
 
                 if (fileOff % (0x400000 * 3) == 0) {
-                    //printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
                     inst::ui::setInstBarPerc((double)(progress * 100.0));
                 }
 
@@ -182,9 +182,7 @@ namespace tin::install::nsp
 
         writer.close();
 
-        // Clean up the line for whatever comes next
-        //printf("                                                           \r");
-        printf("Registering placeholder...\n");
+        LOG_DEBUG("Registering placeholder...\n");
 
         if (!failed)
         {
@@ -194,7 +192,7 @@ namespace tin::install::nsp
             }
             catch (...)
             {
-                printf(("Failed to register " + ncaName + ". It may already exist.\n").c_str());
+                LOG_DEBUG(("Failed to register " + ncaName + ". It may already exist.\n").c_str());
             }
         }
 

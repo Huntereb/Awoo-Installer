@@ -82,7 +82,7 @@ namespace tin::install::xci
         const HFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(ncaId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
 
-        printf("Retrieving %s\n", ncaFileName.c_str());
+        LOG_DEBUG("Retrieving %s\n", ncaFileName.c_str());
         size_t ncaSize = fileEntry->fileSize;
 
         tin::data::BufferedPlaceholderWriter bufferedPlaceholderWriter(contentStorage, ncaId, ncaSize);
@@ -121,7 +121,7 @@ namespace tin::install::xci
                 u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
                 int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-                printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
+                LOG_DEBUG("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::setInstBarPerc((double)downloadProgress);
             }
@@ -137,7 +137,7 @@ namespace tin::install::xci
             u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-            printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
+            LOG_DEBUG("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
         }
         inst::ui::setInstBarPerc(100);
 

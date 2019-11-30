@@ -1,4 +1,5 @@
 #include <string>
+#include "util/error.hpp"
 #include "usbInstall.hpp"
 #include "install/usb_nsp.hpp"
 #include "install/install_nsp_remote.hpp"
@@ -97,7 +98,7 @@ namespace usbInstStuff {
                     installTask = new tin::install::nsp::RemoteNSPInstall(m_destStorageId, inst::config::ignoreReqVers, usbNSP);
                 }
 
-                printf("%s\n", "Preparing installation");
+                LOG_DEBUG("%s\n", "Preparing installation");
                 inst::ui::setInstInfoText("Preparing installation...");
                 inst::ui::setInstBarPerc(0);
                 installTask->Prepare();
@@ -106,8 +107,8 @@ namespace usbInstStuff {
             }
         }
         catch (std::exception& e) {
-            printf("Failed to install");
-            printf("%s", e.what());
+            LOG_DEBUG("Failed to install");
+            LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
             inst::ui::setInstInfoText("Failed to install " + fileNames[fileItr]);
             inst::ui::setInstBarPerc(0);
@@ -131,7 +132,7 @@ namespace usbInstStuff {
             else inst::ui::mainApp->CreateShowDialog(fileNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
         }
         
-        printf("Done");
+        LOG_DEBUG("Done");
         inst::ui::loadMainMenu();
         inst::util::deinitInstallServices();
         return;

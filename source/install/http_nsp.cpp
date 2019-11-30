@@ -85,7 +85,7 @@ namespace tin::install::nsp
         const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
 
-        printf("Retrieving %s\n", ncaFileName.c_str());
+        LOG_DEBUG("Retrieving %s\n", ncaFileName.c_str());
         size_t ncaSize = fileEntry->fileSize;
 
         tin::data::BufferedPlaceholderWriter bufferedPlaceholderWriter(contentStorage, placeholderId, ncaSize);
@@ -120,27 +120,20 @@ namespace tin::install::nsp
                 startTime = newTime;
                 startSizeBuffered = newSizeBuffered;
 
-                u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
-                u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
                 int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-                //printf("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::setInstBarPerc((double)downloadProgress);
             }
         }
         inst::ui::setInstBarPerc(100);
 
-        u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
-
         inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
         inst::ui::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete())
         {
-            u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-            //printf("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
             inst::ui::setInstBarPerc((double)installProgress);
         }
         inst::ui::setInstBarPerc(100);

@@ -98,9 +98,9 @@ namespace nx::ncm
         installContentMetaBuffer.Append<NcmContentMetaHeader>(contentMetaHeader);
 
         // Setup the meta extended header
-        printf("Install content meta pre size: 0x%lx\n", installContentMetaBuffer.GetSize());
+        LOG_DEBUG("Install content meta pre size: 0x%lx\n", installContentMetaBuffer.GetSize());
         installContentMetaBuffer.Resize(installContentMetaBuffer.GetSize() + contentMetaHeader.extended_header_size);
-        printf("Install content meta post size: 0x%lx\n", installContentMetaBuffer.GetSize());
+        LOG_DEBUG("Install content meta post size: 0x%lx\n", installContentMetaBuffer.GetSize());
         auto* extendedHeaderSourceBytes = m_bytes.GetData() + sizeof(PackagedContentMetaHeader);
         u8* installExtendedHeaderStart = installContentMetaBuffer.GetData() + sizeof(NcmContentMetaHeader);
         memcpy(installExtendedHeaderStart, extendedHeaderSourceBytes, contentMetaHeader.extended_header_size);

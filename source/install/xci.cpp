@@ -33,7 +33,7 @@ namespace tin::install::xci
 
     void XCI::RetrieveHeader()
     {
-        printf("Retrieving HFS0 header...\n");
+        LOG_DEBUG("Retrieving HFS0 header...\n");
 
         // Retrieve hfs0 offset
         u64 hfs0Offset = 0xf000;
@@ -43,7 +43,7 @@ namespace tin::install::xci
         m_headerBytes.resize(sizeof(HFS0BaseHeader), 0);
         this->BufferData(m_headerBytes.data(), hfs0Offset, sizeof(HFS0BaseHeader));
 
-        printf("Base header: \n");
+        LOG_DEBUG("Base header: \n");
         printBytes(m_headerBytes.data(), sizeof(HFS0BaseHeader), true);
 
         // Retrieve full header
@@ -55,7 +55,7 @@ namespace tin::install::xci
         m_headerBytes.resize(sizeof(HFS0BaseHeader) + remainingHeaderSize, 0);
         this->BufferData(m_headerBytes.data() + sizeof(HFS0BaseHeader), hfs0Offset + sizeof(HFS0BaseHeader), remainingHeaderSize);
 
-        printf("Base header: \n");
+        LOG_DEBUG("Base header: \n");
         printBytes(m_headerBytes.data(), sizeof(HFS0BaseHeader) + remainingHeaderSize, true);
 
         // Find Secure partition
@@ -72,7 +72,7 @@ namespace tin::install::xci
             m_secureHeaderBytes.resize(sizeof(HFS0BaseHeader), 0);
             this->BufferData(m_secureHeaderBytes.data(), m_secureHeaderOffset, sizeof(HFS0BaseHeader));
 
-            printf("Secure header: \n");
+            LOG_DEBUG("Secure header: \n");
             printBytes(m_secureHeaderBytes.data(), sizeof(HFS0BaseHeader), true);
 
             if (this->GetSecureHeader()->magic != MAGIC_HFS0)
@@ -82,6 +82,9 @@ namespace tin::install::xci
             remainingHeaderSize = this->GetSecureHeader()->numFiles * sizeof(HFS0FileEntry) + this->GetSecureHeader()->stringTableSize;
             m_secureHeaderBytes.resize(sizeof(HFS0BaseHeader) + remainingHeaderSize, 0);
             this->BufferData(m_secureHeaderBytes.data() + sizeof(HFS0BaseHeader), m_secureHeaderOffset + sizeof(HFS0BaseHeader), remainingHeaderSize);
+
+            LOG_DEBUG("Base header: \n");
+            printBytes(m_secureHeaderBytes.data(), sizeof(HFS0BaseHeader) + remainingHeaderSize, true);
             return;
         }
         THROW_FORMAT("couldn't optain secure hfs0 header\n");

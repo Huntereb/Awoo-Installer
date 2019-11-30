@@ -23,7 +23,7 @@ namespace tin::install::xci
         const HFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(ncaId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
 
-        printf("Retrieving %s\n", ncaFileName.c_str());
+        LOG_DEBUG("Retrieving %s\n", ncaFileName.c_str());
         size_t ncaSize = fileEntry->fileSize;
 
         NcaWriter writer(ncaId, contentStorage);
@@ -44,7 +44,7 @@ namespace tin::install::xci
                 progress = (float) fileOff / (float) ncaSize;
 
                 if (fileOff % (0x400000 * 3) == 0) {
-                    printf("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
+                    LOG_DEBUG("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
                     inst::ui::setInstBarPerc((double)(progress * 100.0));
                 }
 
@@ -59,7 +59,7 @@ namespace tin::install::xci
         }
         catch (std::exception& e)
         {
-            printf("something went wrong: %s\n", e.what());
+            LOG_DEBUG("something went wrong: %s\n", e.what());
         }
 
         writer.close();

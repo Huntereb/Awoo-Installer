@@ -1,4 +1,5 @@
 #include <switch.h>
+#include "util/error.hpp"
 #include "ui/MainApplication.hpp"
 #include "util/curl.hpp"
 #include "util/util.hpp"
@@ -61,8 +62,8 @@ namespace sig {
         }
         catch (std::exception& e)
         {
-            printf("Failed to install Signature Patches");
-            printf("%s", e.what());
+            LOG_DEBUG("Failed to install Signature Patches");
+            LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
             inst::ui::mainApp->CreateShowDialog("Failed to install Signature Patches!", (std::string)e.what(), {"OK"}, true);
         }

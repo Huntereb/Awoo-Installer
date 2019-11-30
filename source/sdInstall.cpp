@@ -106,8 +106,6 @@ namespace nspInstStuff {
                 inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 40, true) + " from SD card");
                 tin::install::Install* installTask;
 
-                inst::ui::mainApp->CreateShowDialog(ourTitleList[titleItr].filename().string(), ourTitleList[titleItr].filename().string(), {ourTitleList[titleItr].filename().string()}, true);
-
                 if (ourTitleList[titleItr].extension() == ".xci" || ourTitleList[titleItr].extension() == ".xcz") {
                     auto localXCI = new tin::install::xci::LocalXCI(ourTitleList[titleItr]);
                     installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, localXCI);
@@ -137,8 +135,8 @@ namespace nspInstStuff {
         }
         catch (std::exception& e)
         {
-            printf("Failed to install");
-            printf("%s", e.what());
+            LOG_DEBUG("Failed to install");
+            LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
             inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true));
             inst::ui::setInstBarPerc(0);
@@ -177,7 +175,7 @@ namespace nspInstStuff {
             }
         }
 
-        printf("Done");
+        LOG_DEBUG("Done");
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletEndBlockingHomeButton();
         inst::ui::loadMainMenu();
         inst::util::deinitInstallServices();

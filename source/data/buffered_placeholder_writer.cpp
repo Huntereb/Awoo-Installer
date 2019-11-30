@@ -131,14 +131,10 @@ namespace tin::data
 
     u32 BufferedPlaceholderWriter::CalcNumSegmentsRequired(size_t size)
     {
-        //printf("Size: %lu\n", size);
-
         if (m_currentFreeSegmentPtr->isFinalized)
             return INT_MAX;
 
         size_t bufferSegmentSizeRemaining = BUFFER_SEGMENT_DATA_SIZE - m_currentFreeSegmentPtr->writeOffset;
-
-        //printf("Buffer segment size remaining: %lu\n", bufferSegmentSizeRemaining);
 
         if (size <= bufferSegmentSizeRemaining) return 1;
         else 
@@ -203,11 +199,11 @@ namespace tin::data
 
     void BufferedPlaceholderWriter::DebugPrintBuffers()
     {
-        printf("BufferedPlaceholderWriter Buffers: \n");
+        LOG_DEBUG("BufferedPlaceholderWriter Buffers: \n");
 
         for (int i = 0; i < NUM_BUFFER_SEGMENTS; i++)
         {
-            printf("Buffer %u:\n", i);
+            LOG_DEBUG("Buffer %u:\n", i);
             printBytes(m_bufferSegments[i].data, BUFFER_SEGMENT_DATA_SIZE, true);
         }
     }
