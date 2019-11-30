@@ -2,7 +2,7 @@
 #include "error.hpp"
 #include "debug.h"
 #include "nx/nca_writer.h"
-#include "nspInstall.hpp"
+#include "sdInstall.hpp"
 
 namespace tin::install::xci
 {

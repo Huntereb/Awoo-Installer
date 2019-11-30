@@ -55,9 +55,10 @@ ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 			$(ARCH) $(DEFINES)
 
-CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -D__DEBUG__ -DNXLINK_DEBUG
+CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -D__DEBUG__ -Wall
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -std=gnu++17
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -std=gnu++17 -Wall
+
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
@@ -166,17 +167,17 @@ all: $(BUILD)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	#comment this out if you are hacking on the code or compilation will take for ever
-	$(MAKE) --no-print-directory -C include/Plutonium -f Makefile lib-switch
+	#$(MAKE) --no-print-directory -C include/Plutonium -f Makefile lib-switch
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
 ifeq ($(strip $(APP_JSON)),)
-	@$(MAKE) --no-print-directory -C include/Plutonium/Plutonium -f Makefile clean
+	#@$(MAKE) --no-print-directory -C include/Plutonium/Plutonium -f Makefile clean
 	@rm -fr $(BUILD) $(TARGET).nro $(TARGET).nacp $(TARGET).elf
 else
-	@$(MAKE) --no-print-directory -C include/Plutonium/Plutonium -f Makefile clean
+	#@$(MAKE) --no-print-directory -C include/Plutonium/Plutonium -f Makefile clean
 	@rm -fr $(BUILD) $(TARGET).nsp $(TARGET).nso $(TARGET).npdm $(TARGET).elf
 endif
 

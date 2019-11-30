@@ -28,7 +28,7 @@ SOFTWARE.
 #include "util/config.hpp"
 #include "util/crypto.hpp"
 #include "install/nca.hpp"
-#include "nspInstall.hpp"
+#include "sdInstall.hpp"
 #include "ui/MainApplication.hpp"
 
 namespace inst::ui {
@@ -37,8 +37,8 @@ namespace inst::ui {
 
 namespace tin::install::xci
 {
-    XCIInstallTask::XCIInstallTask(tin::install::xci::XCI& xci, NcmStorageId destStorageId, bool ignoreReqFirmVersion) :
-        Install(destStorageId, ignoreReqFirmVersion), m_xci(&xci)
+    XCIInstallTask::XCIInstallTask(NcmStorageId destStorageId, bool ignoreReqFirmVersion, tin::install::xci::XCI* xci) :
+        Install(destStorageId, ignoreReqFirmVersion), m_xci(xci)
     {
         m_xci->RetrieveHeader();
     }

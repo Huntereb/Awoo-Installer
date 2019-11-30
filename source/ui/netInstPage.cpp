@@ -13,9 +13,6 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::string> netInstPage::ourUrls;
-    std::vector<std::string> netInstPage::selectedUrls;
-    std::vector<std::string> netInstPage::alternativeNames;
     std::string lastUrl = "https://";
     std::string lastFileID = "";
 
@@ -66,7 +63,7 @@ namespace inst::ui {
         }
     }
 
-    void netInstPage::selectNsp(int selectedIndex) {
+    void netInstPage::selectTitle(int selectedIndex) {
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
             for (long unsigned int i = 0; i < this->selectedUrls.size(); i++) {
                 if (this->selectedUrls[i] == this->ourUrls[selectedIndex]) this->selectedUrls.erase(this->selectedUrls.begin() + i);
@@ -139,7 +136,7 @@ namespace inst::ui {
             this->startNetwork();
             return;
         }
-        netInstStuff::installNspLan(this->selectedUrls, dialogResult, this->alternativeNames);
+        netInstStuff::installTitleNet(this->selectedUrls, dialogResult, this->alternativeNames);
         return;
     }
 
@@ -148,7 +145,7 @@ namespace inst::ui {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
-            this->selectNsp(this->menu->GetSelectedIndex());
+            this->selectTitle(this->menu->GetSelectedIndex());
             if (this->menu->GetItems().size() == 1 && this->selectedUrls.size() == 1) {
                 this->startInstall(false);
             }
@@ -158,14 +155,14 @@ namespace inst::ui {
             else {
                 for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
                     if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
-                    else this->selectNsp(i);
+                    else this->selectTitle(i);
                 }
                 this->drawMenuItems(false);
             }
         }
         if (Down & KEY_PLUS) {
             if (this->selectedUrls.size() == 0) {
-                this->selectNsp(this->menu->GetSelectedIndex());
+                this->selectTitle(this->menu->GetSelectedIndex());
                 this->startInstall(false);
                 return;
             }

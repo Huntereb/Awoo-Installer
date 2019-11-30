@@ -1,8 +1,8 @@
 #include <filesystem>
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
-#include "ui/nspInstPage.hpp"
-#include "nspInstall.hpp"
+#include "ui/sdInstPage.hpp"
+#include "sdInstall.hpp"
 #include "util/util.hpp"
 #include "util/config.hpp"
 
@@ -11,12 +11,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<std::filesystem::path> nspInstPage::ourDirectories;
-    std::vector<std::filesystem::path> nspInstPage::ourFiles;
-    std::vector<std::filesystem::path> nspInstPage::selectedNsps;
-    std::filesystem::path nspInstPage::currentDir;
-
-    nspInstPage::nspInstPage() : Layout::Layout() {
+    sdInstPage::sdInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
         if (std::filesystem::exists(inst::config::appDir + "/background.png")) this->SetBackgroundImage(inst::config::appDir + "/background.png");
         else this->SetBackgroundImage("romfs:/background.jpg");
@@ -43,8 +38,8 @@ namespace inst::ui {
         this->Add(this->menu);
     }
 
-    void nspInstPage::drawMenuItems(bool clearItems, std::filesystem::path ourPath) {
-        if (clearItems) this->selectedNsps = {};
+    void sdInstPage::drawMenuItems(bool clearItems, std::filesystem::path ourPath) {
+        if (clearItems) this->selectedTitles = {};
         if (ourPath == "sdmc:") this->currentDir = std::filesystem::path(ourPath.string() + "/");
         else this->currentDir = ourPath;
         this->menu->ClearItems();
@@ -75,8 +70,8 @@ namespace inst::ui {
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
-            for (long unsigned int i = 0; i < this->selectedNsps.size(); i++) {
-                if (this->selectedNsps[i] == file) {
+            for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
+                if (this->selectedTitles[i] == file) {
                     ourEntry->SetIcon("romfs:/check-box-outline.png");
                 }
             }
@@ -84,7 +79,7 @@ namespace inst::ui {
         }
     }
 
-    void nspInstPage::followDirectory() {
+    void sdInstPage::followDirectory() {
         int selectedIndex = this->menu->GetSelectedIndex();
         int dirListSize = this->ourDirectories.size();
         if (this->currentDir != "sdmc:/") {
@@ -101,14 +96,14 @@ namespace inst::ui {
         }
     }
 
-    void nspInstPage::selectNsp(int selectedIndex) {
+    void sdInstPage::selectNsp(int selectedIndex) {
         int dirListSize = this->ourDirectories.size();
         if (this->currentDir != "sdmc:/") dirListSize++;
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
-            for (long unsigned int i = 0; i < this->selectedNsps.size(); i++) {
-                if (this->selectedNsps[i] == this->ourFiles[selectedIndex - dirListSize]) this->selectedNsps.erase(this->selectedNsps.begin() + i);
+            for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
+                if (this->selectedTitles[i] == this->ourFiles[selectedIndex - dirListSize]) this->selectedTitles.erase(this->selectedTitles.begin() + i);
             }
-        } else if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/checkbox-blank-outline.png") this->selectedNsps.push_back(this->ourFiles[selectedIndex - dirListSize]);
+        } else if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/checkbox-blank-outline.png") this->selectedTitles.push_back(this->ourFiles[selectedIndex - dirListSize]);
         else {
             this->followDirectory();
             return;
@@ -116,27 +111,27 @@ namespace inst::ui {
         this->drawMenuItems(false, currentDir);
     }
 
-    void nspInstPage::startInstall() {
+    void sdInstPage::startInstall() {
         int dialogResult = -1;
-        if (this->selectedNsps.size() == 1) {
-            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(std::filesystem::path(this->selectedNsps[0]).filename().string(), 32, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(this->selectedNsps.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        if (this->selectedTitles.size() == 1) {
+            dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(std::filesystem::path(this->selectedTitles[0]).filename().string(), 32, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(this->selectedTitles.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
         if (dialogResult == -1) return;
-        nspInstStuff::installNspFromFile(this->selectedNsps, dialogResult);
+        nspInstStuff::installNspFromFile(this->selectedTitles, dialogResult);
     }
 
-    void nspInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
+    void sdInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             this->selectNsp(this->menu->GetSelectedIndex());
-            if (this->ourFiles.size() == 1 && this->selectedNsps.size() == 1) {
+            if (this->ourFiles.size() == 1 && this->selectedTitles.size() == 1) {
                 this->startInstall();
             }
         }
         if ((Down & KEY_Y)) {
-            if (this->selectedNsps.size() == this->ourFiles.size()) this->drawMenuItems(true, currentDir);
+            if (this->selectedTitles.size() == this->ourFiles.size()) this->drawMenuItems(true, currentDir);
             else {
                 int topDir = 0;
                 if (this->currentDir != "sdmc:/") topDir++;
@@ -151,10 +146,10 @@ namespace inst::ui {
             inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP, NSZ, XCI, or XCZ files to your SD card, browse to and\nselect the ones you want to install, then press the Plus button.", {"OK"}, true);
         }
         if (Down & KEY_PLUS) {
-            if (this->selectedNsps.size() == 0 && this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/checkbox-blank-outline.png") {
+            if (this->selectedTitles.size() == 0 && this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/checkbox-blank-outline.png") {
                 this->selectNsp(this->menu->GetSelectedIndex());
             }
-            if (this->selectedNsps.size() > 0) this->startInstall();
+            if (this->selectedTitles.size() > 0) this->startInstall();
         }
     }
 }

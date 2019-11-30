@@ -41,7 +41,7 @@ namespace tin::install::xci
             void InstallTicketCert() override;
 
         public:
-            XCIInstallTask(tin::install::xci::XCI& xci, NcmStorageId destStorageId, bool ignoreReqFirmVersion);
+            XCIInstallTask(NcmStorageId destStorageId, bool ignoreReqFirmVersion, tin::install::xci::XCI* xci);
     };
 };
 

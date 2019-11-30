@@ -21,7 +21,7 @@ namespace inst::ui {
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->butText = TextBlock::New(10, 678, "\ue0e0 Select    \ue0e1 Exit ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
-        this->optionMenu = pu::ui::elm::Menu::New(0, 93, 1280, COLOR("#67000000"), 113, (567 / 113));
+        this->optionMenu = pu::ui::elm::Menu::New(0, 93, 1280, COLOR("#67000000"), 94, (567 / 94));
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->optionMenu->SetScrollbarColor(COLOR("#170909FF"));
         this->installMenuItem = pu::ui::elm::MenuItem::New("Install from SD card");
@@ -30,6 +30,9 @@ namespace inst::ui {
         this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install over LAN or internet");
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem->SetIcon("romfs:/cloud-download.png");
+        this->usbInstallMenuItem = pu::ui::elm::MenuItem::New("Install Over USB");
+        this->usbInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
+        this->usbInstallMenuItem->SetIcon("romfs:/usb-port.png");
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage signature patches");
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->sigPatchesMenuItem->SetIcon("romfs:/wrench.png");
@@ -49,6 +52,7 @@ namespace inst::ui {
         this->Add(this->butText);
         this->optionMenu->AddItem(this->installMenuItem);
         this->optionMenu->AddItem(this->netInstallMenuItem);
+        this->optionMenu->AddItem(this->usbInstallMenuItem);
         this->optionMenu->AddItem(this->sigPatchesMenuItem);
         this->optionMenu->AddItem(this->settingsMenuItem);
         this->optionMenu->AddItem(this->exitMenuItem);
@@ -60,9 +64,9 @@ namespace inst::ui {
     }
 
     void MainPage::installMenuItem_Click() {
-        mainApp->nspinstPage->drawMenuItems(true, "sdmc:/");
-        mainApp->nspinstPage->menu->SetSelectedIndex(0);
-        mainApp->LoadLayout(mainApp->nspinstPage);
+        mainApp->sdinstPage->drawMenuItems(true, "sdmc:/");
+        mainApp->sdinstPage->menu->SetSelectedIndex(0);
+        mainApp->LoadLayout(mainApp->sdinstPage);
     }
 
     void MainPage::netInstallMenuItem_Click() {
@@ -71,6 +75,14 @@ namespace inst::ui {
             return;
         }
         mainApp->netinstPage->startNetwork();
+    }
+
+    void MainPage::usbInstallMenuItem_Click() {
+        if (inst::util::getUsbState() == 5) mainApp->usbinstPage->startUsb();
+        else {
+            mainApp->CreateShowDialog("No USB connection detected", "Plug in to a compatible device to install over USB", {"OK"}, true);
+            return;
+        }
     }
 
     void MainPage::sigPatchesMenuItem_Click() {
@@ -98,13 +110,16 @@ namespace inst::ui {
                     this->netInstallMenuItem_Click();
                     break;
                 case 2:
-                    this->sigPatchesMenuItem_Click();
+                    MainPage::usbInstallMenuItem_Click();
                     break;
                 case 3:
-                    this->settingsMenuItem_Click();
+                    MainPage::sigPatchesMenuItem_Click();
                     break;
                 case 4:
-                    this->exitMenuItem_Click();
+                    MainPage::settingsMenuItem_Click();
+                    break;
+                case 5:
+                    MainPage::exitMenuItem_Click();
                     break;
                 default:
                     break;

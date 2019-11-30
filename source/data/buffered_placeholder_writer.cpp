@@ -208,7 +208,7 @@ namespace tin::data
         for (int i = 0; i < NUM_BUFFER_SEGMENTS; i++)
         {
             printf("Buffer %u:\n", i);
-            printBytes(nxlinkout, m_bufferSegments[i].data, BUFFER_SEGMENT_DATA_SIZE, true);
+            printBytes(m_bufferSegments[i].data, BUFFER_SEGMENT_DATA_SIZE, true);
         }
     }
 }

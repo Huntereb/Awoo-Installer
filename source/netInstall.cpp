@@ -38,7 +38,7 @@ SOFTWARE.
 
 #include "ui/MainApplication.hpp"
 #include "netInstall.hpp"
-#include "nspInstall.hpp"
+#include "sdInstall.hpp"
 #include "util/config.hpp"
 #include "util/util.hpp"
 #include "util/curl.hpp"
@@ -113,7 +113,7 @@ namespace netInstStuff{
         curl_global_cleanup();
     }
 
-    void installNspLan(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames)
+    void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames)
     {
         inst::util::initInstallServices();
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
@@ -144,35 +144,25 @@ namespace netInstStuff{
 
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
+                printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
+                inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
+
+                tin::install::Install* installTask;
+
                 if (inst::curl::downloadToBuffer(ourUrlList[urlItr], 0x100, 0x103) == "HEAD") {
-                    inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
-
-                    tin::install::xci::HTTPXCI httpXCI(ourUrlList[urlItr]);
-
-                    printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
-                    tin::install::xci::XCIInstallTask install(httpXCI, m_destStorageId, inst::config::ignoreReqVers);
-
-                    printf("%s\n", "Preparing installation");
-                    inst::ui::setInstInfoText("Preparing installation...");
-                    inst::ui::setInstBarPerc(0);
-                    install.Prepare();
-
-                    install.Begin();
+                    auto httpXCI = new tin::install::xci::HTTPXCI(ourUrlList[urlItr]);
+                    installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, httpXCI);
                 } else {
-                    inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr]);
-
-                    tin::install::nsp::HTTPNSP httpNSP(ourUrlList[urlItr]);
-
-                    printf("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
-                    tin::install::nsp::RemoteNSPInstall install(m_destStorageId, inst::config::ignoreReqVers, &httpNSP);
-
-                    printf("%s\n", "Preparing installation");
-                    inst::ui::setInstInfoText("Preparing installation...");
-                    inst::ui::setInstBarPerc(0);
-                    install.Prepare();
-
-                    install.Begin();
+                    auto httpNSP = new tin::install::nsp::HTTPNSP(ourUrlList[urlItr]);
+                    installTask = new tin::install::nsp::RemoteNSPInstall(m_destStorageId, inst::config::ignoreReqVers, httpNSP);
                 }
+
+                printf("%s\n", "Preparing installation");
+                inst::ui::setInstInfoText("Preparing installation...");
+                inst::ui::setInstBarPerc(0);
+                installTask->Prepare();
+
+                installTask->Begin();
             }
         }
         catch (std::exception& e) {

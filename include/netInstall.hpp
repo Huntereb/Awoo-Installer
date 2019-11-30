@@ -21,6 +21,6 @@ SOFTWARE.
 */
 
 namespace netInstStuff {
-    void installNspLan(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames);
+    void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames);
     std::vector<std::string> OnSelected();
 }

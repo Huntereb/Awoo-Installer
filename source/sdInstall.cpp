@@ -34,7 +34,7 @@ SOFTWARE.
 #include "util/error.hpp"
 
 #include "ui/MainApplication.hpp"
-#include "nspInstall.hpp"
+#include "sdInstall.hpp"
 #include "util/config.hpp"
 #include "util/util.hpp"
 
@@ -66,8 +66,7 @@ namespace inst::ui {
         mainApp->instpage->installInfoText->SetText("");
         mainApp->instpage->installBar->SetProgress(0);
         mainApp->instpage->installBar->SetVisible(false);
-        if (inst::config::gayMode) mainApp->instpage->awooImage->SetVisible(false);
-        else mainApp->instpage->awooImage->SetVisible(true);
+        mainApp->instpage->awooImage->SetVisible(!inst::config::gayMode);
         mainApp->LoadLayout(mainApp->instpage);
         mainApp->CallForRender();
     }
@@ -81,7 +80,7 @@ namespace nspInstStuff {
         return(finishMessages[rand() % finishMessages.size()]);
     }
 
-    void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall)
+    void installNspFromFile(std::vector<std::filesystem::path> ourTitleList, int whereToInstall)
     {
         inst::util::initInstallServices();
         if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
@@ -92,7 +91,7 @@ namespace nspInstStuff {
         std::vector<std::string> oldNamesOfFiles = {};
 
         if (whereToInstall) m_destStorageId = NcmStorageId_BuiltInUser;
-        unsigned int nspItr;
+        unsigned int titleItr;
 
         std::vector<int> previousClockValues;
         if (inst::config::overClock) {
@@ -103,45 +102,43 @@ namespace nspInstStuff {
 
         try
         {
-            for (nspItr = 0; nspItr < ourNspList.size(); nspItr++) {
-                if (ourNspList[nspItr].extension() == ".xci" || ourNspList[nspItr].extension() == ".xcz") {
-                    inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
+            for (titleItr = 0; titleItr < ourTitleList.size(); titleItr++) {
+                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true));
+                tin::install::Install* installTask;
 
-                    tin::install::xci::LocalXCI xci(ourNspList[nspItr]);
-                    tin::install::xci::XCIInstallTask task(xci, m_destStorageId, inst::config::ignoreReqVers);
+                inst::ui::mainApp->CreateShowDialog(ourTitleList[titleItr].filename().string(), ourTitleList[titleItr].filename().string(), {ourTitleList[titleItr].filename().string()}, true);
 
-                    printf("Preparing installation\n");
+                if (ourTitleList[titleItr].extension() == ".xci" || ourTitleList[titleItr].extension() == ".xcz") {
+                    auto localXCI = new tin::install::xci::LocalXCI(ourTitleList[titleItr]);
+                    installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, localXCI);
+
                     inst::ui::setInstInfoText("Preparing installation...");
                     inst::ui::setInstBarPerc(0);
-                    task.Prepare();
+                    installTask->Prepare();
 
-                    task.Begin();
+                    installTask->Begin();
                 } else {
-                    inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
-                    
-                    if (ourNspList[nspItr].extension() == ".nsz") {
-                        oldNamesOfFiles.push_back(ourNspList[nspItr]);
-                        std::string newfilename = ourNspList[nspItr].string().substr(0, ourNspList[nspItr].string().find_last_of('.'))+"_temp.nsp";
-                        rename(ourNspList[nspItr], newfilename);
+                    if (ourTitleList[titleItr].extension() == ".nsz") {
+                        oldNamesOfFiles.push_back(ourTitleList[titleItr]);
+                        std::string newfilename = ourTitleList[titleItr].string().substr(0, ourTitleList[titleItr].string().find_last_of('.'))+"_temp.nsp";
+                        rename(ourTitleList[titleItr], newfilename);
                         filesToBeRenamed.push_back(newfilename);
-                        ourNspList[nspItr] = newfilename;
+                        ourTitleList[titleItr] = newfilename;
                     }
 
-                    std::string path = "@Sdcard://" + ourNspList[nspItr].string().erase(0, 6);
+                    std::string path = "@Sdcard://" + ourTitleList[titleItr].string().erase(0, 6);
 
                     nx::fs::IFileSystem fileSystem;
                     fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
                     tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
-                    tin::install::nsp::NSPInstallTask task(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
+                    installTask = new tin::install::nsp::NSPInstallTask(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
 
-                    printf("Preparing installation\n");
                     inst::ui::setInstInfoText("Preparing installation...");
                     inst::ui::setInstBarPerc(0);
-                    task.Prepare();
+                    installTask->Prepare();
 
-                    task.Begin();
+                    installTask->Begin();
                 }
-
             }
         }
         catch (std::exception& e)
@@ -149,9 +146,9 @@ namespace nspInstStuff {
             printf("Failed to install");
             printf("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true));
+            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true));
             inst::ui::setInstBarPerc(0);
-            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourNspList[nspItr].filename().string(), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             nspInstalled = false;
         }
 
@@ -162,7 +159,7 @@ namespace nspInstStuff {
         }
 
         for (unsigned int i = 0; i < filesToBeRenamed.size(); i++) {
-            if (ourNspList.size() == 1) ourNspList[0] = oldNamesOfFiles[i];
+            if (ourTitleList.size() == 1) ourTitleList[0] = oldNamesOfFiles[i];
             if (std::filesystem::exists(filesToBeRenamed[i])) {
                 rename(filesToBeRenamed[i].c_str(), oldNamesOfFiles[i].c_str());
             }
@@ -171,18 +168,18 @@ namespace nspInstStuff {
         if(nspInstalled) {
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
-            if (ourNspList.size() > 1) {
+            if (ourTitleList.size() > 1) {
                 if (inst::config::deletePrompt) {
-                    if(inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully! Delete them from the SD card?", "The original files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) {
-                        for (long unsigned int i = 0; i < ourNspList.size(); i++) {
-                            if (std::filesystem::exists(ourNspList[i])) std::filesystem::remove(ourNspList[i]);
+                    if(inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully! Delete them from the SD card?", "The original files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) {
+                        for (long unsigned int i = 0; i < ourTitleList.size(); i++) {
+                            if (std::filesystem::exists(ourTitleList[i])) std::filesystem::remove(ourTitleList[i]);
                         }
                     }
-                } else inst::ui::mainApp->CreateShowDialog(std::to_string(ourNspList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
+                } else inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
             } else {
                 if (inst::config::deletePrompt) {
-                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].filename().string(), 32, true) + " installed! Delete it from the SD card?", "The original file isn't needed anymore after it's been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourNspList[0])) std::filesystem::remove(ourNspList[0]);
-                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourNspList[0].filename().string(), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+                    if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourTitleList[0].filename().string(), 32, true) + " installed! Delete it from the SD card?", "The original file isn't needed anymore after it's been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourTitleList[0])) std::filesystem::remove(ourTitleList[0]);
+                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourTitleList[0].filename().string(), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
             }
         }
 

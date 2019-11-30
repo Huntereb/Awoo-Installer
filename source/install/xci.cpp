@@ -44,7 +44,7 @@ namespace tin::install::xci
         this->BufferData(m_headerBytes.data(), hfs0Offset, sizeof(HFS0BaseHeader));
 
         printf("Base header: \n");
-        printBytes(nxlinkout, m_headerBytes.data(), sizeof(HFS0BaseHeader), true);
+        printBytes(m_headerBytes.data(), sizeof(HFS0BaseHeader), true);
 
         // Retrieve full header
         HFS0BaseHeader *header = reinterpret_cast<HFS0BaseHeader*>(m_headerBytes.data());
@@ -56,7 +56,7 @@ namespace tin::install::xci
         this->BufferData(m_headerBytes.data() + sizeof(HFS0BaseHeader), hfs0Offset + sizeof(HFS0BaseHeader), remainingHeaderSize);
 
         printf("Base header: \n");
-        printBytes(nxlinkout, m_headerBytes.data(), sizeof(HFS0BaseHeader) + remainingHeaderSize, true);
+        printBytes(m_headerBytes.data(), sizeof(HFS0BaseHeader) + remainingHeaderSize, true);
 
         // Find Secure partition
         header = reinterpret_cast<HFS0BaseHeader*>(m_headerBytes.data());
@@ -73,7 +73,7 @@ namespace tin::install::xci
             this->BufferData(m_secureHeaderBytes.data(), m_secureHeaderOffset, sizeof(HFS0BaseHeader));
 
             printf("Secure header: \n");
-            printBytes(nxlinkout, m_secureHeaderBytes.data(), sizeof(HFS0BaseHeader), true);
+            printBytes(m_secureHeaderBytes.data(), sizeof(HFS0BaseHeader), true);
 
             if (this->GetSecureHeader()->magic != MAGIC_HFS0)
                 THROW_FORMAT("hfs0 magic doesn't match at 0x%lx\n", m_secureHeaderOffset);

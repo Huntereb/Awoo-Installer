@@ -49,7 +49,7 @@ namespace tin::data
 
     void ByteBuffer::DebugPrintContents()
     {
-        fprintf(nxlinkout, "Buffer Size: 0x%lx\n", this->GetSize());
-        printBytes(nxlinkout, this->GetData(), this->GetSize(), true);
+        printf("Buffer Size: 0x%lx\n", this->GetSize());
+        printBytes(this->GetData(), this->GetSize(), true);
     }
 }

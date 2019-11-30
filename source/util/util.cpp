@@ -28,10 +28,12 @@ namespace inst::util {
         #ifdef __DEBUG__
             nxlinkStdio();
         #endif
+        usbCommsInitialize();
     }
 
     void deinitApp () {
         socketExit();
+        usbCommsExit();
     }
 
     void initInstallServices() {
@@ -254,5 +256,11 @@ namespace inst::util {
     std::string getIPAddress() {
         struct in_addr addr = {(in_addr_t) gethostid()};
         return inet_ntoa(addr);
+    }
+    
+    int getUsbState() {
+        u32 usbState = 0;
+        usbDsGetState(&usbState);
+        return usbState;
     }
 }
