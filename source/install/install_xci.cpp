@@ -99,7 +99,7 @@ namespace tin::install::xci
         {
             tin::install::NcaHeader header;
             u64 hfs0Offset = m_xci->GetDataOffset() + fileEntry->dataOffset;
-            m_xci->BufferData(&header, hfs0Offset, 0xc00);
+            m_xci->BufferData(&header, hfs0Offset, sizeof(tin::install::NcaHeader));
 
             Crypto::AesXtr decryptor(Crypto::Keys().headerKey, false);
             decryptor.decrypt(&header, &header, sizeof(header), 0, 0x200);

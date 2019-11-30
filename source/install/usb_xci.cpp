@@ -116,12 +116,12 @@ namespace tin::install::xci
 
                 startTime = newTime;
                 startSizeBuffered = newSizeBuffered;
+                int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
                 #ifdef NXLINK_DEBUG
                     u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
                     u64 downloadSizeMB = bufferedPlaceholderWriter.GetSizeBuffered() / 1000000;
                     LOG_DEBUG("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 #endif
-                int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
                 inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::setInstBarPerc((double)downloadProgress);
@@ -137,11 +137,11 @@ namespace tin::install::xci
         inst::ui::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete())
         {
+            int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
             #ifdef NXLINK_DEBUG
                 u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
                 LOG_DEBUG("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
             #endif
-            int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
             inst::ui::setInstBarPerc((double)installProgress);
         }
         inst::ui::setInstBarPerc(100);
