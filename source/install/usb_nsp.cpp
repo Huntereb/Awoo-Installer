@@ -56,7 +56,7 @@ namespace tin::install::nsp
         }
         catch (std::exception& e)
         {
-            LOG_DEBUG("An error occurred:\n%s", e.what());
+            printf("An error occurred:\n%s", e.what());
         }
 
         free(buf);
@@ -82,7 +82,7 @@ namespace tin::install::nsp
         const PFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(placeholderId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
 
-        LOG_DEBUG("Retrieving %s\n", ncaFileName.c_str());
+        printf("Retrieving %s\n", ncaFileName.c_str());
         size_t ncaSize = fileEntry->fileSize;
 
         tin::data::BufferedPlaceholderWriter bufferedPlaceholderWriter(contentStorage, placeholderId, ncaSize);

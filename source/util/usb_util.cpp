@@ -71,8 +71,8 @@ namespace tin::util
         while (cursize)
         {
             tmpsize = usbCommsWrite(bufptr, cursize);
-            LOG_DEBUG("USB Bytes Written: \n");
-            printBytes((u8*)bufptr, tmpsize, true);
+            //LOG_DEBUG("USB Bytes Written: \n");
+            //printBytes((u8*)bufptr, tmpsize, true);
             bufptr += tmpsize;
             cursize -= tmpsize;
         }
