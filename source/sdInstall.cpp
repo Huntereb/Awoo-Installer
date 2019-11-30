@@ -111,12 +111,6 @@ namespace nspInstStuff {
                 if (ourTitleList[titleItr].extension() == ".xci" || ourTitleList[titleItr].extension() == ".xcz") {
                     auto localXCI = new tin::install::xci::LocalXCI(ourTitleList[titleItr]);
                     installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, localXCI);
-
-                    inst::ui::setInstInfoText("Preparing installation...");
-                    inst::ui::setInstBarPerc(0);
-                    installTask->Prepare();
-
-                    installTask->Begin();
                 } else {
                     if (ourTitleList[titleItr].extension() == ".nsz") {
                         oldNamesOfFiles.push_back(ourTitleList[titleItr]);
@@ -132,13 +126,13 @@ namespace nspInstStuff {
                     fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
                     tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
                     installTask = new tin::install::nsp::NSPInstallTask(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
-
-                    inst::ui::setInstInfoText("Preparing installation...");
-                    inst::ui::setInstBarPerc(0);
-                    installTask->Prepare();
-
-                    installTask->Begin();
                 }
+
+                inst::ui::setInstInfoText("Preparing installation...");
+                inst::ui::setInstBarPerc(0);
+                installTask->Prepare();
+
+                installTask->Begin();
             }
         }
         catch (std::exception& e)
