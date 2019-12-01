@@ -253,7 +253,7 @@ namespace netInstStuff{
                 }
                 if (kDown & KEY_X)
                 {
-                    inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed remotely from your other devices using tools such\nas ns-usbloader or Fluffy. To send these files to your Switch, simply\nopen one of the pieces of software recomended above on your PC or mobile\ndevice, input your Switch's IP address (listed on-screen), select your\nfiles, then upload to your console! If the software you're using won't\nlet you select specific file types, try renaming the extension to\nsomething it accepts. Awoo Installer doesn't care about file extensions!\n\nIf you can't figure it out, just copy your files to your SD card and try\nthe \"Install from SD Card\" option on the main menu!", {"OK"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed remotely from your other devices using tools such\nas ns-usbloader or Fluffy. To send these files to your Switch, simply\nopen one of the pieces of software recomended above on your PC or mobile\ndevice, input your Switch's IP address (listed on-screen), select your\nfiles, then upload to your console! If the software you're using won't\nlet you select specific file types, try renaming the extension to\nsomething it accepts. Awoo Installer doesn't care about file extensions\nduring net installations!\n\nIf you can't figure it out, just copy your files to your SD card and try\nthe \"Install from SD Card\" option on the main menu!", {"OK"}, true);
                 }
 
                 struct sockaddr_in client;
