@@ -97,17 +97,16 @@ namespace tin::install::xci
 
         if (inst::config::validateNCAs && !declinedValidation)
         {
-            tin::install::NcaHeader header;
-            u64 hfs0Offset = m_xci->GetDataOffset() + fileEntry->dataOffset;
-            m_xci->BufferData(&header, hfs0Offset, sizeof(tin::install::NcaHeader));
+            tin::install::NcaHeader* header = new NcaHeader;
+            m_xci->BufferData(header, m_xci->GetDataOffset() + fileEntry->dataOffset, sizeof(tin::install::NcaHeader));
 
-            Crypto::AesXtr decryptor(Crypto::Keys().headerKey, false);
-            decryptor.decrypt(&header, &header, sizeof(header), 0, 0x200);
+            Crypto::AesXtr crypto(Crypto::Keys().headerKey, false);
+            crypto.decrypt(header, header, sizeof(tin::install::NcaHeader), 0, 0x200);
 
-            if (header.magic != MAGIC_NCA3)
+            if (header->magic != MAGIC_NCA3)
                 THROW_FORMAT("Invalid NCA magic");
 
-            if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
+            if (!Crypto::rsa2048PssVerify(&header->magic, 0x200, header->fixed_key_sig, Crypto::NCAHeaderSignature))
             {
                 int rc = inst::ui::mainApp->CreateShowDialog("Invalid NCA signature detected!", "Improperly signed software should only be installed from trustworthy\nsources. Files containing cartridge repacks and DLC unlockers will always\nshow this warning. You can disable this check in Awoo Installer's settings.\n\nAre you sure you want to continue the installation?", {"Cancel", "Yes, I understand the risks"}, false);
                 if (rc != 1)
