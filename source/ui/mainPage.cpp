@@ -80,7 +80,8 @@ namespace inst::ui {
     void MainPage::usbInstallMenuItem_Click() {
         if (inst::util::getUsbState() == 5) mainApp->usbinstPage->startUsb();
         else {
-            mainApp->CreateShowDialog("No USB connection detected", "Plug in to a compatible device to install over USB", {"OK"}, true);
+            if (mainApp->CreateShowDialog("No USB connection detected", "Plug in to a compatible device to install over USB", {"OK", "Help"}, false) == 1)
+                inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed over USB from other devices using tools such as\nns-usbloader or Fluffy. To send these files to your Switch, open one of\nthe pieces of software recomended above on your PC, select your files,\nthen upload to your console! If the software you're using won't let you\nselect specific file types, try renaming the extension to something it\naccepts. Awoo Installer doesn't care about file extensions!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times due to the nature of libnx's\nUSB comms. If you can't figure it out, give LAN/internet installs a try,\nor copy your files to your SD card and try the \"Install from SD Card\"\noption on the main menu!", {"OK"}, true);
             return;
         }
     }
