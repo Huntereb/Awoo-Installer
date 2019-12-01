@@ -91,6 +91,7 @@ namespace inst::ui {
     }
 
     void MainPage::exitMenuItem_Click() {
+        mainApp->FadeOut();
         mainApp->Close();
     }
 
@@ -100,6 +101,7 @@ namespace inst::ui {
 
     void MainPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if ((Down & KEY_PLUS) || (Down & KEY_MINUS) || (Down & KEY_B)) {
+            mainApp->FadeOut();
             mainApp->Close();
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
