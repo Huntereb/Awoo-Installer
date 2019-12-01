@@ -21,8 +21,8 @@ namespace inst::util {
         if (!pu::IsReiNX()) pu::IsAtmosphere();
         if (!std::filesystem::exists("sdmc:/switch")) std::filesystem::create_directory("sdmc:/switch");
         if (!std::filesystem::exists(inst::config::appDir)) std::filesystem::create_directory(inst::config::appDir);
-        if (std::filesystem::exists(inst::config::configPath)) inst::config::parseConfig();
-        else inst::config::setConfig();
+        inst::config::parseConfig();
+        if (!std::filesystem::exists(inst::config::configPath)) inst::config::setConfig();
 
         socketInitializeDefault();
         #ifdef __DEBUG__

@@ -78,6 +78,12 @@ namespace inst::ui {
     }
 
     void MainPage::usbInstallMenuItem_Click() {
+        if (!inst::config::usbAck) {
+            if (mainApp->CreateShowDialog("Warning!", "Due to the nature of libnx's USB comms implementation, USB installations\nmay not \"just werk\" on some devices and setups. If you experience issues\nwith USB installations, please don't pull your hair out! It's advised to\nuse LAN/Internet installations instead for remote installation, especially\nwhen paired with an ethernet adapter! It is not recomended, but disabling\nNCA verification in Awoo Installer's settings may help if you plan to use\nUSB installations a lot.\n\nThis is not Awoo Installer's fault, I promise. You have been warned...", {"OK", "Don't tell me again"}, false) == 1) {
+                inst::config::usbAck = true;
+                inst::config::setConfig();
+            }
+        }
         if (inst::util::getUsbState() == 5) mainApp->usbinstPage->startUsb();
         else {
             if (mainApp->CreateShowDialog("No USB connection detected", "Plug in to a compatible device to install over USB", {"OK", "Help"}, false) == 1)
