@@ -116,8 +116,6 @@ namespace usbInstStuff {
             nspInstalled = false;
         }
 
-        tin::util::USBCmdManager::SendExitCmd();
-
         if (previousClockValues.size() > 0) {
             inst::util::setClockSpeed(0, previousClockValues[0]);
             inst::util::setClockSpeed(1, previousClockValues[1]);
@@ -126,6 +124,7 @@ namespace usbInstStuff {
 
 
         if(nspInstalled) {
+            tin::util::USBCmdManager::SendExitCmd();
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
             if (ourTitleList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
