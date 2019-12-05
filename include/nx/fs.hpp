@@ -53,7 +53,7 @@ namespace nx::fs
             ~IFile();
 
             void Read(u64 offset, void* buf, size_t size);
-            u64 GetSize();
+            s64 GetSize();
     };
 
     class IDirectory
@@ -72,7 +72,7 @@ namespace nx::fs
 
             ~IDirectory();
 
-            void Read(u64 inval, FsDirectoryEntry* buf, size_t numEntries);
+            void Read(s64 inval, FsDirectoryEntry* buf, size_t numEntries);
             u64 GetEntryCount();
     };
 

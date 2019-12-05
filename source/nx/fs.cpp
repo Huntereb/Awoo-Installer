@@ -51,9 +51,9 @@ namespace nx::fs
         }
     }
 
-    u64 IFile::GetSize()
+    s64 IFile::GetSize()
     {
-        u64 sizeOut;
+        s64 sizeOut;
         ASSERT_OK(fsFileGetSize(&m_file, &sizeOut), "Failed to get file size");
         return sizeOut;
     }
@@ -71,10 +71,9 @@ namespace nx::fs
         fsDirClose(&m_dir);
     }
 
-    void IDirectory::Read(u64 inval, FsDirectoryEntry* buf, size_t numEntries)
+    void IDirectory::Read(s64 inval, FsDirectoryEntry* buf, size_t numEntries)
     {
-        size_t entriesRead;
-        ASSERT_OK(fsDirRead(&m_dir, inval, &entriesRead, numEntries, buf), "Failed to read directory");
+        ASSERT_OK(fsDirRead(&m_dir, &inval, numEntries, buf), "Failed to read directory");
 
         /*if (entriesRead != numEntries)
         {
@@ -85,7 +84,7 @@ namespace nx::fs
 
     u64 IDirectory::GetEntryCount()
     {
-        u64 entryCount = 0;
+        s64 entryCount = 0;
         ASSERT_OK(fsDirGetEntryCount(&m_dir, &entryCount), "Failed to get entry count");
         return entryCount;
     }
