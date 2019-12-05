@@ -17,11 +17,11 @@ namespace inst::ui {
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
         if (std::filesystem::exists(inst::config::appDir + "/background.png")) this->SetBackgroundImage(inst::config::appDir + "/background.png");
-        else this->SetBackgroundImage("romfs:/background.jpg");
+        else this->SetBackgroundImage("romfs:/images/background.jpg");
         this->topRect = Rectangle::New(0, 0, 1280, 94, COLOR("#170909FF"));
         this->infoRect = Rectangle::New(0, 95, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
-        this->titleImage = Image::New(0, 0, "romfs:/logo.png");
+        this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "Change Awoo Installer's settings!", 30);
@@ -43,8 +43,8 @@ namespace inst::ui {
     }
 
     std::string optionsPage::getMenuOptionIcon(bool ourBool) {
-        if(ourBool) return "romfs:/check-box-outline.png";
-        else return "romfs:/checkbox-blank-outline.png";
+        if(ourBool) return "romfs:/images/icons/check-box-outline.png";
+        else return "romfs:/images/icons/checkbox-blank-outline.png";
     }
 
     void optionsPage::setMenuText() {

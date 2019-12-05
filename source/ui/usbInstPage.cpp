@@ -12,11 +12,11 @@ namespace inst::ui {
 
     usbInstPage::usbInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
-        this->SetBackgroundImage("romfs:/background.jpg");
+        this->SetBackgroundImage("romfs:/images/background.jpg");
         this->topRect = Rectangle::New(0, 0, 1280, 94, COLOR("#170909FF"));
         this->infoRect = Rectangle::New(0, 95, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
-        this->titleImage = Image::New(0, 0, "romfs:/logo.png");
+        this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "", 30);
@@ -26,7 +26,7 @@ namespace inst::ui {
         this->menu = pu::ui::elm::Menu::New(0, 156, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
         this->menu->SetScrollbarColor(COLOR("#17090980"));
-        this->infoImage = Image::New(460, 332, "romfs:/usb-connection-waiting.png");
+        this->infoImage = Image::New(460, 332, "romfs:/images/icons/usb-connection-waiting.png");
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->botRect);
@@ -45,10 +45,10 @@ namespace inst::ui {
             pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 56, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
-            ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
+            ourEntry->SetIcon("romfs:/images/icons/checkbox-blank-outline.png");
             for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
                 if (this->selectedTitles[i] == url) {
-                    ourEntry->SetIcon("romfs:/check-box-outline.png");
+                    ourEntry->SetIcon("romfs:/images/icons/check-box-outline.png");
                 }
             }
             this->menu->AddItem(ourEntry);
@@ -56,7 +56,7 @@ namespace inst::ui {
     }
 
     void usbInstPage::selectTitle(int selectedIndex) {
-        if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
+        if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/check-box-outline.png") {
             for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
                 if (this->selectedTitles[i] == this->ourTitles[selectedIndex]) this->selectedTitles.erase(this->selectedTitles.begin() + i);
             }
@@ -110,7 +110,7 @@ namespace inst::ui {
             if (this->selectedTitles.size() == this->menu->GetItems().size()) this->drawMenuItems(true);
             else {
                 for (long unsigned int i = 0; i < this->menu->GetItems().size(); i++) {
-                    if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
+                    if (this->menu->GetItems()[i]->GetIcon() == "romfs:/images/icons/check-box-outline.png") continue;
                     else this->selectTitle(i);
                 }
                 this->drawMenuItems(false);

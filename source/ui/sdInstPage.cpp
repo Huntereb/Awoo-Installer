@@ -14,11 +14,11 @@ namespace inst::ui {
     sdInstPage::sdInstPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
         if (std::filesystem::exists(inst::config::appDir + "/background.png")) this->SetBackgroundImage(inst::config::appDir + "/background.png");
-        else this->SetBackgroundImage("romfs:/background.jpg");
+        else this->SetBackgroundImage("romfs:/images/background.jpg");
         this->topRect = Rectangle::New(0, 0, 1280, 94, COLOR("#170909FF"));
         this->infoRect = Rectangle::New(0, 95, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
-        this->titleImage = Image::New(0, 0, "romfs:/logo.png");
+        this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "Select what files you want to install, then press the Plus button!", 30);
@@ -54,7 +54,7 @@ namespace inst::ui {
             pu::String itm = "..";
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
-            ourEntry->SetIcon("romfs:/folder-upload.png");
+            ourEntry->SetIcon("romfs:/images/icons/folder-upload.png");
             this->menu->AddItem(ourEntry);
         }
         for (auto& file: this->ourDirectories) {
@@ -62,17 +62,17 @@ namespace inst::ui {
             pu::String itm = file.filename().string();
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
-            ourEntry->SetIcon("romfs:/folder.png");
+            ourEntry->SetIcon("romfs:/images/icons/folder.png");
             this->menu->AddItem(ourEntry);
         }
         for (auto& file: this->ourFiles) {
             pu::String itm = file.filename().string();
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
-            ourEntry->SetIcon("romfs:/checkbox-blank-outline.png");
+            ourEntry->SetIcon("romfs:/images/icons/checkbox-blank-outline.png");
             for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
                 if (this->selectedTitles[i] == file) {
-                    ourEntry->SetIcon("romfs:/check-box-outline.png");
+                    ourEntry->SetIcon("romfs:/images/icons/check-box-outline.png");
                 }
             }
             this->menu->AddItem(ourEntry);
@@ -99,11 +99,11 @@ namespace inst::ui {
     void sdInstPage::selectNsp(int selectedIndex) {
         int dirListSize = this->ourDirectories.size();
         if (this->currentDir != "sdmc:/") dirListSize++;
-        if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/check-box-outline.png") {
+        if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/check-box-outline.png") {
             for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
                 if (this->selectedTitles[i] == this->ourFiles[selectedIndex - dirListSize]) this->selectedTitles.erase(this->selectedTitles.begin() + i);
             }
-        } else if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/checkbox-blank-outline.png") this->selectedTitles.push_back(this->ourFiles[selectedIndex - dirListSize]);
+        } else if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/checkbox-blank-outline.png") this->selectedTitles.push_back(this->ourFiles[selectedIndex - dirListSize]);
         else {
             this->followDirectory();
             return;
@@ -136,7 +136,7 @@ namespace inst::ui {
                 int topDir = 0;
                 if (this->currentDir != "sdmc:/") topDir++;
                 for (long unsigned int i = this->ourDirectories.size() + topDir; i < this->menu->GetItems().size(); i++) {
-                    if (this->menu->GetItems()[i]->GetIcon() == "romfs:/check-box-outline.png") continue;
+                    if (this->menu->GetItems()[i]->GetIcon() == "romfs:/images/icons/check-box-outline.png") continue;
                     else this->selectNsp(i);
                 }
                 this->drawMenuItems(false, currentDir);
@@ -146,7 +146,7 @@ namespace inst::ui {
             inst::ui::mainApp->CreateShowDialog("Help", "Copy your NSP, NSZ, XCI, or XCZ files to your SD card, browse to and\nselect the ones you want to install, then press the Plus button.", {"OK"}, true);
         }
         if (Down & KEY_PLUS) {
-            if (this->selectedTitles.size() == 0 && this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/checkbox-blank-outline.png") {
+            if (this->selectedTitles.size() == 0 && this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/images/icons/checkbox-blank-outline.png") {
                 this->selectNsp(this->menu->GetSelectedIndex());
             }
             if (this->selectedTitles.size() > 0) this->startInstall();
