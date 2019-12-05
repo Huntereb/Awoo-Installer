@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
             RendererInitOptions::RendererNoSound, RendererHardwareFlags);
         auto main = inst::ui::MainApplication::New(renderer);
         main->Prepare();
-        main->Show();
+        main->ShowWithFadeIn();
     } catch (std::exception& e) {
         LOG_DEBUG("An error occurred:\n%s", e.what());
     }
