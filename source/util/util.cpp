@@ -28,12 +28,12 @@ namespace inst::util {
         #ifdef __DEBUG__
             nxlinkStdio();
         #endif
-        usbCommsInitialize();
+        //usbCommsInitialize();
     }
 
     void deinitApp () {
         socketExit();
-        usbCommsExit();
+        //usbCommsExit();
     }
 
     void initInstallServices() {
