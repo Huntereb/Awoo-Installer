@@ -55,6 +55,7 @@ namespace tin::util
         while (sizeRemaining)
         {
             tmpSizeRead = usbCommsRead(tmpBuf, sizeRemaining);
+            if (tmpSizeRead == 0) return 0;
             tmpBuf += tmpSizeRead;
             sizeRemaining -= tmpSizeRead;
         }
@@ -71,6 +72,7 @@ namespace tin::util
         while (cursize)
         {
             tmpsize = usbCommsWrite(bufptr, cursize);
+            if (tmpsize == 0) return 0;
             bufptr += tmpsize;
             cursize -= tmpsize;
         }

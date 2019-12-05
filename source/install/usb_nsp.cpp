@@ -43,6 +43,7 @@ namespace tin::install::nsp
             while (sizeRemaining)
             {
                 tmpSizeRead = usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
+                if (tmpSizeRead == 0) THROW_FORMAT("USB error");
                 sizeRemaining -= tmpSizeRead;
 
                 while (true)
@@ -154,6 +155,6 @@ namespace tin::install::nsp
     {
         LOG_DEBUG("buffering 0x%lx-0x%lx", offset, offset + size);
         tin::util::USBCmdHeader header = tin::util::USBCmdManager::SendFileRangeCmd(m_nspName, offset, size);
-        tin::util::USBRead(buf, header.dataSize);
+        if (tin::util::USBRead(buf, header.dataSize) == 0) THROW_FORMAT("USB error");
     }
 }
