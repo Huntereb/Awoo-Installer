@@ -41,7 +41,14 @@ namespace usbInstStuff {
         }
 
         TUSHeader header;
-        tin::util::USBRead(&header, sizeof(TUSHeader));
+        while(true) {
+            if (tin::util::USBRead(&header, sizeof(TUSHeader)) != 0) break;
+            hidScanInput();
+            u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+            if (kDown & KEY_B) return {};
+            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed over USB from other devices using tools such as\nns-usbloader or Fluffy. To send these files to your Switch, open one of\nthe pieces of software recomended above on your PC, select your files,\nthen upload to your console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times due to the nature of libnx's\nUSB comms. If you can't figure it out, give LAN/internet installs a try,\nor copy your files to your SD card and try the \"Install from SD Card\"\noption on the main menu!", {"OK"}, true);
+            if (inst::util::getUsbState() != 5) return {};
+        }
 
         if (header.magic != 0x304C5554)
             return {};
@@ -121,7 +128,6 @@ namespace usbInstStuff {
             inst::util::setClockSpeed(1, previousClockValues[1]);
             inst::util::setClockSpeed(2, previousClockValues[2]);
         }
-
 
         if(nspInstalled) {
             tin::util::USBCmdManager::SendExitCmd();

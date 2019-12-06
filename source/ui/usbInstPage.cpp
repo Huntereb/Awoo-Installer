@@ -65,8 +65,8 @@ namespace inst::ui {
     }
 
     void usbInstPage::startUsb() {
-        this->pageInfoText->SetText("USB connection successful! Waiting for files to be sent...");
-        this->butText->SetText("\ue0f4 Exit ");
+        this->pageInfoText->SetText("USB connection successful! Waiting for list of files to be sent...");
+        this->butText->SetText("\ue0e2 Help    \ue0e1 Cancel ");
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         this->infoImage->SetVisible(true);
