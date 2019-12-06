@@ -124,13 +124,13 @@ namespace nspInstStuff {
                     fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
                     tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
                     installTask = new tin::install::nsp::NSPInstallTask(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
+
+                    inst::ui::setInstInfoText("Preparing installation...");
+                    inst::ui::setInstBarPerc(0);
+                    installTask->Prepare();
+
+                    installTask->Begin();
                 }
-
-                inst::ui::setInstInfoText("Preparing installation...");
-                inst::ui::setInstBarPerc(0);
-                installTask->Prepare();
-
-                installTask->Begin();
             }
         }
         catch (std::exception& e)
