@@ -116,14 +116,14 @@ namespace nspInstStuff {
                         rename(ourTitleList[titleItr], newfilename);
                         filesToBeRenamed.push_back(newfilename);
                         ourTitleList[titleItr] = newfilename;
+
+                        std::string path = "@Sdcard://" + ourTitleList[titleItr].string().erase(0, 6);
+
+                        nx::fs::IFileSystem fileSystem;
+                        fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
+                        tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
+                        installTask = new tin::install::nsp::NSPInstallTask(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
                     }
-
-                    std::string path = "@Sdcard://" + ourTitleList[titleItr].string().erase(0, 6);
-
-                    nx::fs::IFileSystem fileSystem;
-                    fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
-                    tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
-                    installTask = new tin::install::nsp::NSPInstallTask(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
                 }
 
                 inst::ui::setInstInfoText("Preparing installation...");
