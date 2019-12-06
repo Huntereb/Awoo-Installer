@@ -155,6 +155,8 @@ namespace tin::install::xci
     {
         LOG_DEBUG("buffering 0x%lx-0x%lx", offset, offset + size);
         tin::util::USBCmdHeader header = tin::util::USBCmdManager::SendFileRangeCmd(m_xciName, offset, size);
-        if (tin::util::USBRead(buf, header.dataSize) == 0) THROW_FORMAT("USB error");
+        u8* ourBuffer = (u8*)memalign(0x1000, header.dataSize);
+        if (tin::util::USBRead(ourBuffer, header.dataSize) == 0) THROW_FORMAT("USB error");
+        memcpy(buf, ourBuffer, header.dataSize);
     }
 }
