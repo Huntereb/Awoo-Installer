@@ -108,7 +108,7 @@ namespace tin::install::xci
         {
             u64 newTime = armGetSystemTick();
 
-            if (newTime - startTime >= freq * 0.5)
+            if (newTime - startTime >= freq)
             {
                 size_t newSizeBuffered = bufferedPlaceholderWriter.GetSizeBuffered();
                 double mbBuffered = (newSizeBuffered / 1000000.0) - (startSizeBuffered / 1000000.0);
