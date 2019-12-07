@@ -46,12 +46,11 @@ namespace usbInstStuff {
             hidScanInput();
             u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
             if (kDown & KEY_B) return {};
-            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed over USB from other devices using tools such as\nns-usbloader or Fluffy. To send these files to your Switch, open one of\nthe pieces of software recomended above on your PC, select your files,\nthen upload to your console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times due to the nature of libnx's\nUSB comms. If you can't figure it out, give LAN/internet installs a try,\nor copy your files to your SD card and try the \"Install from SD Card\"\noption on the main menu!", {"OK"}, true);
+            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed over USB from other devices using tools such as\nns-usbloader in Tinfoil mode. To send files to your Switch, open one of\nthese pieces of software on your PC, select your files, then upload to\nyour console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times. If you can't figure it out,\ngive LAN/internet installs a try, or copy your files to your SD card and\ntry the \"Install from SD Card\" option on the main menu!", {"OK"}, true);
             if (inst::util::getUsbState() != 5) return {};
         }
 
-        if (header.magic != 0x304C5554)
-            return {};
+        if (header.magic != 0x304C5554) return {};
 
         auto titleListBuf = std::make_unique<char[]>(header.titleListSize+1);
         std::vector<std::string> titleNames;
