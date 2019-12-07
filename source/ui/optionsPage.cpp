@@ -129,7 +129,7 @@ namespace inst::ui {
                     }
                     break;
                 case 6:
-                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
+                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
                     break;
                 default:
                     break;

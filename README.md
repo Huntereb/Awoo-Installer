@@ -1,11 +1,11 @@
-# Awoo-Installer
+# Awoo Installer
 A No-Bullshit NSP, NSZ, XCI, and XCZ Installer for Nintendo Switch
 
-![Awoo Installer Main Menu](https://i.imgur.com/I7RC12f.jpg)
+![Awoo Installer Main Menu](https://i.imgur.com/jnfr7Kk.jpg)
 
 ## Features
-- Installs NSP/NSZ/XCI/XCZ files and split NSPs from your SD card
-- Installs NSP/NSZ/XCI/XCZ files over LAN or USB from tools such as [ns-usbloader](https://github.com/developersu/ns-usbloader)
+- Installs NSP/NSZ/XCI/XCZ files and split NSP/XCI files from your SD card
+- Installs NSP/NSZ/XCI/XCZ files over LAN from tools such as [ns-usbloader](https://github.com/developersu/ns-usbloader)
 - Installs NSP/NSZ/XCI/XCZ files over the internet by URL or Google Drive
 - Verifies NCAs by header signature before they're installed
 - Installs and manages the latest signature patches quickly and easily
@@ -24,6 +24,6 @@ If you want to do other things like manage installed tickets, titles, and user a
 - XorTroll for [Plutonium](https://github.com/XorTroll/Plutonium) and [Goldleaf](https://github.com/XorTroll/Goldleaf)
 - blawar (wife beater) and nicoboss for [NSZ](https://github.com/nicoboss/nsz) support
 - The kind folks at the AtlasNX Discuck (or at least some of them)
-- The also kind folks at the RetroNX Discuck
+- The also kind folks at the RetroNX Discuck (of no direct involvement)
 - [namako8982](https://www.pixiv.net/member.php?id=14235616) for the Momiji art
 - TheXzoron for being a baka
