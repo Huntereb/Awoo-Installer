@@ -438,10 +438,8 @@ static Result _usbCommsRead(usbCommsInterface *interface, void* buffer, size_t s
         rc = usbDsEndpoint_PostBufferAsync(interface->endpoint_out, transfer_buffer, chunksize, &urbId);
         if (R_FAILED(rc)) return rc;
         //Wait for the transfer to finish.
-        if (size < 0x1000) {
-            rc = eventWait(&interface->endpoint_out->CompletionEvent, 1000000000);
-        }
-        else rc = eventWait(&interface->endpoint_out->CompletionEvent, U64_MAX);
+        if (size < 0x1000) rc = eventWait(&interface->endpoint_out->CompletionEvent, 1000000000);
+        else rc = eventWait(&interface->endpoint_out->CompletionEvent, 5000000000);
         if (R_FAILED(rc))
         {
             usbDsEndpoint_Cancel(interface->endpoint_out);
@@ -511,10 +509,8 @@ static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, s
         if(R_FAILED(rc))return rc;
 
         //Wait for the transfer to finish.
-        if (size < 0x1000) {
-            rc = eventWait(&interface->endpoint_in->CompletionEvent, 1000000000);
-        }
-        else rc = eventWait(&interface->endpoint_in->CompletionEvent, U64_MAX);
+        if (size < 0x1000) rc = eventWait(&interface->endpoint_in->CompletionEvent, 1000000000);
+        else rc = eventWait(&interface->endpoint_in->CompletionEvent, 5000000000);
         if (R_FAILED(rc))
         {
             usbDsEndpoint_Cancel(interface->endpoint_in);
