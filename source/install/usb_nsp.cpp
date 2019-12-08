@@ -43,7 +43,7 @@ namespace tin::install::nsp
             while (sizeRemaining)
             {
                 tmpSizeRead = usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
-                if (tmpSizeRead == 0) THROW_FORMAT("USB error");
+                if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
                 sizeRemaining -= tmpSizeRead;
 
                 while (true)
@@ -156,7 +156,7 @@ namespace tin::install::nsp
         LOG_DEBUG("buffering 0x%lx-0x%lx", offset, offset + size);
         tin::util::USBCmdHeader header = tin::util::USBCmdManager::SendFileRangeCmd(m_nspName, offset, size);
         u8* ourBuffer = (u8*)memalign(0x1000, header.dataSize);
-        if (tin::util::USBRead(ourBuffer, header.dataSize) == 0) THROW_FORMAT("USB error");
+        if (tin::util::USBRead(ourBuffer, header.dataSize) == 0) THROW_FORMAT("USB transfer timed out or failed");
         memcpy(buf, ourBuffer, header.dataSize);
     }
 }

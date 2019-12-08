@@ -3,6 +3,7 @@
 #include <string>
 
 namespace usbInstStuff {
-    std::vector<std::string> OnSelected();
+    int OnSelected(void* in);
     void installTitleUsb(std::vector<std::string> ourNspList, int ourStorage);
+    extern bool stopThread;
 }

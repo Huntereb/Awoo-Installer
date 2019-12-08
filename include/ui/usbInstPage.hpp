@@ -12,8 +12,8 @@ namespace inst::ui {
             void startUsb();
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
-        private:
             std::vector<std::string> ourTitles;
+        private:
             std::vector<std::string> selectedTitles;
             std::string lastUrl;
             std::string lastFileID;
@@ -27,5 +27,6 @@ namespace inst::ui {
             Image::Ref infoImage;
             void drawMenuItems(bool clearItems);
             void selectTitle(int selectedIndex);
+            void waitForList();
     };
 } 
