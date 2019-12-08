@@ -14,6 +14,7 @@
 #include "util/config.hpp"
 #include "util/curl.hpp"
 #include "ui/MainApplication.hpp"
+#include "util/usb_comms_awoo.h"
 
 namespace inst::util {
     void initApp () {
@@ -28,12 +29,12 @@ namespace inst::util {
         #ifdef __DEBUG__
             nxlinkStdio();
         #endif
-        usbCommsInitialize();
+        awoo_usbCommsInitialize();
     }
 
     void deinitApp () {
         socketExit();
-        usbCommsExit();
+        awoo_usbCommsExit();
     }
 
     void initInstallServices() {

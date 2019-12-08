@@ -1,4 +1,5 @@
 #include "util/usb_util.hpp"
+#include "util/usb_comms_awoo.h"
 
 #include "data/byte_buffer.hpp"
 #include "debug.h"
@@ -54,7 +55,7 @@ namespace tin::util
 
         while (sizeRemaining)
         {
-            tmpSizeRead = usbCommsRead(tmpBuf, sizeRemaining);
+            tmpSizeRead = awoo_usbCommsRead(tmpBuf, sizeRemaining);
             if (tmpSizeRead == 0) return 0;
             tmpBuf += tmpSizeRead;
             sizeRemaining -= tmpSizeRead;
@@ -71,7 +72,7 @@ namespace tin::util
 
         while (cursize)
         {
-            tmpsize = usbCommsWrite(bufptr, cursize);
+            tmpsize = awoo_usbCommsWrite(bufptr, cursize);
             if (tmpsize == 0) return 0;
             bufptr += tmpsize;
             cursize -= tmpsize;

@@ -12,6 +12,7 @@
 #include "debug.h"
 #include "sdInstall.hpp"
 #include "util/util.hpp"
+#include "util/usb_comms_awoo.h"
 
 namespace tin::install::nsp
 {
@@ -42,7 +43,7 @@ namespace tin::install::nsp
         {
             while (sizeRemaining)
             {
-                tmpSizeRead = usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
+                tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
                 if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
                 sizeRemaining -= tmpSizeRead;
 
