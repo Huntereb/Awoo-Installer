@@ -20,15 +20,9 @@ namespace inst::ui {
         mainApp->usbinstPage->pageInfoText->SetText(ourText);
         mainApp->CallForRender();
     }
-
-    void setUsbTitleList(std::vector<std::string> ourText){
-        mainApp->usbinstPage->ourTitles = ourText;
-    }
 }
 
 namespace usbInstStuff {
-    bool stopThread;
-
     struct TUSHeader
     {
         u32 magic; // TUL0 (Tinfoil Usb List 0)
@@ -36,22 +30,27 @@ namespace usbInstStuff {
         u64 padding;
     } PACKED;
 
-    int OnSelected(void* in) {
-        usbInstStuff::stopThread = false;
+    std::vector<std::string> OnSelected() {
+        Result rc = 0;
+
+        while(true) {
+            rc = usbDsWaitReady(1000000);
+            if (R_SUCCEEDED(rc)) break;
+            else if ((rc & 0x3FFFFF) != 0xEA01)
+                return {};
+        }
 
         TUSHeader header;
         while(true) {
             if (tin::util::USBRead(&header, sizeof(TUSHeader)) != 0) break;
-            if (inst::util::getUsbState() != 5 || usbInstStuff::stopThread) {
-                inst::ui::setUsbTitleList({"errorOccured"});
-                return 0;
-            }
+            hidScanInput();
+            u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+            if (kDown & KEY_B) return {};
+            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed over USB from other devices using tools such as\nns-usbloader in Tinfoil mode. To send files to your Switch, open one of\nthese pieces of software on your PC, select your files, then upload to\nyour console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times. If you can't figure it out,\ngive LAN/internet installs a try, or copy your files to your SD card and\ntry the \"Install from SD Card\" option on the main menu!", {"OK"}, true);
+            if (inst::util::getUsbState() != 5) return {};
         }
 
-        if (header.magic != 0x304C5554) {
-            inst::ui::setUsbTitleList({"errorOccured"});
-            return 0;
-        }
+        if (header.magic != 0x304C5554) return {};
 
         auto titleListBuf = std::make_unique<char[]>(header.titleListSize+1);
         std::vector<std::string> titleNames;
@@ -66,8 +65,7 @@ namespace usbInstStuff {
             titleNames.push_back(segment);
         }
 
-        inst::ui::setUsbTitleList(titleNames);
-        return 0;
+        return titleNames;
     }
 
     void installTitleUsb(std::vector<std::string> ourTitleList, int ourStorage)

@@ -1,4 +1,3 @@
-#include <threads.h>
 #include "ui/usbInstPage.hpp"
 #include "ui/MainApplication.hpp"
 #include "util/util.hpp"
@@ -65,22 +64,16 @@ namespace inst::ui {
         this->drawMenuItems(false);
     }
 
-    void usbInstPage::waitForList() {
-        thrd_t usbThread;
-        thrd_create(&usbThread, usbInstStuff::OnSelected, 0);
-        while(!this->ourTitles.size()) {
-            hidScanInput();
-            u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-            if (kDown & KEY_B) {
-                usbInstStuff::stopThread = true;
-                thrd_join(usbThread, NULL);
-                mainApp->LoadLayout(mainApp->mainPage);
-                return;
-            };
-            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed over USB from other devices using tools such as\nns-usbloader in Tinfoil mode. To send files to your Switch, open one of\nthese pieces of software on your PC, select your files, then upload to\nyour console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times. If you can't figure it out,\ngive LAN/internet installs a try, or copy your files to your SD card and\ntry the \"Install from SD Card\" option on the main menu!", {"OK"}, true);
-        }
-
-        if (this->ourTitles[0] == "errorOccured") {
+    void usbInstPage::startUsb() {
+        this->pageInfoText->SetText("USB connection successful! Waiting for list of files to be sent...");
+        this->butText->SetText("\ue0e2 (Hold) Help    \ue0e1 (Hold) Cancel ");
+        this->menu->SetVisible(false);
+        this->menu->ClearItems();
+        this->infoImage->SetVisible(true);
+        mainApp->LoadLayout(mainApp->usbinstPage);
+        mainApp->CallForRender();
+        this->ourTitles = usbInstStuff::OnSelected();
+        if (!this->ourTitles.size()) {
             mainApp->LoadLayout(mainApp->mainPage);
             return;
         } else {
@@ -92,18 +85,6 @@ namespace inst::ui {
             this->menu->SetVisible(true);
         }
         return;
-    }
-
-    void usbInstPage::startUsb() {
-        this->ourTitles = {};
-        this->pageInfoText->SetText("USB connection successful! Waiting for list of files to be sent...");
-        this->butText->SetText("\ue0e2 Help    \ue0e1 Cancel ");
-        this->menu->SetVisible(false);
-        this->menu->ClearItems();
-        this->infoImage->SetVisible(true);
-        mainApp->LoadLayout(mainApp->usbinstPage);
-        mainApp->CallForRender();
-        this->waitForList();
     }
 
     void usbInstPage::startInstall() {
