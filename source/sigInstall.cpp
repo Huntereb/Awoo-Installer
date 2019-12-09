@@ -28,7 +28,7 @@ namespace sig {
                     return;
                 }
                 if (!inst::util::copyFile("sdmc:/bootloader/patches.ini", inst::config::appDir + "/patches.ini.old")) {
-                    if (inst::ui::mainApp->CreateShowDialog("Could not back up old Hekate patches.ini! Install anyway?", "Installing patches requires use of the Hekate bootloader.", {"Yes", "No"}, false)) return;
+                    if (inst::ui::mainApp->CreateShowDialog("Could not back up Hekate patches.ini! Install anyway?", "If you don't use Hekate you can ignore this warning.", {"Yes", "No"}, false)) return;
                 }
                 std::string ourPath = inst::config::appDir + "/patches.zip";
                 bool didDownload = inst::curl::downloadFile(inst::config::sigPatchesUrl, ourPath.c_str());
