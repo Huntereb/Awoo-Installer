@@ -117,11 +117,13 @@ namespace inst::ui {
             this->startNetwork();
             return;
         } else {
+            mainApp->CallForRender(); // If we re-render a few times during this process the main screen won't flicker
             sourceString = " over local network";
             this->pageInfoText->SetText("Select what files you want to install from the server, then press the Plus button!");
             this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
             this->drawMenuItems(true);
             this->menu->SetSelectedIndex(0);
+            mainApp->CallForRender();
             this->infoImage->SetVisible(false);
             this->menu->SetVisible(true);
         }
