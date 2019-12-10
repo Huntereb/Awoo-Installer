@@ -8,8 +8,8 @@
 #include "data/byte_buffer.hpp"
 #include "data/buffered_placeholder_writer.hpp"
 #include "util/usb_util.hpp"
-#include "error.hpp"
-#include "debug.h"
+#include "util/error.hpp"
+#include "util/debug.h"
 #include "sdInstall.hpp"
 #include "util/util.hpp"
 #include "util/usb_comms_awoo.h"
@@ -156,8 +156,9 @@ namespace tin::install::xci
     {
         LOG_DEBUG("buffering 0x%lx-0x%lx", offset, offset + size);
         tin::util::USBCmdHeader header = tin::util::USBCmdManager::SendFileRangeCmd(m_xciName, offset, size);
-        u8* ourBuffer = (u8*)memalign(0x1000, header.dataSize);
-        if (tin::util::USBRead(ourBuffer, header.dataSize) == 0) THROW_FORMAT("USB transfer timed out or failed");
-        memcpy(buf, ourBuffer, header.dataSize);
+        u8* tempBuffer = (u8*)memalign(0x1000, header.dataSize);
+        if (tin::util::USBRead(tempBuffer, header.dataSize) == 0) THROW_FORMAT("USB transfer timed out or failed");
+        memcpy(buf, tempBuffer, header.dataSize);
+        free(tempBuffer);
     }
 }
