@@ -1,4 +1,5 @@
 #include <string>
+#include <thread>
 #include "util/error.hpp"
 #include "usbInstall.hpp"
 #include "install/usb_nsp.hpp"
@@ -31,8 +32,6 @@ namespace usbInstStuff {
     } PACKED;
 
     std::vector<std::string> OnSelected() {
-        Result rc = 0;
-
         TUSHeader header;
         while(true) {
             if (tin::util::USBRead(&header, sizeof(TUSHeader)) != 0) break;
@@ -111,7 +110,9 @@ namespace usbInstStuff {
             fprintf(stdout, "%s", e.what());
             inst::ui::setInstInfoText("Failed to install " + fileNames[fileItr]);
             inst::ui::setInstBarPerc(0);
+            std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
             inst::ui::mainApp->CreateShowDialog("Failed to install " + fileNames[fileItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            audioThread.join();
             nspInstalled = false;
         }
 
@@ -125,8 +126,10 @@ namespace usbInstStuff {
             tin::util::USBCmdManager::SendExitCmd();
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
+            std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
             if (ourTitleList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
             else inst::ui::mainApp->CreateShowDialog(fileNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            audioThread.join();
         }
         
         LOG_DEBUG("Done");

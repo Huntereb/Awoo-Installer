@@ -28,6 +28,7 @@ SOFTWARE.
 #include <memory>
 #include <string>
 #include <machine/endian.h>
+#include <thread>
 
 #include "nx/ncm.hpp"
 #include "install/nca.hpp"
@@ -40,6 +41,7 @@ SOFTWARE.
 #include "util/title_util.hpp"
 #include "sdInstall.hpp"
 #include "ui/MainApplication.hpp"
+#include "util/util.hpp"
 
 namespace inst::ui {
     extern MainApplication *mainApp;
@@ -129,7 +131,9 @@ namespace tin::install::nsp
 
             if (!Crypto::rsa2048PssVerify(&header.magic, 0x200, header.fixed_key_sig, Crypto::NCAHeaderSignature))
             {
+                std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
                 int rc = inst::ui::mainApp->CreateShowDialog("Invalid NCA signature detected!", "Improperly signed software should only be installed from trustworthy\nsources. Files containing cartridge repacks and DLC unlockers will always\nshow this warning. You can disable this check in Awoo Installer's settings.\n\nAre you sure you want to continue the installation?", {"Cancel", "Yes, I understand the risks"}, false);
+                audioThread.join();
                 if (rc != 1)
                     THROW_FORMAT(("The requested NCA (" + tin::util::GetNcaIdString(ncaId) + ") is not properly signed").c_str());
                 declinedValidation = true;

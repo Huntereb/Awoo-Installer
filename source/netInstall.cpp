@@ -26,6 +26,7 @@ SOFTWARE.
 #include <fcntl.h>
 #include <sstream>
 #include <curl/curl.h>
+#include <thread>
 
 #include <switch.h>
 #include "util/network_util.hpp"
@@ -171,7 +172,9 @@ namespace netInstStuff{
             fprintf(stdout, "%s", e.what());
             inst::ui::setInstInfoText("Failed to install " + urlNames[urlItr]);
             inst::ui::setInstBarPerc(0);
+            std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
             inst::ui::mainApp->CreateShowDialog("Failed to install " + urlNames[urlItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            audioThread.join();
             nspInstalled = false;
         }
 
@@ -189,8 +192,10 @@ namespace netInstStuff{
         if(nspInstalled) {
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
+            std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
             if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
             else inst::ui::mainApp->CreateShowDialog(urlNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            audioThread.join();
         }
         
         LOG_DEBUG("Done");

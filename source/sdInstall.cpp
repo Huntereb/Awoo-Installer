@@ -24,6 +24,7 @@ SOFTWARE.
 #include <sstream>
 #include <filesystem>
 #include <ctime>
+#include <thread>
 
 #include "install/install_nsp.hpp"
 #include "install/install_xci.hpp"
@@ -140,7 +141,9 @@ namespace nspInstStuff {
             fprintf(stdout, "%s", e.what());
             inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true));
             inst::ui::setInstBarPerc(0);
+            std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
             inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            audioThread.join();
             nspInstalled = false;
         }
 
@@ -160,6 +163,7 @@ namespace nspInstStuff {
         if(nspInstalled) {
             inst::ui::setInstInfoText("Install complete");
             inst::ui::setInstBarPerc(100);
+            std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
             if (ourTitleList.size() > 1) {
                 if (inst::config::deletePrompt) {
                     if(inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully! Delete them from the SD card?", "The original files aren't needed anymore after they've been installed", {"No","Yes"}, false) == 1) {
@@ -173,6 +177,7 @@ namespace nspInstStuff {
                     if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourTitleList[0].filename().string(), 32, true) + " installed! Delete it from the SD card?", "The original file isn't needed anymore after it's been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourTitleList[0])) std::filesystem::remove(ourTitleList[0]);
                 } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourTitleList[0].filename().string(), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
             }
+            audioThread.join();
         }
 
         LOG_DEBUG("Done");
