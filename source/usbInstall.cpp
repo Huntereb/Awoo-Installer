@@ -33,13 +33,6 @@ namespace usbInstStuff {
     std::vector<std::string> OnSelected() {
         Result rc = 0;
 
-        while(true) {
-            rc = usbDsWaitReady(1000000);
-            if (R_SUCCEEDED(rc)) break;
-            else if ((rc & 0x3FFFFF) != 0xEA01)
-                return {};
-        }
-
         TUSHeader header;
         while(true) {
             if (tin::util::USBRead(&header, sizeof(TUSHeader)) != 0) break;
