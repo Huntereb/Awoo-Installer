@@ -372,8 +372,7 @@ bool NcaWriter::close()
      {
           if(isOpen())
           {
-               m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, m_buffer.size());
-               m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
+               flushHeader();
           }
 
           m_buffer.resize(0);
@@ -408,34 +407,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
 
           if (m_buffer.size() == NCA_HEADER_SIZE)
           {
-               tin::install::NcaHeader header;
-               memcpy(&header, m_buffer.data(), sizeof(header));
-               Crypto::AesXtr decryptor(Crypto::Keys().headerKey, false);
-               Crypto::AesXtr encryptor(Crypto::Keys().headerKey, true);
-               decryptor.decrypt(&header, &header, sizeof(header), 0, 0x200);
-
-               if (header.magic == MAGIC_NCA3)
-               {
-                    if(isOpen())
-                    {
-                         m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
-                    }
-               }
-               else
-               {
-                    throw "Invalid NCA magic";
-               }
-
-               if (header.distribution == 1)
-               {
-                    header.distribution = 0;
-               }
-               encryptor.encrypt(m_buffer.data(), &header, sizeof(header), 0, 0x200);
-
-               if(isOpen())
-               {
-                    m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
-               }
+               flushHeader();
           }
      }
 
@@ -473,3 +445,34 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
      return sz;
 }
 
+void NcaWriter::flushHeader()
+{
+     tin::install::NcaHeader header;
+     memcpy(&header, m_buffer.data(), sizeof(header));
+     Crypto::AesXtr decryptor(Crypto::Keys().headerKey, false);
+     Crypto::AesXtr encryptor(Crypto::Keys().headerKey, true);
+     decryptor.decrypt(&header, &header, sizeof(header), 0, 0x200);
+
+     if (header.magic == MAGIC_NCA3)
+     {
+          if(isOpen())
+          {
+               m_contentStorage->CreatePlaceholder(m_ncaId, *(NcmPlaceHolderId*)&m_ncaId, header.nca_size);
+          }
+     }
+     else
+     {
+          throw std::runtime_error("Invalid NCA magic");
+     }
+
+     if (header.distribution == 1)
+     {
+          header.distribution = 0;
+     }
+     encryptor.encrypt(m_buffer.data(), &header, sizeof(header), 0, 0x200);
+
+     if(isOpen())
+     {
+          m_contentStorage->WritePlaceholder(*(NcmPlaceHolderId*)&m_ncaId, 0, m_buffer.data(), m_buffer.size());
+     }
+}

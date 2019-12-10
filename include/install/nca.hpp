@@ -2,7 +2,7 @@
 
 #include <switch.h>
 
-#define NCA_HEADER_SIZE 0xC00
+#define NCA_HEADER_SIZE 0x4000
 #define MAGIC_NCA3 0x3341434E /* "NCA3" */
 namespace tin::install
 {

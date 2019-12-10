@@ -52,6 +52,7 @@ public:
 	bool isOpen() const;
 	bool close();
 	u64 write(const  u8* ptr, u64 sz);
+	void flushHeader();
 
 protected:
 	NcmContentId m_ncaId;

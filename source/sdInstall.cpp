@@ -110,6 +110,9 @@ namespace nspInstStuff {
                 if (ourTitleList[titleItr].extension() == ".xci" || ourTitleList[titleItr].extension() == ".xcz") {
                     auto localXCI = new tin::install::xci::LocalXCI(ourTitleList[titleItr]);
                     installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, localXCI);
+
+                    installTask->Prepare();
+                    installTask->Begin();
                 } else {
                     if (ourTitleList[titleItr].extension() == ".nsz") {
                         oldNamesOfFiles.push_back(ourTitleList[titleItr]);
