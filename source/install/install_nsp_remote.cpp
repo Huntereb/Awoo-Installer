@@ -147,7 +147,7 @@ namespace tin::install::nsp
         if (tikFileEntry == nullptr)
         {
             LOG_DEBUG("Remote tik file is missing.\n");
-            throw std::runtime_error("Remote tik file is not present!");
+            THROW_FORMAT("Remote tik file is not present!");
         }
 
         u64 tikSize = tikFileEntry->fileSize;
@@ -161,7 +161,7 @@ namespace tin::install::nsp
         if (certFileEntry == nullptr)
         {
             LOG_DEBUG("Remote cert file is missing.\n");
-            throw std::runtime_error("Remote cert file is not present!");
+            THROW_FORMAT("Remote cert file is not present!");
         }
 
         u64 certSize = certFileEntry->fileSize;

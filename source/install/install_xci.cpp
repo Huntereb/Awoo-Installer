@@ -153,7 +153,7 @@ namespace tin::install::xci
             if (tikFileEntries[i] == nullptr)
             {
                 LOG_DEBUG("Remote tik file is missing.\n");
-                throw std::runtime_error("Remote tik file is not present!");
+                THROW_FORMAT("Remote tik file is not present!");
             }
 
             u64 tikSize = tikFileEntries[i]->fileSize;
@@ -164,7 +164,7 @@ namespace tin::install::xci
             if (certFileEntries[i] == nullptr)
             {
                 LOG_DEBUG("Remote cert file is missing.\n");
-                throw std::runtime_error("Remote cert file is not present!");
+                THROW_FORMAT("Remote cert file is not present!");
             }
 
             u64 certSize = certFileEntries[i]->fileSize;

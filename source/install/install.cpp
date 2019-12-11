@@ -61,7 +61,7 @@ namespace tin::install
         catch (std::runtime_error& e)
         {
             serviceClose(&contentMetaDatabase.s);
-            throw e;
+            THROW_FORMAT(e.what());
         }
 
         serviceClose(&contentMetaDatabase.s);
@@ -80,7 +80,7 @@ namespace tin::install
         // 0x410: The record doesn't already exist
         if (R_FAILED(rc = nsCountApplicationContentMeta(baseTitleId, &contentMetaCount)) && rc != 0x410)
         {
-            throw std::runtime_error("Failed to count application content meta");
+            THROW_FORMAT("Failed to count application content meta");
         }
         rc = 0;
 
@@ -98,7 +98,7 @@ namespace tin::install
 
             if (entriesRead != contentMetaCount)
             {
-                throw std::runtime_error("Mismatch between entries read and content meta count");
+                THROW_FORMAT("Mismatch between entries read and content meta count");
             }
 
             memcpy(storageRecords.data(), contentStorageBuf.get(), contentStorageBufSize);

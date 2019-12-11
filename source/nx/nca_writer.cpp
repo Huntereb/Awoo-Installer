@@ -428,7 +428,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
                }
                else
                {
-                    throw std::runtime_error("not enough data to read ncz header");
+                    THROW_FORMAT("not enough data to read ncz header");
                }
           }
 
@@ -438,7 +438,7 @@ u64 NcaWriter::write(const  u8* ptr, u64 sz)
           }
           else
           {
-               throw std::runtime_error("null writer");
+               THROW_FORMAT("null writer");
           }
      }
 
@@ -462,7 +462,7 @@ void NcaWriter::flushHeader()
      }
      else
      {
-          throw std::runtime_error("Invalid NCA magic");
+          THROW_FORMAT("Invalid NCA magic");
      }
 
      if (header.distribution == 1)

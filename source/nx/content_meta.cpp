@@ -38,7 +38,7 @@ namespace nx::ncm
         m_bytes(size)
     {
         if (size < sizeof(PackagedContentMetaHeader))
-            throw std::runtime_error("Content meta data size is too small!");
+            THROW_FORMAT("Content meta data size is too small!");
 
         m_bytes.Resize(size);
         memcpy(m_bytes.GetData(), data, size);

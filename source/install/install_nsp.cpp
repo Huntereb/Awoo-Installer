@@ -102,7 +102,7 @@ namespace tin::install::nsp
             ncaName += ".cnmt.ncz";
         else
         {
-            throw std::runtime_error(("Failed to find NCA file " + ncaName + ".nca/.cnmt.nca/.ncz/.cnmt.ncz").c_str());
+            THROW_FORMAT(("Failed to find NCA file " + ncaName + ".nca/.cnmt.nca/.ncz/.cnmt.ncz").c_str());
         }
 
         LOG_DEBUG("NcaId: %s\n", ncaName.c_str());
@@ -148,7 +148,7 @@ namespace tin::install::nsp
         auto readBuffer = std::make_unique<u8[]>(readSize);
 
         if (readBuffer == NULL) 
-            throw std::runtime_error(("Failed to allocate read buffer for " + ncaName).c_str());
+            THROW_FORMAT(("Failed to allocate read buffer for " + ncaName).c_str());
 
         LOG_DEBUG("Size: 0x%lx\n", ncaSize);
 
