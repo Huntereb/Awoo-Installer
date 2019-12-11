@@ -117,7 +117,6 @@ namespace netInstStuff{
     void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames, std::string ourSource)
     {
         inst::util::initInstallServices();
-        if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
         NcmStorageId m_destStorageId = NcmStorageId_SdCard;
@@ -199,7 +198,6 @@ namespace netInstStuff{
         }
         
         LOG_DEBUG("Done");
-        if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletEndBlockingHomeButton();
         inst::ui::loadMainMenu();
         inst::util::deinitInstallServices();
         return;

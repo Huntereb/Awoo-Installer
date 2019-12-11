@@ -84,7 +84,6 @@ namespace nspInstStuff {
     void installNspFromFile(std::vector<std::filesystem::path> ourTitleList, int whereToInstall)
     {
         inst::util::initInstallServices();
-        if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletBeginBlockingHomeButton(0);
         inst::ui::loadInstallScreen();
         bool nspInstalled = true;
         NcmStorageId m_destStorageId = NcmStorageId_SdCard;
@@ -184,7 +183,6 @@ namespace nspInstStuff {
         }
 
         LOG_DEBUG("Done");
-        if (appletGetAppletType() == AppletType_Application || appletGetAppletType() == AppletType_SystemApplication) appletEndBlockingHomeButton();
         inst::ui::loadMainMenu();
         inst::util::deinitInstallServices();
         return;
