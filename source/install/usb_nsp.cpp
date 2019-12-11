@@ -154,7 +154,7 @@ namespace tin::install::nsp
 
     void USBNSP::BufferData(void* buf, off_t offset, size_t size)
     {
-        LOG_DEBUG("buffering 0x%lx-0x%lx", offset, offset + size);
+        LOG_DEBUG("buffering 0x%lx-0x%lx\n", offset, offset + size);
         tin::util::USBCmdHeader header = tin::util::USBCmdManager::SendFileRangeCmd(m_nspName, offset, size);
         u8* tempBuffer = (u8*)memalign(0x1000, header.dataSize);
         if (tin::util::USBRead(tempBuffer, header.dataSize) == 0) THROW_FORMAT("USB transfer timed out or failed");
