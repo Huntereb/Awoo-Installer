@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <switch.h>
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "util/util.hpp"
@@ -9,6 +10,14 @@
 
 namespace inst::ui {
     extern MainApplication *mainApp;
+    bool dialogAck = false;
+
+    void warnAboutAppletMode() {
+        if (!dialogAck && mainApp->IsShown() && appletGetAppletType() == AppletType_LibraryApplet) {
+            inst::ui::dialogAck = true;
+            mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle or forwarder!", {"OK"}, true);
+        }
+    }
 
     MainPage::MainPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -61,6 +70,7 @@ namespace inst::ui {
         this->Add(this->eggImage);
         this->awooImage->SetVisible(!inst::config::gayMode);
         this->eggImage->SetVisible(false);
+        this->AddThread(warnAboutAppletMode);
     }
 
     void MainPage::installMenuItem_Click() {
