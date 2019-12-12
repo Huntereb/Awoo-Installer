@@ -58,7 +58,56 @@ namespace tin::install::nsp
         }
         catch (std::exception& e)
         {
-            LOG_DEBUG("An error occurred:\n%s", e.what());
+            free(buf);
+            THROW_FORMAT(e.what());
+        }
+
+        free(buf);
+
+        return 0;
+    }
+
+    int USBThreadFuncNcz(void* in) // nczs corrupt with ranges over 8MB
+    {
+        USBFuncArgs* args = reinterpret_cast<USBFuncArgs*>(in);
+        u8* buf = (u8*)memalign(0x1000, 0x800000);
+        tin::util::USBCmdHeader header;
+        u64 sizeRemaining = args->ncaSize;
+        size_t tmpSizeRead = 0;
+        u64 curOffset = 0;
+        u64 curRequestLeft = 0;
+        u64 reqSize = 0;
+        u64 readSize = 0;
+
+        try
+        {
+            while (sizeRemaining)
+            {
+                if (!curRequestLeft) {
+                    reqSize = std::min(sizeRemaining, (u64)0x800000);
+                    header = tin::util::USBCmdManager::SendFileRangeCmd(args->nspName, args->pfs0Offset + curOffset, reqSize);
+                    curRequestLeft = header.dataSize;
+                }
+                readSize = std::min(curRequestLeft, (u64)0x800000);
+                tmpSizeRead = awoo_usbCommsRead(buf, readSize);
+                if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
+                curOffset += tmpSizeRead;
+                sizeRemaining -= tmpSizeRead;
+                curRequestLeft -= tmpSizeRead;
+
+                while (true)
+                {
+                    if (args->bufferedPlaceholderWriter->CanAppendData(tmpSizeRead))
+                        break;
+                }
+
+                args->bufferedPlaceholderWriter->AppendData(buf, tmpSizeRead);
+            }
+        }
+        catch (std::exception& e)
+        {
+            free(buf);
+            THROW_FORMAT(e.what());
         }
 
         free(buf);
@@ -96,7 +145,8 @@ namespace tin::install::nsp
         thrd_t usbThread;
         thrd_t writeThread;
 
-        thrd_create(&usbThread, USBThreadFunc, &args);
+        if (m_nspName.substr(m_nspName.size() - 1, 1) == "z") thrd_create(&usbThread, USBThreadFuncNcz, &args);
+        else thrd_create(&usbThread, USBThreadFunc, &args);
         thrd_create(&writeThread, USBPlaceholderWriteFunc, &args);
         
         u64 freq = armGetSystemTickFreq();
