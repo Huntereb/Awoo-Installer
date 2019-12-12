@@ -110,6 +110,8 @@ namespace nspInstStuff {
                     auto localXCI = new tin::install::xci::LocalXCI(ourTitleList[titleItr]);
                     installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, localXCI);
 
+                    inst::ui::setInstInfoText("Preparing installation...");
+                    inst::ui::setInstBarPerc(0);
                     installTask->Prepare();
                     installTask->Begin();
                 } else {
@@ -131,7 +133,6 @@ namespace nspInstStuff {
                     inst::ui::setInstInfoText("Preparing installation...");
                     inst::ui::setInstBarPerc(0);
                     installTask->Prepare();
-
                     installTask->Begin();
                 }
             }
