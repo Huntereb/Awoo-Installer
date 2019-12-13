@@ -28,10 +28,10 @@ SOFTWARE.
 #include "sdInstall.hpp"
 #include "util/util.hpp"
 
-bool stopThreads;
-
 namespace tin::install::xci
 {
+    bool stopThreadsHttpXci;
+
     HTTPXCI::HTTPXCI(std::string url) :
         m_download(url)
     {
@@ -62,7 +62,7 @@ namespace tin::install::xci
             return streamBufSize;
         };
 
-        if (args->download->StreamDataRange(args->pfs0Offset, args->ncaSize, streamFunc) == 1) stopThreads = true;
+        if (args->download->StreamDataRange(args->pfs0Offset, args->ncaSize, streamFunc) == 1) stopThreadsHttpXci = true;
         return 0;
     }
 
@@ -70,7 +70,7 @@ namespace tin::install::xci
     {
         StreamFuncArgs* args = reinterpret_cast<StreamFuncArgs*>(in);
 
-        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete() && !stopThreads)
+        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete() && !stopThreadsHttpXci)
         {
             if (args->bufferedPlaceholderWriter->CanWriteSegmentToPlaceholder())
                 args->bufferedPlaceholderWriter->WriteSegmentToPlaceholder();
@@ -96,7 +96,7 @@ namespace tin::install::xci
         thrd_t curlThread;
         thrd_t writeThread;
 
-        stopThreads = false;
+        stopThreadsHttpXci = false;
         thrd_create(&curlThread, CurlStreamFunc, &args);
         thrd_create(&writeThread, PlaceholderWriteFunc, &args);
 
@@ -106,7 +106,7 @@ namespace tin::install::xci
         double speed = 0.0;
 
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !stopThreads)
+        while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !stopThreadsHttpXci)
         {
             u64 newTime = armGetSystemTick();
 
@@ -138,7 +138,7 @@ namespace tin::install::xci
 
         inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreads)
+        while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreadsHttpXci)
         {
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
             #ifdef NXLINK_DEBUG
@@ -151,7 +151,7 @@ namespace tin::install::xci
 
         thrd_join(curlThread, NULL);
         thrd_join(writeThread, NULL);
-        if (stopThreads) THROW_FORMAT("An error occured during data transfer. Check your network connection.");
+        if (stopThreadsHttpXci) THROW_FORMAT("An error occured during data transfer. Check your network connection.");
     }
 
     void HTTPXCI::BufferData(void* buf, off_t offset, size_t size)

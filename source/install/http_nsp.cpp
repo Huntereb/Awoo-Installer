@@ -31,10 +31,9 @@ SOFTWARE.
 #include "sdInstall.hpp"
 #include "util/util.hpp"
 
-bool stopThreads;
-
 namespace tin::install::nsp
 {
+    bool stopThreadsHttpNsp;
 
     HTTPNSP::HTTPNSP(std::string url) :
         m_download(url)
@@ -66,7 +65,7 @@ namespace tin::install::nsp
             return streamBufSize;
         };
 
-        if (args->download->StreamDataRange(args->pfs0Offset, args->ncaSize, streamFunc) == 1) stopThreads = true;
+        if (args->download->StreamDataRange(args->pfs0Offset, args->ncaSize, streamFunc) == 1) stopThreadsHttpNsp = true;
         return 0;
     }
 
@@ -74,7 +73,7 @@ namespace tin::install::nsp
     {
         StreamFuncArgs* args = reinterpret_cast<StreamFuncArgs*>(in);
 
-        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete() && !stopThreads)
+        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete() && !stopThreadsHttpNsp)
         {
             if (args->bufferedPlaceholderWriter->CanWriteSegmentToPlaceholder())
                 args->bufferedPlaceholderWriter->WriteSegmentToPlaceholder();
@@ -100,7 +99,7 @@ namespace tin::install::nsp
         thrd_t curlThread;
         thrd_t writeThread;
 
-        stopThreads = false;
+        stopThreadsHttpNsp = false;
         thrd_create(&curlThread, CurlStreamFunc, &args);
         thrd_create(&writeThread, PlaceholderWriteFunc, &args);
 
@@ -110,7 +109,7 @@ namespace tin::install::nsp
         double speed = 0.0;
 
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !stopThreads)
+        while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !stopThreadsHttpNsp)
         {
             u64 newTime = armGetSystemTick();
 
@@ -134,7 +133,7 @@ namespace tin::install::nsp
 
         inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreads)
+        while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreadsHttpNsp)
         {
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
@@ -144,7 +143,7 @@ namespace tin::install::nsp
 
         thrd_join(curlThread, NULL);
         thrd_join(writeThread, NULL);
-        if (stopThreads) THROW_FORMAT("An error occured during data transfer. Check your network connection.");
+        if (stopThreadsHttpNsp) THROW_FORMAT("An error occured during data transfer. Check your network connection.");
     }
 
     void HTTPNSP::BufferData(void* buf, off_t offset, size_t size)
