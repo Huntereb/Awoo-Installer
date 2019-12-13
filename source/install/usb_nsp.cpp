@@ -16,6 +16,9 @@
 
 namespace tin::install::nsp
 {
+    bool stopThreads;
+    std::string errorMessage;
+
     USBNSP::USBNSP(std::string nspName) :
         m_nspName(nspName)
     {
@@ -41,7 +44,7 @@ namespace tin::install::nsp
 
         try
         {
-            while (sizeRemaining)
+            while (sizeRemaining && !tin::install::nsp::stopThreads)
             {
                 tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
                 if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
@@ -58,8 +61,8 @@ namespace tin::install::nsp
         }
         catch (std::exception& e)
         {
-            free(buf);
-            THROW_FORMAT(e.what());
+            tin::install::nsp::stopThreads = true;
+            tin::install::nsp::errorMessage = e.what();
         }
 
         free(buf);
@@ -81,7 +84,7 @@ namespace tin::install::nsp
 
         try
         {
-            while (sizeRemaining)
+            while (sizeRemaining && !tin::install::nsp::stopThreads)
             {
                 if (!curRequestLeft) {
                     reqSize = std::min(sizeRemaining, (u64)0x800000);
@@ -106,8 +109,8 @@ namespace tin::install::nsp
         }
         catch (std::exception& e)
         {
-            free(buf);
-            THROW_FORMAT(e.what());
+            tin::install::nsp::stopThreads = true;
+            tin::install::nsp::errorMessage = e.what();
         }
 
         free(buf);
@@ -119,7 +122,7 @@ namespace tin::install::nsp
     {
         USBFuncArgs* args = reinterpret_cast<USBFuncArgs*>(in);
 
-        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete())
+        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete() && !tin::install::nsp::stopThreads)
         {
             if (args->bufferedPlaceholderWriter->CanWriteSegmentToPlaceholder())
                 args->bufferedPlaceholderWriter->WriteSegmentToPlaceholder();
@@ -145,6 +148,7 @@ namespace tin::install::nsp
         thrd_t usbThread;
         thrd_t writeThread;
 
+        tin::install::nsp::stopThreads = false;
         if (m_nspName.substr(m_nspName.size() - 1, 1) == "z") thrd_create(&usbThread, USBThreadFuncNcz, &args);
         else thrd_create(&usbThread, USBThreadFunc, &args);
         thrd_create(&writeThread, USBPlaceholderWriteFunc, &args);
@@ -155,7 +159,7 @@ namespace tin::install::nsp
         double speed = 0.0;
 
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsBufferDataComplete())
+        while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !tin::install::nsp::stopThreads)
         {
             u64 newTime = armGetSystemTick();
 
@@ -187,7 +191,7 @@ namespace tin::install::nsp
 
         inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsPlaceholderComplete())
+        while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !tin::install::nsp::stopThreads)
         {
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
             #ifdef NXLINK_DEBUG
@@ -200,6 +204,7 @@ namespace tin::install::nsp
 
         thrd_join(usbThread, NULL);
         thrd_join(writeThread, NULL);
+        if (tin::install::nsp::stopThreads) throw std::runtime_error(tin::install::nsp::errorMessage.c_str());
     }
 
     void USBNSP::BufferData(void* buf, off_t offset, size_t size)
