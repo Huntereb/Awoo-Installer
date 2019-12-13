@@ -60,7 +60,7 @@ namespace tin::install::xci
         USBFuncArgs* args = reinterpret_cast<USBFuncArgs*>(in);
         tin::util::USBCmdHeader header = tin::util::USBCmdManager::SendFileRangeCmd(args->xciName, args->hfs0Offset, args->ncaSize);
 
-        u8* buf = (u8*)memalign(0x1000, 0x800000);
+        u8* buf = (u8*)memalign(0x1000, 0x1000000);
         u64 sizeRemaining = header.dataSize;
         size_t tmpSizeRead = 0;
 
@@ -68,7 +68,7 @@ namespace tin::install::xci
         {
             while (sizeRemaining && !stopThreadsUsbXci)
             {
-                tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
+                tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x1000000));
                 if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
                 sizeRemaining -= tmpSizeRead;
 
@@ -95,7 +95,7 @@ namespace tin::install::xci
     int USBThreadFuncNcz(void* in) // nczs corrupt with ranges over 8MB
     {
         USBFuncArgs* args = reinterpret_cast<USBFuncArgs*>(in);
-        u8* buf = (u8*)memalign(0x1000, 0x800000);
+        u8* buf = (u8*)memalign(0x1000, 0x1000000);
         tin::util::USBCmdHeader header;
         u64 sizeRemaining = args->ncaSize;
         size_t tmpSizeRead = 0;
@@ -109,11 +109,11 @@ namespace tin::install::xci
             while (sizeRemaining && !stopThreadsUsbXci)
             {
                 if (!curRequestLeft) {
-                    reqSize = std::min(sizeRemaining, (u64)0x800000);
+                    reqSize = std::min(sizeRemaining, (u64)0x1000000);
                     header = tin::util::USBCmdManager::SendFileRangeCmd(args->xciName, args->hfs0Offset + curOffset, reqSize);
                     curRequestLeft = header.dataSize;
                 }
-                readSize = std::min(curRequestLeft, (u64)0x800000);
+                readSize = std::min(curRequestLeft, (u64)0x1000000);
                 tmpSizeRead = awoo_usbCommsRead(buf, readSize);
                 if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
                 curOffset += tmpSizeRead;
