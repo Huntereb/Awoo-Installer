@@ -14,10 +14,11 @@
 #include "util/util.hpp"
 #include "util/usb_comms_awoo.h"
 
+bool stopThreads;
+std::string errorMessage;
+
 namespace tin::install::xci
 {
-    bool stopThreads;
-    std::string errorMessage;
 
     USBXCI::USBXCI(std::string xciName) :
         m_xciName(xciName)
@@ -44,7 +45,7 @@ namespace tin::install::xci
 
         try
         {
-            while (sizeRemaining && !tin::install::xci::stopThreads)
+            while (sizeRemaining && !stopThreads)
             {
                 tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
                 if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
@@ -61,8 +62,8 @@ namespace tin::install::xci
         }
         catch (std::exception& e)
         {
-            tin::install::xci::stopThreads = true;
-            tin::install::xci::errorMessage = e.what();
+            stopThreads = true;
+            errorMessage = e.what();
         }
 
         free(buf);
@@ -84,7 +85,7 @@ namespace tin::install::xci
 
         try
         {
-            while (sizeRemaining && !tin::install::xci::stopThreads)
+            while (sizeRemaining && !stopThreads)
             {
                 if (!curRequestLeft) {
                     reqSize = std::min(sizeRemaining, (u64)0x800000);
@@ -109,8 +110,8 @@ namespace tin::install::xci
         }
         catch (std::exception& e)
         {
-            tin::install::xci::stopThreads = true;
-            tin::install::xci::errorMessage = e.what();
+            stopThreads = true;
+            errorMessage = e.what();
         }
 
         free(buf);
@@ -122,7 +123,7 @@ namespace tin::install::xci
     {
         USBFuncArgs* args = reinterpret_cast<USBFuncArgs*>(in);
 
-        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete() && !tin::install::xci::stopThreads)
+        while (!args->bufferedPlaceholderWriter->IsPlaceholderComplete() && !stopThreads)
         {
             if (args->bufferedPlaceholderWriter->CanWriteSegmentToPlaceholder())
                 args->bufferedPlaceholderWriter->WriteSegmentToPlaceholder();
@@ -148,7 +149,7 @@ namespace tin::install::xci
         thrd_t usbThread;
         thrd_t writeThread;
 
-        tin::install::xci::stopThreads = false;
+        stopThreads = false;
         if (m_xciName.substr(m_xciName.size() - 1, 1) == "z") thrd_create(&usbThread, USBThreadFuncNcz, &args);
         else thrd_create(&usbThread, USBThreadFunc, &args);
         thrd_create(&writeThread, USBPlaceholderWriteFunc, &args);
@@ -159,7 +160,7 @@ namespace tin::install::xci
         double speed = 0.0;
 
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !tin::install::xci::stopThreads)
+        while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !stopThreads)
         {
             u64 newTime = armGetSystemTick();
 
@@ -191,7 +192,7 @@ namespace tin::install::xci
 
         inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
         inst::ui::setInstBarPerc(0);
-        while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !tin::install::xci::stopThreads)
+        while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreads)
         {
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
             #ifdef NXLINK_DEBUG
@@ -204,7 +205,7 @@ namespace tin::install::xci
 
         thrd_join(usbThread, NULL);
         thrd_join(writeThread, NULL);
-        if (tin::install::xci::stopThreads) throw std::runtime_error(tin::install::xci::errorMessage.c_str());
+        if (stopThreads) throw std::runtime_error(errorMessage.c_str());
     }
 
     void USBXCI::BufferData(void* buf, off_t offset, size_t size)

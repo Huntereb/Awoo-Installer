@@ -75,7 +75,7 @@ namespace tin::network
             HTTPDownload(std::string url);
     
             void BufferDataRange(void* buffer, size_t offset, size_t size, std::function<void (size_t sizeRead)> progressFunc);
-            void StreamDataRange(size_t offset, size_t size, std::function<size_t (u8* bytes, size_t size)> streamFunc);
+            int StreamDataRange(size_t offset, size_t size, std::function<size_t (u8* bytes, size_t size)> streamFunc);
     };
 
     size_t WaitReceiveNetworkData(int sockfd, void* buf, size_t len);

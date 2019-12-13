@@ -190,7 +190,7 @@ namespace tin::network
         this->StreamDataRange(offset, size, streamFunc);
     }
 
-    void HTTPDownload::StreamDataRange(size_t offset, size_t size, std::function<size_t (u8* bytes, size_t size)> streamFunc)
+    int HTTPDownload::StreamDataRange(size_t offset, size_t size, std::function<size_t (u8* bytes, size_t size)> streamFunc)
     {
         if (!m_rangesSupported)
         {
@@ -219,19 +219,13 @@ namespace tin::network
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &tin::network::HTTPDownload::ParseHTMLData);
 
         rc = curl_easy_perform(curl);
-        if (rc != CURLE_OK)
-        {
-            THROW_FORMAT("Failed to perform range request: %s\n", curl_easy_strerror(rc));
-        }
 
         u64 httpCode = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
         curl_easy_cleanup(curl);
 
-        if (httpCode != 206)
-        {
-            THROW_FORMAT("Failed to request range! Response code is %lu\n", httpCode);
-        }
+        if (httpCode != 206 || rc != CURLE_OK) return 1;
+        return 0;
     }
 
     // End HTTPDownload
