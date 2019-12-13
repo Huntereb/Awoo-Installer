@@ -21,7 +21,7 @@ namespace inst::ui {
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
         this->installInfoText = TextBlock::New(15, 568, "", 22);
         this->installInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->installBar = pu::ui::elm::ProgressBar::New(10, 600, 800, 40, 100.0f);
+        this->installBar = pu::ui::elm::ProgressBar::New(10, 600, 850, 40, 100.0f);
         this->installBar->SetColor(COLOR("#222222FF"));
         if (std::filesystem::exists(inst::config::appDir + "/awoo_inst.png")) this->awooImage = Image::New(410, 190, inst::config::appDir + "/awoo_inst.png");
         else this->awooImage = Image::New(510, 166, "romfs:/images/awoos/7d8a05cddfef6da4901b20d2698d5a71.png");
