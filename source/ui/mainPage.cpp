@@ -30,7 +30,7 @@ namespace inst::ui {
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->butText = TextBlock::New(10, 678, "\ue0e0 Select    \ue0e1 Exit ", 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
-        this->optionMenu = pu::ui::elm::Menu::New(0, 95, 1280, COLOR("#67000000"), 94, 6);
+        this->optionMenu = pu::ui::elm::Menu::New(0, 94, 1280, COLOR("#67000000"), 113, 5);
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->optionMenu->SetScrollbarColor(COLOR("#170909FF"));
         this->installMenuItem = pu::ui::elm::MenuItem::New("Install from SD card");
@@ -39,9 +39,6 @@ namespace inst::ui {
         this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install over LAN or internet");
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem->SetIcon("romfs:/images/icons/cloud-download.png");
-        this->usbInstallMenuItem = pu::ui::elm::MenuItem::New("Install over USB");
-        this->usbInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
-        this->usbInstallMenuItem->SetIcon("romfs:/images/icons/usb-port.png");
         this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage signature patches");
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->sigPatchesMenuItem->SetIcon("romfs:/images/icons/wrench.png");
@@ -61,7 +58,6 @@ namespace inst::ui {
         this->Add(this->butText);
         this->optionMenu->AddItem(this->installMenuItem);
         this->optionMenu->AddItem(this->netInstallMenuItem);
-        this->optionMenu->AddItem(this->usbInstallMenuItem);
         this->optionMenu->AddItem(this->sigPatchesMenuItem);
         this->optionMenu->AddItem(this->settingsMenuItem);
         this->optionMenu->AddItem(this->exitMenuItem);
@@ -85,17 +81,6 @@ namespace inst::ui {
             return;
         }
         mainApp->netinstPage->startNetwork();
-    }
-
-    void MainPage::usbInstallMenuItem_Click() {
-        if (!inst::config::usbAck) {
-            if (mainApp->CreateShowDialog("Warning!", "USB installations may not \"just werk\" on some devices and setups.\nIf you experience issues with USB installations, please don't pull your\nhair out! It's advised to use ns-usbloader for USB installations, or\nLAN/Internet installations instead for remote installation, especially\nwhen paired with an ethernet adapter!\n\nYou have been warned...", {"OK", "Don't tell me again"}, false) == 1) {
-                inst::config::usbAck = true;
-                inst::config::setConfig();
-            }
-        }
-        if (inst::util::getUsbState() == 5) mainApp->usbinstPage->startUsb();
-        else mainApp->CreateShowDialog("No USB connection detected", "Plug in to a compatible device to install over USB", {"OK"}, false);
     }
 
     void MainPage::sigPatchesMenuItem_Click() {
@@ -125,15 +110,12 @@ namespace inst::ui {
                     this->netInstallMenuItem_Click();
                     break;
                 case 2:
-                    MainPage::usbInstallMenuItem_Click();
-                    break;
-                case 3:
                     MainPage::sigPatchesMenuItem_Click();
                     break;
-                case 4:
+                case 3:
                     MainPage::settingsMenuItem_Click();
                     break;
-                case 5:
+                case 4:
                     MainPage::exitMenuItem_Click();
                     break;
                 default:

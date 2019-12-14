@@ -29,12 +29,12 @@ namespace inst::util {
         #ifdef __DEBUG__
             nxlinkStdio();
         #endif
-        awoo_usbCommsInitialize();
+        //awoo_usbCommsInitialize();
     }
 
     void deinitApp () {
         socketExit();
-        awoo_usbCommsExit();
+        //awoo_usbCommsExit();
     }
 
     void initInstallServices() {
