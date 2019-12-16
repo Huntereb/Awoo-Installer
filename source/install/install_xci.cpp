@@ -40,7 +40,7 @@ namespace inst::ui {
 
 namespace tin::install::xci
 {
-    XCIInstallTask::XCIInstallTask(NcmStorageId destStorageId, bool ignoreReqFirmVersion, tin::install::xci::XCI* xci) :
+    XCIInstallTask::XCIInstallTask(NcmStorageId destStorageId, bool ignoreReqFirmVersion, const std::shared_ptr<XCI>& xci) :
         Install(destStorageId, ignoreReqFirmVersion), m_xci(xci)
     {
         m_xci->RetrieveHeader();
@@ -51,9 +51,6 @@ namespace tin::install::xci
         std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> CNMTList;
 
         for (const HFS0FileEntry* fileEntry : m_xci->GetFileEntriesByExtension("cnmt.nca")) {
-            if (fileEntry == nullptr)
-                THROW_FORMAT("Failed to find cnmt file entry!\n");
-
             std::string cnmtNcaName(m_xci->GetFileEntryName(fileEntry));
             NcmContentId cnmtContentId = tin::util::GetNcaIdFromString(cnmtNcaName);
             size_t cnmtNcaSize = fileEntry->fileSize;
@@ -98,7 +95,7 @@ namespace tin::install::xci
 
         LOG_DEBUG("Size: 0x%lx\n", ncaSize);
 
-        if (inst::config::validateNCAs && !declinedValidation)
+        if (inst::config::validateNCAs && !m_declinedValidation)
         {
             tin::install::NcaHeader* header = new NcaHeader;
             m_xci->BufferData(header, m_xci->GetDataOffset() + fileEntry->dataOffset, sizeof(tin::install::NcaHeader));
@@ -116,8 +113,9 @@ namespace tin::install::xci
                 audioThread.join();
                 if (rc != 1)
                     THROW_FORMAT(("The requested NCA (" + tin::util::GetNcaIdString(ncaId) + ") is not properly signed").c_str());
-                declinedValidation = true;
+                m_declinedValidation = true;
             }
+            delete header;
         }
 
         m_xci->StreamToPlaceholder(contentStorage, ncaId);

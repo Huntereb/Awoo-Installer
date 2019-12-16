@@ -3,7 +3,7 @@
 #include "util/error.hpp"
 #include "usbInstall.hpp"
 #include "install/usb_nsp.hpp"
-#include "install/install_nsp_remote.hpp"
+#include "install/install_nsp.hpp"
 #include "util/usb_util.hpp"
 #include "util/util.hpp"
 #include "util/config.hpp"
@@ -85,15 +85,14 @@ namespace usbInstStuff {
         try {
             for (fileItr = 0; fileItr < ourTitleList.size(); fileItr++) {
                 inst::ui::setTopInstInfoText("Installing " + fileNames[fileItr] + " over USB");
-
-                tin::install::Install* installTask;
+                std::unique_ptr<tin::install::Install> installTask;
 
                 if (ourTitleList[fileItr].compare(ourTitleList[fileItr].size() - 3, 2, "xc") == 0) {
-                    auto usbXCI = new tin::install::xci::USBXCI(ourTitleList[fileItr]);
-                    installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, usbXCI);
+                    auto usbXCI = std::make_shared<tin::install::xci::USBXCI>(ourTitleList[fileItr]);
+                    installTask = std::make_unique<tin::install::xci::XCIInstallTask>(m_destStorageId, inst::config::ignoreReqVers, usbXCI);
                 } else {
-                    auto usbNSP = new tin::install::nsp::USBNSP(ourTitleList[fileItr]);
-                    installTask = new tin::install::nsp::RemoteNSPInstall(m_destStorageId, inst::config::ignoreReqVers, usbNSP);
+                    auto usbNSP = std::make_shared<tin::install::nsp::USBNSP>(ourTitleList[fileItr]);
+                    installTask = std::make_unique<tin::install::nsp::NSPInstall>(m_destStorageId, inst::config::ignoreReqVers, usbNSP);
                 }
 
                 LOG_DEBUG("%s\n", "Preparing installation");

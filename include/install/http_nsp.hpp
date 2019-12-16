@@ -22,12 +22,12 @@ SOFTWARE.
 
 #pragma once
 
-#include "install/remote_nsp.hpp"
+#include "install/nsp.hpp"
 #include <memory>
 
 namespace tin::install::nsp
 {
-    class HTTPNSP : public RemoteNSP
+    class HTTPNSP : public NSP
     {
         public:
             tin::network::HTTPDownload m_download;

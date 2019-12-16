@@ -26,11 +26,11 @@ SOFTWARE.
 
 namespace tin::install::xci
 {
-    class LocalXCI : public XCI
+    class SDMCXCI : public XCI
     {
     public:
-        LocalXCI(std::string path);
-        ~LocalXCI();
+        SDMCXCI(std::string path);
+        ~SDMCXCI();
 
         virtual void StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId) override;
         virtual void BufferData(void* buf, off_t offset, size_t size) override;

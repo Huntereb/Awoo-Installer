@@ -1,4 +1,4 @@
-#include "install/local_xci.hpp"
+#include "install/sdmc_xci.hpp"
 #include "error.hpp"
 #include "debug.h"
 #include "nx/nca_writer.h"
@@ -6,19 +6,19 @@
 
 namespace tin::install::xci
 {
-    LocalXCI::LocalXCI(std::string path)
+    SDMCXCI::SDMCXCI(std::string path)
     {
         m_xciFile = fopen((path).c_str(), "rb");
         if (!m_xciFile)
             THROW_FORMAT("can't open file at %s\n", path.c_str());
     }
 
-    LocalXCI::~LocalXCI()
+    SDMCXCI::~SDMCXCI()
     {
         fclose(m_xciFile);
     }
 
-    void LocalXCI::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId)
+    void SDMCXCI::StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId)
     {
         const HFS0FileEntry* fileEntry = this->GetFileEntryByNcaId(ncaId);
         std::string ncaFileName = this->GetFileEntryName(fileEntry);
@@ -65,7 +65,7 @@ namespace tin::install::xci
         writer.close();
     }
 
-    void LocalXCI::BufferData(void* buf, off_t offset, size_t size)
+    void SDMCXCI::BufferData(void* buf, off_t offset, size_t size)
     {
         fseeko(m_xciFile, offset, SEEK_SET);
         fread(buf, 1, size, m_xciFile);

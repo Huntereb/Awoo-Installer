@@ -22,24 +22,36 @@ SOFTWARE.
 
 #pragma once
 
-#include <switch.h>
-#include <string>
-#include "install/install.hpp"
-#include "install/remote_nsp.hpp"
+#include <functional>
+#include <vector>
+
+#include <switch/types.h>
+#include "install/pfs0.hpp"
+#include "nx/ncm.hpp"
+#include "util/network_util.hpp"
 
 namespace tin::install::nsp
 {
-    class RemoteNSPInstall : public Install
+    class NSP
     {
-        private:
-            RemoteNSP* m_remoteNSP;
-
         protected:
-            std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> ReadCNMT() override;
-            void InstallNCA(const NcmContentId& ncaId) override;
-            void InstallTicketCert() override;
+            std::vector<u8> m_headerBytes;
+
+            NSP();
 
         public:
-            RemoteNSPInstall(NcmStorageId destStorageId, bool ignoreReqFirmVersion, RemoteNSP* remoteNSP);
+            virtual void StreamToPlaceholder(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId placeholderId) = 0;
+            virtual void BufferData(void* buf, off_t offset, size_t size) = 0;
+
+            virtual void RetrieveHeader();
+            virtual const PFS0BaseHeader* GetBaseHeader();
+            virtual u64 GetDataOffset();
+
+            virtual const PFS0FileEntry* GetFileEntry(unsigned int index);
+            virtual const PFS0FileEntry* GetFileEntryByName(std::string name);
+            virtual const PFS0FileEntry* GetFileEntryByNcaId(const NcmContentId& ncaId);
+            virtual std::vector<const PFS0FileEntry*> GetFileEntriesByExtension(std::string extension);
+
+            virtual const char* GetFileEntryName(const PFS0FileEntry* fileEntry);
     };
 }

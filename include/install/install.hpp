@@ -44,12 +44,11 @@ namespace tin::install
         protected:
             const NcmStorageId m_destStorageId;
             bool m_ignoreReqFirmVersion = false;
-            bool declinedValidation = false;
+            bool m_declinedValidation = false;
 
             std::vector<nx::ncm::ContentMeta> m_contentMeta;
 
             Install(NcmStorageId destStorageId, bool ignoreReqFirmVersion);
-            virtual ~Install();
 
             virtual std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> ReadCNMT() = 0;
 
@@ -59,6 +58,8 @@ namespace tin::install
             virtual void InstallNCA(const NcmContentId &ncaId) = 0;
 
         public:
+            virtual ~Install();
+
             virtual void Prepare();
             virtual void Begin();
 

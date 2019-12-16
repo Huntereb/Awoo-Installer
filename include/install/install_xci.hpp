@@ -33,7 +33,7 @@ namespace tin::install::xci
     class XCIInstallTask : public Install
     {
         private:
-            tin::install::xci::XCI* const m_xci;
+            const std::shared_ptr<tin::install::xci::XCI> m_xci;
 
         protected:
             std::vector<std::tuple<nx::ncm::ContentMeta, NcmContentInfo>> ReadCNMT() override;
@@ -41,7 +41,7 @@ namespace tin::install::xci
             void InstallTicketCert() override;
 
         public:
-            XCIInstallTask(NcmStorageId destStorageId, bool ignoreReqFirmVersion, tin::install::xci::XCI* xci);
+            XCIInstallTask(NcmStorageId destStorageId, bool ignoreReqFirmVersion, const std::shared_ptr<XCI>& xci);
     };
 };
 

@@ -23,11 +23,11 @@ SOFTWARE.
 #pragma once
 
 #include <string>
-#include "install/remote_nsp.hpp"
+#include "install/nsp.hpp"
 
 namespace tin::install::nsp
 {
-    class USBNSP : public RemoteNSP
+    class USBNSP : public NSP
     {
         private:
             std::string m_nspName;

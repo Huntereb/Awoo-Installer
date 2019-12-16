@@ -30,7 +30,7 @@ SOFTWARE.
 
 #include <switch.h>
 #include "util/network_util.hpp"
-#include "install/install_nsp_remote.hpp"
+#include "install/install_nsp.hpp"
 #include "install/http_nsp.hpp"
 #include "install/install_xci.hpp"
 #include "install/http_xci.hpp"
@@ -146,22 +146,20 @@ namespace netInstStuff{
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
                 LOG_DEBUG("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
                 inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr] + ourSource);
-
-                tin::install::Install* installTask;
+                std::unique_ptr<tin::install::Install> installTask;
 
                 if (inst::curl::downloadToBuffer(ourUrlList[urlItr], 0x100, 0x103) == "HEAD") {
-                    auto httpXCI = new tin::install::xci::HTTPXCI(ourUrlList[urlItr]);
-                    installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, httpXCI);
+                    auto httpXCI = std::make_shared<tin::install::xci::HTTPXCI>(ourUrlList[urlItr]);
+                    installTask = std::make_unique<tin::install::xci::XCIInstallTask>(m_destStorageId, inst::config::ignoreReqVers, httpXCI);
                 } else {
-                    auto httpNSP = new tin::install::nsp::HTTPNSP(ourUrlList[urlItr]);
-                    installTask = new tin::install::nsp::RemoteNSPInstall(m_destStorageId, inst::config::ignoreReqVers, httpNSP);
+                    auto httpNSP = std::make_shared<tin::install::nsp::HTTPNSP>(ourUrlList[urlItr]);
+                    installTask = std::make_unique<tin::install::nsp::NSPInstall>(m_destStorageId, inst::config::ignoreReqVers, httpNSP);
                 }
 
                 LOG_DEBUG("%s\n", "Preparing installation");
                 inst::ui::setInstInfoText("Preparing installation...");
                 inst::ui::setInstBarPerc(0);
                 installTask->Prepare();
-
                 installTask->Begin();
             }
         }

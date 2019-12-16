@@ -125,7 +125,7 @@ namespace tin::install::xci
         stopThreadsUsbXci = false;
         thrd_create(&usbThread, USBThreadFunc, &args);
         thrd_create(&writeThread, USBPlaceholderWriteFunc, &args);
-        
+
         u64 freq = armGetSystemTickFreq();
         u64 startTime = armGetSystemTick();
         size_t startSizeBuffered = 0;
@@ -157,7 +157,7 @@ namespace tin::install::xci
             }
         }
         inst::ui::setInstBarPerc(100);
-        
+
         #ifdef NXLINK_DEBUG
             u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
         #endif

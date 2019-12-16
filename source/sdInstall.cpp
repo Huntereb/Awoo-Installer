@@ -25,10 +25,12 @@ SOFTWARE.
 #include <filesystem>
 #include <ctime>
 #include <thread>
+#include <memory>
 
 #include "install/install_nsp.hpp"
 #include "install/install_xci.hpp"
-#include "install/local_xci.hpp"
+#include "install/sdmc_xci.hpp"
+#include "install/sdmc_nsp.hpp"
 #include "nx/fs.hpp"
 #include "util/file_util.hpp"
 #include "util/title_util.hpp"
@@ -104,37 +106,21 @@ namespace nspInstStuff {
         {
             for (titleItr = 0; titleItr < ourTitleList.size(); titleItr++) {
                 inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 40, true) + " from SD card");
-                tin::install::Install* installTask;
+                std::unique_ptr<tin::install::Install> installTask;
 
                 if (ourTitleList[titleItr].extension() == ".xci" || ourTitleList[titleItr].extension() == ".xcz") {
-                    auto localXCI = new tin::install::xci::LocalXCI(ourTitleList[titleItr]);
-                    installTask = new tin::install::xci::XCIInstallTask(m_destStorageId, inst::config::ignoreReqVers, localXCI);
-
-                    inst::ui::setInstInfoText("Preparing installation...");
-                    inst::ui::setInstBarPerc(0);
-                    installTask->Prepare();
-                    installTask->Begin();
+                    auto sdmcXCI = std::make_shared<tin::install::xci::SDMCXCI>(ourTitleList[titleItr]);
+                    installTask = std::make_unique<tin::install::xci::XCIInstallTask>(m_destStorageId, inst::config::ignoreReqVers, sdmcXCI);
                 } else {
-                    if (ourTitleList[titleItr].extension() == ".nsz") {
-                        oldNamesOfFiles.push_back(ourTitleList[titleItr]);
-                        std::string newfilename = ourTitleList[titleItr].string().substr(0, ourTitleList[titleItr].string().find_last_of('.'))+"_temp.nsp";
-                        rename(ourTitleList[titleItr], newfilename);
-                        filesToBeRenamed.push_back(newfilename);
-                        ourTitleList[titleItr] = newfilename;
-                    }
-                    
-                    std::string path = "@Sdcard://" + ourTitleList[titleItr].string().erase(0, 6);
-
-                    nx::fs::IFileSystem fileSystem;
-                    fileSystem.OpenFileSystemWithId(path, FsFileSystemType_ApplicationPackage, 0);
-                    tin::install::nsp::SimpleFileSystem simpleFS(fileSystem, "/", path + "/");
-                    installTask = new tin::install::nsp::NSPInstallTask(simpleFS, m_destStorageId, inst::config::ignoreReqVers);
-
-                    inst::ui::setInstInfoText("Preparing installation...");
-                    inst::ui::setInstBarPerc(0);
-                    installTask->Prepare();
-                    installTask->Begin();
+                    auto sdmcNSP = std::make_shared<tin::install::nsp::SDMCNSP>(ourTitleList[titleItr]);
+                    installTask = std::make_unique<tin::install::nsp::NSPInstall>(m_destStorageId, inst::config::ignoreReqVers, sdmcNSP);
                 }
+
+                LOG_DEBUG("%s\n", "Preparing installation");
+                inst::ui::setInstInfoText("Preparing installation...");
+                inst::ui::setInstBarPerc(0);
+                installTask->Prepare();
+                installTask->Begin();
             }
         }
         catch (std::exception& e)
