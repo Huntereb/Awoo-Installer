@@ -31,7 +31,8 @@ SOFTWARE.
 
 namespace tin::data
 {
-    static const size_t BUFFER_SEGMENT_DATA_SIZE = 0x800000; // Approximately 8MB
+    static const size_t BUFFER_SEGMENT_DATA_SIZE = 0x1000000; // Approximately 16MB
+    extern int NUM_BUFFER_SEGMENTS;
 
     struct BufferSegment
     {
@@ -40,7 +41,7 @@ namespace tin::data
         u8 data[BUFFER_SEGMENT_DATA_SIZE] = {0};
     };
 
-    // Receives data in a circular buffer split into 8MB segments
+    // Receives data in a circular buffer split into 16MB segments
     class BufferedPlaceholderWriter
     {
         private:
@@ -62,8 +63,6 @@ namespace tin::data
 			NcaWriter m_writer;
 
         public:
-            static const int NUM_BUFFER_SEGMENTS = 4;
-
             BufferedPlaceholderWriter(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId, size_t totalDataSize);
 
             void AppendData(void* source, size_t length);

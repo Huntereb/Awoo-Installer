@@ -31,6 +31,8 @@ SOFTWARE.
 
 namespace tin::data
 {
+    int NUM_BUFFER_SEGMENTS;
+
     BufferedPlaceholderWriter::BufferedPlaceholderWriter(std::shared_ptr<nx::ncm::ContentStorage>& contentStorage, NcmContentId ncaId, size_t totalDataSize) :
         m_totalDataSize(totalDataSize), m_contentStorage(contentStorage), m_ncaId(ncaId), m_writer(ncaId, contentStorage)
     {
@@ -148,7 +150,7 @@ namespace tin::data
     {
         u32 numSegmentsRequired = this->CalcNumSegmentsRequired(size);
 
-        if (numSegmentsRequired > NUM_BUFFER_SEGMENTS)
+        if ((int)numSegmentsRequired > NUM_BUFFER_SEGMENTS)
             return false;
 
         for (unsigned int i = 0; i < numSegmentsRequired; i++)

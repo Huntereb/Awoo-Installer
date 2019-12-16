@@ -5,17 +5,23 @@
 #include "util/util.hpp"
 #include "util/config.hpp"
 #include "sigInstall.hpp"
+#include "data/buffered_placeholder_writer.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-    bool dialogAck = false;
+    bool appletThreadFinished = false;
 
     void warnAboutAppletMode() {
-        if (!dialogAck && mainApp->IsShown() && appletGetAppletType() == AppletType_LibraryApplet) {
-            inst::ui::dialogAck = true;
+        bool menuLoaded = mainApp->IsShown();
+        if (!appletThreadFinished && menuLoaded && appletGetAppletType() == AppletType_LibraryApplet) {
+            inst::ui::appletThreadFinished = true;
+            tin::data::NUM_BUFFER_SEGMENTS = 2;
             mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle or forwarder!", {"OK"}, true);
+        } else if (!appletThreadFinished && menuLoaded) {
+            inst::ui::appletThreadFinished = true;
+            tin::data::NUM_BUFFER_SEGMENTS = 4;
         }
     }
 
