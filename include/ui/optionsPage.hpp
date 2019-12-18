@@ -20,5 +20,6 @@ namespace inst::ui {
             pu::ui::elm::Menu::Ref menu;
             void setMenuText();
             std::string getMenuOptionIcon(bool ourBool);
+            void checkForUpdate();
     };
 }

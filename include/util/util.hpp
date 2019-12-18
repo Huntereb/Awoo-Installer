@@ -19,4 +19,5 @@ namespace inst::util {
     std::string getIPAddress();
     int getUsbState();
     void playAudio(std::string audioPath);
+    std::vector<std::string> checkForAppUpdate();
 }

@@ -15,6 +15,7 @@
 #include "util/curl.hpp"
 #include "ui/MainApplication.hpp"
 #include "util/usb_comms_awoo.h"
+#include "util/json.hpp"
 
 namespace inst::util {
     void initApp () {
@@ -294,5 +295,15 @@ namespace inst::util {
         Mix_CloseAudio();
 
         return;
+    }
+    
+   std::vector<std::string> checkForAppUpdate () {
+        try {
+            std::string jsonData = inst::curl::downloadToBuffer("https://api.github.com/repos/Huntereb/Awoo-Installer/releases/latest", 0, 0, 1000L);
+            if (jsonData.size() == 0) return {};
+            nlohmann::json ourJson = nlohmann::json::parse(jsonData);
+            if (ourJson["tag_name"].get<std::string>() != inst::config::appVersion) return {ourJson["tag_name"].get<std::string>(), ourJson["assets"][0]["browser_download_url"].get<std::string>()};
+        } catch (...) {}
+        return {};
     }
 }
