@@ -27,22 +27,20 @@ SOFTWARE.
 #include <sstream>
 #include <curl/curl.h>
 #include <thread>
-
 #include <switch.h>
-#include "util/network_util.hpp"
+#include "netInstall.hpp"
 #include "install/install_nsp.hpp"
 #include "install/http_nsp.hpp"
 #include "install/install_xci.hpp"
 #include "install/http_xci.hpp"
 #include "install/install.hpp"
 #include "util/error.hpp"
-
-#include "ui/MainApplication.hpp"
-#include "netInstall.hpp"
-#include "sdInstall.hpp"
+#include "util/network_util.hpp"
 #include "util/config.hpp"
 #include "util/util.hpp"
 #include "util/curl.hpp"
+#include "ui/MainApplication.hpp"
+#include "ui/instPage.hpp"
 
 const unsigned int MAX_URL_SIZE = 1024;
 const unsigned int MAX_URLS = 256;
@@ -52,11 +50,6 @@ static int m_clientSocket = 0;
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-
-    void setNetInfoText(std::string ourText){
-        mainApp->netinstPage->pageInfoText->SetText(ourText);
-        mainApp->CallForRender();
-    }
 }
 
 namespace netInstStuff{
@@ -117,7 +110,7 @@ namespace netInstStuff{
     void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames, std::string ourSource)
     {
         inst::util::initInstallServices();
-        inst::ui::loadInstallScreen();
+        inst::ui::instPage::loadInstallScreen();
         bool nspInstalled = true;
         NcmStorageId m_destStorageId = NcmStorageId_SdCard;
 
@@ -145,7 +138,7 @@ namespace netInstStuff{
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
                 LOG_DEBUG("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
-                inst::ui::setTopInstInfoText("Installing " + urlNames[urlItr] + ourSource);
+                inst::ui::instPage::setTopInstInfoText("Installing " + urlNames[urlItr] + ourSource);
                 std::unique_ptr<tin::install::Install> installTask;
 
                 if (inst::curl::downloadToBuffer(ourUrlList[urlItr], 0x100, 0x103) == "HEAD") {
@@ -157,8 +150,8 @@ namespace netInstStuff{
                 }
 
                 LOG_DEBUG("%s\n", "Preparing installation");
-                inst::ui::setInstInfoText("Preparing installation...");
-                inst::ui::setInstBarPerc(0);
+                inst::ui::instPage::setInstInfoText("Preparing installation...");
+                inst::ui::instPage::setInstBarPerc(0);
                 installTask->Prepare();
                 installTask->Begin();
             }
@@ -167,8 +160,8 @@ namespace netInstStuff{
             LOG_DEBUG("Failed to install");
             LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + urlNames[urlItr]);
-            inst::ui::setInstBarPerc(0);
+            inst::ui::instPage::setInstInfoText("Failed to install " + urlNames[urlItr]);
+            inst::ui::instPage::setInstBarPerc(0);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
             inst::ui::mainApp->CreateShowDialog("Failed to install " + urlNames[urlItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             audioThread.join();
@@ -187,16 +180,16 @@ namespace netInstStuff{
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
 
         if(nspInstalled) {
-            inst::ui::setInstInfoText("Install complete");
-            inst::ui::setInstBarPerc(100);
+            inst::ui::instPage::setInstInfoText("Install complete");
+            inst::ui::instPage::setInstBarPerc(100);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
-            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(urlNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + " files installed successfully!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(urlNames[0] + " installed!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
             audioThread.join();
         }
         
         LOG_DEBUG("Done");
-        inst::ui::loadMainMenu();
+        inst::ui::instPage::loadMainMenu();
         inst::util::deinitInstallServices();
         return;
     }
@@ -224,7 +217,8 @@ namespace netInstStuff{
             }
 
             std::string ourIPAddress = inst::util::getIPAddress();
-            inst::ui::setNetInfoText("Waiting for a connection... Your Switch's IP Address is: " + ourIPAddress);
+            inst::ui::mainApp->netinstPage->pageInfoText->SetText("Waiting for a connection... Your Switch's IP Address is: " + ourIPAddress);
+            inst::ui::mainApp->CallForRender();
             LOG_DEBUG("%s %s\n", "Switch IP is ", ourIPAddress.c_str());
             LOG_DEBUG("%s\n", "Waiting for network");
             LOG_DEBUG("%s\n", "B to cancel");

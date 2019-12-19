@@ -5,7 +5,7 @@
 #include "util/curl.hpp"
 #include "util/config.hpp"
 #include "util/error.hpp"
-#include "sdInstall.hpp"
+#include "ui/instPage.hpp"
 
 static size_t writeDataFile(void *ptr, size_t size, size_t nmemb, void *stream) {
   size_t written = fwrite(ptr, size, nmemb, (FILE *)stream);
@@ -22,10 +22,10 @@ size_t writeDataBuffer(char *ptr, size_t size, size_t nmemb, void *userdata) {
 int progress_callback(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
     if (ultotal) {
         int uploadProgress = (int)(((double)ulnow / (double)ultotal) * 100.0);
-        inst::ui::setInstBarPerc(uploadProgress);
+        inst::ui::instPage::setInstBarPerc(uploadProgress);
     } else if (dltotal) {
         int downloadProgress = (int)(((double)dlnow / (double)dltotal) * 100.0);
-        inst::ui::setInstBarPerc(downloadProgress);
+        inst::ui::instPage::setInstBarPerc(downloadProgress);
     }
     return 0;
 }

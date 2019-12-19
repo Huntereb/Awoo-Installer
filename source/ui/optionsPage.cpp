@@ -7,7 +7,7 @@
 #include "util/util.hpp"
 #include "util/config.hpp"
 #include "util/curl.hpp"
-#include "sdInstall.hpp"
+#include "ui/instPage.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
 
@@ -44,10 +44,10 @@ namespace inst::ui {
 
     void optionsPage::askToUpdate(std::vector<std::string> updateInfo) {
             if (!mainApp->CreateShowDialog("Update available", "Awoo Installer " + updateInfo[0] + " is available now! Ready to update?", {"Update", "Cancel"}, false)) {
-                inst::ui::loadInstallScreen();
-                inst::ui::setTopInstInfoText("Updating to Awoo Installer " + updateInfo[0]);
-                inst::ui::setInstBarPerc(0);
-                inst::ui::setInstInfoText("Downloading Awoo Installer " + updateInfo[0]);
+                inst::ui::instPage::loadInstallScreen();
+                inst::ui::instPage::setTopInstInfoText("Updating to Awoo Installer " + updateInfo[0]);
+                inst::ui::instPage::setInstBarPerc(0);
+                inst::ui::instPage::setInstInfoText("Downloading Awoo Installer " + updateInfo[0]);
                 try {
                     romfsExit();
                     std::string curName = inst::config::appDir + "/Awoo-Installer.nro";
@@ -88,7 +88,7 @@ namespace inst::ui {
         deletePromptOption->SetColor(COLOR("#FFFFFFFF"));
         deletePromptOption->SetIcon(this->getMenuOptionIcon(inst::config::deletePrompt));
         this->menu->AddItem(deletePromptOption);
-        auto autoUpdateOption = pu::ui::elm::MenuItem::New("Check for updates automatically");
+        auto autoUpdateOption = pu::ui::elm::MenuItem::New("Check for updates to Awoo Installer automatically");
         autoUpdateOption->SetColor(COLOR("#FFFFFFFF"));
         autoUpdateOption->SetIcon(this->getMenuOptionIcon(inst::config::autoUpdate));
         this->menu->AddItem(autoUpdateOption);
@@ -99,7 +99,7 @@ namespace inst::ui {
         auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New("Signature patches source URL: " + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(sigPatchesUrlOption);
-        auto updateOption = pu::ui::elm::MenuItem::New("Check for updates");
+        auto updateOption = pu::ui::elm::MenuItem::New("Check for updates to Awoo Installer");
         updateOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(updateOption);
         auto creditsOption = pu::ui::elm::MenuItem::New("Credits");

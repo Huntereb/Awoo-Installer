@@ -23,16 +23,6 @@ SOFTWARE.
 #pragma once
 #include <filesystem>
 
-namespace inst::ui {
-    void setTopInstInfoText(std::string ourText);
-    void setInstInfoText(std::string ourText);
-    void setInstBarPerc(double ourPercent);
-    void hideInstBar(bool hidden);
-    void loadMainMenu();
-    void loadInstallScreen();
-}
-
 namespace nspInstStuff {
-    std::string finishedMessage();
     void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall);
 }

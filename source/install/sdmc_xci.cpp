@@ -2,7 +2,7 @@
 #include "error.hpp"
 #include "debug.h"
 #include "nx/nca_writer.h"
-#include "sdInstall.hpp"
+#include "ui/instPage.hpp"
 
 namespace tin::install::xci
 {
@@ -37,15 +37,15 @@ namespace tin::install::xci
 
         try
         {
-            inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
-            inst::ui::setInstBarPerc(0);
+            inst::ui::instPage::setInstInfoText("Installing " + ncaFileName + "...");
+            inst::ui::instPage::setInstBarPerc(0);
             while (fileOff < ncaSize)
             {
                 progress = (float) fileOff / (float) ncaSize;
 
                 if (fileOff % (0x400000 * 3) == 0) {
                     LOG_DEBUG("> Progress: %lu/%lu MB (%d%s)\r", (fileOff / 1000000), (ncaSize / 1000000), (int)(progress * 100.0), "%");
-                    inst::ui::setInstBarPerc((double)(progress * 100.0));
+                    inst::ui::instPage::setInstBarPerc((double)(progress * 100.0));
                 }
 
                 if (fileOff + readSize >= ncaSize) readSize = ncaSize - fileOff;
@@ -55,7 +55,7 @@ namespace tin::install::xci
 
                 fileOff += readSize;
             }
-            inst::ui::setInstBarPerc(100);
+            inst::ui::instPage::setInstBarPerc(100);
         }
         catch (std::exception& e)
         {

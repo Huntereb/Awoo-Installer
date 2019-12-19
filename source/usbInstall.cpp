@@ -1,26 +1,42 @@
+/*
+Copyright (c) 2017-2018 Adubbz
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 #include <string>
 #include <thread>
-#include "util/error.hpp"
 #include "usbInstall.hpp"
 #include "install/usb_nsp.hpp"
 #include "install/install_nsp.hpp"
+#include "install/usb_xci.hpp"
+#include "install/install_xci.hpp"
+#include "util/error.hpp"
 #include "util/usb_util.hpp"
 #include "util/util.hpp"
 #include "util/config.hpp"
-#include "ui/usbInstPage.hpp"
-
-#include "install/usb_xci.hpp"
-#include "install/install_xci.hpp"
-#include "sdInstall.hpp"
 #include "ui/MainApplication.hpp"
+#include "ui/usbInstPage.hpp"
+#include "ui/instPage.hpp"
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-
-    void setUsbInfoText(std::string ourText){
-        mainApp->usbinstPage->pageInfoText->SetText(ourText);
-        mainApp->CallForRender();
-    }
 }
 
 namespace usbInstStuff {
@@ -63,7 +79,7 @@ namespace usbInstStuff {
     void installTitleUsb(std::vector<std::string> ourTitleList, int ourStorage)
     {
         inst::util::initInstallServices();
-        inst::ui::loadInstallScreen();
+        inst::ui::instPage::loadInstallScreen();
         bool nspInstalled = true;
         NcmStorageId m_destStorageId = NcmStorageId_SdCard;
 
@@ -84,7 +100,7 @@ namespace usbInstStuff {
 
         try {
             for (fileItr = 0; fileItr < ourTitleList.size(); fileItr++) {
-                inst::ui::setTopInstInfoText("Installing " + fileNames[fileItr] + " over USB");
+                inst::ui::instPage::setTopInstInfoText("Installing " + fileNames[fileItr] + " over USB");
                 std::unique_ptr<tin::install::Install> installTask;
 
                 if (ourTitleList[fileItr].compare(ourTitleList[fileItr].size() - 3, 2, "xc") == 0) {
@@ -96,8 +112,8 @@ namespace usbInstStuff {
                 }
 
                 LOG_DEBUG("%s\n", "Preparing installation");
-                inst::ui::setInstInfoText("Preparing installation...");
-                inst::ui::setInstBarPerc(0);
+                inst::ui::instPage::setInstInfoText("Preparing installation...");
+                inst::ui::instPage::setInstBarPerc(0);
                 installTask->Prepare();
 
                 installTask->Begin();
@@ -107,8 +123,8 @@ namespace usbInstStuff {
             LOG_DEBUG("Failed to install");
             LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + fileNames[fileItr]);
-            inst::ui::setInstBarPerc(0);
+            inst::ui::instPage::setInstInfoText("Failed to install " + fileNames[fileItr]);
+            inst::ui::instPage::setInstBarPerc(0);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
             inst::ui::mainApp->CreateShowDialog("Failed to install " + fileNames[fileItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             audioThread.join();
@@ -123,16 +139,16 @@ namespace usbInstStuff {
 
         if(nspInstalled) {
             tin::util::USBCmdManager::SendExitCmd();
-            inst::ui::setInstInfoText("Install complete");
-            inst::ui::setInstBarPerc(100);
+            inst::ui::instPage::setInstInfoText("Install complete");
+            inst::ui::instPage::setInstBarPerc(100);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
-            if (ourTitleList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(fileNames[0] + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+            if (ourTitleList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
+            else inst::ui::mainApp->CreateShowDialog(fileNames[0] + " installed!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
             audioThread.join();
         }
         
         LOG_DEBUG("Done");
-        inst::ui::loadMainMenu();
+        inst::ui::instPage::loadMainMenu();
         inst::util::deinitInstallServices();
         return;
     }

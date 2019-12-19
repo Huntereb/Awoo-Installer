@@ -32,9 +32,9 @@ SOFTWARE.
 #include "util/usb_util.hpp"
 #include "util/error.hpp"
 #include "util/debug.h"
-#include "sdInstall.hpp"
 #include "util/util.hpp"
 #include "util/usb_comms_awoo.h"
+#include "ui/instPage.hpp"
 
 namespace tin::install::xci
 {
@@ -131,7 +131,7 @@ namespace tin::install::xci
         size_t startSizeBuffered = 0;
         double speed = 0.0;
 
-        inst::ui::setInstBarPerc(0);
+        inst::ui::instPage::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsBufferDataComplete() && !stopThreadsUsbXci)
         {
             u64 newTime = armGetSystemTick();
@@ -152,18 +152,18 @@ namespace tin::install::xci
                     LOG_DEBUG("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 #endif
 
-                inst::ui::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
-                inst::ui::setInstBarPerc((double)downloadProgress);
+                inst::ui::instPage::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
+                inst::ui::instPage::setInstBarPerc((double)downloadProgress);
             }
         }
-        inst::ui::setInstBarPerc(100);
+        inst::ui::instPage::setInstBarPerc(100);
 
         #ifdef NXLINK_DEBUG
             u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
         #endif
 
-        inst::ui::setInstInfoText("Installing " + ncaFileName + "...");
-        inst::ui::setInstBarPerc(0);
+        inst::ui::instPage::setInstInfoText("Installing " + ncaFileName + "...");
+        inst::ui::instPage::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreadsUsbXci)
         {
             int installProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
@@ -171,9 +171,9 @@ namespace tin::install::xci
                 u64 installSizeMB = bufferedPlaceholderWriter.GetSizeWrittenToPlaceholder() / 1000000;
                 LOG_DEBUG("> Install Progress: %lu/%lu MB (%i%s)\r", installSizeMB, totalSizeMB, installProgress, "%");
             #endif
-            inst::ui::setInstBarPerc((double)installProgress);
+            inst::ui::instPage::setInstBarPerc((double)installProgress);
         }
-        inst::ui::setInstBarPerc(100);
+        inst::ui::instPage::setInstBarPerc(100);
 
         thrd_join(usbThread, NULL);
         thrd_join(writeThread, NULL);

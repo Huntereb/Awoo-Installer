@@ -36,6 +36,42 @@ namespace inst::ui {
         if (inst::config::gayMode) this->awooImage->SetVisible(false);
     }
 
+    void instPage::setTopInstInfoText(std::string ourText){
+        mainApp->instpage->pageInfoText->SetText(ourText);
+        mainApp->CallForRender();
+    }
+
+    void instPage::setInstInfoText(std::string ourText){
+        mainApp->instpage->installInfoText->SetText(ourText);
+        mainApp->CallForRender();
+    }
+
+    void instPage::setInstBarPerc(double ourPercent){
+        mainApp->instpage->installBar->SetVisible(true);
+        mainApp->instpage->installBar->SetProgress(ourPercent);
+        mainApp->CallForRender();
+    }
+
+    void instPage::loadMainMenu(){
+        mainApp->LoadLayout(mainApp->mainPage);
+    }
+
+    void instPage::loadInstallScreen(){
+        mainApp->instpage->pageInfoText->SetText("");
+        mainApp->instpage->installInfoText->SetText("");
+        mainApp->instpage->installBar->SetProgress(0);
+        mainApp->instpage->installBar->SetVisible(false);
+        mainApp->instpage->awooImage->SetVisible(!inst::config::gayMode);
+        mainApp->LoadLayout(mainApp->instpage);
+        mainApp->CallForRender();
+    }
+
+    std::string instPage::finishedMessage() {
+        std::vector<std::string> finishMessages = {"Enjoy your \"legal backups\"!", "I'm sure after you give the game a try you'll have tons of fun actually buying it!", "You buy gamu right? Nintendo-san thanka-you for your purchase!", "Bypassing DRM is great, isn't it?", "You probably saved like six trees by not buying the game! All that plastic goes somewhere!", "Nintendo ninjas have been dispatched to your current location.", "And we didn't even have to shove a political ideology down your throat to get here!"};
+        srand(time(NULL));
+        return(finishMessages[rand() % finishMessages.size()]);
+    }
+
     void instPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
     }
 }

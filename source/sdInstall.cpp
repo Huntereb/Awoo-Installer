@@ -26,7 +26,7 @@ SOFTWARE.
 #include <ctime>
 #include <thread>
 #include <memory>
-
+#include "sdInstall.hpp"
 #include "install/install_nsp.hpp"
 #include "install/install_xci.hpp"
 #include "install/sdmc_xci.hpp"
@@ -35,58 +35,21 @@ SOFTWARE.
 #include "util/file_util.hpp"
 #include "util/title_util.hpp"
 #include "util/error.hpp"
-
-#include "ui/MainApplication.hpp"
-#include "sdInstall.hpp"
 #include "util/config.hpp"
 #include "util/util.hpp"
+#include "ui/MainApplication.hpp"
+#include "ui/instPage.hpp"
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-
-    void setTopInstInfoText(std::string ourText){
-        mainApp->instpage->pageInfoText->SetText(ourText);
-        mainApp->CallForRender();
-    }
-
-    void setInstInfoText(std::string ourText){
-        mainApp->instpage->installInfoText->SetText(ourText);
-        mainApp->CallForRender();
-    }
-
-    void setInstBarPerc(double ourPercent){
-        mainApp->instpage->installBar->SetVisible(true);
-        mainApp->instpage->installBar->SetProgress(ourPercent);
-        mainApp->CallForRender();
-    }
-
-    void loadMainMenu(){
-        mainApp->LoadLayout(mainApp->mainPage);
-    }
-
-    void loadInstallScreen(){
-        mainApp->instpage->pageInfoText->SetText("");
-        mainApp->instpage->installInfoText->SetText("");
-        mainApp->instpage->installBar->SetProgress(0);
-        mainApp->instpage->installBar->SetVisible(false);
-        mainApp->instpage->awooImage->SetVisible(!inst::config::gayMode);
-        mainApp->LoadLayout(mainApp->instpage);
-        mainApp->CallForRender();
-    }
 }
 
 namespace nspInstStuff {
 
-    std::string finishedMessage() {
-        std::vector<std::string> finishMessages = {"Enjoy your \"legal backups\"!", "I'm sure after you give the game a try you'll have tons of fun actually buying it!", "You buy gamu right? Nintendo-san thanka-you for your purchase!", "Bypassing DRM is great, isn't it?", "You probably saved like six trees by not buying the game! All that plastic goes somewhere!", "Nintendo ninjas have been dispatched to your current location.", "And we didn't even have to shove a political ideology down your throat to get here!"};
-        srand(time(NULL));
-        return(finishMessages[rand() % finishMessages.size()]);
-    }
-
     void installNspFromFile(std::vector<std::filesystem::path> ourTitleList, int whereToInstall)
     {
         inst::util::initInstallServices();
-        inst::ui::loadInstallScreen();
+        inst::ui::instPage::loadInstallScreen();
         bool nspInstalled = true;
         NcmStorageId m_destStorageId = NcmStorageId_SdCard;
         std::vector<std::string> filesToBeRenamed = {};
@@ -105,7 +68,7 @@ namespace nspInstStuff {
         try
         {
             for (titleItr = 0; titleItr < ourTitleList.size(); titleItr++) {
-                inst::ui::setTopInstInfoText("Installing " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 40, true) + " from SD card");
+                inst::ui::instPage::setTopInstInfoText("Installing " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 40, true) + " from SD card");
                 std::unique_ptr<tin::install::Install> installTask;
 
                 if (ourTitleList[titleItr].extension() == ".xci" || ourTitleList[titleItr].extension() == ".xcz") {
@@ -117,8 +80,8 @@ namespace nspInstStuff {
                 }
 
                 LOG_DEBUG("%s\n", "Preparing installation");
-                inst::ui::setInstInfoText("Preparing installation...");
-                inst::ui::setInstBarPerc(0);
+                inst::ui::instPage::setInstInfoText("Preparing installation...");
+                inst::ui::instPage::setInstBarPerc(0);
                 installTask->Prepare();
                 installTask->Begin();
             }
@@ -128,8 +91,8 @@ namespace nspInstStuff {
             LOG_DEBUG("Failed to install");
             LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::setInstInfoText("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true));
-            inst::ui::setInstBarPerc(0);
+            inst::ui::instPage::setInstInfoText("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true));
+            inst::ui::instPage::setInstBarPerc(0);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
             inst::ui::mainApp->CreateShowDialog("Failed to install " + inst::util::shortenString(ourTitleList[titleItr].filename().string(), 42, true) + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
             audioThread.join();
@@ -150,8 +113,8 @@ namespace nspInstStuff {
         }
 
         if(nspInstalled) {
-            inst::ui::setInstInfoText("Install complete");
-            inst::ui::setInstBarPerc(100);
+            inst::ui::instPage::setInstInfoText("Install complete");
+            inst::ui::instPage::setInstBarPerc(100);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
             if (ourTitleList.size() > 1) {
                 if (inst::config::deletePrompt) {
@@ -160,17 +123,17 @@ namespace nspInstStuff {
                             if (std::filesystem::exists(ourTitleList[i])) std::filesystem::remove(ourTitleList[i]);
                         }
                     }
-                } else inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", nspInstStuff::finishedMessage(), {"OK"}, true);
+                } else inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
             } else {
                 if (inst::config::deletePrompt) {
                     if(inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourTitleList[0].filename().string(), 32, true) + " installed! Delete it from the SD card?", "The original file isn't needed anymore after it's been installed", {"No","Yes"}, false) == 1) if (std::filesystem::exists(ourTitleList[0])) std::filesystem::remove(ourTitleList[0]);
-                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourTitleList[0].filename().string(), 42, true) + " installed!", nspInstStuff::finishedMessage(), {"OK"}, true);
+                } else inst::ui::mainApp->CreateShowDialog(inst::util::shortenString(ourTitleList[0].filename().string(), 42, true) + " installed!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
             }
             audioThread.join();
         }
 
         LOG_DEBUG("Done");
-        inst::ui::loadMainMenu();
+        inst::ui::instPage::loadMainMenu();
         inst::util::deinitInstallServices();
         return;
     }
