@@ -19,7 +19,7 @@ namespace inst::ui {
         if (!appletFinished && menuLoaded && appletGetAppletType() == AppletType_LibraryApplet) {
             inst::ui::appletFinished = true;
             tin::data::NUM_BUFFER_SEGMENTS = 2;
-            mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle or forwarder!", {"OK"}, true);
+            mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle (hold R while starting a game) or from a forwarder!", {"OK"}, true);
         } else if (!appletFinished && menuLoaded) {
             inst::ui::appletFinished = true;
             tin::data::NUM_BUFFER_SEGMENTS = 4;
