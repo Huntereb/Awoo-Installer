@@ -16,15 +16,17 @@ namespace inst::ui {
 
     void mainMenuThread() {
         bool menuLoaded = mainApp->IsShown();
-        if (!appletFinished && menuLoaded && appletGetAppletType() == AppletType_LibraryApplet) {
-            inst::ui::appletFinished = true;
+        if (!appletFinished && appletGetAppletType() == AppletType_LibraryApplet) {
             tin::data::NUM_BUFFER_SEGMENTS = 2;
-            mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle (hold R while starting a game) or from a forwarder!", {"OK"}, true);
-        } else if (!appletFinished && menuLoaded) {
+            if (menuLoaded) {
+                inst::ui::appletFinished = true;
+                mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle (hold R while starting a game) or from a forwarder!", {"OK"}, true);
+            } 
+        } else if (!appletFinished) {
             inst::ui::appletFinished = true;
             tin::data::NUM_BUFFER_SEGMENTS = 4;
         }
-        if (!updateFinished && !inst::config::autoUpdate) updateFinished = true;
+        if (!updateFinished && (!inst::config::autoUpdate || inst::util::getIPAddress() == "1.0.0.127")) updateFinished = true;
         if (!updateFinished && menuLoaded && inst::config::updateInfo.size()) {
             updateFinished = true;
             optionsPage::askToUpdate(inst::config::updateInfo);
