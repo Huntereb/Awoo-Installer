@@ -124,7 +124,7 @@ namespace inst::ui {
     }
 
     void MainPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
-        if ((Down & KEY_PLUS) || (Down & KEY_MINUS) || (Down & KEY_B)) {
+        if (((Down & KEY_PLUS) || (Down & KEY_MINUS) || (Down & KEY_B)) && mainApp->IsShown()) {
             mainApp->FadeOut();
             mainApp->Close();
         }
