@@ -11,17 +11,23 @@
 
 namespace inst::ui {
     extern MainApplication *mainApp;
-    bool appletThreadFinished = false;
+    bool appletFinished = false;
+    bool updateFinished = false;
 
-    void warnAboutAppletMode() {
+    void mainMenuThread() {
         bool menuLoaded = mainApp->IsShown();
-        if (!appletThreadFinished && menuLoaded && appletGetAppletType() == AppletType_LibraryApplet) {
-            inst::ui::appletThreadFinished = true;
+        if (!appletFinished && menuLoaded && appletGetAppletType() == AppletType_LibraryApplet) {
+            inst::ui::appletFinished = true;
             tin::data::NUM_BUFFER_SEGMENTS = 2;
             mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle or forwarder!", {"OK"}, true);
-        } else if (!appletThreadFinished && menuLoaded) {
-            inst::ui::appletThreadFinished = true;
+        } else if (!appletFinished && menuLoaded) {
+            inst::ui::appletFinished = true;
             tin::data::NUM_BUFFER_SEGMENTS = 4;
+        }
+        if (!updateFinished && !inst::config::autoUpdate) updateFinished = true;
+        if (!updateFinished && menuLoaded && inst::config::updateInfo.size()) {
+            updateFinished = true;
+            optionsPage::checkForUpdate(inst::config::updateInfo);
         }
     }
 
@@ -76,7 +82,7 @@ namespace inst::ui {
         this->Add(this->eggImage);
         this->awooImage->SetVisible(!inst::config::gayMode);
         this->eggImage->SetVisible(false);
-        this->AddThread(warnAboutAppletMode);
+        this->AddThread(mainMenuThread);
     }
 
     void MainPage::installMenuItem_Click() {

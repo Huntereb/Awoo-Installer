@@ -17,7 +17,8 @@ namespace inst::ui {
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             Image::Ref awooImage;
         private:
-            bool appletThreadFinished;
+            bool appletFinished;
+            bool updateFinished;
             TextBlock::Ref butText;
             Rectangle::Ref topRect;
             Rectangle::Ref botRect;

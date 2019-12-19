@@ -42,27 +42,17 @@ namespace inst::ui {
         this->Add(this->menu);
     }
 
-    void optionsPage::checkForUpdate() {
-        std::vector<std::string> downloadUrl = inst::util::checkForAppUpdate();
-        if (inst::util::getIPAddress() == "1.0.0.127") {
-            inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
-            return;
-        }
-        if (!downloadUrl.size()) {
-            mainApp->CreateShowDialog("No updates found", "You are on the latest version of Awoo Installer!", {"OK"}, false);
-            return;
-        }
-        else {
-            if (!mainApp->CreateShowDialog("Update available", "Awoo Installer " + downloadUrl[0] + " is available now! Ready to update?", {"Update", "Cancel"}, false)) {
+    void optionsPage::checkForUpdate(std::vector<std::string> updateInfo) {
+            if (!mainApp->CreateShowDialog("Update available", "Awoo Installer " + updateInfo[0] + " is available now! Ready to update?", {"Update", "Cancel"}, false)) {
                 inst::ui::loadInstallScreen();
-                inst::ui::setTopInstInfoText("Updating to Awoo Installer " + downloadUrl[0]);
+                inst::ui::setTopInstInfoText("Updating to Awoo Installer " + updateInfo[0]);
                 inst::ui::setInstBarPerc(0);
-                inst::ui::setInstInfoText("Downloading Awoo Installer " + downloadUrl[0]);
+                inst::ui::setInstInfoText("Downloading Awoo Installer " + updateInfo[0]);
                 try {
                     romfsExit();
                     std::string curName = inst::config::appDir + "/Awoo-Installer.nro";
                     std::string downloadName = inst::config::appDir + "/temp_download";
-                    inst::curl::downloadFile(downloadUrl[1], downloadName.c_str(), 0, true);
+                    inst::curl::downloadFile(updateInfo[1], downloadName.c_str(), 0, true);
                     if (std::filesystem::exists(curName)) std::filesystem::remove(curName);
                     std::filesystem::rename(downloadName, curName);
                     mainApp->CreateShowDialog("Update complete!", "The software will now be closed.", {"OK"}, false);
@@ -72,7 +62,6 @@ namespace inst::ui {
                 mainApp->FadeOut();
                 mainApp->Close();
             }
-        }
         return;
     }
 
@@ -99,6 +88,10 @@ namespace inst::ui {
         deletePromptOption->SetColor(COLOR("#FFFFFFFF"));
         deletePromptOption->SetIcon(this->getMenuOptionIcon(inst::config::deletePrompt));
         this->menu->AddItem(deletePromptOption);
+        auto autoUpdateOption = pu::ui::elm::MenuItem::New("Check for updates automatically");
+        autoUpdateOption->SetColor(COLOR("#FFFFFFFF"));
+        autoUpdateOption->SetIcon(this->getMenuOptionIcon(inst::config::autoUpdate));
+        this->menu->AddItem(autoUpdateOption);
         auto gayModeOption = pu::ui::elm::MenuItem::New("Remove anime");
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
         gayModeOption->SetIcon(this->getMenuOptionIcon(inst::config::gayMode));
@@ -120,6 +113,7 @@ namespace inst::ui {
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             std::string keyboardResult;
+            std::vector<std::string> downloadUrl;
             switch (this->menu->GetSelectedIndex()) {
                 case 0:
                     inst::config::ignoreReqVers = !inst::config::ignoreReqVers;
@@ -144,6 +138,11 @@ namespace inst::ui {
                     this->setMenuText();
                     break;
                 case 4:
+                    inst::config::autoUpdate = !inst::config::autoUpdate;
+                    inst::config::setConfig();
+                    this->setMenuText();
+                    break;
+                case 5:
                     if (inst::config::gayMode) {
                         inst::config::gayMode = false;
                         mainApp->mainPage->awooImage->SetVisible(true);
@@ -157,7 +156,7 @@ namespace inst::ui {
                     inst::config::setConfig();
                     this->setMenuText();
                     break;
-                case 5:
+                case 6:
                     keyboardResult = inst::util::softwareKeyboard("Enter the URL to obtain Signature Patches from", inst::config::sigPatchesUrl.c_str(), 500);
                     if (keyboardResult.size() > 0) {
                         inst::config::sigPatchesUrl = keyboardResult;
@@ -165,10 +164,19 @@ namespace inst::ui {
                         this->setMenuText();
                     }
                     break;
-                case 6:
-                    this->checkForUpdate();
-                    break;
                 case 7:
+                    if (inst::util::getIPAddress() == "1.0.0.127") {
+                        inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
+                        break;
+                    }
+                    downloadUrl = inst::util::checkForAppUpdate();
+                    if (!downloadUrl.size()) {
+                        mainApp->CreateShowDialog("No updates found", "You are on the latest version of Awoo Installer!", {"OK"}, false);
+                        break;
+                    }
+                    this->checkForUpdate(downloadUrl);
+                    break;
+                case 8:
                     inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
                     break;
                 default:
