@@ -42,7 +42,7 @@ namespace inst::ui {
         this->Add(this->menu);
     }
 
-    void optionsPage::checkForUpdate(std::vector<std::string> updateInfo) {
+    void optionsPage::askToUpdate(std::vector<std::string> updateInfo) {
             if (!mainApp->CreateShowDialog("Update available", "Awoo Installer " + updateInfo[0] + " is available now! Ready to update?", {"Update", "Cancel"}, false)) {
                 inst::ui::loadInstallScreen();
                 inst::ui::setTopInstInfoText("Updating to Awoo Installer " + updateInfo[0]);
@@ -174,7 +174,7 @@ namespace inst::ui {
                         mainApp->CreateShowDialog("No updates found", "You are on the latest version of Awoo Installer!", {"OK"}, false);
                         break;
                     }
-                    this->checkForUpdate(downloadUrl);
+                    this->askToUpdate(downloadUrl);
                     break;
                 case 8:
                     inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);

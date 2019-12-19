@@ -9,7 +9,7 @@ namespace inst::ui {
             optionsPage();
             PU_SMART_CTOR(optionsPage)
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
-            static void checkForUpdate(std::vector<std::string> updateInfo);
+            static void askToUpdate(std::vector<std::string> updateInfo);
         private:
             TextBlock::Ref butText;
             Rectangle::Ref topRect;

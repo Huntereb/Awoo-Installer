@@ -27,7 +27,7 @@ namespace inst::ui {
         if (!updateFinished && !inst::config::autoUpdate) updateFinished = true;
         if (!updateFinished && menuLoaded && inst::config::updateInfo.size()) {
             updateFinished = true;
-            optionsPage::checkForUpdate(inst::config::updateInfo);
+            optionsPage::askToUpdate(inst::config::updateInfo);
         }
     }
 
