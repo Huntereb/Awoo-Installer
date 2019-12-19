@@ -5,7 +5,7 @@
 namespace inst::config {
     static const std::string appDir = "sdmc:/switch/Awoo-Installer";
     static const std::string configPath = appDir + "/config.ini";
-    static const std::string appVersion = "1.2.2";
+    static const std::string appVersion = "1.3.0";
 
     extern std::string sigPatchesUrl;
     extern std::string gAuthKey;
