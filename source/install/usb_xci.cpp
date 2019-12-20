@@ -22,7 +22,6 @@ SOFTWARE.
 
 #include "install/usb_xci.hpp"
 
-
 #include <switch.h>
 #include <algorithm>
 #include <malloc.h>
@@ -34,6 +33,7 @@ SOFTWARE.
 #include "util/debug.h"
 #include "util/util.hpp"
 #include "util/usb_comms_awoo.h"
+#include "util/lang.hpp"
 #include "ui/instPage.hpp"
 
 namespace tin::install::xci
@@ -69,7 +69,7 @@ namespace tin::install::xci
             while (sizeRemaining && !stopThreadsUsbXci)
             {
                 tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x1000000));
-                if (tmpSizeRead == 0) THROW_FORMAT("USB transfer timed out or failed");
+                if (tmpSizeRead == 0) THROW_FORMAT(("inst.usb.error"_lang).c_str());
                 sizeRemaining -= tmpSizeRead;
 
                 while (true)
@@ -152,7 +152,7 @@ namespace tin::install::xci
                     LOG_DEBUG("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 #endif
 
-                inst::ui::instPage::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
+                inst::ui::instPage::setInstInfoText("inst.info_page.downloading"_lang + inst::util::formatUrlString(ncaFileName) + "inst.info_page.at"_lang + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::instPage::setInstBarPerc((double)downloadProgress);
             }
         }
@@ -162,7 +162,7 @@ namespace tin::install::xci
             u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
         #endif
 
-        inst::ui::instPage::setInstInfoText("Installing " + ncaFileName + "...");
+        inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + "...");
         inst::ui::instPage::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreadsUsbXci)
         {
@@ -185,7 +185,7 @@ namespace tin::install::xci
         LOG_DEBUG("buffering 0x%lx-0x%lx\n", offset, offset + size);
         tin::util::USBCmdHeader header = tin::util::USBCmdManager::SendFileRangeCmd(m_xciName, offset, size);
         u8* tempBuffer = (u8*)memalign(0x1000, header.dataSize);
-        if (tin::util::USBRead(tempBuffer, header.dataSize) == 0) THROW_FORMAT("USB transfer timed out or failed");
+        if (tin::util::USBRead(tempBuffer, header.dataSize) == 0) THROW_FORMAT(("inst.usb.error"_lang).c_str());
         memcpy(buf, tempBuffer, header.dataSize);
         free(tempBuffer);
     }

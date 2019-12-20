@@ -2,6 +2,7 @@
 #include "ui/MainApplication.hpp"
 #include "util/util.hpp"
 #include "util/config.hpp"
+#include "util/lang.hpp"
 #include "usbInstall.hpp"
 
 
@@ -65,8 +66,8 @@ namespace inst::ui {
     }
 
     void usbInstPage::startUsb() {
-        this->pageInfoText->SetText("USB connection successful! Waiting for list of files to be sent...");
-        this->butText->SetText("\ue0e2 (Hold) Help    \ue0e1 (Hold) Cancel ");
+        this->pageInfoText->SetText("inst.usb.top_info"_lang);
+        this->butText->SetText("inst.usb.buttons"_lang);
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         this->infoImage->SetVisible(true);
@@ -78,8 +79,8 @@ namespace inst::ui {
             return;
         } else {
             mainApp->CallForRender(); // If we re-render a few times during this process the main screen won't flicker
-            this->pageInfoText->SetText("Select what files you want to install over USB, then press the Plus button!");
-            this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
+            this->pageInfoText->SetText("inst.usb.top_info2"_lang);
+            this->butText->SetText("inst.usb.buttons2"_lang);
             this->drawMenuItems(true);
             this->menu->SetSelectedIndex(0);
             mainApp->CallForRender();
@@ -91,8 +92,8 @@ namespace inst::ui {
 
     void usbInstPage::startInstall() {
         int dialogResult = -1;
-        if (this->selectedTitles.size() == 1) dialogResult = mainApp->CreateShowDialog("Where should " + inst::util::shortenString(inst::util::formatUrlString(this->selectedTitles[0]), 32, true) + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(this->selectedTitles.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+        if (this->selectedTitles.size() == 1) dialogResult = mainApp->CreateShowDialog("inst.target.desc0"_lang + inst::util::shortenString(inst::util::formatUrlString(this->selectedTitles[0]), 32, true) + "inst.target.desc1"_lang, "common.cancel_desc"_lang, {"inst.target.opt0"_lang, "inst.target.opt1"_lang}, false);
+        else dialogResult = mainApp->CreateShowDialog("inst.target.desc00"_lang + std::to_string(this->selectedTitles.size()) + "inst.target.desc01"_lang, "common.cancel_desc"_lang, {"inst.target.opt0"_lang, "inst.target.opt1"_lang}, false);
         if (dialogResult == -1) return;
         usbInstStuff::installTitleUsb(this->selectedTitles, dialogResult);
         return;

@@ -66,12 +66,6 @@ namespace inst::ui {
         mainApp->CallForRender();
     }
 
-    std::string instPage::finishedMessage() {
-        std::vector<std::string> finishMessages = {"Enjoy your \"legal backups\"!", "I'm sure after you give the game a try you'll have tons of fun actually buying it!", "You buy gamu right? Nintendo-san thanka-you for your purchase!", "Bypassing DRM is great, isn't it?", "You probably saved like six trees by not buying the game! All that plastic goes somewhere!", "Nintendo ninjas have been dispatched to your current location.", "And we didn't even have to shove a political ideology down your throat to get here!"};
-        srand(time(NULL));
-        return(finishMessages[rand() % finishMessages.size()]);
-    }
-
     void instPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
     }
 }

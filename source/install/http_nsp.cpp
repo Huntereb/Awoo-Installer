@@ -29,6 +29,7 @@ SOFTWARE.
 #include "util/error.hpp"
 #include "util/debug.h"
 #include "util/util.hpp"
+#include "util/lang.hpp"
 #include "ui/instPage.hpp"
 
 namespace tin::install::nsp
@@ -125,13 +126,13 @@ namespace tin::install::nsp
 
                 int downloadProgress = (int)(((double)bufferedPlaceholderWriter.GetSizeBuffered() / (double)bufferedPlaceholderWriter.GetTotalDataSize()) * 100.0);
 
-                inst::ui::instPage::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
+                inst::ui::instPage::setInstInfoText("inst.info_page.downloading"_lang + inst::util::formatUrlString(ncaFileName) + "inst.info_page.at"_lang + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::instPage::setInstBarPerc((double)downloadProgress);
             }
         }
         inst::ui::instPage::setInstBarPerc(100);
 
-        inst::ui::instPage::setInstInfoText("Installing " + ncaFileName + "...");
+        inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + "...");
         inst::ui::instPage::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreadsHttpNsp)
         {
@@ -143,7 +144,7 @@ namespace tin::install::nsp
 
         thrd_join(curlThread, NULL);
         thrd_join(writeThread, NULL);
-        if (stopThreadsHttpNsp) THROW_FORMAT("An error occured during data transfer. Check your network connection.");
+        if (stopThreadsHttpNsp) THROW_FORMAT(("inst.net.transfer_interput"_lang).c_str());
     }
 
     void HTTPNSP::BufferData(void* buf, off_t offset, size_t size)

@@ -6,6 +6,7 @@
 #include "util/util.hpp"
 #include "util/config.hpp"
 #include "util/curl.hpp"
+#include "util/lang.hpp"
 #include "netInstall.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
@@ -74,7 +75,7 @@ namespace inst::ui {
     }
 
     void netInstPage::startNetwork() {
-        this->butText->SetText("\ue0e3 Install Over Internet    \ue0e2 Help    \ue0e1 Cancel ");
+        this->butText->SetText("inst.net.buttons"_lang);
         this->menu->SetVisible(false);
         this->menu->ClearItems();
         this->infoImage->SetVisible(true);
@@ -85,29 +86,29 @@ namespace inst::ui {
             return;
         } else if (this->ourUrls[0] == "supplyUrl") {
             std::string keyboardResult;
-            switch (mainApp->CreateShowDialog("Where do you want to install from?", "Press B to cancel", {"URL", "Google Drive"}, false)) {
+            switch (mainApp->CreateShowDialog("inst.net.src.title"_lang, "common.cancel_desc"_lang, {"inst.net.src.opt0"_lang, "inst.net.src.opt1"_lang}, false)) {
                 case 0:
-                    keyboardResult = inst::util::softwareKeyboard("Enter the Internet address of a file", lastUrl, 500);
+                    keyboardResult = inst::util::softwareKeyboard("inst.net.url.hint"_lang, lastUrl, 500);
                     if (keyboardResult.size() > 0) {
                         lastUrl = keyboardResult;
                         if (inst::util::formatUrlString(keyboardResult) == "" || keyboardResult == "https://" || keyboardResult == "http://") {
-                            mainApp->CreateShowDialog("The URL specified is invalid!", "", {"OK"}, false);
+                            mainApp->CreateShowDialog("inst.net.url.invalid"_lang, "", {"common.ok"_lang}, false);
                             break;
                         }
-                        sourceString = " from URL";
+                        sourceString = "inst.net.url.source_string"_lang;
                         this->selectedUrls = {keyboardResult};
                         this->startInstall(true);
                         return;
                     }
                     break;
                 case 1:
-                    keyboardResult = inst::util::softwareKeyboard("Enter the file ID of a public Google Drive file", lastFileID, 50);
+                    keyboardResult = inst::util::softwareKeyboard("inst.net.gdrive_hint"_lang, lastFileID, 50);
                     if (keyboardResult.size() > 0) {
                         lastFileID = keyboardResult;
                         std::string fileName = inst::util::getDriveFileName(keyboardResult);
                         if (fileName.size() > 0) this->alternativeNames = {fileName};
-                        else this->alternativeNames = {"Google Drive File"};
-                        sourceString = " from Google Drive";
+                        else this->alternativeNames = {"inst.net.gdrive.alt_name"_lang};
+                        sourceString = "inst.net.gdrive.source_string"_lang;
                         this->selectedUrls = {"https://www.googleapis.com/drive/v3/files/" + keyboardResult + "?key=" + inst::config::gAuthKey + "&alt=media"};
                         this->startInstall(true);
                         return;
@@ -118,9 +119,9 @@ namespace inst::ui {
             return;
         } else {
             mainApp->CallForRender(); // If we re-render a few times during this process the main screen won't flicker
-            sourceString = " over local network";
-            this->pageInfoText->SetText("Select what files you want to install from the server, then press the Plus button!");
-            this->butText->SetText("\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel ");
+            sourceString = "inst.net.source_string"_lang;
+            this->pageInfoText->SetText("inst.net.top_info"_lang);
+            this->butText->SetText("inst.net.buttons"_lang);
             this->drawMenuItems(true);
             this->menu->SetSelectedIndex(0);
             mainApp->CallForRender();
@@ -136,8 +137,8 @@ namespace inst::ui {
             std::string ourUrlString;
             if (this->alternativeNames.size() > 0) ourUrlString = inst::util::shortenString(this->alternativeNames[0], 32, true);
             else ourUrlString = inst::util::shortenString(inst::util::formatUrlString(this->selectedUrls[0]), 32, true);
-            dialogResult = mainApp->CreateShowDialog("Where should " + ourUrlString + " be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
-        } else dialogResult = mainApp->CreateShowDialog("Where should the selected " + std::to_string(this->selectedUrls.size()) + " files be installed to?", "Press B to cancel", {"SD Card", "Internal Storage"}, false);
+            dialogResult = mainApp->CreateShowDialog("inst.target.desc0"_lang + ourUrlString + "inst.target.desc1"_lang, "common.cancel_desc"_lang, {"inst.target.opt0"_lang, "inst.target.opt1"_lang}, false);
+        } else dialogResult = mainApp->CreateShowDialog("inst.target.desc00"_lang + std::to_string(this->selectedUrls.size()) + "inst.target.desc01"_lang, "common.cancel_desc"_lang, {"inst.target.opt0"_lang, "inst.target.opt1"_lang}, false);
         if (dialogResult == -1 && !urlMode) return;
         else if (dialogResult == -1 && urlMode) {
             this->startNetwork();

@@ -1,10 +1,13 @@
 #include "ui/MainApplication.hpp"
+#include "util/lang.hpp"
 
 namespace inst::ui {
     MainApplication *mainApp;
 
     void MainApplication::OnLoad() {
         mainApp = this;
+
+        Language::Load();
 
         this->mainPage = MainPage::New();
         this->netinstPage = netInstPage::New();

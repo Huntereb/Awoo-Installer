@@ -31,6 +31,7 @@ SOFTWARE.
 #include "util/usb_util.hpp"
 #include "util/util.hpp"
 #include "util/config.hpp"
+#include "util/lang.hpp"
 #include "ui/MainApplication.hpp"
 #include "ui/usbInstPage.hpp"
 #include "ui/instPage.hpp"
@@ -54,7 +55,7 @@ namespace usbInstStuff {
             hidScanInput();
             u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
             if (kDown & KEY_B) return {};
-            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed over USB from other devices using tools such as\nns-usbloader in Tinfoil mode. To send files to your Switch, open one of\nthese pieces of software on your PC, select your files, then upload to\nyour console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times. If you can't figure it out,\ngive LAN/internet installs a try, or copy your files to your SD card and\ntry the \"Install from SD Card\" option on the main menu!", {"OK"}, true);
+            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("inst.usb.help.title"_lang, "inst.usb.help.desc"_lang, {"common.ok"_lang}, true);
             if (inst::util::getUsbState() != 5) return {};
         }
 
@@ -100,7 +101,7 @@ namespace usbInstStuff {
 
         try {
             for (fileItr = 0; fileItr < ourTitleList.size(); fileItr++) {
-                inst::ui::instPage::setTopInstInfoText("Installing " + fileNames[fileItr] + " over USB");
+                inst::ui::instPage::setTopInstInfoText("inst.info_page.top_info0"_lang + fileNames[fileItr] + "inst.usb.source_string"_lang);
                 std::unique_ptr<tin::install::Install> installTask;
 
                 if (ourTitleList[fileItr].compare(ourTitleList[fileItr].size() - 3, 2, "xc") == 0) {
@@ -112,7 +113,7 @@ namespace usbInstStuff {
                 }
 
                 LOG_DEBUG("%s\n", "Preparing installation");
-                inst::ui::instPage::setInstInfoText("Preparing installation...");
+                inst::ui::instPage::setInstInfoText("inst.info_page.preparing"_lang);
                 inst::ui::instPage::setInstBarPerc(0);
                 installTask->Prepare();
 
@@ -123,10 +124,10 @@ namespace usbInstStuff {
             LOG_DEBUG("Failed to install");
             LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::instPage::setInstInfoText("Failed to install " + fileNames[fileItr]);
+            inst::ui::instPage::setInstInfoText("inst.info_page.failed"_lang + fileNames[fileItr]);
             inst::ui::instPage::setInstBarPerc(0);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
-            inst::ui::mainApp->CreateShowDialog("Failed to install " + fileNames[fileItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("inst.info_page.failed"_lang + fileNames[fileItr] + "!", "inst.info_page.failed_desc"_lang + "\n\n" + (std::string)e.what(), {"common.ok"_lang}, true);
             audioThread.join();
             nspInstalled = false;
         }
@@ -139,11 +140,11 @@ namespace usbInstStuff {
 
         if(nspInstalled) {
             tin::util::USBCmdManager::SendExitCmd();
-            inst::ui::instPage::setInstInfoText("Install complete");
+            inst::ui::instPage::setInstInfoText("inst.info_page.complete"_lang);
             inst::ui::instPage::setInstBarPerc(100);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
-            if (ourTitleList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + " files installed successfully!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(fileNames[0] + " installed!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
+            if (ourTitleList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + "inst.info_page.desc0"_lang, Language::GetRandomMsg(), {"common.ok"_lang}, true);
+            else inst::ui::mainApp->CreateShowDialog(fileNames[0] + "inst.info_page.desc1"_lang, Language::GetRandomMsg(), {"common.ok"_lang}, true);
             audioThread.join();
         }
         

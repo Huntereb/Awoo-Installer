@@ -18,7 +18,6 @@ namespace inst::ui {
             static void setInstBarPerc(double ourPercent);
             static void loadMainMenu();
             static void loadInstallScreen();
-            static std::string finishedMessage();
         private:
             Rectangle::Ref infoRect;
             Rectangle::Ref topRect;

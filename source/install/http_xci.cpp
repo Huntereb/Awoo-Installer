@@ -26,6 +26,7 @@ SOFTWARE.
 #include "data/buffered_placeholder_writer.hpp"
 #include "util/error.hpp"
 #include "util/util.hpp"
+#include "util/lang.hpp"
 #include "ui/instPage.hpp"
 
 namespace tin::install::xci
@@ -126,7 +127,7 @@ namespace tin::install::xci
                     LOG_DEBUG("> Download Progress: %lu/%lu MB (%i%s) (%.2f MB/s)\r", downloadSizeMB, totalSizeMB, downloadProgress, "%", speed);
                 #endif
 
-                inst::ui::instPage::setInstInfoText("Downloading " + inst::util::formatUrlString(ncaFileName) + " at " + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
+                inst::ui::instPage::setInstInfoText("inst.info_page.downloading"_lang + inst::util::formatUrlString(ncaFileName) + "inst.info_page.at"_lang + std::to_string(speed).substr(0, std::to_string(speed).size()-4) + "MB/s");
                 inst::ui::instPage::setInstBarPerc((double)downloadProgress);
             }
         }
@@ -136,7 +137,7 @@ namespace tin::install::xci
             u64 totalSizeMB = bufferedPlaceholderWriter.GetTotalDataSize() / 1000000;
         #endif
 
-        inst::ui::instPage::setInstInfoText("Installing " + ncaFileName + "...");
+        inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + "...");
         inst::ui::instPage::setInstBarPerc(0);
         while (!bufferedPlaceholderWriter.IsPlaceholderComplete() && !stopThreadsHttpXci)
         {
@@ -151,7 +152,7 @@ namespace tin::install::xci
 
         thrd_join(curlThread, NULL);
         thrd_join(writeThread, NULL);
-        if (stopThreadsHttpXci) THROW_FORMAT("An error occured during data transfer. Check your network connection.");
+        if (stopThreadsHttpXci) THROW_FORMAT(("inst.net.transfer_interput"_lang).c_str());
     }
 
     void HTTPXCI::BufferData(void* buf, off_t offset, size_t size)

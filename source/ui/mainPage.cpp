@@ -4,6 +4,7 @@
 #include "ui/mainPage.hpp"
 #include "util/util.hpp"
 #include "util/config.hpp"
+#include "util/lang.hpp"
 #include "sigInstall.hpp"
 #include "data/buffered_placeholder_writer.hpp"
 
@@ -20,7 +21,7 @@ namespace inst::ui {
             tin::data::NUM_BUFFER_SEGMENTS = 2;
             if (menuLoaded) {
                 inst::ui::appletFinished = true;
-                mainApp->CreateShowDialog("Applet Mode not supported", "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle (hold R while starting a game) or from a forwarder!", {"OK"}, true);
+                mainApp->CreateShowDialog("main.applet.title"_lang, "main.applet.desc"_lang, {"common.ok"_lang}, true);
             } 
         } else if (!appletFinished) {
             inst::ui::appletFinished = true;
@@ -42,27 +43,27 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 678, "\ue0e0 Select    \ue0e1 Exit ", 24);
+        this->butText = TextBlock::New(10, 678, "main.buttons"_lang, 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->optionMenu = pu::ui::elm::Menu::New(0, 95, 1280, COLOR("#67000000"), 94, 6);
         this->optionMenu->SetOnFocusColor(COLOR("#00000033"));
         this->optionMenu->SetScrollbarColor(COLOR("#170909FF"));
-        this->installMenuItem = pu::ui::elm::MenuItem::New("Install from SD card");
+        this->installMenuItem = pu::ui::elm::MenuItem::New("main.menu.sd"_lang);
         this->installMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->installMenuItem->SetIcon("romfs:/images/icons/micro-sd.png");
-        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("Install over LAN or internet");
+        this->netInstallMenuItem = pu::ui::elm::MenuItem::New("main.menu.net"_lang);
         this->netInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->netInstallMenuItem->SetIcon("romfs:/images/icons/cloud-download.png");
-        this->usbInstallMenuItem = pu::ui::elm::MenuItem::New("Install over USB");
+        this->usbInstallMenuItem = pu::ui::elm::MenuItem::New("main.menu.usb"_lang);
         this->usbInstallMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->usbInstallMenuItem->SetIcon("romfs:/images/icons/usb-port.png");
-        this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("Manage signature patches");
+        this->sigPatchesMenuItem = pu::ui::elm::MenuItem::New("main.menu.sig"_lang);
         this->sigPatchesMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->sigPatchesMenuItem->SetIcon("romfs:/images/icons/wrench.png");
-        this->settingsMenuItem = pu::ui::elm::MenuItem::New("Settings");
+        this->settingsMenuItem = pu::ui::elm::MenuItem::New("main.menu.set"_lang);
         this->settingsMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->settingsMenuItem->SetIcon("romfs:/images/icons/settings.png");
-        this->exitMenuItem = pu::ui::elm::MenuItem::New("Exit");
+        this->exitMenuItem = pu::ui::elm::MenuItem::New("main.menu.exit"_lang);
         this->exitMenuItem->SetColor(COLOR("#FFFFFFFF"));
         this->exitMenuItem->SetIcon("romfs:/images/icons/exit-run.png");
         if (std::filesystem::exists(inst::config::appDir + "/awoo_main.png")) this->awooImage = Image::New(410, 190, inst::config::appDir + "/awoo_main.png");
@@ -95,7 +96,7 @@ namespace inst::ui {
 
     void MainPage::netInstallMenuItem_Click() {
         if (inst::util::getIPAddress() == "1.0.0.127") {
-            inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("main.net.title"_lang, "main.net.desc"_lang, {"common.ok"_lang}, true);
             return;
         }
         mainApp->netinstPage->startNetwork();
@@ -103,13 +104,13 @@ namespace inst::ui {
 
     void MainPage::usbInstallMenuItem_Click() {
         if (!inst::config::usbAck) {
-            if (mainApp->CreateShowDialog("Warning!", "USB installations may not \"just werk\" on some devices and setups.\nIf you experience issues with USB installations, please don't pull your\nhair out! It's advised to use ns-usbloader for USB installations, or\nLAN/Internet installations instead for remote installation, especially\nwhen paired with an ethernet adapter!\n\nYou have been warned...", {"OK", "Don't tell me again"}, false) == 1) {
+            if (mainApp->CreateShowDialog("main.usb.warn.title"_lang, "main.usb.warn.desc"_lang, {"common.ok"_lang, "main.usb.warn.opt1"_lang}, false) == 1) {
                 inst::config::usbAck = true;
                 inst::config::setConfig();
             }
         }
         if (inst::util::getUsbState() == 5) mainApp->usbinstPage->startUsb();
-        else mainApp->CreateShowDialog("No USB connection detected", "Plug in to a compatible device to install over USB", {"OK"}, false);
+        else mainApp->CreateShowDialog("main.usb.error.title"_lang, "main.usb.error.desc"_lang, {"common.ok"_lang}, false);
     }
 
     void MainPage::sigPatchesMenuItem_Click() {

@@ -39,6 +39,7 @@ SOFTWARE.
 #include "util/config.hpp"
 #include "util/util.hpp"
 #include "util/curl.hpp"
+#include "util/lang.hpp"
 #include "ui/MainApplication.hpp"
 #include "ui/instPage.hpp"
 
@@ -138,7 +139,7 @@ namespace netInstStuff{
         try {
             for (urlItr = 0; urlItr < ourUrlList.size(); urlItr++) {
                 LOG_DEBUG("%s %s\n", "Install request from", ourUrlList[urlItr].c_str());
-                inst::ui::instPage::setTopInstInfoText("Installing " + urlNames[urlItr] + ourSource);
+                inst::ui::instPage::setTopInstInfoText("inst.info_page.top_info0"_lang + urlNames[urlItr] + ourSource);
                 std::unique_ptr<tin::install::Install> installTask;
 
                 if (inst::curl::downloadToBuffer(ourUrlList[urlItr], 0x100, 0x103) == "HEAD") {
@@ -150,7 +151,7 @@ namespace netInstStuff{
                 }
 
                 LOG_DEBUG("%s\n", "Preparing installation");
-                inst::ui::instPage::setInstInfoText("Preparing installation...");
+                inst::ui::instPage::setInstInfoText("inst.info_page.preparing"_lang);
                 inst::ui::instPage::setInstBarPerc(0);
                 installTask->Prepare();
                 installTask->Begin();
@@ -160,10 +161,10 @@ namespace netInstStuff{
             LOG_DEBUG("Failed to install");
             LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::instPage::setInstInfoText("Failed to install " + urlNames[urlItr]);
+            inst::ui::instPage::setInstInfoText("inst.info_page.failed"_lang + urlNames[urlItr]);
             inst::ui::instPage::setInstBarPerc(0);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
-            inst::ui::mainApp->CreateShowDialog("Failed to install " + urlNames[urlItr] + "!", "Partially installed contents can be removed from the System Settings applet.\n\n" + (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("inst.info_page.failed"_lang + urlNames[urlItr] + "!", "inst.info_page.failed_desc"_lang + "\n\n" + (std::string)e.what(), {"common.ok"_lang}, true);
             audioThread.join();
             nspInstalled = false;
         }
@@ -174,17 +175,17 @@ namespace netInstStuff{
             inst::util::setClockSpeed(2, previousClockValues[2]);
         }
 
-        LOG_DEBUG("%s\n", "Telling the server we're done installing");
+        LOG_DEBUG("Telling the server we're done installing\n");
         // Send 1 byte ack to close the server
         u8 ack = 0;
         tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
 
         if(nspInstalled) {
-            inst::ui::instPage::setInstInfoText("Install complete");
+            inst::ui::instPage::setInstInfoText("inst.info_page.complete"_lang);
             inst::ui::instPage::setInstBarPerc(100);
             std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
-            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + " files installed successfully!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
-            else inst::ui::mainApp->CreateShowDialog(urlNames[0] + " installed!", inst::ui::instPage::finishedMessage(), {"OK"}, true);
+            if (ourUrlList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourUrlList.size()) + "inst.info_page.desc0"_lang, Language::GetRandomMsg(), {"common.ok"_lang}, true);
+            else inst::ui::mainApp->CreateShowDialog(urlNames[0] + "inst.info_page.desc1"_lang, Language::GetRandomMsg(), {"common.ok"_lang}, true);
             audioThread.join();
         }
         
@@ -217,7 +218,7 @@ namespace netInstStuff{
             }
 
             std::string ourIPAddress = inst::util::getIPAddress();
-            inst::ui::mainApp->netinstPage->pageInfoText->SetText("Waiting for a connection... Your Switch's IP Address is: " + ourIPAddress);
+            inst::ui::mainApp->netinstPage->pageInfoText->SetText("inst.net.top_info1"_lang + ourIPAddress);
             inst::ui::mainApp->CallForRender();
             LOG_DEBUG("%s %s\n", "Switch IP is ", ourIPAddress.c_str());
             LOG_DEBUG("%s\n", "Waiting for network");
@@ -248,7 +249,7 @@ namespace netInstStuff{
                 }
                 if (kDown & KEY_X)
                 {
-                    inst::ui::mainApp->CreateShowDialog("Help", "Files can be installed remotely from your other devices using tools such\nas ns-usbloader in Tinfoil mode. To send files to your Switch, open one\nof these pieces of software on your PC or mobile device, input your\nSwitch's IP address (listed on-screen), select your files, then upload\nto your console! If the software you're using won't let you select\nspecific file types, try renaming the extension to something it accepts.\nAwoo Installer doesn't care about file extensions during net installations!\n\nIf you can't figure it out, just copy your files to your SD card and try\nthe \"Install from SD Card\" option on the main menu!", {"OK"}, true);
+                    inst::ui::mainApp->CreateShowDialog("inst.net.help.title"_lang, "inst.net.help.desc"_lang, {"common.ok"_lang}, true);
                 }
 
                 struct sockaddr_in client;
@@ -279,8 +280,6 @@ namespace netInstStuff{
                     // Split the string up into individual URLs
                     std::stringstream urlStream(urlBuf.get());
                     std::string segment;
-                    std::string nspExt = ".nsp";
-                    std::string nszExt = ".nsz";
 
                     while (std::getline(urlStream, segment, '\n')) urls.push_back(segment);
 
@@ -300,7 +299,7 @@ namespace netInstStuff{
             LOG_DEBUG("Failed to perform remote install!\n");
             LOG_DEBUG("%s", e.what());
             fprintf(stdout, "%s", e.what());
-            inst::ui::mainApp->CreateShowDialog("Failed to perform remote install!", (std::string)e.what(), {"OK"}, true);
+            inst::ui::mainApp->CreateShowDialog("inst.net.failed"_lang, (std::string)e.what(), {"common.ok"_lang}, true);
             return {};
         }
     }

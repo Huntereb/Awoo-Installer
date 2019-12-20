@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "nx/nca_writer.h"
 #include "ui/instPage.hpp"
+#include "util/lang.hpp"
 
 namespace tin::install::nsp
 {
@@ -37,7 +38,7 @@ namespace tin::install::nsp
 
         try
         {
-            inst::ui::instPage::setInstInfoText("Installing " + ncaFileName + "...");
+            inst::ui::instPage::setInstInfoText("inst.info_page.top_info0"_lang + ncaFileName + "...");
             inst::ui::instPage::setInstBarPerc(0);
             while (fileOff < ncaSize)
             {

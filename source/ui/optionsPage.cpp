@@ -7,6 +7,7 @@
 #include "util/util.hpp"
 #include "util/config.hpp"
 #include "util/curl.hpp"
+#include "util/lang.hpp"
 #include "ui/instPage.hpp"
 
 #define COLOR(hex) pu::ui::Color::FromHex(hex)
@@ -24,9 +25,9 @@ namespace inst::ui {
         this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
-        this->pageInfoText = TextBlock::New(10, 109, "Change Awoo Installer's settings!", 30);
+        this->pageInfoText = TextBlock::New(10, 109, "options.title"_lang, 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));
-        this->butText = TextBlock::New(10, 678, "\ue0e0 Select/Change    \ue0e1 Cancel ", 24);
+        this->butText = TextBlock::New(10, 678, "options.buttons"_lang, 24);
         this->butText->SetColor(COLOR("#FFFFFFFF"));
         this->menu = pu::ui::elm::Menu::New(0, 156, 1280, COLOR("#FFFFFF00"), 84, (506 / 84));
         this->menu->SetOnFocusColor(COLOR("#00000033"));
@@ -43,11 +44,11 @@ namespace inst::ui {
     }
 
     void optionsPage::askToUpdate(std::vector<std::string> updateInfo) {
-            if (!mainApp->CreateShowDialog("Update available", "Awoo Installer " + updateInfo[0] + " is available now! Ready to update?", {"Update", "Cancel"}, false)) {
+            if (!mainApp->CreateShowDialog("options.update.title"_lang, "options.update.desc0"_lang + updateInfo[0] + "options.update.desc1"_lang, {"options.update.opt0"_lang, "common.cancel"_lang}, false)) {
                 inst::ui::instPage::loadInstallScreen();
-                inst::ui::instPage::setTopInstInfoText("Updating to Awoo Installer " + updateInfo[0]);
+                inst::ui::instPage::setTopInstInfoText("options.update.top_info"_lang + updateInfo[0]);
                 inst::ui::instPage::setInstBarPerc(0);
-                inst::ui::instPage::setInstInfoText("Downloading Awoo Installer " + updateInfo[0]);
+                inst::ui::instPage::setInstInfoText("options.update.bot_info"_lang + updateInfo[0]);
                 try {
                     romfsExit();
                     std::string curName = inst::config::appDir + "/Awoo-Installer.nro";
@@ -55,9 +56,9 @@ namespace inst::ui {
                     inst::curl::downloadFile(updateInfo[1], downloadName.c_str(), 0, true);
                     if (std::filesystem::exists(curName)) std::filesystem::remove(curName);
                     std::filesystem::rename(downloadName, curName);
-                    mainApp->CreateShowDialog("Update complete!", "The software will now be closed.", {"OK"}, false);
+                    mainApp->CreateShowDialog("options.update.complete"_lang, "options.update.end_desc"_lang, {"common.ok"_lang}, false);
                 } catch (...) {
-                    mainApp->CreateShowDialog("Update failed!", "The software will now be closed.", {"OK"}, false);
+                    mainApp->CreateShowDialog("options.update.failed"_lang, "options.update.end_desc"_lang, {"common.ok"_lang}, false);
                 }
                 mainApp->FadeOut();
                 mainApp->Close();
@@ -72,37 +73,37 @@ namespace inst::ui {
 
     void optionsPage::setMenuText() {
         this->menu->ClearItems();
-        auto ignoreFirmOption = pu::ui::elm::MenuItem::New("Ignore minimum firmware version required by titles");
+        auto ignoreFirmOption = pu::ui::elm::MenuItem::New("options.menu_items.ignore_firm"_lang);
         ignoreFirmOption->SetColor(COLOR("#FFFFFFFF"));
         ignoreFirmOption->SetIcon(this->getMenuOptionIcon(inst::config::ignoreReqVers));
         this->menu->AddItem(ignoreFirmOption);
-        auto validateOption = pu::ui::elm::MenuItem::New("Verify NCA signatures before installation");
+        auto validateOption = pu::ui::elm::MenuItem::New("options.menu_items.nca_verify"_lang);
         validateOption->SetColor(COLOR("#FFFFFFFF"));
         validateOption->SetIcon(this->getMenuOptionIcon(inst::config::validateNCAs));
         this->menu->AddItem(validateOption);
-        auto overclockOption = pu::ui::elm::MenuItem::New("Enable \"boost mode\" during installations");
+        auto overclockOption = pu::ui::elm::MenuItem::New("options.menu_items.boost_mode"_lang);
         overclockOption->SetColor(COLOR("#FFFFFFFF"));
         overclockOption->SetIcon(this->getMenuOptionIcon(inst::config::overClock));
         this->menu->AddItem(overclockOption);
-        auto deletePromptOption = pu::ui::elm::MenuItem::New("Ask to delete original files after installation");
+        auto deletePromptOption = pu::ui::elm::MenuItem::New("options.menu_items.ask_delete"_lang);
         deletePromptOption->SetColor(COLOR("#FFFFFFFF"));
         deletePromptOption->SetIcon(this->getMenuOptionIcon(inst::config::deletePrompt));
         this->menu->AddItem(deletePromptOption);
-        auto autoUpdateOption = pu::ui::elm::MenuItem::New("Check for updates to Awoo Installer automatically");
+        auto autoUpdateOption = pu::ui::elm::MenuItem::New("options.menu_items.auto_update"_lang);
         autoUpdateOption->SetColor(COLOR("#FFFFFFFF"));
         autoUpdateOption->SetIcon(this->getMenuOptionIcon(inst::config::autoUpdate));
         this->menu->AddItem(autoUpdateOption);
-        auto gayModeOption = pu::ui::elm::MenuItem::New("Remove anime");
+        auto gayModeOption = pu::ui::elm::MenuItem::New("options.menu_items.gay_option"_lang);
         gayModeOption->SetColor(COLOR("#FFFFFFFF"));
         gayModeOption->SetIcon(this->getMenuOptionIcon(inst::config::gayMode));
         this->menu->AddItem(gayModeOption);
-        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New("Signature patches source URL: " + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
+        auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New("options.menu_items.sig_url"_lang + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(sigPatchesUrlOption);
-        auto updateOption = pu::ui::elm::MenuItem::New("Check for updates to Awoo Installer");
+        auto updateOption = pu::ui::elm::MenuItem::New("options.menu_items.check_update"_lang);
         updateOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(updateOption);
-        auto creditsOption = pu::ui::elm::MenuItem::New("Credits");
+        auto creditsOption = pu::ui::elm::MenuItem::New("options.menu_items.credits"_lang);
         creditsOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(creditsOption);
     }
@@ -122,7 +123,7 @@ namespace inst::ui {
                     break;
                 case 1:
                     if (inst::config::validateNCAs) {
-                        if (inst::ui::mainApp->CreateShowDialog("Warning!", "Some installable files may contain malicious contents! Only disable this\nfeature if you are absolutely certain the software you will be installing\nis trustworthy!\n\nDo you still want to disable NCA signature verification?", {"Cancel", "Yes, I want a brick"}, false) == 1) inst::config::validateNCAs = false;
+                        if (inst::ui::mainApp->CreateShowDialog("options.nca_warn.title"_lang, "options.nca_warn.desc"_lang, {"common.cancel"_lang, "options.nca_warn.opt1"_lang}, false) == 1) inst::config::validateNCAs = false;
                     } else inst::config::validateNCAs = true;
                     inst::config::setConfig();
                     this->setMenuText();
@@ -157,7 +158,7 @@ namespace inst::ui {
                     this->setMenuText();
                     break;
                 case 6:
-                    keyboardResult = inst::util::softwareKeyboard("Enter the URL to obtain Signature Patches from", inst::config::sigPatchesUrl.c_str(), 500);
+                    keyboardResult = inst::util::softwareKeyboard("options.sig_hint"_lang, inst::config::sigPatchesUrl.c_str(), 500);
                     if (keyboardResult.size() > 0) {
                         inst::config::sigPatchesUrl = keyboardResult;
                         inst::config::setConfig();
@@ -166,18 +167,18 @@ namespace inst::ui {
                     break;
                 case 7:
                     if (inst::util::getIPAddress() == "1.0.0.127") {
-                        inst::ui::mainApp->CreateShowDialog("Network connection not available", "Check that airplane mode is disabled and you're connected to a local network.", {"OK"}, true);
+                        inst::ui::mainApp->CreateShowDialog("main.net.title"_lang, "main.net.desc"_lang, {"common.ok"_lang}, true);
                         break;
                     }
                     downloadUrl = inst::util::checkForAppUpdate();
                     if (!downloadUrl.size()) {
-                        mainApp->CreateShowDialog("No updates found", "You are on the latest version of Awoo Installer!", {"OK"}, false);
+                        mainApp->CreateShowDialog("options.update.title_check_fail"_lang, "options.update.desc_check_fail"_lang, {"common.ok"_lang}, false);
                         break;
                     }
                     this->askToUpdate(downloadUrl);
                     break;
                 case 8:
-                    inst::ui::mainApp->CreateShowDialog("Thanks to the following people!", "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka", {"Close"}, true);
+                    inst::ui::mainApp->CreateShowDialog("options.credits.title"_lang, "options.credits.desc"_lang, {"common.close"_lang}, true);
                     break;
                 default:
                     break;
