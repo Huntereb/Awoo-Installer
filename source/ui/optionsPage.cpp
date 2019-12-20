@@ -7,6 +7,7 @@
 #include "util/util.hpp"
 #include "util/config.hpp"
 #include "util/curl.hpp"
+#include "util/unzip.hpp"
 #include "util/lang.hpp"
 #include "ui/instPage.hpp"
 
@@ -50,12 +51,12 @@ namespace inst::ui {
                 inst::ui::instPage::setInstBarPerc(0);
                 inst::ui::instPage::setInstInfoText("options.update.bot_info"_lang + updateInfo[0]);
                 try {
-                    romfsExit();
-                    std::string curName = inst::config::appDir + "/Awoo-Installer.nro";
-                    std::string downloadName = inst::config::appDir + "/temp_download";
+                    std::string downloadName = inst::config::appDir + "/temp_download.zip";
                     inst::curl::downloadFile(updateInfo[1], downloadName.c_str(), 0, true);
-                    if (std::filesystem::exists(curName)) std::filesystem::remove(curName);
-                    std::filesystem::rename(downloadName, curName);
+                    romfsExit();
+                    inst::ui::instPage::setInstInfoText("options.update.bot_info2"_lang + updateInfo[0]);
+                    inst::zip::extractFile(downloadName, "sdmc:/");
+                    std::filesystem::remove(downloadName);
                     mainApp->CreateShowDialog("options.update.complete"_lang, "options.update.end_desc"_lang, {"common.ok"_lang}, false);
                 } catch (...) {
                     mainApp->CreateShowDialog("options.update.failed"_lang, "options.update.end_desc"_lang, {"common.ok"_lang}, false);

@@ -165,6 +165,7 @@
             "opt0": "Update",
             "top_info": "Updating to Awoo Installer ",
             "bot_info": "Downloading Awoo Installer ",
+            "bot_info2": "Extracting Awoo Installer ",
             "complete": "Update complete!",
             "failed": "Update failed!",
             "end_desc": "The software will now be closed.",
