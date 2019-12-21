@@ -91,9 +91,13 @@ namespace tin::install::nsp
         std::shared_ptr<nx::ncm::ContentStorage> contentStorage(new nx::ncm::ContentStorage(m_destStorageId));
 
         // Attempt to delete any leftover placeholders
-        try
-        {
+        try {
             contentStorage->DeletePlaceholder(*(NcmPlaceHolderId*)&ncaId);
+        }
+        catch (...) {}
+        // Attempt to delete leftover ncas
+        try {
+            contentStorage->Delete(ncaId);
         }
         catch (...) {}
 
