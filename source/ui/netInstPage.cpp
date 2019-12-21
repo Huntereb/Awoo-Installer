@@ -102,7 +102,7 @@ namespace inst::ui {
                     }
                     break;
                 case 1:
-                    keyboardResult = inst::util::softwareKeyboard("inst.net.gdrive_hint"_lang, lastFileID, 50);
+                    keyboardResult = inst::util::softwareKeyboard("inst.net.gdrive.hint"_lang, lastFileID, 50);
                     if (keyboardResult.size() > 0) {
                         lastFileID = keyboardResult;
                         std::string fileName = inst::util::getDriveFileName(keyboardResult);
