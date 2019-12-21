@@ -3,6 +3,7 @@
 #include <iostream>
 #include <switch.h>
 #include <filesystem>
+#include "util/config.hpp"
 
 namespace Language {
     json lang;
@@ -10,13 +11,17 @@ namespace Language {
     void Load() {
         std::ifstream ifs;
         std::string languagePath;
-        setInitialize();
-        u64 lcode = 0;
-        SetLanguage ourLang = SetLanguage_ENUS;
-        setGetSystemLanguage(&lcode);
-        setMakeLanguage(lcode, &ourLang);
-        setExit();
-        switch (ourLang) {
+        int langInt = inst::config::languageSetting;
+        if (langInt == 99) {
+            SetLanguage ourLang;
+            u64 lcode = 0;
+            setInitialize();
+            setGetSystemLanguage(&lcode);
+            setMakeLanguage(lcode, &ourLang);
+            setExit();
+            langInt = (int)ourLang;
+        } 
+        switch (langInt) {
             case 0:
                 languagePath = "romfs:/lang/ja.json";
                 break;

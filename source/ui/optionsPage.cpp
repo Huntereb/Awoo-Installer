@@ -16,6 +16,8 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
+    std::vector<pu::String> languageStrings = {"English"};
+
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
         if (std::filesystem::exists(inst::config::appDir + "/background.png")) this->SetBackgroundImage(inst::config::appDir + "/background.png");
@@ -72,6 +74,16 @@ namespace inst::ui {
         else return "romfs:/images/icons/checkbox-blank-outline.png";
     }
 
+    std::string optionsPage::getMenuLanguage(int ourLangCode) {
+        switch (ourLangCode) {
+            case(1):
+            case(12):
+                return languageStrings[0].AsUTF8();
+            default:
+                return "options.language.system_language"_lang;
+        }
+    }
+
     void optionsPage::setMenuText() {
         this->menu->ClearItems();
         auto ignoreFirmOption = pu::ui::elm::MenuItem::New("options.menu_items.ignore_firm"_lang);
@@ -101,6 +113,9 @@ namespace inst::ui {
         auto sigPatchesUrlOption = pu::ui::elm::MenuItem::New("options.menu_items.sig_url"_lang + inst::util::shortenString(inst::config::sigPatchesUrl, 42, false));
         sigPatchesUrlOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(sigPatchesUrlOption);
+        auto languageOption = pu::ui::elm::MenuItem::New("options.menu_items.language"_lang + this->getMenuLanguage(inst::config::languageSetting));
+        languageOption->SetColor(COLOR("#FFFFFFFF"));
+        this->menu->AddItem(languageOption);
         auto updateOption = pu::ui::elm::MenuItem::New("options.menu_items.check_update"_lang);
         updateOption->SetColor(COLOR("#FFFFFFFF"));
         this->menu->AddItem(updateOption);
@@ -115,7 +130,9 @@ namespace inst::ui {
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
             std::string keyboardResult;
+            int rc;
             std::vector<std::string> downloadUrl;
+            std::vector<pu::String> languageList;
             switch (this->menu->GetSelectedIndex()) {
                 case 0:
                     inst::config::ignoreReqVers = !inst::config::ignoreReqVers;
@@ -167,6 +184,22 @@ namespace inst::ui {
                     }
                     break;
                 case 7:
+                    languageList = languageStrings;
+                    languageList.push_back("options.language.system_language"_lang);
+                    rc = inst::ui::mainApp->CreateShowDialog("options.language.title"_lang, "options.language.desc"_lang, languageList, false);
+                    if (rc == -1) break;
+                    switch(rc) {
+                        case 0:
+                            inst::config::languageSetting = 1;
+                            break;
+                        default:
+                            inst::config::languageSetting = 99;
+                    }
+                    inst::config::setConfig();
+                    mainApp->FadeOut();
+                    mainApp->Close();
+                    break;
+                case 8:
                     if (inst::util::getIPAddress() == "1.0.0.127") {
                         inst::ui::mainApp->CreateShowDialog("main.net.title"_lang, "main.net.desc"_lang, {"common.ok"_lang}, true);
                         break;
@@ -178,7 +211,7 @@ namespace inst::ui {
                     }
                     this->askToUpdate(downloadUrl);
                     break;
-                case 8:
+                case 9:
                     inst::ui::mainApp->CreateShowDialog("options.credits.title"_lang, "options.credits.desc"_lang, {"common.close"_lang}, true);
                     break;
                 default:

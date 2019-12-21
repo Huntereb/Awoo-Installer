@@ -10,6 +10,7 @@ namespace inst::config {
     extern std::string sigPatchesUrl;
     extern std::string gAuthKey;
     extern std::vector<std::string> updateInfo;
+    extern int languageSetting;
     extern bool ignoreReqVers;
     extern bool validateNCAs;
     extern bool overClock;

@@ -21,5 +21,6 @@ namespace inst::ui {
             pu::ui::elm::Menu::Ref menu;
             void setMenuText();
             std::string getMenuOptionIcon(bool ourBool);
+            std::string getMenuLanguage(int ourLangCode);
     };
 }
