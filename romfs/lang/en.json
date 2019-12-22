@@ -15,7 +15,7 @@
         "usb": {
             "warn": {
                 "title": "Warning!",
-                "desc": "USB installations may not \"just werk\" on some devices and setups.\nIf you experience issues with USB installations, please don't pull your\nhair out! It's advised to use ns-usbloader for USB installations, or\nLAN/Internet installations instead for remote installation, especially\nwhen paired with an ethernet adapter!\n\nYou have been warned...",
+                "desc": "USB installations may not \"just werk\" on some devices and setups.\nIf you experience issues with USB installations, please don't pull your\nhair out! It's advised to use NS-USBloader for USB installations, or\nLAN/Internet installations instead for remote installation, especially\nwhen paired with an ethernet adapter!\n\nYou have been warned...",
                 "opt1": "Don't tell me again"
             },
             "error": {
@@ -33,7 +33,7 @@
         "net": {
             "help": {
                 "title": "Help",
-                "desc": "Files can be installed remotely from your other devices using tools such\nas ns-usbloader in Tinfoil mode. To send files to your Switch, open one\nof these pieces of software on your PC or mobile device, input your\nSwitch's IP address (listed on-screen), select your files, then upload\nto your console! If the software you're using won't let you select\nspecific file types, try renaming the extension to something it accepts.\nAwoo Installer doesn't care about file extensions during net installations!\n\nIf you can't figure it out, just copy your files to your SD card and try\nthe \"Install from SD Card\" option on the main menu!"
+                "desc": "Files can be installed remotely from your other devices using tools such\nas NS-USBloader in Tinfoil mode. To send files to your Switch, open one\nof these pieces of software on your PC or mobile device, input your\nSwitch's IP address (listed on-screen), select your files, then upload\nto your console! If the software you're using won't let you select\nspecific file types, try renaming the extension to something it accepts.\nAwoo Installer doesn't care about file extensions during net installations!\n\nIf you can't figure it out, just copy your files to your SD card and try\nthe \"Install from SD Card\" option on the main menu!"
             },
             "src": {
                 "title": "Where do you want to install from?",
@@ -73,7 +73,7 @@
         "usb": {
             "help": {
                 "title": "Help",
-                "desc": "Files can be installed over USB from other devices using tools such as\nns-usbloader in Tinfoil mode. To send files to your Switch, open one of\nthese pieces of software on your PC, select your files, then upload to\nyour console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times. If you can't figure it out,\ngive LAN/internet installs a try, or copy your files to your SD card and\ntry the \"Install from SD Card\" option on the main menu!"
+                "desc": "Files can be installed over USB from other devices using tools such as\nNS-USBloader in Tinfoil mode. To send files to your Switch, open one of\nthese pieces of software on your PC, select your files, then upload to\nyour console!\n\nUnfortunately USB installations require a specific setup on some\nplatforms, and can be rather buggy at times. If you can't figure it out,\ngive LAN/internet installs a try, or copy your files to your SD card and\ntry the \"Install from SD Card\" option on the main menu!"
             },
             "top_info": "USB connection successful! Waiting for list of files to be sent...",
             "top_info2": "Select what files you want to install over USB, then press the Plus button!",
