@@ -25,7 +25,7 @@ namespace inst::ui {
             } 
         } else if (!appletFinished) {
             inst::ui::appletFinished = true;
-            tin::data::NUM_BUFFER_SEGMENTS = 4;
+            tin::data::NUM_BUFFER_SEGMENTS = 8;
         }
         if (!updateFinished && (!inst::config::autoUpdate || inst::util::getIPAddress() == "1.0.0.127")) updateFinished = true;
         if (!updateFinished && menuLoaded && inst::config::updateInfo.size()) {

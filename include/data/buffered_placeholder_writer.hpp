@@ -31,7 +31,7 @@ SOFTWARE.
 
 namespace tin::data
 {
-    static const size_t BUFFER_SEGMENT_DATA_SIZE = 0x1000000; // Approximately 16MB
+    static const size_t BUFFER_SEGMENT_DATA_SIZE = 0x800000; // Approximately 8MB
     extern int NUM_BUFFER_SEGMENTS;
 
     struct BufferSegment
@@ -41,7 +41,7 @@ namespace tin::data
         u8 data[BUFFER_SEGMENT_DATA_SIZE] = {0};
     };
 
-    // Receives data in a circular buffer split into 16MB segments
+    // Receives data in a circular buffer split into 8MB segments
     class BufferedPlaceholderWriter
     {
         private:
