@@ -1,8 +1,7 @@
-#include "util/lang.hpp"
-
 #include <iostream>
 #include <switch.h>
 #include <filesystem>
+#include "util/lang.hpp"
 #include "util/config.hpp"
 
 namespace Language {
