@@ -51,7 +51,7 @@ namespace usbInstStuff {
     std::vector<std::string> OnSelected() {
         TUSHeader header;
         while(true) {
-            if (tin::util::USBRead(&header, sizeof(TUSHeader)) != 0) break;
+            if (tin::util::USBRead(&header, sizeof(TUSHeader), 500000000) != 0) break;
             hidScanInput();
             u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
             if (kDown & KEY_B) return {};

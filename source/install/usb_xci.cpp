@@ -68,7 +68,7 @@ namespace tin::install::xci
         {
             while (sizeRemaining && !stopThreadsUsbXci)
             {
-                tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000));
+                tmpSizeRead = awoo_usbCommsRead(buf, std::min(sizeRemaining, (u64)0x800000), 5000000000);
                 if (tmpSizeRead == 0) THROW_FORMAT(("inst.usb.error"_lang).c_str());
                 sizeRemaining -= tmpSizeRead;
 

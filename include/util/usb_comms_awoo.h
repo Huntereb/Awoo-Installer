@@ -31,16 +31,16 @@ void awoo_usbCommsExit(void);
 void awoo_usbCommsSetErrorHandling(bool flag);
 
 /// Read data with the default interface.
-size_t awoo_usbCommsRead(void* buffer, size_t size);
+size_t awoo_usbCommsRead(void* buffer, size_t size, u64 timeout);
 
 /// Write data with the default interface.
-size_t awoo_usbCommsWrite(const void* buffer, size_t size);
+size_t awoo_usbCommsWrite(const void* buffer, size_t size, u64 timeout);
 
 /// Same as usbCommsRead except with the specified interface.
-size_t awoo_usbCommsReadEx(void* buffer, size_t size, u32 interface);
+size_t awoo_usbCommsReadEx(void* buffer, size_t size, u32 interface, u64 timeout);
 
 /// Same as usbCommsWrite except with the specified interface.
-size_t awoo_usbCommsWriteEx(const void* buffer, size_t size, u32 interface);
+size_t awoo_usbCommsWriteEx(const void* buffer, size_t size, u32 interface, u64 timeout);
 
 #ifdef __cplusplus
 }

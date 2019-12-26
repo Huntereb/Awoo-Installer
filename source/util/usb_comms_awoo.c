@@ -33,7 +33,7 @@ static Result _usbCommsInterfaceInit1x(u32 intf_ind, const awoo_UsbCommsInterfac
 static Result _usbCommsInterfaceInit5x(u32 intf_ind, const awoo_UsbCommsInterfaceInfo *info);
 static Result _usbCommsInterfaceInit(u32 intf_ind, const awoo_UsbCommsInterfaceInfo *info);
 
-static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, size_t size, size_t *transferredSize);
+static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, size_t size, size_t *transferredSize, u64 timeout);
 
 static void _usbCommsUpdateInterfaceDescriptor(struct usb_interface_descriptor *desc, const awoo_UsbCommsInterfaceInfo *info) {
     if (info != NULL) {
@@ -397,7 +397,7 @@ void awoo_usbCommsSetErrorHandling(bool flag) {
     g_usbCommsErrorHandling = flag;
 }
 
-static Result _usbCommsRead(usbCommsInterface *interface, void* buffer, size_t size, size_t *transferredSize)
+static Result _usbCommsRead(usbCommsInterface *interface, void* buffer, size_t size, size_t *transferredSize, u64 timeout)
 {
     Result rc=0;
     u32 urbId=0;
@@ -410,7 +410,7 @@ static Result _usbCommsRead(usbCommsInterface *interface, void* buffer, size_t s
     UsbDsReportData reportdata;
 
     //Makes sure endpoints are ready for data-transfer / wait for init if needed.
-    rc = usbDsWaitReady(5000000000);
+    rc = usbDsWaitReady(timeout);
     if (R_FAILED(rc)) return rc;
 
     while(size)
@@ -438,8 +438,7 @@ static Result _usbCommsRead(usbCommsInterface *interface, void* buffer, size_t s
         rc = usbDsEndpoint_PostBufferAsync(interface->endpoint_out, transfer_buffer, chunksize, &urbId);
         if (R_FAILED(rc)) return rc;
         //Wait for the transfer to finish.
-        if (size < 0x1000) rc = eventWait(&interface->endpoint_out->CompletionEvent, 2000000000);
-        else rc = eventWait(&interface->endpoint_out->CompletionEvent, 5000000000);
+        rc = eventWait(&interface->endpoint_out->CompletionEvent, timeout);
         if (R_FAILED(rc))
         {
             usbDsEndpoint_Cancel(interface->endpoint_out);
@@ -470,7 +469,7 @@ static Result _usbCommsRead(usbCommsInterface *interface, void* buffer, size_t s
     return rc;
 }
 
-static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, size_t size, size_t *transferredSize)
+static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, size_t size, size_t *transferredSize, u64 timeout)
 {
     Result rc=0;
     u32 urbId=0;
@@ -482,7 +481,7 @@ static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, s
     UsbDsReportData reportdata;
 
     //Makes sure endpoints are ready for data-transfer / wait for init if needed.
-    rc = usbDsWaitReady(5000000000);
+    rc = usbDsWaitReady(timeout);
     if (R_FAILED(rc)) return rc;
 
     while(size)
@@ -509,8 +508,7 @@ static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, s
         if(R_FAILED(rc))return rc;
 
         //Wait for the transfer to finish.
-        if (size < 0x1000) rc = eventWait(&interface->endpoint_in->CompletionEvent, 2000000000);
-        else rc = eventWait(&interface->endpoint_in->CompletionEvent, 5000000000);
+        rc = eventWait(&interface->endpoint_in->CompletionEvent, timeout);
         if (R_FAILED(rc))
         {
             usbDsEndpoint_Cancel(interface->endpoint_in);
@@ -541,7 +539,7 @@ static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, s
     return rc;
 }
 
-size_t awoo_usbCommsReadEx(void* buffer, size_t size, u32 interface)
+size_t awoo_usbCommsReadEx(void* buffer, size_t size, u32 interface, u64 timeout)
 {
     size_t transferredSize=0;
     Result rc;
@@ -556,19 +554,19 @@ size_t awoo_usbCommsReadEx(void* buffer, size_t size, u32 interface)
     if (!initialized) return 0;
     
     rwlockWriteLock(&inter->lock_in);
-    rc = _usbCommsRead(&g_usbCommsInterfaces[interface], buffer, size, &transferredSize);
+    rc = _usbCommsRead(&g_usbCommsInterfaces[interface], buffer, size, &transferredSize, timeout);
     rwlockWriteUnlock(&inter->lock_in);
     if (R_SUCCEEDED(rc)) return transferredSize;
     else if (R_FAILED(rc)) return 0;
     return 0;
 }
 
-size_t awoo_usbCommsRead(void* buffer, size_t size)
+size_t awoo_usbCommsRead(void* buffer, size_t size, u64 timeout)
 {
-    return awoo_usbCommsReadEx(buffer, size, 0);
+    return awoo_usbCommsReadEx(buffer, size, 0, timeout);
 }
 
-size_t awoo_usbCommsWriteEx(const void* buffer, size_t size, u32 interface)
+size_t awoo_usbCommsWriteEx(const void* buffer, size_t size, u32 interface, u64 timeout)
 {
     size_t transferredSize=0;
     Result rc;
@@ -583,15 +581,15 @@ size_t awoo_usbCommsWriteEx(const void* buffer, size_t size, u32 interface)
     if (!initialized) return 0;
 
     rwlockWriteLock(&inter->lock_in);
-    rc = _usbCommsWrite(&g_usbCommsInterfaces[interface], buffer, size, &transferredSize);
+    rc = _usbCommsWrite(&g_usbCommsInterfaces[interface], buffer, size, &transferredSize, timeout);
     rwlockWriteUnlock(&inter->lock_in);
     if (R_SUCCEEDED(rc)) return transferredSize;
     else if (R_FAILED(rc)) return 0;
     return 0;
 }
 
-size_t awoo_usbCommsWrite(const void* buffer, size_t size)
+size_t awoo_usbCommsWrite(const void* buffer, size_t size, u64 timeout)
 {
-    return awoo_usbCommsWriteEx(buffer, size, 0);
+    return awoo_usbCommsWriteEx(buffer, size, 0, timeout);
 }
 

@@ -54,6 +54,6 @@ namespace tin::util
             static USBCmdHeader SendFileRangeCmd(std::string nspName, u64 offset, u64 size);
     };
 
-    size_t USBRead(void* out, size_t len);
-    size_t USBWrite(const void* in, size_t len);
+    size_t USBRead(void* out, size_t len, u64 timeout = 5000000000);
+    size_t USBWrite(const void* in, size_t len, u64 timeout = 5000000000);
 }

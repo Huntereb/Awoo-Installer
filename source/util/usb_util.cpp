@@ -69,7 +69,7 @@ namespace tin::util
         return responseHeader;
     }
 
-    size_t USBRead(void* out, size_t len)
+    size_t USBRead(void* out, size_t len, u64 timeout)
     {
         u8* tmpBuf = (u8*)out;
         size_t sizeRemaining = len;
@@ -77,7 +77,7 @@ namespace tin::util
 
         while (sizeRemaining)
         {
-            tmpSizeRead = awoo_usbCommsRead(tmpBuf, sizeRemaining);
+            tmpSizeRead = awoo_usbCommsRead(tmpBuf, sizeRemaining, timeout);
             if (tmpSizeRead == 0) return 0;
             tmpBuf += tmpSizeRead;
             sizeRemaining -= tmpSizeRead;
@@ -86,7 +86,7 @@ namespace tin::util
         return len;
     }
 
-    size_t USBWrite(const void* in, size_t len)
+    size_t USBWrite(const void* in, size_t len, u64 timeout)
     {
         const u8 *bufptr = (const u8 *)in;
         size_t cursize = len;
@@ -94,7 +94,7 @@ namespace tin::util
 
         while (cursize)
         {
-            tmpsize = awoo_usbCommsWrite(bufptr, cursize);
+            tmpsize = awoo_usbCommsWrite(bufptr, cursize, timeout);
             if (tmpsize == 0) return 0;
             bufptr += tmpsize;
             cursize -= tmpsize;
