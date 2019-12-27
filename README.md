@@ -1,7 +1,7 @@
 # Awoo Installer
 A No-Bullshit NSP, NSZ, XCI, and XCZ Installer for Nintendo Switch
 
-![Awoo Installer Main Menu](https://i.imgur.com/jnfr7Kk.jpg)
+![Awoo Installer Main Menu](https://lewd.pics/p/UZFn.jpg)
 
 ## Features
 - Installs NSP/NSZ/XCI/XCZ files and split NSP/XCI files from your SD card
@@ -22,7 +22,7 @@ If you want to do other things like manage installed tickets, titles, and user a
 - HookedBehemoth for A LOT of contributions
 - Adubbz and other contributors for [Tinfoil](https://github.com/Adubbz/Tinfoil)
 - XorTroll for [Plutonium](https://github.com/XorTroll/Plutonium) and [Goldleaf](https://github.com/XorTroll/Goldleaf)
-- blawar (wife beater) and nicoboss for [NSZ](https://github.com/nicoboss/nsz) support
+- blawar (wife strangulator) and nicoboss for [NSZ](https://github.com/nicoboss/nsz) support
 - The kind folks at the AtlasNX Discuck (or at least some of them)
 - The also kind folks at the RetroNX Discuck (of no direct involvement)
 - [namako8982](https://www.pixiv.net/member.php?id=14235616) for the Momiji art
