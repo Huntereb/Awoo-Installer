@@ -53,8 +53,6 @@ namespace nspInstStuff {
         inst::ui::instPage::loadInstallScreen();
         bool nspInstalled = true;
         NcmStorageId m_destStorageId = NcmStorageId_SdCard;
-        std::vector<std::string> filesToBeRenamed = {};
-        std::vector<std::string> oldNamesOfFiles = {};
 
         if (whereToInstall) m_destStorageId = NcmStorageId_BuiltInUser;
         unsigned int titleItr;
@@ -104,13 +102,6 @@ namespace nspInstStuff {
             inst::util::setClockSpeed(0, previousClockValues[0]);
             inst::util::setClockSpeed(1, previousClockValues[1]);
             inst::util::setClockSpeed(2, previousClockValues[2]);
-        }
-
-        for (unsigned int i = 0; i < filesToBeRenamed.size(); i++) {
-            if (ourTitleList.size() == 1) ourTitleList[0] = oldNamesOfFiles[i];
-            if (std::filesystem::exists(filesToBeRenamed[i])) {
-                rename(filesToBeRenamed[i].c_str(), oldNamesOfFiles[i].c_str());
-            }
         }
 
         if(nspInstalled) {
