@@ -25,7 +25,7 @@
         },
         "applet": {
             "title": "Applet Mode не поддерживается",
-            "desc": "В Awoo Installer могут возникать проблемы когда и если он запущен в режиме апплета.\nЕсли у вас есть трудности, пожалуйста запустите приложение через установленную игру\n(зажмите R при запуске) или через форвардер!"
+            "desc": "В Awoo Installer могут возникать проблемы когда и если он запущен в режиме апплета.\nЕсли у вас есть трудности, пожалуйста запустите приложение через установленную игру\n(зажмите R при запуске)!"
         },
         "buttons": "\ue0e0 Выбрать    \ue0e1 Выход "
     },
@@ -175,12 +175,12 @@
         },
         "credits": {
             "title": "Выражаем благодарность следующим людям:",
-            "desc": "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife beater) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka"
+            "desc": "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife strangulator) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka"
         },
         "language": {
         "title": "Выбор языка",
         "desc": "После изменения языка приложение будет закрыто. Нажмите B для отмены.",
-        "system_language": "Системный (по-умолчанию)"
+        "system_language": "Системный"
         },
         "title": "Меняйте настройки Awoo Installer!",
         "buttons": "\ue0e0 Выбрать/Изменить    \ue0e1 Отмена "
