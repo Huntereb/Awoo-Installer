@@ -22,7 +22,7 @@ SOFTWARE.
 
 #pragma once
 #include <filesystem>
-
+#include <vector>
 namespace nspInstStuff {
     void installNspFromFile(std::vector<std::filesystem::path> ourNspList, int whereToInstall);
 }

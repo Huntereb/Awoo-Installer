@@ -43,7 +43,7 @@ namespace inst::ui {
         if (clearItems) this->selectedTitles = {};
         this->menu->ClearItems();
         for (auto& url: this->ourTitles) {
-            pu::String itm = inst::util::shortenString(inst::util::formatUrlString(url), 56, true);
+            std::string itm = inst::util::shortenString(inst::util::formatUrlString(url), 56, true);
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/images/icons/checkbox-blank-outline.png");

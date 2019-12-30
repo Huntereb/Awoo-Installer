@@ -27,7 +27,7 @@
             "title": "Applet-Modus wird nicht unterstützt",
             "desc": "Es kann zu Problemen bei der Verwendung des Awoo-Installers im Applet-Modus kommen.\nWenn du Probleme hast, wechsele bitte dazu über, den Awoo Installer über einen installierten Titel zu starten (halte R gedrückt, während du ein Spiel startest)!"
         },
-        "buttons": "\ue0e0 Auswählen    \ue0e1 Beenden "
+        "buttons": "\ue0e0 Auswählen    \ue0e1 Beenden"
     },
     "inst": {
         "net": {
@@ -55,20 +55,20 @@
             "failed": "Ferninstallation fehlgeschlagen!",
             "transfer_interput": "Bei der Dateiübertragung ist ein Fehler aufgetreten.",
             "source_string": " über das lokale Netzwerk",
-            "buttons": "\ue0e3 Installation über das Internet    \ue0e2 Hilfe    \ue0e1 Abbrechen ",
-            "buttons1": "\ue0e0 Datei auswählen    \ue0e3 Alle auswählen    \ue0ef Datei(en) auswählen    \ue0e1 Abbrechen "
+            "buttons": "\ue0e3 Installation über das Internet    \ue0e2 Hilfe    \ue0e1 Abbrechen",
+            "buttons1": "\ue0e0 Datei auswählen    \ue0e3 Alle auswählen    \ue0ef Datei(en) installieren    \ue0e1 Abbrechen"
         },
         "sd": {
             "help": {
                 "title": "Hilfe",
-                "desc": "Kopiere NSP, NSZ, XCI, or XCZ Dateien auf deine SD Karte, stöbere nach ihnen und wähle"
+                "desc": "Kopiere NSP, NSZ, XCI, or XCZ Dateien auf deine SD Karte,\nstöbere nach ihnen und wähle die zu installierenden Titel aus und drücke dann \ue0b3."
             },
-            "top_info": "Wähle Dateien zur Installation vom Server aus und drücke dann \ue0b3 !",
+            "top_info": "Wähle Dateien zur Installation vom Server aus und drücke dann \ue0b3!",
             "source_string": " von der SD Karte",
             "delete_info": " installiert! Sollen wir sie von der SD Karte löschen?",
             "delete_info_multi": " Dateien erfolgreich installiert! Sollen wir sie von der SD Karte löschen?",
             "delete_desc": "Die originalen Dateien werden nach der Installation nicht mehr benötigt",
-            "buttons": "\ue0e0 Datei auswählen    \ue0e3 Alle auswählen    \ue0ef Datei(en) auswählen    \ue0e1 Abbrechen "
+            "buttons": "\ue0e0 Datei auswählen    \ue0e3 Alle auswählen    \ue0ef Datei(en) installieren    \ue0e1 Abbrechen"
         },
         "usb": {
             "help": {
@@ -79,8 +79,8 @@
             "top_info2": "Wähle Dateien zur Installation aus und drücke dann \ue0b3 !",
             "error": "USB Übertragung ist zeitlich abgelaufen oder fehlgeschlagen",
             "source_string": " über USB",
-            "buttons": "\ue0e2 (Halten) Hilfe    \ue0e1 (Halte) Abbrechen ",
-            "buttons2": "\ue0e0 Datei auswählen    \ue0e3 Alle auswählen    \ue0ef Datei(en) auswählen    \ue0e1 Abbrechen "
+            "buttons": "\ue0e2 (Halten) Hilfe    \ue0e1 (Halte) Abbrechen",
+            "buttons2": "\ue0e0 Datei auswählen    \ue0e3 Alle auswählen    \ue0ef Datei(en) installieren    \ue0e1 Abbrechen"
         },
         "target": {
             "desc0": "Wo soll ",

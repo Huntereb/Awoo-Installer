@@ -27,7 +27,7 @@
             "title": "Applet Mode not supported",
             "desc": "You may experience issues using Awoo Installer in Applet Mode. If you do\nhave problems, please switch to running Awoo Installer over an installed\ntitle (hold R while starting a game)!"
         },
-        "buttons": "\ue0e0 Select    \ue0e1 Exit "
+        "buttons": "\ue0e0 Select    \ue0e1 Exit"
     },
     "inst": {
         "net": {
@@ -55,8 +55,8 @@
             "failed": "Failed to perform remote install!",
             "transfer_interput": "An error occured during data transfer. Check your network connection.",
             "source_string": " over local network",
-            "buttons": "\ue0e3 Install Over Internet    \ue0e2 Help    \ue0e1 Cancel ",
-            "buttons1": "\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel "
+            "buttons": "\ue0e3 Install Over Internet    \ue0e2 Help    \ue0e1 Cancel",
+            "buttons1": "\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel"
         },
         "sd": {
             "help": {
@@ -68,7 +68,7 @@
             "delete_info": " installed! Delete it from the SD card?",
             "delete_info_multi": " files installed successfully! Delete them from the SD card?",
             "delete_desc": "The original files aren't needed anymore after they've been installed",
-            "buttons": "\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e2 Help    \ue0e1 Cancel "
+            "buttons": "\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e2 Help    \ue0e1 Cancel"
         },
         "usb": {
             "help": {
@@ -79,8 +79,8 @@
             "top_info2": "Select what files you want to install over USB, then press the Plus button!",
             "error": "USB transfer timed out or failed",
             "source_string": " over USB",
-            "buttons": "\ue0e2 (Hold) Help    \ue0e1 (Hold) Cancel ",
-            "buttons2": "\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel "
+            "buttons": "\ue0e2 (Hold) Help    \ue0e1 (Hold) Cancel",
+            "buttons2": "\ue0e0 Select File    \ue0e3 Select All    \ue0ef Install File(s)    \ue0e1 Cancel"
         },
         "target": {
             "desc0": "Where should ",
@@ -183,7 +183,7 @@
             "system_language": "System default"
         },
         "title": "Change Awoo Installer's settings!",
-        "buttons": "\ue0e0 Select/Change    \ue0e1 Cancel "
+        "buttons": "\ue0e0 Select/Change    \ue0e1 Cancel"
     },
     "common": {
         "ok": "OK",

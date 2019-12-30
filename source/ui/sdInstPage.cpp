@@ -52,7 +52,7 @@ namespace inst::ui {
             return;
         }
         if (this->currentDir != "sdmc:/") {
-            pu::String itm = "..";
+            std::string itm = "..";
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/images/icons/folder-upload.png");
@@ -60,14 +60,14 @@ namespace inst::ui {
         }
         for (auto& file: this->ourDirectories) {
             if (file == "..") break;
-            pu::String itm = file.filename().string();
+            std::string itm = file.filename().string();
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/images/icons/folder.png");
             this->menu->AddItem(ourEntry);
         }
         for (auto& file: this->ourFiles) {
-            pu::String itm = file.filename().string();
+            std::string itm = file.filename().string();
             auto ourEntry = pu::ui::elm::MenuItem::New(itm);
             ourEntry->SetColor(COLOR("#FFFFFFFF"));
             ourEntry->SetIcon("romfs:/images/icons/checkbox-blank-outline.png");
