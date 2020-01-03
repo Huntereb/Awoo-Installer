@@ -121,7 +121,7 @@ namespace inst::ui {
             mainApp->CallForRender(); // If we re-render a few times during this process the main screen won't flicker
             sourceString = "inst.net.source_string"_lang;
             this->pageInfoText->SetText("inst.net.top_info"_lang);
-            this->butText->SetText("inst.net.buttons"_lang);
+            this->butText->SetText("inst.net.buttons1"_lang);
             this->drawMenuItems(true);
             this->menu->SetSelectedIndex(0);
             mainApp->CallForRender();
