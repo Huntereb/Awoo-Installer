@@ -16,7 +16,7 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::vector<pu::String> languageStrings = {"English", "Deutsch", "Русский"};
+    std::vector<std::string> languageStrings = {"English", "Deutsch", "Русский"};
 
     optionsPage::optionsPage() : Layout::Layout() {
         this->SetBackgroundColor(COLOR("#670000FF"));
@@ -78,11 +78,11 @@ namespace inst::ui {
         switch (ourLangCode) {
             case 1:
             case 12:
-                return languageStrings[0].AsUTF8();
+                return languageStrings[0];
             case 3:
-                return languageStrings[1].AsUTF8();
+                return languageStrings[1];
             case 10:
-                return languageStrings[2].AsUTF8();
+                return languageStrings[2];
             default:
                 return "options.language.system_language"_lang;
         }
@@ -136,7 +136,7 @@ namespace inst::ui {
             std::string keyboardResult;
             int rc;
             std::vector<std::string> downloadUrl;
-            std::vector<pu::String> languageList;
+            std::vector<std::string> languageList;
             switch (this->menu->GetSelectedIndex()) {
                 case 0:
                     inst::config::ignoreReqVers = !inst::config::ignoreReqVers;

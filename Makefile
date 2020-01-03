@@ -69,7 +69,7 @@ LIBS	:=  -lcurl -lz -lmbedtls -lmbedcrypto -lmbedx509 -lminizip -lnx -lstdc++fs 
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS) $(LIBNX) $(CURDIR)/include/Plutonium/Plutonium/Output-switch
+LIBDIRS	:= $(PORTLIBS) $(LIBNX) $(CURDIR)/include/Plutonium/Plutonium/Output
 
 
 #---------------------------------------------------------------------------------
@@ -166,8 +166,8 @@ all: $(BUILD)
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	#comment this out if you are hacking on the code or compilation will take for ever
-	$(MAKE) --no-print-directory -C include/Plutonium -f Makefile lib-switch
+	#comment this out if you are hacking on the code or compilation will take forever
+	#$(MAKE) --no-print-directory -C include/Plutonium -f Makefile lib
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
