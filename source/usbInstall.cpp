@@ -70,9 +70,8 @@ namespace usbInstStuff {
         // Split the string up into individual title names
         std::stringstream titleNamesStream(titleListBuf.get());
         std::string segment;
-        while (std::getline(titleNamesStream, segment, '\n')) {
-            titleNames.push_back(segment);
-        }
+        while (std::getline(titleNamesStream, segment, '\n')) titleNames.push_back(segment);
+        std::sort(titleNames.begin(), titleNames.end(), inst::util::ignoreCaseCompare);
 
         return titleNames;
     }

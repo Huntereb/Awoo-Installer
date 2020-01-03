@@ -282,6 +282,7 @@ namespace netInstStuff{
                     std::string segment;
 
                     while (std::getline(urlStream, segment, '\n')) urls.push_back(segment);
+                    std::sort(urls.begin(), urls.end(), inst::util::ignoreCaseCompare);
 
                     break;
                 }
