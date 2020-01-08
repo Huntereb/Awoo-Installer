@@ -22,6 +22,7 @@ SOFTWARE.
 
 #include <string>
 #include <thread>
+#include <malloc.h>
 #include "usbInstall.hpp"
 #include "install/usb_nsp.hpp"
 #include "install/install_nsp.hpp"
@@ -48,10 +49,19 @@ namespace usbInstStuff {
         u64 padding;
     } PACKED;
 
+    int bufferData(void* buf, size_t size, u64 timeout = 5000000000)
+    {
+        u8* tempBuffer = (u8*)memalign(0x1000, size);
+        if (tin::util::USBRead(tempBuffer, size, timeout) == 0) return 0;
+        memcpy(buf, tempBuffer, size);
+        free(tempBuffer);
+        return size;
+    }
+
     std::vector<std::string> OnSelected() {
         TUSHeader header;
         while(true) {
-            if (tin::util::USBRead(&header, sizeof(TUSHeader), 500000000) != 0) break;
+            if (bufferData(&header, sizeof(TUSHeader), 500000000) != 0) break;
             hidScanInput();
             u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
             if (kDown & KEY_B) return {};
@@ -61,16 +71,17 @@ namespace usbInstStuff {
 
         if (header.magic != 0x304C5554) return {};
 
-        auto titleListBuf = std::make_unique<char[]>(header.titleListSize+1);
         std::vector<std::string> titleNames;
-        memset(titleListBuf.get(), 0, header.titleListSize+1);
+        char* titleNameBuffer = (char*)memalign(0x1000, header.titleListSize + 1);
+        memset(titleNameBuffer, 0, header.titleListSize + 1);
 
-        tin::util::USBRead(titleListBuf.get(), header.titleListSize);
+        tin::util::USBRead(titleNameBuffer, header.titleListSize);
 
         // Split the string up into individual title names
-        std::stringstream titleNamesStream(titleListBuf.get());
+        std::stringstream titleNamesStream(titleNameBuffer);
         std::string segment;
         while (std::getline(titleNamesStream, segment, '\n')) titleNames.push_back(segment);
+        free(titleNameBuffer);
         std::sort(titleNames.begin(), titleNames.end(), inst::util::ignoreCaseCompare);
 
         return titleNames;
