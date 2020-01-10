@@ -75,7 +75,7 @@ namespace usbInstStuff {
         char* titleNameBuffer = (char*)memalign(0x1000, header.titleListSize + 1);
         memset(titleNameBuffer, 0, header.titleListSize + 1);
 
-        tin::util::USBRead(titleNameBuffer, header.titleListSize);
+        tin::util::USBRead(titleNameBuffer, header.titleListSize, 10000000000);
 
         // Split the string up into individual title names
         std::stringstream titleNamesStream(titleNameBuffer);
