@@ -2,8 +2,8 @@
     "main":{
         "menu": {
             "sd": "Installer depuis la carte SD",
-            "net": "Install depuis un LAN ou internet",
-            "usb": "Install depuis l´USB",
+            "net": "Installer depuis un LAN ou internet",
+            "usb": "Installer depuis l´USB",
             "sig": "Gérer les patchs de signatures",
             "set": " Paramètres",
             "exit": " Quitter"
