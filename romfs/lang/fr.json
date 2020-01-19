@@ -155,7 +155,7 @@
         },
         "nca_warn": {
             "title": "Avertissement!",
-            "desc": "Certains fichiers installables peuvent contenir des contenus malveillants ! Ne désactivez cette fonction\nque si vous êtes absolument certain que le logiciel que vous allez installer est\ndigne de confiance !\n\nVoulez-vous toujours désactiver la vérification de la signature des NCA ?"`
+            "desc": "Certains fichiers installables peuvent contenir des contenus malveillants ! Ne désactivez cette fonction\nque si vous êtes absolument certain que le logiciel que vous allez installer est\ndigne de confiance !\n\nVoulez-vous toujours désactiver la vérification de la signature des NCA ?",
             "opt1": "Oui, je veux brick ma Switch"
         },
         "sig_hint": "Entrez l'URL pour obtenir les patches de signature",
