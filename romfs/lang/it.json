@@ -1,0 +1,196 @@
+{
+    "main":{
+        "menu": {
+            "sd": "Installa dalla SD",
+            "net": "Installa via LAN o da internet",
+            "usb": "Installa via USB",
+            "sig": "Gestisci le SigPatches",
+            "set": "Impostazioni",
+            "exit": "Esci"
+        },
+        "net": {
+            "title": "Connessione alla rete non disponibile",
+            "desc": "Controlla che la modalità aereo sia disattivata e che tu sia connesso ad una rete."
+        },
+        "usb": {
+            "warn": {
+                "title": "Attenzione!",
+                "desc": "L'installazione USB potrebbe non funzionare su alcuni dispositivi e in alcune configurazioni.\nSe stai incontrando dei problemi con l'installazione USB, non disperare!\nÈ consigliato usare NS-USBloader per le installazioni via USB, mentre\nLAN/Internet per le installazioni remote, specie\nquando si utilizza un adattatore ethernet!\n\nSei stato avvertito...",
+                "opt1": "Non dirmelo di nuovo!"
+            },
+            "error": {
+                "title": "Nessuna connessione USB rilevata",
+                "desc": "Collega a un dispositivo compatibile per installare via USB"
+            }
+        },
+        "applet": {
+            "title": "Applet Mode non è supportata",
+            "desc": "Puoi incontrare problemi utilizzando Awoo Installer in Applet Mode. Se\nriscontri problemi, ti prego di utilizzare Awoo Installer avviandolo attraverso un gioco\ngià installato (tieni premuto R mentre avvii un gioco)!"
+        },
+        "buttons": "\ue0e0 Seleziona    \ue0e1 Esci"
+    },
+    "inst": {
+        "net": {
+            "help": {
+                "title": "Aiuto",
+                "desc": "I file possono essere installati via remoto da altri dispositivi utilizzando programmi come\nNS-USBloader in modialità \"Tinfoil\". Per inviare file, apri uno\ndi questi software sul tuo PC o sul tuo smartphone, inserisci\nl'indirizzo IP (mostrato sullo schermo), seleziona i file e poi inviali alla\nconsole! Se il software che usi non ti permette di selezionare file\nspecifici, prova a cambiare l'estensione del file in qualcosa che venga accettato dal software.\nAwoo Installer non legge l'estensione del file durante l'installazione via internet!\n\nSe proprio non riesci, copia i file nella SD e seleziona\nl'opzione \"Installa dalla SD\" dal menù principale!"
+            },
+            "src": {
+                "title": "Da dove vuoi installare?",
+                "opt0": "URL",
+                "opt1": "Google Drive"
+            },
+            "url": {
+                "hint": "Inserisci l'URL del file",
+                "invalid": "L'URL specificato non è valido!",
+                "source_string": " da URL"
+            },
+            "gdrive": {
+                "hint": "Inserisci l'ID di un file pubblico di Google Drive",
+                "alt_name": "File Google Drive",
+                "source_string": " da Google Drive"
+            },
+            "top_info": "Seleziona quali file vuoi installare dal server, poi premi il tasto Più!",
+            "top_info1": "Aspettando una connnessione... L'indirizzo IP è: ",
+            "failed": "Impossibile eseguire l'installazione remota!",
+            "transfer_interput": "Si è verificato un errore durante il trasferimento dei dati. Controlla la tua connessione.",
+            "source_string": " via rete locale",
+            "buttons": "\ue0e3 Installa via internet    \ue0e2 Aiuto    \ue0e1 Annulla",
+            "buttons1": "\ue0e0 Seleziona File    \ue0e3 Seleziona tutto    \ue0ef Installa i File    \ue0e1 Annulla"
+        },
+        "sd": {
+            "help": {
+                "title": "Aiuto",
+                "desc": "Copia i tuoi file NSP, NSZ, XCI, o XCZ nella SD, cercali e\nseleziona quelli che vuoi installare, poi premi Il tasto Più."
+            },
+            "top_info": "Seleziona quali file vuoi installare, poi premi Il tasto Più!",
+            "source_string": " dalla SD",
+            "delete_info": " installato! Cancellarlo dalla SD?",
+            "delete_info_multi": " file installati correttamente! Cancellarli dalla SD?",
+            "delete_desc": "I file originali non sono più necessari dopo averli installati",
+            "buttons": "\ue0e0 Seleziona File    \ue0e3 Seleziona tutto    \ue0ef Installa i File    \ue0e2 Aiuto    \ue0e1 Annulla"
+        },
+        "usb": {
+            "help": {
+                "title": "Aiuto",
+                "desc": "I file possono essere installati via USB da altri dispositivi utilizzando programmi come\nNS-USBloader in modalità \"Tinfoil\". Per inviare i file, apri uno di\nquesti software sul tuo PC, seleziona i file, poi mandali\nalla console!\n\nSfortunatamente l'installazione via USB richiede configurazioni specifiche in certe\npiattaforme, che possono non funzionare correttamente alle volte. Se proprio non riesci,\ndai una possibilità all'installazione via LAN/internet, o copia i file nella SD e\nseleziona l'opzione \"Installa dalla SD\" nel menù principale!"
+            },
+            "top_info": "Connessione USB avvenuta correttamete! Aspetto che la lista dei file venga inviata...",
+            "top_info2": "Seleziona quali file vuoi installare via USB, poi premi il tasto Più!",
+            "error": "Trasferimento USB scaduto o fallito",
+            "source_string": " via USB",
+            "buttons": "\ue0e2 (Tieni premuto) Aiuto    \ue0e1 (Tieni premuto) Annulla",
+            "buttons2": "\ue0e0 Seleziona File    \ue0e3 Seleziona tutto    \ue0ef Installa i File    \ue0e1 Annulla"
+        },
+        "target": {
+            "desc0": "Dove dovrebbe ",
+            "desc1": " essere installato?",
+            "desc00": "Dove dovrebbero essere ",
+            "desc01": " instalalti i file selezionati?",
+            "opt0": "SD",
+            "opt1": "Memoria interna"
+        },
+        "info_page": {
+            "top_info0": "Sto installando ",
+            "preparing": "Preparando l'installazione...",
+            "failed": "Installazione fallita ",
+            "failed_desc": "I contenuti parzialmente installati possono essere rimossi dalle Impostazioni di sistema.",
+            "complete": "Installazione completa",
+            "desc0": " file installati correttamente!",
+            "desc1": " installato!",
+            "downloading": "Sto scaricando ",
+            "at": " in "
+        },
+        "nca_verify": {
+            "title": "Rilevata firma NCA non valida!",
+            "desc": "Software firmati impropriamente dovrebbero essere installati solo da fonti\nsicure. I file che contengono repack di cartucce e DLC mostreranno sempre\nquesto avviso. Puoi disabilitarlo dalle impostazioni di Awoo Installer.\n\nSei sicuro di voler continuare l'installazione?",
+            "opt1": "Sì, comprendo il rischio",
+            "error": "Il file NCA seguente non è firmato correttamente: "
+        },
+        "finished": [
+            "Goditi i tuoi \"backup legali\"!",
+            "Sono sicuro che dopo che lo proverai, ti divertirai tantissimo a comprarlo!",
+            "Hai comprato il giochino, vero? Nintendo-san ti linglazia pel il tuo acquisto!",
+            "Bypassare il DRM è fantastico, vero?",
+            "Probabilmente hai salvato sei alberi non comprando il gioco! Tutta quella plastica va da qualche parte!",
+            "I ninja di Nintendo sono stati mandati alla tua attuale posizione.",
+            "E non abbiamo nemmeno dovuto farti mandare giù un'ideologia politica per farti arrivare qui!"
+        ]
+    },
+    "sig": {
+        "install": "Installa",
+        "uninstall": "Disinstalla",
+        "update": "Aggiorna",
+        "version_text": "Le SigPatches sono già installate per la versione corrente di HOS ",
+        "title0": "Installare le SigPatches?",
+        "desc0": "Le SigPatches sono necessarie per installare e per giocare ai software ufficiali.",
+        "backup_failed": "Non è stato possibile effettuare il backup del file \"patches.ini\" di Hekate! Installare comunque?",
+        "backup_failed_desc": "Se non usi Hekate puoi ignorare questo avviso.",
+        "download_failed": "Non è stato possibile scaricare le SigPatches",
+        "download_failed_desc": "Puoi aver utilizzato una fonte non valida nelle impostazioni di Awoo Installer,\no la fonte potrebbe non essere raggiungibile al momento.",
+        "version_text2": "Le SigPatches sono state aggiornate per la versione corrente di HOS ",
+        "install_complete": "Installazione completata!",
+        "complete_desc": "Riavvia la console per applicare i cambiamenti",
+        "restart": "Riavvia",
+        "later": "Lo farò dopo",
+        "extract_failed": "Non è stato possibile estrarre i file!",
+        "restore_failed": "Impossibile ripristinare il file \"patches.ini\" originale! Continuare a disinstallare?",
+        "uninstall_complete": "Disinstallazione completa",
+        "remove_failed": "Impossibile rimuovere le SigPatches",
+        "remove_failed_desc": "I file potrebbero essere stati rinominati o cancellati",
+        "generic_error": "Impossibile installare le SigPatches!"
+    },
+    "options": {
+        "menu_items": {
+            "ignore_firm": "Ignora la versione minima del firmware richiesta dai titoli",
+            "nca_verify": "Verifica le firme NCA prima dell'installazione",
+            "boost_mode": "Abilita la \"boost mode\" durante le installazioni",
+            "ask_delete": "Chiedi di cancellare i file originale dopo l'installazione",
+            "auto_update": "Controlla aggiornamenti di Awoo Installer automaticamente",
+            "gay_option": "Rimuovi anime",
+            "sig_url": "Fonte URL SigPatches: ",
+            "language": "Lingua: ",
+            "check_update": "Controlla aggiornamenti di Awoo Installer ora",
+            "credits": "Crediti"
+        },
+        "nca_warn": {
+            "title": "Attenzione!",
+            "desc": "Alcuni file potrebbero avere contenuti malevoli! Disabilita questa\nopzione solo se sei assolutamente certi che i file che si stanno installando\nsono sicuri!\n\nVuoi ancora disabilitare la verifica della firma NCA?",
+            "opt1": "Sì, sono sicuro!"
+        },
+        "sig_hint": "Inserisci l'URL da cui ottenere le SigPatches",
+        "update": {
+            "title": "Aggiornamento disponibile",
+            "desc0": "Awoo Installer ",
+            "desc1": " è disponibile adesso! Pronto per aggiornare?",
+            "opt0": "Aggiorna",
+            "top_info": "Aggiornamento ad Awoo Installer ",
+            "bot_info": "Sto scaricando Awoo Installer ",
+            "bot_info2": "Sto estraendo Awoo Installer ",
+            "complete": "Aggiornamento completato!",
+            "failed": "Aggiornamento fallito!",
+            "end_desc": "Il software verrà chiuso.",
+            "title_check_fail": "Nessun aggiornamento disponibile",
+            "desc_check_fail": "Stai usando l'ultima versione di Awoo Installer!"
+        },
+        "credits": {
+            "title": "Un ringraziamento alle seguenti persone!",
+            "desc": "- HookedBehemoth per UN SACCO di contributi\n- Adubbz ed altra gente for Tinfoil\n- XorTroll per Plutonium e Goldleaf\n- blawar (strangolatore di moglie) e nicoboss per il supporto ai file NSZ\n- I ragazzi del team e discord AtlasNX (o almeno alcuni di loro)\n- I ragazzi del team e discord RetroNX (di nessun coinvolgimento diretto)\n- namako8982 per l'immagine di Momiji\n- TheXzoron per essere un baka"
+        },
+        "language": {
+            "title": "Seleziona la lingua di Awoo Installer",
+            "desc": "Il software verrà chiuso dopo aver cambiato la lingua. Premi B per annullare.",
+            "system_language": "Default di sistema"
+        },
+        "title": "Cambia le impostazioni di Awoo Installer!",
+        "buttons": "\ue0e0 Seleziona/Cambia    \ue0e1 Annulla"
+    },
+    "common": {
+        "ok": "OK",
+        "cancel": "Annulla",
+        "close": "Chiudi",
+        "yes": "Sì",
+        "no": "No",
+        "cancel_desc": "Premi B per annullare"
+    }
+}
