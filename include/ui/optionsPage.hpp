@@ -10,6 +10,7 @@ namespace inst::ui {
             PU_SMART_CTOR(optionsPage)
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             static void askToUpdate(std::vector<std::string> updateInfo);
+            Image::Ref titleImageAnime;
         private:
             TextBlock::Ref butText;
             Rectangle::Ref topRect;

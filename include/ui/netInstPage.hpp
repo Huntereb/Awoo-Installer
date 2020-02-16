@@ -12,6 +12,7 @@ namespace inst::ui {
             void startNetwork();
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
+            Image::Ref titleImageAnime;
         private:
             std::vector<std::string> ourUrls;
             std::vector<std::string> selectedUrls;

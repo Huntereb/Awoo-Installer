@@ -3,6 +3,9 @@
 #include "ui/MainApplication.hpp"
 #include "ui/mainPage.hpp"
 #include "ui/instPage.hpp"
+#include "ui/usbInstPage.hpp"
+#include "ui/netInstPage.hpp"
+#include "ui/sdInstPage.hpp"
 #include "ui/optionsPage.hpp"
 #include "util/util.hpp"
 #include "util/config.hpp"
@@ -25,7 +28,8 @@ namespace inst::ui {
         this->topRect = Rectangle::New(0, 0, 1280, 94, COLOR("#170909FF"));
         this->infoRect = Rectangle::New(0, 95, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
-        this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
+        this->titleImageAnime = Image::New(0, 0, "romfs:/images/logo_anime.png");
+        this->titleImage = Image::New(115, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "options.title"_lang, 30);
@@ -38,6 +42,8 @@ namespace inst::ui {
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->botRect);
+        this->Add(this->titleImageAnime);
+        this->titleImageAnime->SetVisible(!inst::config::gayMode);
         this->Add(this->titleImage);
         this->Add(this->appVersionText);
         this->Add(this->butText);
@@ -175,11 +181,24 @@ namespace inst::ui {
                         inst::config::gayMode = false;
                         mainApp->mainPage->awooImage->SetVisible(true);
                         mainApp->instpage->awooImage->SetVisible(true);
+                        mainApp->usbinstPage->titleImageAnime->SetVisible(true);
+                        mainApp->mainPage->titleImageAnime->SetVisible(true);
+                        mainApp->netinstPage->titleImageAnime->SetVisible(true);
+                        mainApp->optionspage->titleImageAnime->SetVisible(true);
+                        mainApp->instpage->titleImageAnime->SetVisible(true);
+                        mainApp->sdinstPage->titleImageAnime->SetVisible(true);
+
                     }
                     else {
                         inst::config::gayMode = true;
                         mainApp->mainPage->awooImage->SetVisible(false);
                         mainApp->instpage->awooImage->SetVisible(false);
+                        mainApp->usbinstPage->titleImageAnime->SetVisible(false);
+                        mainApp->mainPage->titleImageAnime->SetVisible(false);
+                        mainApp->netinstPage->titleImageAnime->SetVisible(false);
+                        mainApp->optionspage->titleImageAnime->SetVisible(false);
+                        mainApp->instpage->titleImageAnime->SetVisible(false);
+                        mainApp->sdinstPage->titleImageAnime->SetVisible(false);
                     }
                     inst::config::setConfig();
                     this->setMenuText();
