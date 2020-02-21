@@ -14,6 +14,7 @@ namespace inst::ui {
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
             void drawMenuItems(bool clearItems, std::filesystem::path ourPath);
+            Image::Ref titleImageAnime;
         private:
             std::vector<std::filesystem::path> ourDirectories;
             std::vector<std::filesystem::path> ourFiles;

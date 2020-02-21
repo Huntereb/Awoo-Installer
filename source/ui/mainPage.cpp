@@ -40,7 +40,8 @@ namespace inst::ui {
         else this->SetBackgroundImage("romfs:/images/background.jpg");
         this->topRect = Rectangle::New(0, 0, 1280, 94, COLOR("#170909FF"));
         this->botRect = Rectangle::New(0, 659, 1280, 61, COLOR("#17090980"));
-        this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
+        this->titleImageAnime = Image::New(0, 0, "romfs:/images/logo_anime.png");
+        this->titleImage = Image::New(115, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->butText = TextBlock::New(10, 678, "main.buttons"_lang, 24);
@@ -71,6 +72,8 @@ namespace inst::ui {
         this->eggImage = Image::New(410, 190, "romfs:/images/awoos/a8cb40e465dadaf9708c9b1896777ce6.png");
         this->Add(this->topRect);
         this->Add(this->botRect);
+        this->Add(this->titleImageAnime);
+        this->titleImageAnime->SetVisible(!inst::config::gayMode);
         this->Add(this->titleImage);
         this->Add(this->appVersionText);
         this->Add(this->butText);

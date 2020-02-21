@@ -19,7 +19,8 @@ namespace inst::ui {
         this->topRect = Rectangle::New(0, 0, 1280, 94, COLOR("#170909FF"));
         this->infoRect = Rectangle::New(0, 95, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
-        this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
+        this->titleImageAnime = Image::New(0, 0, "romfs:/images/logo_anime.png");
+        this->titleImage = Image::New(115, 0, "romfs:/images/logo.png");
         this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "inst.sd.top_info"_lang, 30);
@@ -32,6 +33,8 @@ namespace inst::ui {
         this->Add(this->topRect);
         this->Add(this->infoRect);
         this->Add(this->botRect);
+        this->Add(this->titleImageAnime);
+        this->titleImageAnime->SetVisible(!inst::config::gayMode);
         this->Add(this->titleImage);
         this->Add(this->appVersionText);
         this->Add(this->butText);
