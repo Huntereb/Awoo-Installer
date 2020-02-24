@@ -15,7 +15,7 @@
         "usb": {
             "warn": {
                 "title": "Warnung!",
-                "desc": "USB installationen funktionieren bei manchen Geräten und\nKonfigurationen nicht einfach so. Falls du Probleme mit USB-Installationen hast,\nreiß dir nicht die Haare aus! Wir empfehlen NS-USBloader für USB-Installationen\noder stattdessen LAN/Internet-Installationen, besonders gepaart mit einem\nEthernet-Adapter.\n\nWir haben dich gewarnt...",
+                "desc": "USB-Installationen funktionieren möglicherweise mit manchen Geräten und\nKonfigurationen nicht. Falls du Probleme mit USB-Installationen hast,\nreiß dir nicht die Haare aus! Wir empfehlen NS-USBloader für USB-Installationen\noder stattdessen LAN/Internet Installationen,\nam besten über einen Ethernet-Adapter verbunden.\n\nWir haben dich gewarnt...",
                 "opt1": "Warnt mich nicht nochmal"
             },
             "error": {
@@ -25,7 +25,7 @@
         },
         "applet": {
             "title": "Applet-Modus wird nicht unterstützt",
-            "desc": "Es kann zu Problemen bei der Verwendung des Awoo-Installers im Applet-Modus kommen.\nWenn du Probleme hast, wechsele bitte dazu über, den Awoo Installer über einen installierten Titel zu starten (halte R gedrückt, während du ein Spiel startest)!"
+            "desc": "Es kann zu Problemen bei der Verwendung des Awoo Installer im Applet-Modus kommen.\nWenn du Probleme hast, starte den Awoo Installer über einen installierten Titel (halte R gedrückt, während du ein Spiel startest)!"
         },
         "buttons": "\ue0e0 Auswählen    \ue0e1 Beenden"
     },
@@ -33,7 +33,7 @@
         "net": {
             "help": {
                 "title": "Hilfe",
-                "desc": "Dateien können von anderen Geräten aus mit Tools wie NS-USBloader im\nTinfoil-Modus installiert werden. Um Dateien an deine Switch zu senden, öffne\neine dieser Programme auf deinem PC oder Mobilgerät, gebe die IP-Adresse\ndeiner Switches ein (auf dem Bildschirm aufgelistet), wähle die Dateien\naus und lade sie dann auf die Konsole hoch! Wenn die von dir verwendete\nSoftware dir nicht erlaubt, bestimmte Dateitypen auszuwählen, versuche,\ndie Erweiterung in etwas umzubenennen, das sie akzeptiert. Der Awoo Installer\nkümmert sich nicht um Dateierweiterungen bei Netzinstallationen!\n\nFalls das nicht klappt, kopiere einfach deine Dateien auf die SD-Karte\nund versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
+                "desc": "Dateien können von anderen Geräten aus mit Tools wie NS-USBloader im\nTinfoil-Modus installiert werden. Um Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät. Gebe die IP-Adresse\ndeiner Switches ein (auf dem Bildschirm aufgelistet), wähle die Dateien\naus und lade sie dann auf die Konsole hoch! Wenn die von dir verwendete\nSoftware dir nicht erlaubt, bestimmte Dateitypen auszuwählen.\nVersuche die Dateiendung in etwas umzubenennen, dass sie akzeptiert. Der Awoo Installer\nprüft keine Dateiendungen bei Netzinstallationen!\n\nFalls das nicht klappt, kopiere einfach deine Dateien auf die SD-Karte\nund versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
             },
             "src": {
                 "title": "Von wo aus willst du installieren?",
@@ -42,7 +42,7 @@
             },
             "url": {
                 "hint": "Gebe eine URL zu einer Datei ein",
-                "invalid": "Die eingegebene URL is ungültig",
+                "invalid": "Die eingegebene URL ist ungültig",
                 "source_string": " per URL"
             },
             "gdrive": {
@@ -51,7 +51,7 @@
                 "source_string": " von Google Drive"
             },
             "top_info": "Wähle Dateien zur Installation vom Server aus und drücke dann \ue0b3 !",
-            "top_info1": "Warte auf eine Verbindung... Die IP Addresse deiner Switch ist: ",
+            "top_info1": "Warte auf eine Verbindung... Die IP Adresse deiner Switch ist: ",
             "failed": "Ferninstallation fehlgeschlagen!",
             "transfer_interput": "Bei der Dateiübertragung ist ein Fehler aufgetreten.",
             "source_string": " über das lokale Netzwerk",
@@ -61,19 +61,19 @@
         "sd": {
             "help": {
                 "title": "Hilfe",
-                "desc": "Kopiere NSP, NSZ, XCI, or XCZ Dateien auf deine SD Karte,\nstöbere nach ihnen und wähle die zu installierenden Titel aus und drücke dann \ue0b3."
+                "desc": "Kopiere NSP, NSZ, XCI oder XCZ Dateien auf deine SD Karte,\nsuche nach ihnen und wähle die zu installierenden Titel aus und drücke dann \ue0b3."
             },
             "top_info": "Wähle Dateien zur Installation vom Server aus und drücke dann \ue0b3!",
             "source_string": " von der SD Karte",
-            "delete_info": " installiert! Sollen wir sie von der SD Karte löschen?",
-            "delete_info_multi": " Dateien erfolgreich installiert! Sollen wir sie von der SD Karte löschen?",
+            "delete_info": " installiert! Soll es von der SD-Karte gelöscht werden?",
+            "delete_info_multi": " Dateien erfolgreich installiert! Sollen diese von der SD-Karte gelöscht werden?",
             "delete_desc": "Die originalen Dateien werden nach der Installation nicht mehr benötigt",
             "buttons": "\ue0e0 Datei auswählen    \ue0e3 Alle auswählen    \ue0ef Datei(en) installieren    \ue0e1 Abbrechen"
         },
         "usb": {
             "help": {
                 "title": "Hilfe",
-                "desc": "Dateien können von anderen Geräten aus mit Tools wie NS-USBloader im\nTinfoil-Modus installiert werden. Um Dateien an deine Switch zu senden, öffne\neine dieser Programme auf deinem PC oder Mobilgerät, wähle die Dateien\naus und lade sie dann auf die Konsole hoch!\n\nLeider erfordern USB-Installationen auf einigen Plattformen ein spezielles\nSetup und können manchmal ziemlich fehlerhaft sein. Falls das nicht klappt,\nversuche es mit LAN/Internet-Installationen oder kopiere deine Dateien auf\ndeine SD-Karte und versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
+                "desc": "Dateien können mit Tools, wie NS-USBloader im Tinfoil-Modus\nvon anderen Geräten aus installiert werden.\nUm Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät, wähle die Dateien\naus und lade sie dann auf die Konsole hoch!\n\nLeider erfordern USB-Installationen auf einigen Plattformen ein spezielles\nSetup und können manchmal ziemlich fehlerhaft sein. Falls das nicht klappt,\nversuche es mit LAN/Internet Installation oder kopiere deine Dateien auf\ndeine SD-Karte und versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
             },
             "top_info": "USB verbunden! Warte auf die Dateiliste...",
             "top_info2": "Wähle Dateien zur Installation aus und drücke dann \ue0b3 !",
@@ -98,46 +98,46 @@
             "complete": "Installation abgeschlossen",
             "desc0": " Dateien erfolgreich installiert!",
             "desc1": " installiert!",
-            "downloading": "Läd ",
+            "downloading": "Lädt ",
             "at": " herunter von "
         },
         "nca_verify": {
-            "title": "Ungültige NCA-Signature erkannt!",
-            "desc": "Unsachgemäß signierte Software sollte nur von vertrauenswürdigen Quellen\ninstalliert werden. Dateien, die Cartridge-Repacks und DLC-Freischaltgeräte enthalten,\nwerden immer diese Warnung anzeigen. Sie können diese Prüfung in den Einstellungen des Awoo Installers deaktivieren.\nnSind Sie sicher, dass Sie die Installation fortsetzen möchten?",
+            "title": "Ungültige NCA-Signatur erkannt!",
+            "desc": "Unsachgemäß signierte Software sollte nur von vertrauenswürdigen Quellen\ninstalliert werden. Dateien von gepackten Spiele Modulen und DLC-Freischaltung enthalten,\nwerden immer diese Warnung anzeigen. Sie können diese Prüfung in den Einstellungen des Awoo Installer deaktivieren.\nSind Sie sicher, dass Sie die Installation fortsetzen möchten?",
             "opt1": "Ja, ich verstehe die Risiken",
-            "error": "Die gewünschte NCA ist nicht valide signiert: "
+            "error": "Die gewünschte NCA ist nicht richtig signiert: "
         },
         "finished": [
-            "Geniese deine \"legalen Sicherheitskopien\"!",
-            "Ich bin mir sicher nachdem du das Spiel probiert hast wirst du Spaß dabei haben das spiel tatsächlich zu kaufen!",
-            "Dul halt das Spiel sichel gekauft? Nintendo-san dankel dil fül deinen Kauf!",
-            "DRM zu umgehen ist toll, stimmts?",
-            "Du hast wahrscheinlich sechs Bäume gerettet dadurch dass du das Spiel nicht gekauft hast! All das Plastik geht irgendwo hin!",
+            "Genieße deine \"legalen Sicherheitskopien\"!",
+            "Ich bin mir sicher nachdem du das Spiel probiert hast wirst du Spaß dabei haben das Spiel tatsächlich zu kaufen!",
+            "Du hast das Spiel sicher gekauft? Nintendo sagt danke für deinen Kauf!",
+            "DRM zu umgehen ist toll, stimmt es?",
+            "Du hast wahrscheinlich sechs Bäume gerettet. Dadurch dass du das Spiel nicht gekauft hast!\nAll das Plastik geht irgendwo hin!",
             "Nintendo Ninjas wurden zu deinem Standort gesendet.",
-            "Und wir mussten dir nichtmal politische Ideologien in den Rachen stopfen!"
+            "Und wir mussten dir nicht mal politische Ideologien in den Rachen stopfen!"
         ]
     },
     "sig": {
         "install": "Installieren",
         "uninstall": "Deinstallieren",
-        "update": "Aktuallisieren",
-        "version_text": "Du hast aktuell Patches installiert für die HOS Version ",
+        "update": "Aktualisieren",
+        "version_text": "Du hast die aktuellen Patches für die HOS Version installiert ",
         "title0": "Installiere Signatur Patches?",
-        "desc0": "Signatur Patches werden benötigt um offizielle Software zu installieren und zu spielen.",
-        "backup_failed": "Konnten Hekates patches.ini nicht sichern! Trotzdem installieren?",
-        "backup_failed_desc": "Falls du Heakte nicht nutzt kannst du diese Warnung ignorieren.",
-        "download_failed": "Konnten die Signatur Patches nicht herunterladen",
-        "download_failed_desc": "Eventuell sind die in den Einstellungen gestellte Quelle ungültig oder der Host ist offline.",
-        "version_text2": "Deine Signatur Patches wurden aktuallisiert für HOS Versionen bis ",
+        "desc0": "Signatur Patches werden benötigt, um offizielle Software zu installieren und zu spielen.",
+        "backup_failed": "Konnte die hekate patches.ini nicht finden! Trotzdem installieren?",
+        "backup_failed_desc": "Falls du hekate nicht nutzt, kannst du diese Warnung ignorieren.",
+        "download_failed": "Konnte die Signatur Patches nicht herunterladen",
+        "download_failed_desc": "Eventuell hast du eine ungültige Quelle in den Einstellung\nvom Awoo Installer eingestellt oder der Host ist derzeitig offline.",
+        "version_text2": "Deine Signatur Patches wurden aktualisiert, für deine HOS Version ",
         "install_complete": "Installation abgeschlossen!",
         "complete_desc": "Starte die Konsole neu um die Änderung zu übernehmen",
         "restart": "Neustarten",
         "later": "Mach ich später",
-        "extract_failed": "Konnten die Dateien nicht extrahieren!",
-        "restore_failed": "Konnten hekates originale patches.ini nicht wieder herstellen! Deinstallation fortsetzen?",
+        "extract_failed": "Konnte die Dateien nicht extrahieren!",
+        "restore_failed": "Konnte die originale hekate patches.ini nicht wiederherstellen! Deinstallation fortsetzen?",
         "uninstall_complete": "Deinstallation vollständig",
-        "remove_failed": "Konnten die Signatur Patches nicht entfernen",
-        "remove_failed_desc": "Dateien müssen möglicherweiße umbenannt oder entfernt werden",
+        "remove_failed": "Konnte die Signatur Patches nicht entfernen",
+        "remove_failed_desc": "Dateien müssen möglicherweise umbenannt oder entfernt werden",
         "generic_error": "Installation der Signatur Patches fehlgeschlagen!"
     },
     "options": {
@@ -148,41 +148,41 @@
             "ask_delete": "Frage ob installierte Titel gelöscht werden sollen",
             "auto_update": "Suche automatisch nach Updates für Awoo Installer",
             "gay_option": "Entferne Anime",
-            "sig_url": "Signatur-Patches-Quell-URL: ",
+            "sig_url": "Signatur Patches URL: ",
             "language": "Sprache: ",
             "check_update": "Suche nach Updates für Awoo Installer",
-            "credits": "Ehrungen"
+            "credits": "Anerkennung"
         },
         "nca_warn": {
             "title": "Warnung!",
             "desc": "Einige installierbare Dateien können bösartige Inhalte enthalten! Deaktiviere\ndiese Funktion nur, wenn du absolut sicher bist, dass die zu installierende\nSoftware vertrauenswürdig ist! Willst du die NCA-Signaturprüfung immer noch deaktivieren?",
-            "opt1": "Ja, ich möchte mein Gerät zerstören"
+            "opt1": "Ja, ich möchte mein Gerät bricken"
         },
-        "sig_hint": "Gebe eine URL an um meine Signatur Patches zu beziehen",
+        "sig_hint": "Gebe eine URL an, um Signatur Patches zu beziehen",
         "update": {
             "title": "Neue Version verfügbar",
             "desc0": "Awoo Installer ",
-            "desc1": " ist jetzt verfügbar! Bereit zu aktuallisieren?",
-            "opt0": "Aktuallisieren",
-            "top_info": "Aktuallisierung zu Awoo Installer ",
+            "desc1": " ist jetzt verfügbar! Bereit zu aktualisieren?",
+            "opt0": "Aktualisieren",
+            "top_info": "Aktualisierung zu Awoo Installer ",
             "bot_info": "Beziehe Awoo Installer ",
             "bot_info2": "Extrahiere Awoo Installer ",
-            "complete": "Aktuallisierung vollständig!",
-            "failed": "Aktuallisierung fehlgeschlagen!",
-            "end_desc": "Die Software wird nun geschlossen.",
-            "title_check_fail": "Keine Aktuallisierungen gefunden",
+            "complete": "Aktualisierung vollständig!",
+            "failed": "Aktualisierung fehlgeschlagen!",
+            "end_desc": "Die Software wird nun beendet.",
+            "title_check_fail": "Keine Aktualisierungen gefunden",
             "desc_check_fail": "Du bist auf der aktuellsten Version des Awoo Installer!"
         },
         "credits": {
             "title": "Vielen Dank an die folgenden Leute!",
-            "desc": "- HookedBehemoth für NE MENGE Beiträge\n- Adubbz und andere Mitwirkende für Tinfoil\n- XorTroll für Plutonium und Goldleaf\n- blawar (Frauenwürger) und nicoboss für NSZ Unterstützung\n- Die netten Leute auf AtlasNX' Discuck (Immerhin ein paar davon)\n- Die netten Leute auf RetroNX' Discuck (ohne direkte Beteiligung)\n- namako8982 für die Momiji-Kunst\n- TheXzoron dafür das er ein baka ist"
+            "desc": "- HookedBehemoth für viele Beiträge\n- Adubbz und andere Mitwirkende für Tinfoil\n- XorTroll für Plutonium und Goldleaf\n- blawar (Frauenwürger) und nicoboss für NSZ Unterstützung\n- Die netten Leute auf AtlasNX Discuck (Immerhin ein paar davon)\n- Die netten Leute auf RetroNX Discuck (ohne direkte Beteiligung)\n- namako8982 für die Momiji-Kunst\n- TheXzoron dafür das er ein baka ist"
         },
         "language": {
-            "title": "Wähle Awoo Installer's Sprache",
-            "desc": "Die Software wird danach geschlossen. Drüche B um den Vorgang abzubrechen.",
-            "system_language": "System-Standard"
+            "title": "Wähle Awoo Installer Sprache",
+            "desc": "Die Software wird danach beendet. Drücke B um den Vorgang abzubrechen.",
+            "system_language": "System Standard"
         },
-        "title": "Ändere Awoo Installer's Einstellungen!",
+        "title": "Ändere Awoo Installer Einstellungen!",
         "buttons": "\ue0e0 Auswählen/Ändern    \ue0e1 Abbrechen "
     },
     "common": {
