@@ -1,7 +1,7 @@
 # Awoo Installer
 A No-Bullshit NSP, NSZ, XCI, and XCZ Installer for Nintendo Switch
 
-![Awoo Installer Main Menu](https://i.imgur.com/pDcJFqe.jpg)
+![Awoo Installer Main Menu](https://i.imgur.com/armPAIU.jpg)
 
 ## Features
 - Installs NSP/NSZ/XCI/XCZ files and split NSP/XCI files from your SD card
