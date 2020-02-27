@@ -1,196 +1,196 @@
 {
     "main":{
         "menu": {
-            "sd": "从 SD 卡安装",
-            "net": "通过局域网或网络安装",
-            "usb": "通过 USB 安装",
-            "sig": "管理签名补丁",
-            "set": "设置",
-            "exit": "退出"
+            "sd": "\u4ece SD \u5361\u5b89\u88c5",
+            "net": "\u901a\u8fc7\u5c40\u57df\u7f51\u6216\u7f51\u7edc\u5b89\u88c5",
+            "usb": "\u901a\u8fc7 USB \u5b89\u88c5",
+            "sig": "\u7ba1\u7406\u7b7e\u540d\u8865\u4e01",
+            "set": "\u8bbe\u7f6e",
+            "exit": "\u9000\u51fa"
         },
         "net": {
-            "title": "网络连接不可用",
-            "desc": "请检查飞行模式是否关闭，且主机已连接到本地网络。"
+            "title": "\u7f51\u7edc\u8fde\u63a5\u4e0d\u53ef\u7528",
+            "desc": "\u8bf7\u68c0\u67e5\u98de\u884c\u6a21\u5f0f\u662f\u5426\u5173\u95ed\uff0c\u4e14\u4e3b\u673a\u5df2\u8fde\u63a5\u5230\u672c\u5730\u7f51\u7edc\u3002"
         },
         "usb": {
             "warn": {
-                "title": "警告！",
-                "desc": "USB 安装在某些设备或设置下可能没法如愿正常使用。\n如果您在使用 USB 安装中遇到问题，请不要心急！\n建议使用 NS-USBloader 来进行 USB 安装，\n或者在主机已连接到网络的情况下通过局域网或网络来进行远程安装!\n\n在此衷心提示...",
-                "opt1": "不再显示"
+                "title": "\u8b66\u544a\uff01",
+                "desc": "USB \u5b89\u88c5\u5728\u67d0\u4e9b\u8bbe\u5907\u6216\u8bbe\u7f6e\u4e0b\u53ef\u80fd\u6ca1\u6cd5\u5982\u613f\u6b63\u5e38\u4f7f\u7528\u3002\n\u5982\u679c\u60a8\u5728\u4f7f\u7528 USB \u5b89\u88c5\u4e2d\u9047\u5230\u95ee\u9898\uff0c\u8bf7\u4e0d\u8981\u5fc3\u6025\uff01\n\u5efa\u8bae\u4f7f\u7528 NS-USBloader \u6765\u8fdb\u884c USB \u5b89\u88c5\uff0c\n\u6216\u8005\u5728\u4e3b\u673a\u5df2\u8fde\u63a5\u5230\u7f51\u7edc\u7684\u60c5\u51b5\u4e0b\u901a\u8fc7\u5c40\u57df\u7f51\u6216\u7f51\u7edc\u6765\u8fdb\u884c\u8fdc\u7a0b\u5b89\u88c5!\n\n\u5728\u6b64\u8877\u5fc3\u63d0\u793a...",
+                "opt1": "\u4e0d\u518d\u663e\u793a"
             },
             "error": {
-                "title": "未检测到 USB 连接",
-                "desc": "插入一个兼容设备以通过 USB 安装"
+                "title": "\u672a\u68c0\u6d4b\u5230 USB \u8fde\u63a5",
+                "desc": "\u63d2\u5165\u4e00\u4e2a\u517c\u5bb9\u8bbe\u5907\u4ee5\u901a\u8fc7 USB \u5b89\u88c5"
             }
         },
         "applet": {
-            "title": "不支持 Applet 模式",
-            "desc": "在 Applet 模式下使用 Awoo Installer 可能会遇到问题，\n如果遇到问题，请切换 Awoo Installer 的运行模式！\n(按住 R 键并打开任意游戏，进入相册后再打开 Awoo Installer 即可)"
+            "title": "\u4e0d\u652f\u6301 Applet \u6a21\u5f0f",
+            "desc": "\u5728 Applet \u6a21\u5f0f\u4e0b\u4f7f\u7528 Awoo Installer \u53ef\u80fd\u4f1a\u9047\u5230\u95ee\u9898\uff0c\n\u5982\u679c\u9047\u5230\u95ee\u9898\uff0c\u8bf7\u5207\u6362 Awoo Installer \u7684\u8fd0\u884c\u6a21\u5f0f\uff01\n(\u6309\u4f4f R \u952e\u5e76\u6253\u5f00\u4efb\u610f\u6e38\u620f\uff0c\u8fdb\u5165\u76f8\u518c\u540e\u518d\u6253\u5f00 Awoo Installer \u5373\u53ef)"
         },
-        "buttons": "\ue0e0 选择    \ue0e1 退出"
+        "buttons": "\ue0e0 \u9009\u62e9    \ue0e1 \u9000\u51fa"
     },
     "inst": {
         "net": {
             "help": {
-                "title": "帮助",
-                "desc": "可以通过下列工具远程安装文件，\n例如在 Tinfoil 模式下使用 NS-USBloader。\n如想向 Switch 发送文件，打开电脑或者移动设备上任一工具软件，\n输入屏幕上显示的 Switch IP 地址，选择文件，\n然后上传到您的主机即可！如果您使用的工具软件不支持选择\n特定文件类型，请尝试更改文件扩展名。\nAwoo Installer 在通过网络安装不限制文件扩展名！\n\n如果以上无效，请复制文件到 SD 卡并在主菜单中选择\"从 SD 卡安装\"！"
+                "title": "\u5e2e\u52a9",
+                "desc": "\u53ef\u4ee5\u901a\u8fc7\u4e0b\u5217\u5de5\u5177\u8fdc\u7a0b\u5b89\u88c5\u6587\u4ef6\uff0c\n\u4f8b\u5982\u5728 Tinfoil \u6a21\u5f0f\u4e0b\u4f7f\u7528 NS-USBloader\u3002\n\u5982\u60f3\u5411 Switch \u53d1\u9001\u6587\u4ef6\uff0c\u6253\u5f00\u7535\u8111\u6216\u8005\u79fb\u52a8\u8bbe\u5907\u4e0a\u4efb\u4e00\u5de5\u5177\u8f6f\u4ef6\uff0c\n\u8f93\u5165\u5c4f\u5e55\u4e0a\u663e\u793a\u7684 Switch IP \u5730\u5740\uff0c\u9009\u62e9\u6587\u4ef6\uff0c\n\u7136\u540e\u4e0a\u4f20\u5230\u60a8\u7684\u4e3b\u673a\u5373\u53ef\uff01\u5982\u679c\u60a8\u4f7f\u7528\u7684\u5de5\u5177\u8f6f\u4ef6\u4e0d\u652f\u6301\u9009\u62e9\n\u7279\u5b9a\u6587\u4ef6\u7c7b\u578b\uff0c\u8bf7\u5c1d\u8bd5\u66f4\u6539\u6587\u4ef6\u6269\u5c55\u540d\u3002\nAwoo Installer \u5728\u901a\u8fc7\u7f51\u7edc\u5b89\u88c5\u4e0d\u9650\u5236\u6587\u4ef6\u6269\u5c55\u540d\uff01\n\n\u5982\u679c\u4ee5\u4e0a\u65e0\u6548\uff0c\u8bf7\u590d\u5236\u6587\u4ef6\u5230 SD \u5361\u5e76\u5728\u4e3b\u83dc\u5355\u4e2d\u9009\u62e9\"\u4ece SD \u5361\u5b89\u88c5\"\uff01"
             },
             "src": {
-                "title": "请选择安装来源？",
-                "opt0": "网络链接",
-                "opt1": "Google 网盘"
+                "title": "\u8bf7\u9009\u62e9\u5b89\u88c5\u6765\u6e90\uff1f",
+                "opt0": "\u7f51\u7edc\u94fe\u63a5",
+                "opt1": "Google \u7f51\u76d8"
             },
             "url": {
-                "hint": "输入文件链接地址",
-                "invalid": "链接地址无效！",
-                "source_string": " 从网络链接"
+                "hint": "\u8f93\u5165\u6587\u4ef6\u94fe\u63a5\u5730\u5740",
+                "invalid": "\u94fe\u63a5\u5730\u5740\u65e0\u6548\uff01",
+                "source_string": " \u4ece\u7f51\u7edc\u94fe\u63a5"
             },
             "gdrive": {
-                "hint": "输入 Google 网盘公共文件 ID",
-                "alt_name": "Google 网盘文件",
-                "source_string": " 从 Google 网盘"
+                "hint": "\u8f93\u5165 Google \u7f51\u76d8\u516c\u5171\u6587\u4ef6 ID",
+                "alt_name": "Google \u7f51\u76d8\u6587\u4ef6",
+                "source_string": " \u4ece Google \u7f51\u76d8"
             },
-            "top_info": "在服务器中选择将要安装的文件，然后按下加号按钮！",
-            "top_info1": "正在等待连接… Switch 的 IP 地址是：",
-            "failed": "远程安装失败！",
-            "transfer_interput": "数据传输发生错误，检查网络连接。",
-            "source_string": " 通过本地网络",
-            "buttons": "\ue0e3 网络安装    \ue0e2 帮助    \ue0e1 取消",
-            "buttons1": "\ue0e0 选择文件    \ue0e3 全选    \ue0ef 安装文件    \ue0e1 取消"
+            "top_info": "\u5728\u670d\u52a1\u5668\u4e2d\u9009\u62e9\u5c06\u8981\u5b89\u88c5\u7684\u6587\u4ef6\uff0c\u7136\u540e\u6309\u4e0b\u52a0\u53f7\u6309\u94ae\uff01",
+            "top_info1": "\u6b63\u5728\u7b49\u5f85\u8fde\u63a5\u2026 Switch \u7684 IP \u5730\u5740\u662f\uff1a",
+            "failed": "\u8fdc\u7a0b\u5b89\u88c5\u5931\u8d25\uff01",
+            "transfer_interput": "\u6570\u636e\u4f20\u8f93\u53d1\u751f\u9519\u8bef\uff0c\u68c0\u67e5\u7f51\u7edc\u8fde\u63a5\u3002",
+            "source_string": " \u901a\u8fc7\u672c\u5730\u7f51\u7edc",
+            "buttons": "\ue0e3 \u7f51\u7edc\u5b89\u88c5    \ue0e2 \u5e2e\u52a9    \ue0e1 \u53d6\u6d88",
+            "buttons1": "\ue0e0 \u9009\u62e9\u6587\u4ef6    \ue0e3 \u5168\u9009    \ue0ef \u5b89\u88c5\u6587\u4ef6    \ue0e1 \u53d6\u6d88"
         },
         "sd": {
             "help": {
-                "title": "帮助",
-                "desc": "复制 NSP、NSZ、XCI 或 XCZ 文件到 SD 卡，\n浏览并选择将要安装的文件，然后按下加号按钮。"
+                "title": "\u5e2e\u52a9",
+                "desc": "\u590d\u5236 NSP\u3001NSZ\u3001XCI \u6216 XCZ \u6587\u4ef6\u5230 SD \u5361\uff0c\n\u6d4f\u89c8\u5e76\u9009\u62e9\u5c06\u8981\u5b89\u88c5\u7684\u6587\u4ef6\uff0c\u7136\u540e\u6309\u4e0b\u52a0\u53f7\u6309\u94ae\u3002"
             },
-            "top_info": "选择将要安装的文件，然后按下加号按钮！",
-            "source_string": " 从 SD 卡",
-            "delete_info": " 安装完成！是否从 SD 卡中删除安装文件？",
-            "delete_info_multi": " 文件安装成功！是否从 SD 卡中删除安装文件？",
-            "delete_desc": "安装完成后不再需要安装文件",
-            "buttons": "\ue0e0 选择文件    \ue0e3 全选    \ue0ef 安装文件    \ue0e2 帮助    \ue0e1 取消"
+            "top_info": "\u9009\u62e9\u5c06\u8981\u5b89\u88c5\u7684\u6587\u4ef6\uff0c\u7136\u540e\u6309\u4e0b\u52a0\u53f7\u6309\u94ae\uff01",
+            "source_string": " \u4ece SD \u5361",
+            "delete_info": " \u5b89\u88c5\u5b8c\u6210\uff01\u662f\u5426\u4ece SD \u5361\u4e2d\u5220\u9664\u5b89\u88c5\u6587\u4ef6\uff1f",
+            "delete_info_multi": " \u6587\u4ef6\u5b89\u88c5\u6210\u529f\uff01\u662f\u5426\u4ece SD \u5361\u4e2d\u5220\u9664\u5b89\u88c5\u6587\u4ef6\uff1f",
+            "delete_desc": "\u5b89\u88c5\u5b8c\u6210\u540e\u4e0d\u518d\u9700\u8981\u5b89\u88c5\u6587\u4ef6",
+            "buttons": "\ue0e0 \u9009\u62e9\u6587\u4ef6    \ue0e3 \u5168\u9009    \ue0ef \u5b89\u88c5\u6587\u4ef6    \ue0e2 \u5e2e\u52a9    \ue0e1 \u53d6\u6d88"
         },
         "usb": {
             "help": {
-                "title": "帮助",
-                "desc": "可以通过下列工具通过 USB 安装文件，\n例如在 Tinfoil 模式下使用 NS-USBloader。\n如想向 Switch 发送文件，打开电脑或移动设备上任一工具软件，\n选择文件，然后上传到您的主机即可！\n\n不幸的是，USB 安装在一些平台上可能需要特别的设置，这可能会引发更多的问题。\n如果以上无效，试试通过局域网或网络安装，或者复制文件到 SD 卡并在主菜单中选择\"从 SD 卡安装\"！"
+                "title": "\u5e2e\u52a9",
+                "desc": "\u53ef\u4ee5\u901a\u8fc7\u4e0b\u5217\u5de5\u5177\u901a\u8fc7 USB \u5b89\u88c5\u6587\u4ef6\uff0c\n\u4f8b\u5982\u5728 Tinfoil \u6a21\u5f0f\u4e0b\u4f7f\u7528 NS-USBloader\u3002\n\u5982\u60f3\u5411 Switch \u53d1\u9001\u6587\u4ef6\uff0c\u6253\u5f00\u7535\u8111\u6216\u79fb\u52a8\u8bbe\u5907\u4e0a\u4efb\u4e00\u5de5\u5177\u8f6f\u4ef6\uff0c\n\u9009\u62e9\u6587\u4ef6\uff0c\u7136\u540e\u4e0a\u4f20\u5230\u60a8\u7684\u4e3b\u673a\u5373\u53ef\uff01\n\n\u4e0d\u5e78\u7684\u662f\uff0cUSB \u5b89\u88c5\u5728\u4e00\u4e9b\u5e73\u53f0\u4e0a\u53ef\u80fd\u9700\u8981\u7279\u522b\u7684\u8bbe\u7f6e\uff0c\u8fd9\u53ef\u80fd\u4f1a\u5f15\u53d1\u66f4\u591a\u7684\u95ee\u9898\u3002\n\u5982\u679c\u4ee5\u4e0a\u65e0\u6548\uff0c\u8bd5\u8bd5\u901a\u8fc7\u5c40\u57df\u7f51\u6216\u7f51\u7edc\u5b89\u88c5\uff0c\u6216\u8005\u590d\u5236\u6587\u4ef6\u5230 SD \u5361\u5e76\u5728\u4e3b\u83dc\u5355\u4e2d\u9009\u62e9\"\u4ece SD \u5361\u5b89\u88c5\"\uff01"
             },
-            "top_info": "USB 连接成功！正在等待发送文件列表...",
-            "top_info2": "选择将要通过 USB 安装的文件，然后按下加号按钮！",
-            "error": "USB 传输超时或失败",
-            "source_string": " 通过 USB",
-            "buttons": "\ue0e2 (按住) 帮助    \ue0e1 (按住) 取消",
-            "buttons2": "\ue0e0 选择文件    \ue0e3 全选    \ue0ef 安装文件    \ue0e1 取消"
+            "top_info": "USB \u8fde\u63a5\u6210\u529f\uff01\u6b63\u5728\u7b49\u5f85\u53d1\u9001\u6587\u4ef6\u5217\u8868...",
+            "top_info2": "\u9009\u62e9\u5c06\u8981\u901a\u8fc7 USB \u5b89\u88c5\u7684\u6587\u4ef6\uff0c\u7136\u540e\u6309\u4e0b\u52a0\u53f7\u6309\u94ae\uff01",
+            "error": "USB \u4f20\u8f93\u8d85\u65f6\u6216\u5931\u8d25",
+            "source_string": " \u901a\u8fc7 USB",
+            "buttons": "\ue0e2 (\u6309\u4f4f) \u5e2e\u52a9    \ue0e1 (\u6309\u4f4f) \u53d6\u6d88",
+            "buttons2": "\ue0e0 \u9009\u62e9\u6587\u4ef6    \ue0e3 \u5168\u9009    \ue0ef \u5b89\u88c5\u6587\u4ef6    \ue0e1 \u53d6\u6d88"
         },
         "target": {
-            "desc0": "请选择 ",
-            "desc1": " 安装位置？",
-            "desc00": "请选择选定 ",
-            "desc01": " 文件安装位置？",
-            "opt0": "SD 卡",
-            "opt1": "内部存储"
+            "desc0": "\u8bf7\u9009\u62e9 ",
+            "desc1": " \u5b89\u88c5\u4f4d\u7f6e\uff1f",
+            "desc00": "\u8bf7\u9009\u62e9\u9009\u5b9a ",
+            "desc01": " \u6587\u4ef6\u5b89\u88c5\u4f4d\u7f6e\uff1f",
+            "opt0": "SD \u5361",
+            "opt1": "\u5185\u90e8\u5b58\u50a8"
         },
         "info_page": {
-            "top_info0": "正在安装 ",
-            "preparing": "正在准备安装...",
-            "failed": "安装失败 ",
-            "failed_desc": "部分安装的内容可以从系统设置 Applet 中删除。",
-            "complete": "安装完成",
-            "desc0": " 文件安装成功！",
-            "desc1": " 安装完成！",
-            "downloading": "正在下载 ",
-            "at": " 以 "
+            "top_info0": "\u6b63\u5728\u5b89\u88c5 ",
+            "preparing": "\u6b63\u5728\u51c6\u5907\u5b89\u88c5...",
+            "failed": "\u5b89\u88c5\u5931\u8d25 ",
+            "failed_desc": "\u90e8\u5206\u5b89\u88c5\u7684\u5185\u5bb9\u53ef\u4ee5\u4ece\u7cfb\u7edf\u8bbe\u7f6e Applet \u4e2d\u5220\u9664\u3002",
+            "complete": "\u5b89\u88c5\u5b8c\u6210",
+            "desc0": " \u6587\u4ef6\u5b89\u88c5\u6210\u529f\uff01",
+            "desc1": " \u5b89\u88c5\u5b8c\u6210\uff01",
+            "downloading": "\u6b63\u5728\u4e0b\u8f7d ",
+            "at": " \u4ee5 "
         },
         "nca_verify": {
-            "title": "检测到无效 NCA 签名！",
-            "desc": "签名不正确的软件只能从可靠的来源安装。\n包含整合 XCI 和 DLC 解锁器的文件将始终显示此警告。\n您可以在 Awoo Installer 设置中禁用此验证。\n\n是否继续安装？",
-            "opt1": "是的，我已明白其中风险",
-            "error": "请求的 NCA 没有正确签名："
+            "title": "\u68c0\u6d4b\u5230\u65e0\u6548 NCA \u7b7e\u540d\uff01",
+            "desc": "\u7b7e\u540d\u4e0d\u6b63\u786e\u7684\u8f6f\u4ef6\u53ea\u80fd\u4ece\u53ef\u9760\u7684\u6765\u6e90\u5b89\u88c5\u3002\n\u5305\u542b\u6574\u5408 XCI \u548c DLC \u89e3\u9501\u5668\u7684\u6587\u4ef6\u5c06\u59cb\u7ec8\u663e\u793a\u6b64\u8b66\u544a\u3002\n\u60a8\u53ef\u4ee5\u5728 Awoo Installer \u8bbe\u7f6e\u4e2d\u7981\u7528\u6b64\u9a8c\u8bc1\u3002\n\n\u662f\u5426\u7ee7\u7eed\u5b89\u88c5\uff1f",
+            "opt1": "\u662f\u7684\uff0c\u6211\u5df2\u660e\u767d\u5176\u4e2d\u98ce\u9669",
+            "error": "\u8bf7\u6c42\u7684 NCA \u6ca1\u6709\u6b63\u786e\u7b7e\u540d\uff1a"
         },
         "finished": [
-            "可以愉快得玩耍\"合法备份\"！",
-            "我相信您在试玩游戏后，非常有兴趣购买它！",
-            "已购买游戏？Nintendo 感谢您的购买！",
-            "绕过 DRM 很棒，不是么？",
-            "您可能因为不买游戏而保护了六棵树！所有的塑料都到什么地方去了!",
-            "任天堂忍者已经被派遣到您家，天诛。",
-            "我们甚至不需要把一种政治意识形态塞到您的喉咙里，在这儿就行！"
+            "\u53ef\u4ee5\u6109\u5feb\u5f97\u73a9\u800d\"\u5408\u6cd5\u5907\u4efd\"\uff01",
+            "\u6211\u76f8\u4fe1\u60a8\u5728\u8bd5\u73a9\u6e38\u620f\u540e\uff0c\u975e\u5e38\u6709\u5174\u8da3\u8d2d\u4e70\u5b83\uff01",
+            "\u5df2\u8d2d\u4e70\u6e38\u620f\uff1fNintendo \u611f\u8c22\u60a8\u7684\u8d2d\u4e70\uff01",
+            "\u7ed5\u8fc7 DRM \u5f88\u68d2\uff0c\u4e0d\u662f\u4e48\uff1f",
+            "\u60a8\u53ef\u80fd\u56e0\u4e3a\u4e0d\u4e70\u6e38\u620f\u800c\u4fdd\u62a4\u4e86\u516d\u68f5\u6811\uff01\u6240\u6709\u7684\u5851\u6599\u90fd\u5230\u4ec0\u4e48\u5730\u65b9\u53bb\u4e86!",
+            "\u4efb\u5929\u5802\u5fcd\u8005\u5df2\u7ecf\u88ab\u6d3e\u9063\u5230\u60a8\u5bb6\uff0c\u5929\u8bdb\u3002",
+            "\u6211\u4eec\u751a\u81f3\u4e0d\u9700\u8981\u628a\u4e00\u79cd\u653f\u6cbb\u610f\u8bc6\u5f62\u6001\u585e\u5230\u60a8\u7684\u5589\u5499\u91cc\uff0c\u5728\u8fd9\u513f\u5c31\u884c\uff01"
         ]
     },
     "sig": {
-        "install": "安装",
-        "uninstall": "卸载",
-        "update": "更新",
-        "version_text": "您已安装适用于 HOS 版本的签名补丁 ",
-        "title0": "安装签名补丁？",
-        "desc0": "安装和运行官方软件需要签名补丁。",
-        "backup_failed": "无法备份 Hekate patch.ini！是否继续？",
-        "backup_failed_desc": "如果您不使用 Hekate，请忽略此警告。",
-        "download_failed": "无法下载签名补丁",
-        "download_failed_desc": "您可能在 Awoo Installer 设置中设定了无效来源，\n或者来源可能暂时无法访问。",
-        "version_text2": "您的签名补丁已更新到 HOS 版本 ",
-        "install_complete": "安装完成！",
-        "complete_desc": "重新启动主机并应用",
-        "restart": "重新开始",
-        "later": "待会再做",
-        "extract_failed": "无法提取文件！",
-        "restore_failed": "无法还原原始的 Hekate patch.ini！是否继续？",
-        "uninstall_complete": "卸载完成",
-        "remove_failed": "无法删除签名补丁",
-        "remove_failed_desc": "文件可能已被重命名或删除",
-        "generic_error": "无法安装签名补丁！"
+        "install": "\u5b89\u88c5",
+        "uninstall": "\u5378\u8f7d",
+        "update": "\u66f4\u65b0",
+        "version_text": "\u60a8\u5df2\u5b89\u88c5\u9002\u7528\u4e8e HOS \u7248\u672c\u7684\u7b7e\u540d\u8865\u4e01 ",
+        "title0": "\u5b89\u88c5\u7b7e\u540d\u8865\u4e01\uff1f",
+        "desc0": "\u5b89\u88c5\u548c\u8fd0\u884c\u5b98\u65b9\u8f6f\u4ef6\u9700\u8981\u7b7e\u540d\u8865\u4e01\u3002",
+        "backup_failed": "\u65e0\u6cd5\u5907\u4efd Hekate patch.ini\uff01\u662f\u5426\u7ee7\u7eed\uff1f",
+        "backup_failed_desc": "\u5982\u679c\u60a8\u4e0d\u4f7f\u7528 Hekate\uff0c\u8bf7\u5ffd\u7565\u6b64\u8b66\u544a\u3002",
+        "download_failed": "\u65e0\u6cd5\u4e0b\u8f7d\u7b7e\u540d\u8865\u4e01",
+        "download_failed_desc": "\u60a8\u53ef\u80fd\u5728 Awoo Installer \u8bbe\u7f6e\u4e2d\u8bbe\u5b9a\u4e86\u65e0\u6548\u6765\u6e90\uff0c\n\u6216\u8005\u6765\u6e90\u53ef\u80fd\u6682\u65f6\u65e0\u6cd5\u8bbf\u95ee\u3002",
+        "version_text2": "\u60a8\u7684\u7b7e\u540d\u8865\u4e01\u5df2\u66f4\u65b0\u5230 HOS \u7248\u672c ",
+        "install_complete": "\u5b89\u88c5\u5b8c\u6210\uff01",
+        "complete_desc": "\u91cd\u65b0\u542f\u52a8\u4e3b\u673a\u5e76\u5e94\u7528",
+        "restart": "\u91cd\u65b0\u5f00\u59cb",
+        "later": "\u5f85\u4f1a\u518d\u505a",
+        "extract_failed": "\u65e0\u6cd5\u63d0\u53d6\u6587\u4ef6\uff01",
+        "restore_failed": "\u65e0\u6cd5\u8fd8\u539f\u539f\u59cb\u7684 Hekate patch.ini\uff01\u662f\u5426\u7ee7\u7eed\uff1f",
+        "uninstall_complete": "\u5378\u8f7d\u5b8c\u6210",
+        "remove_failed": "\u65e0\u6cd5\u5220\u9664\u7b7e\u540d\u8865\u4e01",
+        "remove_failed_desc": "\u6587\u4ef6\u53ef\u80fd\u5df2\u88ab\u91cd\u547d\u540d\u6216\u5220\u9664",
+        "generic_error": "\u65e0\u6cd5\u5b89\u88c5\u7b7e\u540d\u8865\u4e01\uff01"
     },
     "options": {
         "menu_items": {
-            "ignore_firm": "忽略游戏最低固件版本要求",
-            "nca_verify": "安装前验证 NCA 签名",
-            "boost_mode": "安装时启用\"增强模式\"",
-            "ask_delete": "安装后询问文件删除",
-            "auto_update": "自动检查 Awoo Installer 更新",
-            "gay_option": "禁止动画",
-            "sig_url": "签名补丁源链接：",
-            "language": "语言：",
-            "check_update": "检查 Awoo Installer 更新",
-            "credits": "致谢"
+            "ignore_firm": "\u5ffd\u7565\u6e38\u620f\u6700\u4f4e\u56fa\u4ef6\u7248\u672c\u8981\u6c42",
+            "nca_verify": "\u5b89\u88c5\u524d\u9a8c\u8bc1 NCA \u7b7e\u540d",
+            "boost_mode": "\u5b89\u88c5\u65f6\u542f\u7528\"\u589e\u5f3a\u6a21\u5f0f\"",
+            "ask_delete": "\u5b89\u88c5\u540e\u8be2\u95ee\u6587\u4ef6\u5220\u9664",
+            "auto_update": "\u81ea\u52a8\u68c0\u67e5 Awoo Installer \u66f4\u65b0",
+            "gay_option": "\u7981\u6b62\u52a8\u753b",
+            "sig_url": "\u7b7e\u540d\u8865\u4e01\u6e90\u94fe\u63a5\uff1a",
+            "language": "\u8bed\u8a00\uff1a",
+            "check_update": "\u68c0\u67e5 Awoo Installer \u66f4\u65b0",
+            "credits": "\u81f4\u8c22"
         },
         "nca_warn": {
-            "title": "警告！",
-            "desc": "一些安装文件可能包含恶意内容！\n只有在您绝对确定将要安装的软件是安全的情况下\n才能禁用此功能！\n\n是否仍然禁用 NCA 签名验证？",
-            "opt1": "是的，我不怕砖"
+            "title": "\u8b66\u544a\uff01",
+            "desc": "\u4e00\u4e9b\u5b89\u88c5\u6587\u4ef6\u53ef\u80fd\u5305\u542b\u6076\u610f\u5185\u5bb9\uff01\n\u53ea\u6709\u5728\u60a8\u7edd\u5bf9\u786e\u5b9a\u5c06\u8981\u5b89\u88c5\u7684\u8f6f\u4ef6\u662f\u5b89\u5168\u7684\u60c5\u51b5\u4e0b\n\u624d\u80fd\u7981\u7528\u6b64\u529f\u80fd\uff01\n\n\u662f\u5426\u4ecd\u7136\u7981\u7528 NCA \u7b7e\u540d\u9a8c\u8bc1\uff1f",
+            "opt1": "\u662f\u7684\uff0c\u6211\u4e0d\u6015\u7816"
         },
-        "sig_hint": "输入网络链接以获取签名补丁",
+        "sig_hint": "\u8f93\u5165\u7f51\u7edc\u94fe\u63a5\u4ee5\u83b7\u53d6\u7b7e\u540d\u8865\u4e01",
         "update": {
-            "title": "有更新可用",
+            "title": "\u6709\u66f4\u65b0\u53ef\u7528",
             "desc0": "Awoo Installer ",
-            "desc1": " 存在可用更新！是否更新？",
-            "opt0": "更新",
-            "top_info": "正在更新 Awoo Installer ",
-            "bot_info": "正在下载 Awoo Installer ",
-            "bot_info2": "正在解压 Awoo Installer ",
-            "complete": "更新完成！",
-            "failed": "更新失败！",
-            "end_desc": "软件即将被关闭。",
-            "title_check_fail": "没有发现更新",
-            "desc_check_fail": "当前 Awoo Installer 已是最新版！"
+            "desc1": " \u5b58\u5728\u53ef\u7528\u66f4\u65b0\uff01\u662f\u5426\u66f4\u65b0\uff1f",
+            "opt0": "\u66f4\u65b0",
+            "top_info": "\u6b63\u5728\u66f4\u65b0 Awoo Installer ",
+            "bot_info": "\u6b63\u5728\u4e0b\u8f7d Awoo Installer ",
+            "bot_info2": "\u6b63\u5728\u89e3\u538b Awoo Installer ",
+            "complete": "\u66f4\u65b0\u5b8c\u6210\uff01",
+            "failed": "\u66f4\u65b0\u5931\u8d25\uff01",
+            "end_desc": "\u8f6f\u4ef6\u5373\u5c06\u88ab\u5173\u95ed\u3002",
+            "title_check_fail": "\u6ca1\u6709\u53d1\u73b0\u66f4\u65b0",
+            "desc_check_fail": "\u5f53\u524d Awoo Installer \u5df2\u662f\u6700\u65b0\u7248\uff01"
         },
         "credits": {
-            "title": "致谢以下朋友！",
-            "desc": "- 感谢 HookedBehemoth 贡献了诸多代码\n- 感谢 Adubbz 及其他贡献者编写了 Tinfoil\n- 感谢 XorTroll 编写了 Plutonium 框架和 Goldleaf\n- 感谢 blawar 和 nicoboss 添加了 NSZ 支持\n- 感谢来自 AtlasNX 的诸多组件\n- 感谢来自 RetroNX 的诸多组件\n- 感谢 namako8982 提供了 Momiji 插图\n- 感谢 TheXzoron (baka)"
+            "title": "\u81f4\u8c22\u4ee5\u4e0b\u670b\u53cb\uff01",
+            "desc": "- \u611f\u8c22 HookedBehemoth \u8d21\u732e\u4e86\u8bf8\u591a\u4ee3\u7801\n- \u611f\u8c22 Adubbz \u53ca\u5176\u4ed6\u8d21\u732e\u8005\u7f16\u5199\u4e86 Tinfoil\n- \u611f\u8c22 XorTroll \u7f16\u5199\u4e86 Plutonium \u6846\u67b6\u548c Goldleaf\n- \u611f\u8c22 blawar \u548c nicoboss \u6dfb\u52a0\u4e86 NSZ \u652f\u6301\n- \u611f\u8c22\u6765\u81ea AtlasNX \u7684\u8bf8\u591a\u7ec4\u4ef6\n- \u611f\u8c22\u6765\u81ea RetroNX \u7684\u8bf8\u591a\u7ec4\u4ef6\n- \u611f\u8c22 namako8982 \u63d0\u4f9b\u4e86 Momiji \u63d2\u56fe\n- \u611f\u8c22 TheXzoron (baka)"
         },
         "language": {
-            "title": "选择 Awoo Installer 语言",
-            "desc": "软件将在更换语言后关闭，按 B 以取消。",
-            "system_language": "系统默认"
+            "title": "\u9009\u62e9 Awoo Installer \u8bed\u8a00",
+            "desc": "\u8f6f\u4ef6\u5c06\u5728\u66f4\u6362\u8bed\u8a00\u540e\u5173\u95ed\uff0c\u6309 B \u4ee5\u53d6\u6d88\u3002",
+            "system_language": "\u7cfb\u7edf\u9ed8\u8ba4"
         },
-        "title": "更改 Awoo Installer 设置！",
-        "buttons": "\ue0e0 选择/更改    \ue0e1 取消"
+        "title": "\u66f4\u6539 Awoo Installer \u8bbe\u7f6e\uff01",
+        "buttons": "\ue0e0 \u9009\u62e9/\u66f4\u6539    \ue0e1 \u53d6\u6d88"
     },
     "common": {
-        "ok": "确定",
-        "cancel": "取消",
-        "close": "关闭",
-        "yes": "是",
-        "no": "否",
-        "cancel_desc": "按 B 以取消"
+        "ok": "\u786e\u5b9a",
+        "cancel": "\u53d6\u6d88",
+        "close": "\u5173\u95ed",
+        "yes": "\u662f",
+        "no": "\u5426",
+        "cancel_desc": "\u6309 B \u4ee5\u53d6\u6d88"
     }
 }
