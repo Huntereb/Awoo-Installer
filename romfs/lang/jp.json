@@ -150,7 +150,7 @@
             "gay_option": "アニメを削除",
             "sig_url": "署名パッチのソースURL: ",
             "language": "言語: ",
-            "check_update": "Awoo Installerのアップデートを確認してください",
+            "check_update": "Awoo Installerのアップデートを確認",
             "credits": "クレジット"
         },
         "nca_warn": {
@@ -171,7 +171,7 @@
             "failed": "更新失敗!",
             "end_desc": "これでソフト​​ウェアが閉じられます。",
             "title_check_fail": "更新が見つかりません",
-            "desc_check_fail": "Awoo Installerの最新バージョンを使用しています!"
+            "desc_check_fail": "既にAwoo Installerの最新バージョンを使用しています!"
         },
         "credits": {
             "title": "以下の方々に感謝します!",
@@ -182,7 +182,7 @@
             "desc": "言語を変更した後、ソフトウェアは閉じられます。 Bを押してキャンセルします。",
             "system_language": "システムのデフォルト"
         },
-        "title": "Awoo Installerの設定を変更する!",
+        "title": "Awoo Installerの設定を変更する",
         "buttons": "\ue0e0 選択/変更    \ue0e1 キャンセル"
     },
     "common": {
