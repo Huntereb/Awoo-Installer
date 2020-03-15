@@ -22,7 +22,7 @@ namespace Language {
         } 
         switch (langInt) {
             case 0:
-                languagePath = "romfs:/lang/ja.json";
+                languagePath = "romfs:/lang/jp.json";
                 break;
             case 2:
             case 13:
