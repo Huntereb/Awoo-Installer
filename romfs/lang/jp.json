@@ -180,7 +180,7 @@
         "language": {
             "title": "Awoo Installerの言語を選択",
             "desc": "言語を変更した後、ソフトウェアは閉じられます。 Bを押してキャンセルします。",
-            "system_language": "システムのデフォルト"
+            "system_language": "システム"
         },
         "title": "Awoo Installerの設定を変更する",
         "buttons": "\ue0e0 選択/変更    \ue0e1 キャンセル"
