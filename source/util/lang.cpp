@@ -1,6 +1,7 @@
 #include <iostream>
 #include <switch.h>
 #include <filesystem>
+#include <pu/Plutonium>
 #include "util/lang.hpp"
 #include "util/config.hpp"
 
@@ -40,6 +41,7 @@ namespace Language {
                 break;
             case 6:
                 languagePath = "romfs:/lang/zh-CN.json";
+                pu::ui::render::SetDefaultFontFromShared(pu::ui::render::SharedFont::ChineseSimplified);
                 break;
             case 7:
                 languagePath = "romfs:/lang/ko.json";
