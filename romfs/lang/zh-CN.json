@@ -50,7 +50,7 @@
                 "alt_name": "谷歌网盘文件",
                 "source_string": " 从谷歌网盘"
             },
-            "top_info": "选择您要安装的文件，然后按下 \ue0ef 号",
+            "top_info": "选择您要安装的文件，然后按下 \ue0ef ",
             "top_info1": "等待连接中... 您的Switch主机IP是: ",
             "failed": "远程安装失败！",
             "transfer_interput": "传输过程中产生了一个错误，请您检查网络连接是否正常！",
@@ -61,9 +61,9 @@
         "sd": {
             "help": {
                 "title": "帮助",
-                "desc": "复制您的 NSP, NSZ, XCI, XCZ 文件到SD卡, \n选择你要安装的文件，然后按 \ue0ef 号安装！"
+                "desc": "复制您的 NSP, NSZ, XCI, XCZ 文件到SD卡, \n选择你要安装的文件，然后按 \ue0ef 安装！"
             },
-            "top_info": "选择你要安装的文件，然后按 \ue0ef 号安装！",
+            "top_info": "选择你要安装的文件，然后按 \ue0ef 安装！",
             "source_string": " 从SD卡",
             "delete_info": " 安装完成！要将原文件从SD卡删除吗？",
             "delete_info_multi": " 所有文件已安装！要把所有原文件从SD卡删除吗？",
@@ -76,7 +76,7 @@
                 "desc": "文件可以通过NS-USBloader远程安装。\n也可以选择输入URL地址安装。\n如果你的工具对某种文件格式不支持，你可以尝试修改文件的扩展名再选择它，安装的时候Awoo不在乎扩展名是什么！\n\n如果你还是搞不懂，那就通过SD卡拷贝安装吧！"
             },
             "top_info": "USB连接成功! 正在接收文件列表...",
-            "top_info2": "选择您想通过USB安装的文件, 然后按 \ue0ef 号安装",
+            "top_info2": "选择您想通过USB安装的文件, 然后按 \ue0ef 安装",
             "error": "USB传输超时...",
             "source_string": " 通过USB",
             "buttons": "\ue0e2 (按住) 帮助    \ue0e1 (按住) 取消",
@@ -131,7 +131,7 @@
         "version_text2": "你的签名补丁已更新 ",
         "install_complete": "安装完成！",
         "complete_desc": "需要重启你的主机",
-        "restart": "重启",
+        "restart": "立即重启",
         "later": "稍后重启",
         "extract_failed": "无法解压文件！",
         "restore_failed": "不能回复原Hekate的patches.ini！要继续卸载吗？",
@@ -151,7 +151,7 @@
             "sig_url": "签名补丁来源URL: ",
             "language": "语言： ",
             "check_update": "检测更新",
-            "credits": "制作名单"
+            "credits": "致谢"
         },
         "nca_warn": {
             "title": "警告！",
@@ -175,12 +175,12 @@
         },
         "credits": {
             "title": "感谢下列人士",
-            "desc": "- 来自 HookedBehemoth 的巨大贡献\n- Adubbz 以及其他为Tinfoil贡献过的人\n- XorTroll 强大的Plutonium库和金叶子工具\n- blawar (wife strangulator)和 nicoboss 对 NSZ 格式的支持\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- 来自namako8982的Momiji美术\n- TheXzoron for being a baka"
+            "desc": "- 来自 HookedBehemoth 的巨大贡献\n- Adubbz 以及其他为Tinfoil贡献过的人\n- XorTroll 强大的Plutonium库和金叶子工具\n- blawar (wife strangulator)和 nicoboss 对 NSZ 格式的支持\n- 来自AtlasNX Discuck的好心人 (至少其中的一部分)\n- 来自RetroNX Discuck的好心人 (虽然没直接参与)\n- 来自namako8982的Momiji美术\n- 也特别感谢TheXzoron"
         },
         "language": {
             "title": "选择语言",
-            "desc": "更改语言后程序将关闭，请重新打开。 按 \ue0e1 取消。",
-            "system_language": "系统"
+            "desc": "更改语言后程序将关闭，请重新打开，或者按 \ue0e1 取消。",
+            "system_language": "系统默认"
         },
         "title": "更改 Awoo 安装器的设置！",
         "buttons": "\ue0e0 选择/更改    \ue0e1 取消"
