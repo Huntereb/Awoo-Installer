@@ -1,0 +1,196 @@
+{
+    "main":{
+        "menu": {
+            "sd": "SDカードからインストール",
+            "net": "LANまたはインターネット経由でインストール",
+            "usb": "USB経由でインストール",
+            "sig": "署名パッチを管理する",
+            "set": "設定",
+            "exit": "終了"
+        },
+        "net": {
+            "title": "ネットワーク接続は利用できません",
+            "desc": "機内モードが無効になっていて、ローカルネットワークに接続していることを確認してください。"
+        },
+        "usb": {
+            "warn": {
+                "title": "警告！",
+                "desc": "USBのインストールは、一部のデバイスおよびセットアップでは動作しない場合があります。\nUSBのインストールで問題が発生した場合は、ケーブルを抜かないでください。 \nUSBインストールにはNS-USBloaderを、リモートインストールには代わりにLAN /インターネットインストールに使用することをお勧めします。\n特に、イーサネットアダプターと組み合わせた場合は警告されています...",
+                "opt1": "次回から表示しない"
+            },
+            "error": {
+                "title": "USB接続が検出されません",
+                "desc": "互換性のあるデバイスに接続してUSB経由でインストールする"
+            }
+        },
+        "applet": {
+            "title": "アプレットモードはサポートされていません",
+            "desc": "アプレットモードでAwoo Installerを使用すると問題が発生する場合があります。\n問題が発生した場合は、インストール済みのタイトルでAwoo Installerを実行するように切り替えてください\n(ゲームの開始中にRを押したままにしてください)!"
+        },
+        "buttons": "\ue0e0 選択    \ue0e1 終了"
+    },
+    "inst": {
+        "net": {
+            "help": {
+                "title": "ヘルプ",
+                "desc": "TinfoilモードのNS-USBloaderなどのツールを使用して、他のデバイスからファイルをリモートでインストールできます。\nスイッチにファイルを送信するには、PCまたはモバイルデバイスでこれらのソフトウェアのいずれかを開き、\nスイッチのIPアドレス（画面に表示）を入力し、ファイルを選択して、コンソールにアップロードします！\n使用しているソフトウェアで特定のファイルタイプを選択できない場合は、\n拡張子の名前を受け入れ可能なものに変更してください。\nAwoo Installerはネット経由のインストール中にファイル拡張子を気にしません！\n\n分からない場合は、ファイルをSDカードにコピーして\nメインメニューの[SDカードからインストール]オプションを試してください。"
+            },
+            "src": {
+                "title": "どこからインストールしますか？",
+                "opt0": "URL",
+                "opt1": "Googleドライブ"
+            },
+            "url": {
+                "hint": "ファイルのインターネットアドレスを入力してください",
+                "invalid": "指定されたURLは無効です！",
+                "source_string": " URLから"
+            },
+            "gdrive": {
+                "hint": "Googleドライブの公開ファイルのファイルIDを入力してください",
+                "alt_name": "Googleドライブファイル",
+                "source_string": " Googleドライブから"
+            },
+            "top_info": "サーバーからインストールするファイルを選択し、＋ボタンを押してください！",
+            "top_info1": "接続を待機しています...スイッチのIPアドレスは次のとおりです。: ",
+            "failed": "リモートインストールを実行できませんでした！",
+            "transfer_interput": "データ転送中にエラーが発生しました。ネットワーク接続を確認してください。",
+            "source_string": " ローカルネットワーク経由",
+            "buttons": "\ue0e3 インターネット経由でインストールする    \ue0e2 ヘルプ    \ue0e1 キャンセル",
+            "buttons1": "\ue0e0 ファイルを選択    \ue0e3 すべて選択    \ue0ef ファイルをインストール    \ue0e1 キャンセル"
+        },
+        "sd": {
+            "help": {
+                "title": "ヘルプ",
+                "desc": "NSP、NSZ、XCI、またはXCZファイルをSDカードにコピーし、\nインストールするファイルを参照して選択し、＋ボタンを押します。"
+            },
+            "top_info": "インストールするファイルを選択し、＋ボタンを押してください！",
+            "source_string": " SDカードから",
+            "delete_info": " インストール完了！ SDカードから削除しますか？",
+            "delete_info_multi": " ファイルが正常にインストールされました！ SDカードから削除しますか？",
+            "delete_desc": "元のファイルはインストール後に不要になりました",
+            "buttons": "\ue0e0 ファイルを選択    \ue0e3 すべて選択    \ue0ef ファイルをインストール    \ue0e2 ヘルプ    \ue0e1 キャンセル"
+        },
+        "usb": {
+            "help": {
+                "title": "ヘルプ",
+                "desc": "TinfoilモードのNS-USBloaderなどのツールを使用して、\n他のデバイスからUSB経由でファイルをインストールできます。 スイッチにファイルを送信するには、PCでこれらのソフトウェアのいずれかを開き、\nファイルを選択して、コンソールにアップロードします！\n\n残念ながら、一部のプラットフォームではUSBのインストールに特定のセットアップが必要であり、\nかなりバグが多い場合があります。わからない場合は、\nLAN /インターネットインストールを試してみるか、ファイルをSDカードにコピーして、\nメインメニューの[SDカードからインストール]オプションを試してください!"
+            },
+            "top_info": "USB接続に成功しました！ファイルのリストが送信されるのを待っています...",
+            "top_info2": "USB経由でインストールするファイルを選択し、＋ボタンを押します！",
+            "error": "USB転送がタイムアウトまたは失敗した",
+            "source_string": " USB経由",
+            "buttons": "\ue0e2 (押す) ヘルプ    \ue0e1 (押す) キャンセル",
+            "buttons2": "\ue0e0 ファイルを選択    \ue0e3 すべて選択    \ue0ef ファイルをインストール    \ue0e1 キャンセル"
+        },
+        "target": {
+            "desc0": "どこに ",
+            "desc1": " をインストールしますか？",
+            "desc00": "選択すべき場所 ",
+            "desc01": " ファイルをインストールしますか？",
+            "opt0": "SDカード",
+            "opt1": "内部ストレージ"
+        },
+        "info_page": {
+            "top_info0": "インストール中 ",
+            "preparing": "インストールの準備...",
+            "failed": "インストールに失敗しました ",
+            "failed_desc": "部分的にインストールされたコンテンツは、システム設定アプレットから削除できます。",
+            "complete": "インストール完了",
+            "desc0": " ファイルが正常にインストールされました!",
+            "desc1": " インストール完了!",
+            "downloading": "ダウンロード中 ",
+            "at": " に "
+        },
+        "nca_verify": {
+            "title": "無効なNCA署名が検出されました!",
+            "desc": "不適切に署名されたソフトウェアは、信頼できるソースからのみインストールする必要があります。\nカートリッジの再梱包とDLCロック解除を含むファイルには、常にこの警告が表示されます。\nAwoo Installerの設定でこのチェックを無効にできます。\n\nインストールを続行してもよろしいですか？",
+            "opt1": "はい、リスクを理解しています",
+            "error": "要求されたNCAは適切に署名されていません: "
+        },
+        "finished": [
+            "バックアップをお楽しみください！",
+            "そのゲームは自分で購入したものですか？",
+            "任天堂ありがとう!",
+            "DRMのバイパスは素晴らしいでしょ?",
+            "ダウンロード版を購入することで自然環境保護に協力しましょう！",
+            "任天堂の諜報員があなたの現在の場所に派遣されました。",
+            "ここに到達するために政治的なイデオロギーを喉に押し込む必要さえありませんでした!"
+        ]
+    },
+    "sig": {
+        "install": "インストール",
+        "uninstall": "アンインストール",
+        "update": "アップデート",
+        "version_text": "現在、HOSバージョンまでの署名パッチがインストールされています ",
+        "title0": "署名パッチをインストールしますか?",
+        "desc0": "公式のソフトウェアをインストールして再生するには、署名パッチが必要です。",
+        "backup_failed": "Hekate patch.iniをバックアップできませんでした！それでもインストールしますか?",
+        "backup_failed_desc": "Hekateを使用しない場合、この警告は無視できます。",
+        "download_failed": "署名パッチをダウンロードできませんでした",
+        "download_failed_desc": "Awoo Installerの設定で無効なソースを指定したか、\nホストが現在ダウンしている可能性があります。",
+        "version_text2": "署名パッチがHOSバージョンまで更新されました ",
+        "install_complete": "インストール完了!",
+        "complete_desc": "本体を再起動して適用します",
+        "restart": "再起動",
+        "later": "後でやります",
+        "extract_failed": "ファイルを抽出できませんでした！",
+        "restore_failed": "元のHekate patch.iniを復元できません！アンインストールを続行しますか？",
+        "uninstall_complete": "アンインストール完了",
+        "remove_failed": "署名パッチを削除できません",
+        "remove_failed_desc": "ファイルの名前が変更または削除された可能性があります",
+        "generic_error": "署名パッチのインストールに失敗しました!"
+    },
+    "options": {
+        "menu_items": {
+            "ignore_firm": "タイトルに必要な最小ファームウェアバージョンを無視する",
+            "nca_verify": "インストール前にNCA署名を検証する",
+            "boost_mode": "インストール中に「ブーストモード」を有効にする",
+            "ask_delete": "インストール後に元のファイルを削除する",
+            "auto_update": "Awoo Installerのアップデートを自動的に確認する",
+            "gay_option": "アニメを削除",
+            "sig_url": "署名パッチのソースURL: ",
+            "language": "言語: ",
+            "check_update": "Awoo Installerのアップデートを確認",
+            "credits": "クレジット"
+        },
+        "nca_warn": {
+            "title": "警告!",
+            "desc": "一部のインストール可能なファイルには悪意のあるコンテンツが含まれている場合があります!\nこの機能は、インストールするソフトウェアが信頼できると確信している場合にのみ無効にしてください!\n\nそれでもNCA署名検証を無効にしますか?",
+            "opt1": "はい、故障しても大丈夫です"
+        },
+        "sig_hint": "署名パッチを取得するURLを入力します",
+        "update": {
+            "title": "更新可能",
+            "desc0": "Awoo Installer ",
+            "desc1": " 現在入手可能です！更新する準備ができましたか?",
+            "opt0": "アップデート",
+            "top_info": "Awoo Installerを更新 ",
+            "bot_info": "Awoo Installerをダウンロード中 ",
+            "bot_info2": "Awoo Installerを展開中 ",
+            "complete": "更新完了!",
+            "failed": "更新失敗!",
+            "end_desc": "これでソフト​​ウェアが閉じられます。",
+            "title_check_fail": "更新が見つかりません",
+            "desc_check_fail": "既にAwoo Installerの最新バージョンを使用しています!"
+        },
+        "credits": {
+            "title": "以下の方々に感謝します!",
+            "desc": "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife strangulator) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka"
+        },
+        "language": {
+            "title": "Awoo Installerの言語を選択",
+            "desc": "言語を変更した後、ソフトウェアは閉じられます。 Bを押してキャンセルします。",
+            "system_language": "システム"
+        },
+        "title": "Awoo Installerの設定を変更する",
+        "buttons": "\ue0e0 選択/変更    \ue0e1 キャンセル"
+    },
+    "common": {
+        "ok": "OK",
+        "cancel": "キャンセル",
+        "close": "閉じる",
+        "yes": "はい",
+        "no": "いいえ",
+        "cancel_desc": "Bを押してキャンセル"
+    }
+}

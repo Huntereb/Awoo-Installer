@@ -180,7 +180,7 @@
         "language": {
             "title": "Select Awoo Installer's language",
             "desc": "The software will be closed after changing languages. Press B to cancel.",
-            "system_language": "System default"
+            "system_language": "System"
         },
         "title": "Change Awoo Installer's settings!",
         "buttons": "\ue0e0 Select/Change    \ue0e1 Cancel"
