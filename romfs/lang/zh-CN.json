@@ -179,7 +179,7 @@
         },
         "language": {
             "title": "选择 Awoo Installer 语言",
-            "desc": "软件将在更换语言后关闭，按 \ue0e1 以取消。",
+            "desc": "软件将在更改语言后关闭，按 \ue0e1 取消。",
             "system_language": "系统默认"
         },
         "title": "更改 Awoo Installer 设置！",
@@ -191,6 +191,6 @@
         "close": "关闭",
         "yes": "是",
         "no": "否",
-        "cancel_desc": "按 \ue0e1 以取消"
+        "cancel_desc": "按 \ue0e1 取消"
     }
 }
