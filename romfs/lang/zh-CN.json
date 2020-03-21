@@ -25,7 +25,7 @@
         },
         "applet": {
             "title": "不支持 Applet 模式",
-            "desc": "在 Applet 模式下使用 Awoo Installer 可能会遇到问题，\n如果遇到问题，请切换 Awoo Installer 的运行模式！\n(按住 R 键并打开任意游戏，进入相册后再打开 Awoo Installer 即可)"
+            "desc": "在 Applet 模式下使用 Awoo Installer 可能会遇到问题，\n如果遇到问题，请切换 Awoo Installer 的运行模式！\n(按住 \ue0e5 并打开任意游戏，进入 hbmenu 后再打开 Awoo Installer 即可)"
         },
         "buttons": "\ue0e0 选择    \ue0e1 退出"
     },
@@ -50,7 +50,7 @@
                 "alt_name": "Google 网盘文件",
                 "source_string": " 通过 Google 网盘"
             },
-            "top_info": "在服务器中选择将要安装的文件，然后按下 + 按钮！",
+            "top_info": "在服务器中选择将要安装的文件，然后按 \ue0ef 以安装！",
             "top_info1": "正在等待连接… Switch 的 IP 地址是：",
             "failed": "远程安装失败！",
             "transfer_interput": "数据传输发生错误，检查网络连接。",
@@ -61,9 +61,9 @@
         "sd": {
             "help": {
                 "title": "帮助",
-                "desc": "复制 NSP、NSZ、XCI 或 XCZ 文件到 SD 卡，\n浏览并选择将要安装的文件，然后按下 + 按钮。"
+                "desc": "复制 NSP、NSZ、XCI 或 XCZ 文件到 SD 卡，\n浏览并选择将要安装的文件，然后按 \ue0ef 以安装。"
             },
-            "top_info": "选择将要安装的文件，然后按下 + 按钮！",
+            "top_info": "选择将要安装的文件，然后按 \ue0ef 以安装！",
             "source_string": " 通过 SD 卡",
             "delete_info": " 安装完成！是否从 SD 卡中删除安装文件？",
             "delete_info_multi": " 文件安装成功！是否从 SD 卡中删除安装文件？",
@@ -76,7 +76,7 @@
                 "desc": "可以通过下列工具通过 USB 安装文件，\n例如在 Tinfoil 模式下使用 NS-USBloader。\n如想向 Switch 发送文件，打开电脑或移动设备上任一工具软件，\n选择文件，然后上传到您的主机即可！\n\n不幸的是，USB 安装在一些平台上可能需要特别的设置，这可能会引发更多的问题。\n如果以上无效，试试通过局域网或网络安装，或者复制文件到 SD 卡并在主菜单中选择\"通过 SD 卡安装\"！"
             },
             "top_info": "USB 连接成功！正在等待发送文件列表...",
-            "top_info2": "选择将要通过 USB 安装的文件，然后按下 + 按钮！",
+            "top_info2": "选择将要通过 USB 安装的文件，然后按 \ue0ef 以安装！",
             "error": "USB 传输超时或失败",
             "source_string": " 通过 USB",
             "buttons": "\ue0e2 (按住) 帮助    \ue0e1 (按住) 取消",
@@ -128,9 +128,9 @@
         "backup_failed_desc": "如果您不使用 Hekate，请忽略此警告。",
         "download_failed": "无法下载签名补丁",
         "download_failed_desc": "您可能在 Awoo Installer 设置中设定了无效来源，\n或者来源可能暂时无法访问。",
-        "version_text2": "您的签名补丁已更新到 HOS 版本 ",
+        "version_text2": "您的签名补丁已更新到适配 HOS 版本 ",
         "install_complete": "安装完成！",
-        "complete_desc": "重新启动主机并应用",
+        "complete_desc": "重启主机并应用",
         "restart": "立即重启",
         "later": "稍后重启",
         "extract_failed": "无法解压文件！",
@@ -179,7 +179,7 @@
         },
         "language": {
             "title": "选择 Awoo Installer 语言",
-            "desc": "软件将在更换语言后关闭，按 B 以取消。",
+            "desc": "软件将在更换语言后关闭，按 \ue0e1 以取消。",
             "system_language": "系统默认"
         },
         "title": "更改 Awoo Installer 设置！",
@@ -191,6 +191,6 @@
         "close": "关闭",
         "yes": "是",
         "no": "否",
-        "cancel_desc": "按 B 以取消"
+        "cancel_desc": "按 \ue0e1 以取消"
     }
 }
