@@ -442,7 +442,7 @@ static Result _usbCommsRead(usbCommsInterface *interface, void* buffer, size_t s
         if (R_FAILED(rc))
         {
             usbDsEndpoint_Cancel(interface->endpoint_out);
-            eventWait(&interface->endpoint_out->CompletionEvent, U64_MAX);
+            eventWait(&interface->endpoint_out->CompletionEvent, UINT64_MAX);
             eventClear(&interface->endpoint_out->CompletionEvent);
             return rc;
         }
@@ -512,7 +512,7 @@ static Result _usbCommsWrite(usbCommsInterface *interface, const void* buffer, s
         if (R_FAILED(rc))
         {
             usbDsEndpoint_Cancel(interface->endpoint_in);
-            eventWait(&interface->endpoint_in->CompletionEvent, U64_MAX);
+            eventWait(&interface->endpoint_in->CompletionEvent, UINT64_MAX);
             eventClear(&interface->endpoint_in->CompletionEvent);
             return rc;
         }

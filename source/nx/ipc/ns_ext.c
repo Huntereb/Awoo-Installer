@@ -76,23 +76,6 @@ Result nsPushApplicationRecord(u64 title_id, u8 last_modified_event, ContentStor
         .buffers = { { content_records_buf, buf_size } });
 }
 
-Result nsCalculateApplicationOccupiedSize(u64 titleID, void *out_buf) {
-
-    struct {
-        u64 titleID;
-    } in = { titleID };
-
-    struct {
-        u8 out[0x80];
-    } out;
-
-    Result rc = serviceDispatchInOut(&g_nsAppManSrv, 11, in, out);
-
-    if (R_SUCCEEDED(rc) && out_buf) memcpy(out_buf, out.out, 0x80);
-
-    return rc;
-}
-
 Result nsListApplicationRecordContentMeta(u64 offset, u64 titleID, void *out_buf, size_t out_buf_size, u32 *entries_read_out) {
 
     struct {
@@ -111,14 +94,6 @@ Result nsListApplicationRecordContentMeta(u64 offset, u64 titleID, void *out_buf
     if (R_SUCCEEDED(rc) && entries_read_out) *entries_read_out = out.entries_read;
 
     return rc;
-}
-
-Result nsTouchApplication(u64 titleID) {
-    struct {
-        u64 titleID;
-    } in = { titleID };
-    
-    return serviceDispatchIn(&g_nsAppManSrv, 904, in);
 }
 
 Result nsDeleteApplicationRecord(u64 titleID) {
@@ -145,31 +120,6 @@ Result nsPushLaunchVersion(u64 titleID, u32 version) {
     } in = { titleID, version, 0 };
     
     return serviceDispatchIn(&g_nsAppManSrv, 36, in);
-}
-
-Result nsCheckApplicationLaunchVersion(u64 titleID) {
-    struct {
-        u64 titleID;
-    } in = { titleID };
-    
-    return serviceDispatchIn(&g_nsAppManSrv, 38, in);
-}
-
-Result nsCountApplicationContentMeta(u64 titleId, u32* countOut) {
-
-    struct {
-        u64 titleId;
-    } in = { titleId };
-
-    struct {
-        u32 count;
-    } out;
-
-    Result rc = serviceDispatchInOut(&g_nsAppManSrv, 600, in, out);
-
-    if (R_SUCCEEDED(rc) && countOut) *countOut = out.count;
-
-    return rc;
 }
 
 Result nsGetContentMetaStorage(const NcmContentMetaKey *record, u8 *storageOut) {
@@ -244,13 +194,4 @@ Result nsDisableApplicationAutoUpdate(u64 titleID) {
     } in = { titleID };
     
     return serviceDispatchIn(&g_nsAppManSrv, 903, in);
-}
-
-Result nsWithdrawApplicationUpdateRequest(u64 titleId) {
-
-    struct {
-        u64 title_id;
-    } in = { titleId };
-    
-    return serviceDispatchIn(&g_nsAppManSrv, 907, in);
 }

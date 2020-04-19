@@ -72,7 +72,7 @@ namespace tin::install
         Result rc = 0;
         std::vector<ContentStorageRecord> storageRecords;
         u64 baseTitleId = tin::util::GetBaseTitleId(this->GetTitleId(i), this->GetContentMetaType(i));
-        u32 contentMetaCount = 0;
+        s32 contentMetaCount = 0;
 
         LOG_DEBUG("Base title Id: 0x%lx", baseTitleId);
 
@@ -96,7 +96,7 @@ namespace tin::install
 
             ASSERT_OK(nsListApplicationRecordContentMeta(0, baseTitleId, contentStorageBuf.get(), contentStorageBufSize, &entriesRead), "Failed to list application record content meta");
 
-            if (entriesRead != contentMetaCount)
+            if ((s32)entriesRead != contentMetaCount)
             {
                 THROW_FORMAT("Mismatch between entries read and content meta count");
             }
