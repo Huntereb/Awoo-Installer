@@ -94,6 +94,8 @@ namespace nx::ncm
         contentMetaHeader.extended_header_size = packagedContentMetaHeader.extended_header_size;
         contentMetaHeader.content_count = contentInfos.size() + 1; // Add one for the cnmt content record
         contentMetaHeader.content_meta_count = packagedContentMetaHeader.content_meta_count;
+        contentMetaHeader.attributes = 0;
+        contentMetaHeader.storage_id = 0;
 
         installContentMetaBuffer.Append<NcmContentMetaHeader>(contentMetaHeader);
 
