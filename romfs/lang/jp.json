@@ -2,7 +2,7 @@
     "main":{
         "menu": {
             "sd": "SDカードからインストール",
-            "net": "LANまたはインターネット経由でインストール",
+            "net": "LANまたはネットワーク経由でインストール",
             "usb": "USB経由でインストール",
             "sig": "署名パッチを管理する",
             "set": "設定",
@@ -145,9 +145,9 @@
             "ignore_firm": "タイトルに必要な最小ファームウェアバージョンを無視する",
             "nca_verify": "インストール前にNCA署名を検証する",
             "boost_mode": "インストール中に「ブーストモード」を有効にする",
-            "ask_delete": "インストール後に元のファイルを削除する",
+            "ask_delete": "インストール後に元のファイルを削除するか尋ねる",
             "auto_update": "Awoo Installerのアップデートを自動的に確認する",
-            "gay_option": "アニメを削除",
+            "gay_option": "絵を非表示にする",
             "sig_url": "署名パッチのソースURL: ",
             "language": "言語: ",
             "check_update": "Awoo Installerのアップデートを確認",
@@ -180,7 +180,7 @@
         "language": {
             "title": "Awoo Installerの言語を選択",
             "desc": "言語を変更した後、ソフトウェアは閉じられます。 Bを押してキャンセルします。",
-            "system_language": "システムのデフォルト"
+            "system_language": "システム"
         },
         "title": "Awoo Installerの設定を変更する",
         "buttons": "\ue0e0 選択/変更    \ue0e1 キャンセル"
