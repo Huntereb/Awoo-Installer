@@ -51,7 +51,7 @@
                 "source_string": " da Google Drive"
             },
             "top_info": "Seleziona quali file vuoi installare dal server, poi premi il tasto Più!",
-            "top_info1": "Aspettando una connnessione... L'indirizzo IP è: ",
+            "top_info1": "Aspettando una connessione... L'indirizzo IP è: ",
             "failed": "Impossibile eseguire l'installazione remota!",
             "transfer_interput": "Si è verificato un errore durante il trasferimento dei dati. Controlla la tua connessione.",
             "source_string": " via rete locale",
@@ -83,10 +83,10 @@
             "buttons2": "\ue0e0 Seleziona File    \ue0e3 Seleziona tutto    \ue0ef Installa i File    \ue0e1 Annulla"
         },
         "target": {
-            "desc0": "Dove dovrebbe ",
-            "desc1": " essere installato?",
-            "desc00": "Dove dovrebbero essere ",
-            "desc01": " instalalti i file selezionati?",
+            "desc0": "Dove vuoi installare ",
+            "desc1": " ?",
+            "desc00": "Dove vuoi installare ",
+            "desc01": " ?",
             "opt0": "SD",
             "opt1": "Memoria interna"
         },
@@ -180,7 +180,7 @@
         "language": {
             "title": "Seleziona la lingua di Awoo Installer",
             "desc": "Il software verrà chiuso dopo aver cambiato la lingua. Premi B per annullare.",
-            "system_language": "Sistema"
+            "system_language": "Default di sistema"
         },
         "title": "Cambia le impostazioni di Awoo Installer!",
         "buttons": "\ue0e0 Seleziona/Cambia    \ue0e1 Annulla"
