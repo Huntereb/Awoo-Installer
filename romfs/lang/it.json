@@ -86,7 +86,7 @@
             "desc0": "Dove vuoi installare ",
             "desc1": " ?",
             "desc00": "Dove vuoi installare ",
-            "desc01": " ?",
+            "desc01": " file?",
             "opt0": "SD",
             "opt1": "Memoria interna"
         },
