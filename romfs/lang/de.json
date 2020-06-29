@@ -94,7 +94,7 @@
             "top_info0": "Installiere ",
             "preparing": "Bereite Installation vor...",
             "failed": "Installation fehlgeschlagen ",
-            "failed_desc": "Teilweise installierte Inhalte können in den Einstellungen entfernt werden.",
+            "failed_desc": "Teilweise installierte Inhalte können in den Systemeinstellungen (Datenverwaltung) entfernt werden.",
             "complete": "Installation abgeschlossen",
             "desc0": " Dateien erfolgreich installiert!",
             "desc1": " installiert!",
