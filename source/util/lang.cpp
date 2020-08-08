@@ -40,6 +40,7 @@ namespace Language {
                 languagePath = "romfs:/lang/es.json";
                 break;
             case 6:
+            case 15:
                 languagePath = "romfs:/lang/zh-CN.json";
                 // the default font will miss some chinese character, so use a chinese font (simplified)
                 pu::ui::render::SetDefaultFontFromShared(pu::ui::render::SharedFont::ChineseSimplified);
