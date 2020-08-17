@@ -54,7 +54,7 @@
             "top_info1": "En attente d'une connexion... L'adresse IP de votre switch est : ",
             "failed": "Echec de l'installation à distance !",
             "transfer_interput": "Une erreur s'est produite pendant le transfert des données. Vérifiez votre connexion réseau.",
-            "source_string": " à partir d'un réeseau local",
+            "source_string": " à partir du réseau local",
             "buttons": "\ue0e3 Installer via Internet    \ue0e2 Aide    \ue0e1 Annuler",
             "buttons1": "\ue0e0 Sélectionnez un fichier    \ue0e3 Tout sélectionner   \ue0ef Installer un/des fichier(s)    \ue0e1 Annuler"
         },
