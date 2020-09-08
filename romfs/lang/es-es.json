@@ -4,7 +4,7 @@
             "sd": "Instalar desde tarjeta SD",
             "net": "Instalar a través de red local o Internet",
             "usb": "Instalar por USB",
-            "sig": "Administrar sigpatches ",
+            "sig": "Administrar sigpatches",
             "set": "Ajustes",
             "exit": "Salir"
         },
