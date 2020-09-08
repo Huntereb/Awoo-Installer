@@ -1,0 +1,196 @@
+{
+    "main":{
+        "menu": {
+            "sd": "Instalar desde tarjeta SD",
+            "net": "Instalar a través de red local o Internet",
+            "usb": "Instalar por USB",
+            "sig": "Administrar sigpatches ",
+            "set": "Ajustes",
+            "exit": "Salir"
+        },
+        "net": {
+            "title": "Conexión de red no disponible",
+            "desc": "Verifica que el modo avión esté deshabilitado y que estés conectado a una red."
+        },
+        "usb": {
+            "warn": {
+                "title": "¡Advertencia!",
+                "desc": "Las instalaciones por USB pueden no funcionar muy bien en algunos dispositivos y configuraciones.\nSi experimentas problemas con las instalaciones USB, ¡por favor no te tires de los pelos!\nSe recomienda el uso de NS-USBloader para las instalaciones por USB,\no instalaciones a través de LAN/Internet en su lugar para instalar de forma remota, ¡especialmente\ncuando se usa en conjunto con un adaptador de ethernet!\n\nTe lo hemos advertido...",
+                "opt1": "No me vuelvas a advertir"
+            },
+            "error": {
+                "title": "No se ha detectado una conexión USB",
+                "desc": "Conecta a un dispositivo compatible para hacer instalaciones por USB"
+            }
+        },
+        "applet": {
+            "title": "Modo Applet no soportado",
+            "desc": "Puede que experimentes problemas al utilizar Awoo Installer en modo Applet.\nSi tienes problemas, por favor ejecuta Awoo Installer utilizando un título que tengas instalado\n(mantén pulsado R mientras abres un juego)!"
+        },
+        "buttons": "\ue0e0 Seleccionar    \ue0e1 Salir"
+    },
+    "inst": {
+        "net": {
+            "help": {
+                "title": "Ayuda",
+                "desc": "Se pueden instalar archivos de forma remota desde otros dispositivos utilizando herrmaientas\ncomo NS-USBloader en modo Tinfoil. Para enviar archivos a tu Switch, abre uno\nde estos programas en tu ordenador o teléfono móvil, introduce la\ndirección IP de tu Switch (se muestra en pantalla), selecciona tus archivos, ¡y súbelos a tu consola! Si el programa que estés usando no te deja seleccionar\ntipos de archivo específicos, prueba a cambiar el nombre de la extensión del archivo por otra que sí acepte.\n¡Awoo Installer no se fija en las extensiones de los archivos en las instalaciones de red!\n\nSi no puedes hacer que funcione, simplemente copia los archivos a tu tarjeta SD y prueba la opción de «Instalar desde tarjeta SD» en el menú principal."
+            },
+            "src": {
+                "title": "¿Desde dónde quieres instalar el juego?",
+                "opt0": "URL",
+                "opt1": "Google Drive"
+            },
+            "url": {
+                "hint": "Introduce la dirección de Internet de un archivo",
+                "invalid": "¡La URL especificada no es válida!",
+                "source_string": " desde una URL"
+            },
+            "gdrive": {
+                "hint": "Introduce la ID de un archivo público de Google Drive",
+                "alt_name": "Archivo de Google Drive",
+                "source_string": " desde Google Drive"
+            },
+            "top_info": "¡Selecciona los archivos que quieres instalar desde el servidor, luego pulsa el botón +!",
+            "top_info1": "Esperando una conexión... La dirección IP de tu Switch es: ",
+            "failed": "¡No se pudo realizar la instalación remota!",
+            "transfer_interput": "Ha ocurrido un error al transmitir los datos. Comprueba tu conexión de red.",
+            "source_string": " a través de red local",
+            "buttons": "\ue0e3 Instalar Usando la Internet    \ue0e2 Ayuda    \ue0e1 Cancelar",
+            "buttons1": "\ue0e0 Selecionar Archivo    \ue0e3 Seleccionar Todos    \ue0ef Instalar Archivo(s)    \ue0e1 Cancelar"
+        },
+        "sd": {
+            "help": {
+                "title": "Ayuda",
+                "desc": "Copia los archivos NSP, NSZ, XCI o XCZ a tu tarjeta SD, navega hacia ellos,\nselecciona los que quires instalar y luego pulsa el botón +."
+            },
+            "top_info": "¡Selecciona los archivos que quieres instalar, y pulsa el botón +!",
+            "source_string": " desde la tarjeta SD",
+            "delete_info": " instalado. ¿Borrarlo de la tarjeta SD?",
+	    "delete_info_multi": " archivos instalados con éxito. ¿Borrarlos de la tarjeta SD?",
+            "delete_desc": "Los archivos originales no hacen falta después de ser instalados",
+            "buttons": "\ue0e0 Selecionar Archivo    \ue0e3 Seleccionar Todo    \ue0ef Instalar Archivo(s)    \ue0e2 Ayuda    \ue0e1 Cancelar"
+        },
+        "usb": {
+            "help": {
+                "title": "Ayuda",
+                "desc": "Se pueden instalar archivos por USB de otros dispositivos utilizando herramientas como\nNS-USBloader en modo Tinfoil. Para enviar archivos a tu Switch, abre uno de\nestos programas en tu ordenador, selecciona tus archivos, ¡y súbelos a\ntu consola!\n\nPor desgracia, las instalaciones por USB necesitan una configuración especial en algunas\nplataformas, y puede ser bastante problemática a veces. Si no consigues hacer que funcione,\nprueba las instalaciones por red local/Internet, o copia tus archivos a la tarjeta SD y prueba la opción de «Instalar desde tarjeta SD» en el menú principal."
+            },
+            "top_info": "¡Conexión USB exitosa! Esperando que se envíe la lista de archivos...",
+            "top_info2": "¡Selecciona los archivos que quieres instalar por USB y pulsa el botón +!",
+            "error": "Tiempo de espera agotado o error de transferencia USB",
+            "source_string": " por USB",
+            "buttons": "\ue0e2 (Mantener) Ayuda    \ue0e1 (Mantener) Cancelar",
+            "buttons2": "\ue0e0 Selecionar Archivo    \ue0e3 Seleccionar Todo    \ue0ef Instalar Archivo(s)    \ue0e1 Cancelar"
+        },
+        "target": {
+            "desc0": "¿Dónde debería instalarse ",
+            "desc1": "?",
+            "desc00": "¿Dónde deberían instalarse los ",
+            "desc01": " archivos seleccionados?",
+            "opt0": "Tarjeta SD",
+            "opt1": "Almacenamiento Interno"
+        },
+        "info_page": {
+            "top_info0": "Instalando ",
+            "preparing": "Preparando la instalación...",
+            "failed": "Fallo al instalar ",
+            "failed_desc": "Los contenidos parcialmente instalados pueden ser eliminados en el menú de Configuración de la consola.",
+            "complete": "Instalación exitosa",
+            "desc0": " archivos fueron instalados satisfactoriamente.",
+            "desc1": " instalado.",
+            "downloading": "Descargando ",
+            "at": " en "
+        },
+        "nca_verify": {
+            "title": "¡Se detectó una firma NCA inválida!",
+            "desc": "Las aplicaciones que no han sido firmados correctamente sólo deberían instalarse de fuentes\nde confianza. Los archivos que contienen recompresiones de cartuchos y desbloqueadores de DLCs siempre\nmostrarán esta advertencia. Puedes deshabilitar esta comprobación en los ajustes de Awoo Installer.\n\n¡Estás seguro de que quieres continuar con la instalación?",
+            "opt1": "Si, entiendo el riesgo",
+            "error": "El archivo NCA solicitado no está firmado correctamente:"
+        },
+        "finished": [
+            "¡Disfruta de tus «copias legales»!",
+            "¡Estoy completemente seguro de que después de probar el juego te lo pasarás muy bien comprándolo de verdad!",
+            "¿Tu compras juego verdad? ¡Nintendo-san agradece tu compra!",
+            "Saltarse el DRM es genial, ¿no?",
+            "¡Probablemente hayas salvado como seis árboles por no comprar el juego! ¡Todo ese plástico va a alguna parte!",
+            "Los ninjas de Nintendo han sido enviados a tu ubicación actual.",
+            "¡Y ni siquiera hemos tenido que meterte una ideología política en la cabeza para llegar aquí!"
+        ]
+    },
+    "sig": {
+        "install": "Instalar",
+        "uninstall": "Desinstalar",
+        "update": "Actualizar",
+        "version_text": "Actualmente tienes sigpatches instalados para hasta la versión de HOS ",
+        "title0": "¿Instalar sigpatches?",
+        "desc0": "Los sigpatches son necesarios para instalar y jugar aplicaciones oficiales.",
+        "backup_failed": "¡No se pudo hacer una copia del archivo «patches.ini» de Hekate! ¡Instalar de todas formas?",
+        "backup_failed_desc": "Si no usas Hekate puedes ingorar este aviso",
+        "download_failed": "No se pudieron descargar los sigpatches",
+        "download_failed_desc": "Puede que hayas introducido una fuente incorrecta en los ajustes de Awoo Installer,\no que el servidor esté fuera de servicio en este momento.",
+        "version_text2": "Tus sigpatches han sido actualizados para hasta la versión de HOS ",
+        "install_complete": "¡Instalación completada!",
+        "complete_desc": "Reinicia la consola para que los cambios hagan efecto",
+        "restart": "Reiniciar",
+        "later": "Lo haré más tarde",
+        "extract_failed": "¡Error extrayendo archivos!",
+        "restore_failed": "¡Imposible restaurar el archivo «patches.ini» original de Hekate! ¿Continuar con la desinstalación?",
+        "uninstall_complete": "Desinstalación completada",
+        "remove_failed": "No fue posible eliminar los sigpatches",
+        "remove_failed_desc": "Puede que los archivos hayan sido eliminados o renombrados",
+        "generic_error": "¡Instalación de sigpatches fallida!"
+    },
+    "options": {
+        "menu_items": {
+            "ignore_firm": "Ignorar la versión mínima de firmware que necesitan los títulos",
+            "nca_verify": "Verificar las firmas NCA antes de la instalación",
+            "boost_mode": "Habilitar el «modo Turbo» durante las instalaciones",
+            "ask_delete": "Preguntar si borrar los archivos originales, luego de una instalación satisfactoria",
+            "auto_update": "Buscar actualizaciones de Awoo Installer automaticamente",
+            "gay_option": "Eliminar ánime",
+            "sig_url": "URL para la instalación de sigpatches: ",
+            "language": "Idioma: ",
+            "check_update": "Buscar actualizaciones de Awoo Installer",
+            "credits": "Créditos"
+        },
+        "nca_warn": {
+            "title": "¡Advertencia!",
+            "desc": "¡Algunos archivos instalables, pueden tener contenido malicioso!\n¡Habilita esta opción sólo, si estás completamente seguro de que\nel software que estás instalando es de confianza!\n\n¿Seguro que desea deshabilitar la verificación de firmas NCA?",
+            "opt1": "Si, quiero un brick"
+        },
+        "sig_hint": "Escribe la URL desde donde se descargarán los sigpatches",
+        "update": {
+            "title": "Actualización disponible",
+            "desc0": "¡Awoo Installer ",
+            "desc1": " está disponible! ¿Listo para actualizar?",
+            "opt0": "Actualizar",
+            "top_info": "Actualizando a Awoo Installer ",
+            "bot_info": "Descargando Awoo Installer ",
+            "bot_info2": "Extrayendo Awoo Installer ",
+            "complete": "¡Actualización completada!",
+            "failed": "¡Actualización fallida!",
+            "end_desc": "Ahora se cerrará el programa.",
+            "title_check_fail": "No se encontraron actualizaciones",
+            "desc_check_fail": "¡Tienes la versión más reciente de Awoo Installer!"
+        },
+        "credits": {
+            "title": "Gracias a las siguientes personas:",
+            "desc": "- HookedBehemoth por UN MONTÓN de contribuciones\n- Adubbz y otros contributores por Tinfoil\n- XorTroll por Plutonium y Goldleaf\n- blawar (el estrangulador de esposas) y nicoboss por el soporte de NSZ\n- Los amables amigos del Discord AtlasNX (o por lo menos algunos de ellos)\n- Los también amables amigos del Discord RetroNX (sin participación directa)\n- namako8982 por la obra de Momiji\n- TheXzoron por ser un baka"
+        },
+        "language": {
+            "title": "Selecciona el idioma de Awoo Installer",
+            "desc": "El programa será cerrado después de cambiar el idioma. Pulsa B para cancelar.",
+            "system_language": "Sistema"
+        },
+        "title": "¡Cambiar los ajustes de Awoo Installer!",
+        "buttons": "\ue0e0 Seleccionar/Cambiar    \ue0e1 Cancelar"
+    },
+    "common": {
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "close": "Cerrar",
+        "yes": "Si",
+        "no": "No",
+        "cancel_desc": "Pulsa B para cancelar"
+    }
+}
