@@ -14,7 +14,6 @@
 namespace inst::ui {
     extern MainApplication *mainApp;
 
-    std::string lastUrl = "https://";
     std::string lastFileID = "";
     std::string sourceString = "";
 
@@ -88,13 +87,14 @@ namespace inst::ui {
             std::string keyboardResult;
             switch (mainApp->CreateShowDialog("inst.net.src.title"_lang, "common.cancel_desc"_lang, {"inst.net.src.opt0"_lang, "inst.net.src.opt1"_lang}, false)) {
                 case 0:
-                    keyboardResult = inst::util::softwareKeyboard("inst.net.url.hint"_lang, lastUrl, 500);
+                    keyboardResult = inst::util::softwareKeyboard("inst.net.url.hint"_lang, inst::config::lastNetUrl, 500);
                     if (keyboardResult.size() > 0) {
-                        lastUrl = keyboardResult;
                         if (inst::util::formatUrlString(keyboardResult) == "" || keyboardResult == "https://" || keyboardResult == "http://") {
                             mainApp->CreateShowDialog("inst.net.url.invalid"_lang, "", {"common.ok"_lang}, false);
                             break;
                         }
+                        inst::config::lastNetUrl = keyboardResult;
+                        inst::config::setConfig();
                         sourceString = "inst.net.url.source_string"_lang;
                         this->selectedUrls = {keyboardResult};
                         this->startInstall(true);

@@ -6,6 +6,7 @@
 namespace inst::config {
     std::string gAuthKey;
     std::string sigPatchesUrl;
+    std::string lastNetUrl;
     std::vector<std::string> updateInfo;
     int languageSetting;
     bool autoUpdate;
@@ -27,7 +28,8 @@ namespace inst::config {
             {"overClock", overClock},
             {"sigPatchesUrl", sigPatchesUrl},
             {"usbAck", usbAck},
-            {"validateNCAs", validateNCAs}
+            {"validateNCAs", validateNCAs},
+            {"lastNetUrl", lastNetUrl}
         };
         std::ofstream file(inst::config::configPath);
         file << std::setw(4) << j << std::endl;
@@ -48,6 +50,7 @@ namespace inst::config {
             sigPatchesUrl = j["sigPatchesUrl"].get<std::string>();
             usbAck = j["usbAck"].get<bool>();
             validateNCAs = j["validateNCAs"].get<bool>();
+            lastNetUrl = j["lastNetUrl"].get<std::string>();
         }
         catch (...) {
             // If loading values from the config fails, we just load the defaults and overwrite the old config
@@ -61,6 +64,7 @@ namespace inst::config {
             overClock = false;
             usbAck = false;
             validateNCAs = true;
+            lastNetUrl = "https://";
             setConfig();
         }
     }
