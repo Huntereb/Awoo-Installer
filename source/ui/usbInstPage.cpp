@@ -3,6 +3,7 @@
 #include "util/util.hpp"
 #include "util/config.hpp"
 #include "util/lang.hpp"
+#include "util/usb_util.hpp"
 #include "usbInstall.hpp"
 
 
@@ -102,6 +103,7 @@ namespace inst::ui {
 
     void usbInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
+            tin::util::USBCmdManager::SendExitCmd();
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
