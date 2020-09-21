@@ -37,7 +37,7 @@ namespace Language {
                 break;
             case 5:
             case 14:
-                languagePath = "romfs:/lang/es.json";
+                languagePath = "romfs:/lang/es-419.json";
                 break;
             case 6:
             case 15:
