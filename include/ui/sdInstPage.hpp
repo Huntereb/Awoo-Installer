@@ -14,6 +14,8 @@ namespace inst::ui {
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
             void drawMenuItems(bool clearItems, std::filesystem::path ourPath);
+            Image::Ref titleImage;
+            TextBlock::Ref appVersionText;
         private:
             std::vector<std::filesystem::path> ourDirectories;
             std::vector<std::filesystem::path> ourFiles;
@@ -23,8 +25,6 @@ namespace inst::ui {
             Rectangle::Ref topRect;
             Rectangle::Ref infoRect;
             Rectangle::Ref botRect;
-            Image::Ref titleImage;
-            TextBlock::Ref appVersionText;
             void followDirectory();
             void selectNsp(int selectedIndex);
     };

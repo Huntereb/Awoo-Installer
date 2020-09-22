@@ -136,7 +136,10 @@ namespace usbInstStuff {
             fprintf(stdout, "%s", e.what());
             inst::ui::instPage::setInstInfoText("inst.info_page.failed"_lang + fileNames[fileItr]);
             inst::ui::instPage::setInstBarPerc(0);
-            std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
+            std::string audioPath = "romfs:/audio/bark.wav";
+            if (inst::config::gayMode) audioPath = "";
+            if (std::filesystem::exists(inst::config::appDir + "/bark.wav")) audioPath = inst::config::appDir + "/bark.wav";
+            std::thread audioThread(inst::util::playAudio,audioPath);
             inst::ui::mainApp->CreateShowDialog("inst.info_page.failed"_lang + fileNames[fileItr] + "!", "inst.info_page.failed_desc"_lang + "\n\n" + (std::string)e.what(), {"common.ok"_lang}, true);
             audioThread.join();
             nspInstalled = false;
@@ -152,7 +155,10 @@ namespace usbInstStuff {
             tin::util::USBCmdManager::SendExitCmd();
             inst::ui::instPage::setInstInfoText("inst.info_page.complete"_lang);
             inst::ui::instPage::setInstBarPerc(100);
-            std::thread audioThread(inst::util::playAudio,"romfs:/audio/awoo.wav");
+            std::string audioPath = "romfs:/audio/awoo.wav";
+            if (inst::config::gayMode) audioPath = "";
+            if (std::filesystem::exists(inst::config::appDir + "/awoo.wav")) audioPath = inst::config::appDir + "/awoo.wav";
+            std::thread audioThread(inst::util::playAudio,audioPath);
             if (ourTitleList.size() > 1) inst::ui::mainApp->CreateShowDialog(std::to_string(ourTitleList.size()) + "inst.info_page.desc0"_lang, Language::GetRandomMsg(), {"common.ok"_lang}, true);
             else inst::ui::mainApp->CreateShowDialog(fileNames[0] + "inst.info_page.desc1"_lang, Language::GetRandomMsg(), {"common.ok"_lang}, true);
             audioThread.join();

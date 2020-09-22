@@ -16,14 +16,14 @@ namespace inst::ui {
             void exitMenuItem_Click();
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             Image::Ref awooImage;
+            Image::Ref titleImage;
+            TextBlock::Ref appVersionText;
         private:
             bool appletFinished;
             bool updateFinished;
             TextBlock::Ref butText;
             Rectangle::Ref topRect;
             Rectangle::Ref botRect;
-            Image::Ref titleImage;
-            TextBlock::Ref appVersionText;
             pu::ui::elm::Menu::Ref optionMenu;
             pu::ui::elm::MenuItem::Ref installMenuItem;
             pu::ui::elm::MenuItem::Ref netInstallMenuItem;

@@ -19,8 +19,14 @@ namespace inst::ui {
         this->topRect = Rectangle::New(0, 0, 1280, 94, COLOR("#170909FF"));
         this->infoRect = Rectangle::New(0, 95, 1280, 60, COLOR("#17090980"));
         this->botRect = Rectangle::New(0, 660, 1280, 60, COLOR("#17090980"));
-        this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
-        this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
+        if (inst::config::gayMode) {
+            this->titleImage = Image::New(-113, 0, "romfs:/images/logo.png");
+            this->appVersionText = TextBlock::New(367, 49, "v" + inst::config::appVersion, 22);
+        }
+        else {
+            this->titleImage = Image::New(0, 0, "romfs:/images/logo.png");
+            this->appVersionText = TextBlock::New(480, 49, "v" + inst::config::appVersion, 22);
+        }
         this->appVersionText->SetColor(COLOR("#FFFFFFFF"));
         this->pageInfoText = TextBlock::New(10, 109, "", 30);
         this->pageInfoText->SetColor(COLOR("#FFFFFFFF"));

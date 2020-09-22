@@ -116,7 +116,10 @@ namespace tin::install::nsp
 
             if (!Crypto::rsa2048PssVerify(&header->magic, 0x200, header->fixed_key_sig, Crypto::NCAHeaderSignature))
             {
-                std::thread audioThread(inst::util::playAudio,"romfs:/audio/bark.wav");
+                std::string audioPath = "romfs:/audio/bark.wav";
+                if (inst::config::gayMode) audioPath = "";
+                if (std::filesystem::exists(inst::config::appDir + "/bark.wav")) audioPath = inst::config::appDir + "/bark.wav";
+                std::thread audioThread(inst::util::playAudio,audioPath);
                 int rc = inst::ui::mainApp->CreateShowDialog("inst.nca_verify.title"_lang, "inst.nca_verify.desc"_lang, {"common.cancel"_lang, "inst.nca_verify.opt1"_lang}, false);
                 audioThread.join();
                 if (rc != 1)

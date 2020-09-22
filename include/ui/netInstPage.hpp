@@ -12,6 +12,8 @@ namespace inst::ui {
             void startNetwork();
             void onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos);
             TextBlock::Ref pageInfoText;
+            Image::Ref titleImage;
+            TextBlock::Ref appVersionText;
         private:
             std::vector<std::string> ourUrls;
             std::vector<std::string> selectedUrls;
@@ -20,8 +22,6 @@ namespace inst::ui {
             Rectangle::Ref topRect;
             Rectangle::Ref infoRect;
             Rectangle::Ref botRect;
-            Image::Ref titleImage;
-            TextBlock::Ref appVersionText;
             pu::ui::elm::Menu::Ref menu;
             Image::Ref infoImage;
             void drawMenuItems(bool clearItems);
