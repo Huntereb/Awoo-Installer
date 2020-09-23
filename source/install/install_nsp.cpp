@@ -95,11 +95,6 @@ namespace tin::install::nsp
             contentStorage->DeletePlaceholder(*(NcmPlaceHolderId*)&ncaId);
         }
         catch (...) {}
-        // Attempt to delete leftover ncas
-        try {
-            contentStorage->Delete(ncaId);
-        }
-        catch (...) {}
 
         LOG_DEBUG("Size: 0x%lx\n", ncaSize);
 
