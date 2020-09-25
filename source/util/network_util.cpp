@@ -235,7 +235,7 @@ namespace tin::network
         int ret = 0;
         size_t read = 0;
 
-        while ((((ret = recv(sockfd, (u8*)buf + read, len - read, 0)) > 0 && (read += ret) < len) || errno == EAGAIN) && !(hidKeysDown(CONTROLLER_P1_AUTO) & KEY_B)) 
+        while ((((ret = recv(sockfd, (u8*)buf + read, len - read, 0)) > 0 && (read += ret) < len) || errno == EAGAIN)) 
         {
             errno = 0;
         }
@@ -249,7 +249,7 @@ namespace tin::network
         int ret = 0;
         size_t written = 0;
 
-        while ((((ret = send(sockfd, (u8*)buf + written, len - written, 0)) > 0 && (written += ret) < len) || errno == EAGAIN) && !(hidKeysDown(CONTROLLER_P1_AUTO) & KEY_B)) 
+        while ((((ret = send(sockfd, (u8*)buf + written, len - written, 0)) > 0 && (written += ret) < len) || errno == EAGAIN)) 
         {
             errno = 0;
         }

@@ -108,6 +108,17 @@ namespace netInstStuff{
         curl_global_cleanup();
     }
 
+    void sendExitCommands()
+    {
+        LOG_DEBUG("Telling the server we're done installing\n");
+        // Send 1 byte ack to close the server, OG tinfoil compatibility
+        u8 ack = 0;
+        tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
+        // Send 'DEAD\r\n' so ns-usbloader knows we're done
+        //u8 nsUsbAck [6] = {0x44,0x45,0x41,0x44,0x0D,0x0A};
+        //tin::network::WaitSendNetworkData(m_clientSocket, &nsUsbAck, sizeof(u8) * 6);
+    }
+
     void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames, std::string ourSource)
     {
         inst::util::initInstallServices();
@@ -178,10 +189,8 @@ namespace netInstStuff{
             inst::util::setClockSpeed(2, previousClockValues[2]);
         }
 
-        LOG_DEBUG("Telling the server we're done installing\n");
-        // Send 1 byte ack to close the server
-        u8 ack = 0;
-        tin::network::WaitSendNetworkData(m_clientSocket, &ack, sizeof(u8));
+        sendExitCommands();
+        OnUnwound();
 
         if(nspInstalled) {
             inst::ui::instPage::setInstInfoText("inst.info_page.complete"_lang);
@@ -205,8 +214,6 @@ namespace netInstStuff{
     {
         u64 freq = armGetSystemTickFreq();
         u64 startTime = armGetSystemTick();
-
-        OnUnwound();
 
         try
         {

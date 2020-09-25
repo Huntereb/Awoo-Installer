@@ -156,6 +156,9 @@ namespace inst::ui {
 
     void netInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
+            if (this->menu->GetItems().size() > 0) {}
+                netInstStuff::sendExitCommands();
+            netInstStuff::OnUnwound();
             mainApp->LoadLayout(mainApp->mainPage);
         }
         if ((Down & KEY_A) || (Up & KEY_TOUCH)) {

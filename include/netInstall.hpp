@@ -22,6 +22,8 @@ SOFTWARE.
 #include <vector>
 
 namespace netInstStuff {
+    void OnUnwound();
+    void sendExitCommands();
     void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames, std::string ourSource);
     std::vector<std::string> OnSelected();
 }
