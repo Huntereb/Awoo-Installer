@@ -245,15 +245,48 @@ namespace tin::network
 
     size_t WaitSendNetworkData(int sockfd, void* buf, size_t len)
     {
-        errno = 0;
         int ret = 0;
         size_t written = 0;
 
-        while ((((ret = send(sockfd, (u8*)buf + written, len - written, 0)) > 0 && (written += ret) < len) || errno == EAGAIN)) 
-        {
+        while (written < len)
+        {            
+            if (hidKeysDown(CONTROLLER_P1_AUTO) & KEY_B)  // Break if user clicks 'B'
+                break;
+
             errno = 0;
+            ret = send(sockfd, (u8*)buf + written, len - written, 0);
+            
+            if (ret < 0){ // If error
+                if (errno == EWOULDBLOCK || errno == EAGAIN){ // Is it because other side is busy?
+                    sleep(5);
+                    continue;
+                }
+                break; // No? Die.
+            }
+            
+            written += ret;
+        }
+    
+        return written;
+    }
+
+    void NSULDrop(std::string url)
+    {
+        CURL* curl = curl_easy_init();
+
+        if (!curl)
+        {
+            THROW_FORMAT("Failed to initialize curl\n");
         }
 
-        return written;
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DROP");
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, "tinfoil");
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 50); 
+
+        curl_easy_perform(curl); // ignore returning value
+
+        curl_easy_cleanup(curl);
     }
 }

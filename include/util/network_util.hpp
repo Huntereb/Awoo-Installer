@@ -78,6 +78,8 @@ namespace tin::network
             int StreamDataRange(size_t offset, size_t size, std::function<size_t (u8* bytes, size_t size)> streamFunc);
     };
 
+    void NSULDrop(std::string url);
+
     size_t WaitReceiveNetworkData(int sockfd, void* buf, size_t len);
     size_t WaitSendNetworkData(int sockfd, void* buf, size_t len);
 }

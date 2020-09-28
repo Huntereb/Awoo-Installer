@@ -23,7 +23,7 @@ SOFTWARE.
 
 namespace netInstStuff {
     void OnUnwound();
-    void sendExitCommands();
+    void sendExitCommands(std::string url);
     void installTitleNet(std::vector<std::string> ourUrlList, int ourStorage, std::vector<std::string> urlListAltNames, std::string ourSource);
     std::vector<std::string> OnSelected();
 }

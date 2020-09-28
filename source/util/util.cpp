@@ -140,6 +140,14 @@ namespace inst::util {
         return finalString;
     }
 
+    std::string formatUrlLink(std::string ourString){
+        std::string::size_type pos = ourString.find('/');
+        if (pos != std::string::npos)
+            return ourString.substr(0, pos);
+        else
+            return ourString;
+    }
+
     std::string shortenString(std::string ourString, int ourLength, bool isFile) {
         std::filesystem::path ourStringAsAPath = ourString;
         std::string ourExtension = ourStringAsAPath.extension().string();
