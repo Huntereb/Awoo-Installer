@@ -156,8 +156,12 @@ namespace inst::ui {
 
     void netInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
         if (Down & KEY_B) {
-            if (this->menu->GetItems().size() > 0) {}
-                netInstStuff::sendExitCommands();
+            if (this->menu->GetItems().size() > 0){
+                if (this->selectedUrls.size() == 0) {
+                    this->selectTitle(this->menu->GetSelectedIndex());
+                }
+                netInstStuff::sendExitCommands(inst::util::formatUrlLink(this->selectedUrls[0]));
+            }
             netInstStuff::OnUnwound();
             mainApp->LoadLayout(mainApp->mainPage);
         }
@@ -180,8 +184,6 @@ namespace inst::ui {
         if (Down & KEY_PLUS) {
             if (this->selectedUrls.size() == 0) {
                 this->selectTitle(this->menu->GetSelectedIndex());
-                this->startInstall(false);
-                return;
             }
             this->startInstall(false);
         }
