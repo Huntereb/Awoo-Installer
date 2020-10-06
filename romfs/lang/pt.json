@@ -1,8 +1,8 @@
 {
     "main":{
         "menu": {
-            "sd": "Instalar a através do cartão SD",
-            "net": "Instalar a através da LAN ou da Internet",
+            "sd": "Instalar através do cartão SD",
+            "net": "Instalar através da LAN ou da Internet",
             "usb": "Instalar atráves do USB",
             "sig": "Gerir patches de assinaturas",
             "set": "Definições",
