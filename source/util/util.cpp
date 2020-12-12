@@ -38,7 +38,6 @@ namespace inst::util {
 
     void initInstallServices() {
         ncmInitialize();
-        nsInitialize();
         nsextInitialize();
         esInitialize();
         splCryptoInitialize();
@@ -47,7 +46,6 @@ namespace inst::util {
 
     void deinitInstallServices() {
         ncmExit();
-        nsExit();
         nsextExit();
         esExit();
         splCryptoExit();
@@ -266,10 +264,10 @@ namespace inst::util {
         return inet_ntoa(addr);
     }
     
-    int getUsbState() {
-        u32 usbState = 0;
-        usbDsGetState(&usbState);
-        return usbState;
+    bool usbIsConnected() {
+        UsbState state = UsbState_Detached;
+        usbDsGetState(&state);
+        return state == UsbState_Configured;
     }
 
     void playAudio(std::string audioPath) {

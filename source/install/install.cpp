@@ -69,56 +69,15 @@ namespace tin::install
 
     void Install::InstallApplicationRecord(int i)
     {
-        Result rc = 0;
-        std::vector<ContentStorageRecord> storageRecords;
-        u64 baseTitleId = tin::util::GetBaseTitleId(this->GetTitleId(i), this->GetContentMetaType(i));
-        s32 contentMetaCount = 0;
-
-        LOG_DEBUG("Base title Id: 0x%lx", baseTitleId);
-
-        // TODO: Make custom error with result code field
-        // 0x410: The record doesn't already exist
-        if (R_FAILED(rc = nsCountApplicationContentMeta(baseTitleId, &contentMetaCount)) && rc != 0x410)
-        {
-            THROW_FORMAT("Failed to count application content meta");
-        }
-        rc = 0;
-
-        LOG_DEBUG("Content meta count: %u\n", contentMetaCount);
-
-        // Obtain any existing app record content meta and append it to our vector
-        if (contentMetaCount > 0)
-        {
-            storageRecords.resize(contentMetaCount);
-            size_t contentStorageBufSize = contentMetaCount * sizeof(ContentStorageRecord);
-            auto contentStorageBuf = std::make_unique<ContentStorageRecord[]>(contentMetaCount);
-            u32 entriesRead;
-
-            ASSERT_OK(nsListApplicationRecordContentMeta(0, baseTitleId, contentStorageBuf.get(), contentStorageBufSize, &entriesRead), "Failed to list application record content meta");
-
-            if ((s32)entriesRead != contentMetaCount)
-            {
-                THROW_FORMAT("Mismatch between entries read and content meta count");
-            }
-
-            memcpy(storageRecords.data(), contentStorageBuf.get(), contentStorageBufSize);
-        }
+        const u64 baseTitleId = tin::util::GetBaseTitleId(this->GetTitleId(i), this->GetContentMetaType(i));
 
         // Add our new content meta
         ContentStorageRecord storageRecord;
         storageRecord.metaRecord = m_contentMeta[i].GetContentMetaKey();
         storageRecord.storageId = m_destStorageId;
-        storageRecords.push_back(storageRecord);
-
-        // Replace the existing application records with our own
-        try
-        {
-            nsDeleteApplicationRecord(baseTitleId);
-        }
-        catch (...) {}
 
         LOG_DEBUG("Pushing application record...\n");
-        ASSERT_OK(nsPushApplicationRecord(baseTitleId, 0x3, storageRecords.data(), storageRecords.size() * sizeof(ContentStorageRecord)), "Failed to push application record");
+        ASSERT_OK(nsPushApplicationRecord(baseTitleId, NsApplicationRecordType_Installed, &storageRecord, 1), "Failed to push application record");
     }
 
     // Validate and obtain all data needed for install

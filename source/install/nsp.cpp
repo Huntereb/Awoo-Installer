@@ -56,7 +56,7 @@ namespace tin::install::nsp
     const PFS0FileEntry* NSP::GetFileEntry(unsigned int index)
     {
         if (index >= this->GetBaseHeader()->numFiles)
-            THROW_FORMAT("File entry index is out of bounds\n")
+            THROW_FORMAT("File entry index is out of bounds\n");
 
         size_t fileEntryOffset = sizeof(PFS0BaseHeader) + index * sizeof(PFS0FileEntry);
 
