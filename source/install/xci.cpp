@@ -109,7 +109,7 @@ namespace tin::install::xci
     const HFS0FileEntry* XCI::GetFileEntry(unsigned int index)
     {
         if (index >= this->GetSecureHeader()->numFiles)
-            THROW_FORMAT("File entry index is out of bounds\n")
+            THROW_FORMAT("File entry index is out of bounds\n");
 
         return hfs0GetFileEntry(this->GetSecureHeader(), index);
     }

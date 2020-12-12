@@ -29,8 +29,8 @@ SOFTWARE.
 
 namespace tin::util
 {
-    u64 GetRightsIdTid(RightsId rightsId);
-    u64 GetRightsIdKeyGen(RightsId rightsId);
+    u64 GetRightsIdTid(FsRightsId rightsId);
+    u64 GetRightsIdKeyGen(FsRightsId rightsId);
 
     std::string GetNcaIdString(const NcmContentId& ncaId);
     NcmContentId GetNcaIdFromString(std::string ncaIdStr);

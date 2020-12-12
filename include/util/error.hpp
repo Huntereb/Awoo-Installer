@@ -24,16 +24,27 @@ SOFTWARE.
 
 #include <cstring>
 #include <stdexcept>
-#include <stdio.h>
-#include "util/debug.h"
+#include <cstdio>
 
-#define ASSERT_OK(rc_out, desc) if (R_FAILED(rc_out)) { char msg[256] = {0}; snprintf(msg, 256-1, "%s:%u: %s.  Error code: 0x%08x\n", __func__, __LINE__, desc, rc_out); throw std::runtime_error(msg); }
-#define THROW_FORMAT(format, ...) { char error_prefix[512] = {0}; snprintf(error_prefix, 256-1, "%s:%u: ", __func__, __LINE__);\
-                                char formatted_msg[256] = {0}; snprintf(formatted_msg, 256-1, format, ##__VA_ARGS__);\
-                                strncat(error_prefix, formatted_msg, 512-1); throw std::runtime_error(error_prefix); }
+#define ASSERT_OK(res_expr, desc) \
+    ({ \
+        const auto tmp_rc = (res_expr); \
+        if (R_FAILED(tmp_rc)) { \
+            char msg[256] = {}; std::snprintf(msg, 256-1, "%s:%u: %s.  Error code: 0x%08x\n", __func__, __LINE__, desc, tmp_rc); \
+            throw std::runtime_error(msg); \
+        } \
+    })
+
+#define THROW_FORMAT(format, ...) \
+    ({ \
+        char error_prefix[512] = {}; std::snprintf(error_prefix, 256-1, "%s:%u: ", __func__, __LINE__); \
+        char formatted_msg[256] = {}; std::snprintf(formatted_msg, 256-1, format, ##__VA_ARGS__); \
+        std::strncat(error_prefix, formatted_msg, 512-1); throw std::runtime_error(error_prefix); \
+    })
+
 
 #ifdef NXLINK_DEBUG
-#define LOG_DEBUG(format, ...) { printf("%s:%u: ", __func__, __LINE__); printf(format, ##__VA_ARGS__); }
+#define LOG_DEBUG(format, ...) { std::printf("%s:%u: ", __func__, __LINE__); std::printf(format, ##__VA_ARGS__); }
 #else
 #define LOG_DEBUG(format, ...) ;
 #endif

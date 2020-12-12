@@ -27,12 +27,12 @@ SOFTWARE.
 
 namespace tin::util
 {
-    u64 GetRightsIdTid(RightsId rightsId)
+    u64 GetRightsIdTid(FsRightsId rightsId)
     {
         return __bswap64(*(u64 *)rightsId.c);
     }
 
-    u64 GetRightsIdKeyGen(RightsId rightsId)
+    u64 GetRightsIdKeyGen(FsRightsId rightsId)
     {
         return __bswap64(*(u64 *)(rightsId.c + 8));
     }

@@ -66,7 +66,7 @@ namespace usbInstStuff {
             u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
             if (kDown & KEY_B) return {};
             if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("inst.usb.help.title"_lang, "inst.usb.help.desc"_lang, {"common.ok"_lang}, true);
-            if (inst::util::getUsbState() != 5) return {};
+            if (!inst::util::usbIsConnected()) return {};
         }
 
         if (header.magic != 0x304C5554) return {};

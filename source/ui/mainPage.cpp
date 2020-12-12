@@ -115,7 +115,7 @@ namespace inst::ui {
                 inst::config::setConfig();
             }
         }
-        if (inst::util::getUsbState() == 5) mainApp->usbinstPage->startUsb();
+        if (inst::util::usbIsConnected()) mainApp->usbinstPage->startUsb();
         else mainApp->CreateShowDialog("main.usb.error.title"_lang, "main.usb.error.desc"_lang, {"common.ok"_lang}, false);
     }
 
