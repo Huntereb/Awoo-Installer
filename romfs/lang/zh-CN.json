@@ -15,7 +15,7 @@
         "usb": {
             "warn": {
                 "title": "警告！",
-                "desc": "USB 安装在某些设备或设置下可能没法如愿正常使用。\n如果您在使用 USB 安装中遇到问题，请不要心急！\n建议使用 NS-USBloader 来进行 USB 安装，\n或者在主机已连接到网络的情况下通过局域网或网络来进行远程安装!\n\n在此衷心提示...",
+                "desc": "USB 安装可能在某些设备或设置下无法正常“将就使用”。\n如果您在使用 USB 安装中遇到问题，请不要心急！\n建议使用 NS-USBloader 来进行 USB 安装，\n或者在主机已连接到网络的情况下通过局域网或网络来进行远程安装!\n\n特此警示。",
                 "opt1": "不再提示"
             },
             "error": {
@@ -103,18 +103,18 @@
         },
         "nca_verify": {
             "title": "检测到无效 NCA 签名！",
-            "desc": "请确认签名不正确的文件来源可靠。\n包含整合 XCI 和 DLC 解锁器的文件将始终显示此警告。\n您可以在 Awoo Installer 设置中禁用此验证。\n\n是否继续安装？",
+            "desc": "请确认签名不正确的文件来源可靠。\n包含从卡带转换以及 DLC 解锁器的文件将始终显示此警告。\n您可以在 Awoo Installer 设置中禁用此验证。\n\n是否继续安装？",
             "opt1": "是的，我已明白其中风险",
             "error": "请求的 NCA 没有正确签名："
         },
         "finished": [
-            "享受您的“合法版本”吧！",
+            "享受您的“合法备份”吧！",
             "我相信您在试玩游戏后，将更有兴趣购买它！",
-            "您会买游戏的，对吧？任天堂感谢您！",
-            "绕过 DRM 很棒，不是吗？",
-            "出来混，早晚要还的！",
-            "任天堂忍者已经被派遣到您家，天诛。",
-            "您甚至不需要相信民主自由就能拿到这样的好处了..."
+            "您买游戏了吧？老任感谢您的购买！",
+            "绕开 DRM 真是太爽啦。",
+            "您拒绝购买游戏的行为大概保护了6棵大树免遭砍伐！还节省了塑料包装！",
+            "任天堂法务部已向您投递律师函，请注意查收。",
+            "我们甚至不需要向你进行意识形态洗脑便做到了这一切！"
         ]
     },
     "sig": {
@@ -142,13 +142,13 @@
     },
     "options": {
         "menu_items": {
-            "ignore_firm": "忽略游戏最低固件版本要求",
+            "ignore_firm": "忽略软件最低固件版本要求",
             "nca_verify": "安装前验证 NCA 签名",
-            "boost_mode": "安装时启用\"增强模式\"",
-            "ask_delete": "安装后询问文件删除",
+            "boost_mode": "安装时启用\"加速模式\"",
+            "ask_delete": "安装后询问文件是否删除",
             "auto_update": "自动检查 Awoo Installer 更新",
-            "gay_option": "基友模式",
-            "sig_url": "签名补丁源链接 (URL)：",
+            "gay_option": "移除二次元元素",
+            "sig_url": "签名补丁来源链接 (URL)：",
             "language": "语言：",
             "check_update": "检查 Awoo Installer 更新",
             "credits": "致谢"
@@ -174,8 +174,8 @@
             "desc_check_fail": "当前 Awoo Installer 已是最新版！"
         },
         "credits": {
-            "title": "致谢以下朋友！",
-            "desc": "- 感谢 HookedBehemoth 贡献了诸多代码\n- 感谢 Adubbz 及其他贡献者编写了 Tinfoil\n- 感谢 XorTroll 编写了 Plutonium 框架和 Goldleaf\n- 感谢 blawar 和 nicoboss 添加了 NSZ 支持\n- 感谢来自 AtlasNX 的诸多组件\n- 感谢来自 RetroNX 的诸多组件\n- 感谢 namako8982 提供了 Momiji 插图\n- 感谢 TheXzoron (baka)"
+            "title": "感谢以下朋友！",
+            "desc": "- 感谢 HookedBehemoth 贡献了诸多代码\n- 感谢 Adubbz 及其他贡献者编写了 Tinfoil\n- 感谢 XorTroll 编写了 Plutonium 框架和 Goldleaf\n- 感谢 blawar (二次元杀手) 和 nicoboss 添加了 NSZ 支持\n- 感谢来自 AtlasNX 的诸多组件\n- 感谢来自 RetroNX 的诸多组件\n- 感谢 namako8982 提供了 Momiji 插图\n- 感谢 TheXzoron (baka)"
         },
         "language": {
             "title": "选择 Awoo Installer 语言",
