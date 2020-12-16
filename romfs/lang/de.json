@@ -98,8 +98,8 @@
             "complete": "Installation abgeschlossen",
             "desc0": " Dateien erfolgreich installiert!",
             "desc1": " installiert!",
-            "downloading": "Lädt ",
-            "at": " herunter von "
+            "downloading": "Übertrage ",
+            "at": " mit "
         },
         "nca_verify": {
             "title": "Ungültige NCA-Signatur erkannt!",
