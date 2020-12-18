@@ -33,7 +33,7 @@
         "net": {
             "help": {
                 "title": "Hilfe",
-                "desc": "Dateien können von anderen Geräten aus mit Tools wie NS-USBloader im\nTinfoil-Modus installiert werden. Um Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät. Gib die IP-Adresse\ndeiner Switch ein (auf dem Bildschirm aufgelistet), wähle die Dateien\naus und übertrage sie dann auf deine Konsole! Wenn, die von dir verwendete\nSoftware dir nicht erlaubt bestimmte Dateitypen auszuwählen,\nversuche die Dateiendung in etwas umzubenennen, dass sie akzeptiert. Der Awoo Installer\nprüft keine Dateiendungen bei Netzinstallationen!\n\nFalls das nicht klappt, kopiere einfach deine Dateien auf die SD-Karte\nund versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
+                "desc": "Dateien können von anderen Geräten aus mit Tools wie NS-USBloader im\nTinfoil-Modus installiert werden. Um Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät. Gib die IP-Adresse\ndeiner Switch ein (auf dem Bildschirm aufgelistet), wähle die Dateien\naus und übertrage sie dann auf deine Konsole! Wenn die von dir verwendete\nSoftware dir nicht erlaubt bestimmte Dateitypen auszuwählen,\nversuche die Dateiendung in etwas umzubenennen, dass sie akzeptiert. Der Awoo Installer\nprüft keine Dateiendungen bei Netzinstallationen!\n\nFalls das nicht klappt, kopiere einfach deine Dateien auf die SD-Karte\nund versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
             },
             "src": {
                 "title": "Von wo aus willst du installieren?",
