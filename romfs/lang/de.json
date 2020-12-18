@@ -20,7 +20,7 @@
             },
             "error": {
                 "title": "Keine USB-Verbindung erkannt",
-                "desc": "Verbinde dich für USB-Installationen mit einem kompatiblen Gerät"
+                "desc": "Verbinde die Switch für USB-Installationen mit einem kompatiblen Gerät"
             }
         },
         "applet": {
@@ -63,7 +63,7 @@
                 "title": "Hilfe",
                 "desc": "Kopiere NSP, NSZ, XCI oder XCZ Dateien auf deine SD Karte,\nsuche nach ihnen und wähle die zu installierenden Titel aus und drücke dann \ue0b3."
             },
-            "top_info": "Wähle Dateien zur Installation vom Server aus und drücke dann \ue0b3!",
+            "top_info": "Wähle Dateien zur Installation aus und drücke dann \ue0b3!",
             "source_string": " von der SD Karte",
             "delete_info": " installiert! Soll es von der SD-Karte gelöscht werden?",
             "delete_info_multi": " Dateien erfolgreich installiert! Sollen diese von der SD-Karte gelöscht werden?",
