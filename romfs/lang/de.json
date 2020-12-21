@@ -20,7 +20,7 @@
             },
             "error": {
                 "title": "Keine USB-Verbindung erkannt",
-                "desc": "Verbinde dich für USB-Installationen mit einem kompatiblen Gerät"
+                "desc": "Verbinde die Switch für USB-Installationen mit einem kompatiblen Gerät"
             }
         },
         "applet": {
@@ -33,7 +33,7 @@
         "net": {
             "help": {
                 "title": "Hilfe",
-                "desc": "Dateien können von anderen Geräten aus mit Tools wie NS-USBloader im\nTinfoil-Modus installiert werden. Um Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät. Gebe die IP-Adresse\ndeiner Switches ein (auf dem Bildschirm aufgelistet), wähle die Dateien\naus und lade sie dann auf die Konsole hoch! Wenn die von dir verwendete\nSoftware dir nicht erlaubt, bestimmte Dateitypen auszuwählen.\nVersuche die Dateiendung in etwas umzubenennen, dass sie akzeptiert. Der Awoo Installer\nprüft keine Dateiendungen bei Netzinstallationen!\n\nFalls das nicht klappt, kopiere einfach deine Dateien auf die SD-Karte\nund versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
+                "desc": "Dateien können von anderen Geräten aus mit Tools wie NS-USBloader im\nTinfoil-Modus installiert werden. Um Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät. Gib die IP-Adresse\ndeiner Switch ein (auf dem Bildschirm aufgelistet), wähle die Dateien\naus und übertrage sie dann auf deine Konsole! Wenn die von dir verwendete\nSoftware dir nicht erlaubt bestimmte Dateitypen auszuwählen,\nversuche die Dateiendung in etwas umzubenennen, dass sie akzeptiert. Der Awoo Installer\nprüft keine Dateiendungen bei Netzinstallationen!\n\nFalls das nicht klappt, kopiere einfach deine Dateien auf die SD-Karte\nund versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
             },
             "src": {
                 "title": "Von wo aus willst du installieren?",
@@ -41,12 +41,12 @@
                 "opt1": "Google Drive"
             },
             "url": {
-                "hint": "Gebe eine URL zu einer Datei ein",
+                "hint": "Gib eine URL zu einer Datei ein",
                 "invalid": "Die eingegebene URL ist ungültig",
                 "source_string": " per URL"
             },
             "gdrive": {
-                "hint": "Gebe die ID einer öffentlichen Google Drive Datei ein",
+                "hint": "Gib die ID einer öffentlichen Google Drive Datei ein",
                 "alt_name": "Google Drive Datei",
                 "source_string": " von Google Drive"
             },
@@ -63,7 +63,7 @@
                 "title": "Hilfe",
                 "desc": "Kopiere NSP, NSZ, XCI oder XCZ Dateien auf deine SD Karte,\nsuche nach ihnen und wähle die zu installierenden Titel aus und drücke dann \ue0b3."
             },
-            "top_info": "Wähle Dateien zur Installation vom Server aus und drücke dann \ue0b3!",
+            "top_info": "Wähle Dateien zur Installation aus und drücke dann \ue0b3!",
             "source_string": " von der SD Karte",
             "delete_info": " installiert! Soll es von der SD-Karte gelöscht werden?",
             "delete_info_multi": " Dateien erfolgreich installiert! Sollen diese von der SD-Karte gelöscht werden?",
@@ -73,7 +73,7 @@
         "usb": {
             "help": {
                 "title": "Hilfe",
-                "desc": "Dateien können mit Tools, wie NS-USBloader im Tinfoil-Modus\nvon anderen Geräten aus installiert werden.\nUm Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät, wähle die Dateien\naus und lade sie dann auf die Konsole hoch!\n\nLeider erfordern USB-Installationen auf einigen Plattformen ein spezielles\nSetup und können manchmal ziemlich fehlerhaft sein. Falls das nicht klappt,\nversuche es mit LAN/Internet Installation oder kopiere deine Dateien auf\ndeine SD-Karte und versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
+                "desc": "Dateien können mit Tools, wie NS-USBloader im Tinfoil-Modus\nvon anderen Geräten aus installiert werden.\nUm Dateien an deine Switch zu senden, öffne\neins dieser Programme auf deinem PC oder mobilen Gerät, wähle die Dateien\naus und übertrage sie dann auf die Konsole!\n\nLeider erfordern USB-Installationen auf einigen Plattformen ein spezielles\nSetup und können manchmal ziemlich fehlerhaft sein. Falls das nicht klappt,\nversuche es mit LAN/Internet Installation oder kopiere deine Dateien auf\ndeine SD-Karte und versuche die Option \"Von SD-Karte installieren\" im Hauptmenü!"
             },
             "top_info": "USB verbunden! Warte auf die Dateiliste...",
             "top_info2": "Wähle Dateien zur Installation aus und drücke dann \ue0b3 !",
@@ -98,12 +98,12 @@
             "complete": "Installation abgeschlossen",
             "desc0": " Dateien erfolgreich installiert!",
             "desc1": " installiert!",
-            "downloading": "Lädt ",
-            "at": " herunter von "
+            "downloading": "Übertrage ",
+            "at": " mit "
         },
         "nca_verify": {
             "title": "Ungültige NCA-Signatur erkannt!",
-            "desc": "Unsachgemäß signierte Software sollte nur von vertrauenswürdigen Quellen\ninstalliert werden. Dateien von gepackten Spiele Modulen und DLC-Freischaltung enthalten,\nwerden immer diese Warnung anzeigen. Sie können diese Prüfung in den Einstellungen des Awoo Installer deaktivieren.\nSind Sie sicher, dass Sie die Installation fortsetzen möchten?",
+            "desc": "Unsachgemäß signierte Software sollte nur von vertrauenswürdigen Quellen\ninstalliert werden. Dateien von gepackten Spiele Modulen und DLC-Freischaltung enthalten,\nwerden immer diese Warnung anzeigen. Du kannst diese Prüfung in den Einstellungen des Awoo Installer deaktivieren.\nBist du sicher, dass du die Installation fortsetzen möchten?",
             "opt1": "Ja, ich verstehe die Risiken",
             "error": "Die gewünschte NCA ist nicht richtig signiert: "
         },
@@ -158,7 +158,7 @@
             "desc": "Einige installierbare Dateien können bösartige Inhalte enthalten! Deaktiviere\ndiese Funktion nur, wenn du absolut sicher bist, dass die zu installierende\nSoftware vertrauenswürdig ist! Willst du die NCA-Signaturprüfung immer noch deaktivieren?",
             "opt1": "Ja, ich möchte mein Gerät bricken"
         },
-        "sig_hint": "Gebe eine URL an, um Signatur Patches zu beziehen",
+        "sig_hint": "Gib eine URL an, um Signatur Patches zu beziehen",
         "update": {
             "title": "Neue Version verfügbar",
             "desc0": "Awoo Installer ",
