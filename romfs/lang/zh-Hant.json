@@ -1,0 +1,197 @@
+{
+    "main":{
+        "menu": {
+            "sd": "透過 SD 卡安裝",
+            "net": "透過網路安裝",
+            "usb": "透過 USB 安裝",
+            "sig": "管理簽名補丁（signature patches）",
+            "set": "設定",
+            "exit": "退出"
+        },
+        "net": {
+            "title": "無網路連接",
+            "desc": "請確認飛航模式已關閉，且已連接到區域網路。"
+        },
+        "usb": {
+            "warn": {
+                "title": "警告！",
+                "desc": "USB 安裝在某些裝置及環境下不一定能「正常工作」。\n如果您在使用時不幸遇到問題，請不要心急！\n推薦使用 NS-USBloader 以執行 USB 安裝。\n或是另行透過網路執行安裝！\n\n特此告示。",
+                "opt1": "不再提示"
+            },
+            "error": {
+                "title": "未偵測到 USB 連接",
+                "desc": "請透過 USB 連接到相容裝置以執行"
+            }
+        },
+        "applet": {
+            "title": "不支援 Applet 模式",
+            "desc": "於 Applet 模式執行 Awoo Installer 可能会遇到問題。\n若出現問題，請改用「軟體替換」模式執行。\n(回到 \ue0f4 主選單，按住 \ue0e5 並執行任意已安裝遊戲，進入 hbmenu 後再重新執行 Awoo Installer。)"
+        },
+        "buttons": "\ue0e0 選擇　　\ue0e1 退出"
+    },
+    
+    "inst": {
+        "net": {
+            "help": {
+                "title": "幫助",
+                "desc": "可以從其他裝置使用某些工具遠端安裝檔案，如 NS-USBloader (Tinfoil 模式)\n要向 Switch 發送檔案，打開 PC 或行動裝置上任一工具軟體，\n鍵入螢幕上顯示的 Switch IP 位址，選擇檔案後上傳至您的主機。\n若您使用的軟體不支援選擇特定檔案類型，您可以嘗試更改為可接受的副檔名。\nAwoo Installer 在透過網路安裝時不限定副檔名。\n如果還是搞不懂，请複製檔案到 SD 卡並嘗試在主選單中選擇「透過 SD 卡安裝」。"
+            },
+            "src": {
+                "title": "請選擇安裝來源",
+                "opt0": "URL (網路連結)",
+                "opt1": "Google 雲端硬碟"
+            },
+            "url": {
+                "hint": "鍵入檔案的 URL 位址",
+                "invalid": "URL位址無效！",
+                "source_string": " (來源: URL)"
+            },
+            "gdrive": {
+                "hint": "請鍵入 Google 雲端硬碟公開檔案的檔案ID",
+                "alt_name": "Google 雲端硬碟檔案",
+                "source_string": " (來源: Google 雲端硬碟)"
+            },
+            "top_info": "選擇您要安裝的檔案，然後按下 \ue0ef 鍵。",
+            "top_info1": "等待連接中... 您 Switch 的 IP 位址是: ",
+            "failed": "遠端安裝失敗！",
+            "transfer_interput": "傳輸過程發生錯誤，請檢查網路連接。",
+            "source_string": " (來源: 區域網路)",
+            "buttons": "\ue0e3 網際網路安裝　\ue0e2 幫助　\ue0e1 取消",
+            "buttons1": "\ue0e0 選擇檔案　\ue0e3 全選　\ue0ef 安裝選中檔案　\ue0e1 取消"
+        },
+        "sd": {
+            "help": {
+                "title": "幫助",
+                "desc": "複製 NSP, NSZ, XCI 或 XCZ 檔案到 SD 卡, \n定位並選中想要安裝的檔案，然後按 \ue0ef 鍵。"
+            },
+            "top_info": "選擇想要安裝的檔案，然後按 \ue0ef 安裝！",
+            "source_string": " (來源: SD 卡)",
+            "delete_info": " 安裝完成！要將原檔案從SD卡刪除嗎？",
+            "delete_info_multi": " 個檔案已安裝！要將所有原檔案從SD卡刪除嗎？",
+            "delete_desc": "安裝完成後已經不需要原檔案。",
+            "buttons": "\ue0e0 選擇檔案　\ue0e3 全選　\ue0ef 安裝選中檔案　\ue0e2 幫助　\ue0e1 取消"
+        },
+        "usb": {
+            "help": {
+                "title": "幫助",
+                "desc": "可以透過 USB 從其他裝置使用某些工具安裝檔案，如 NS-USBloader (Tinfoil 模式)\n要向 Switch 發送檔案，打開 PC 或行動裝置上任一工具軟體，\n鍵入螢幕上顯示的 Switch IP 位址，選擇檔案後上傳至您的主機。\n若您使用的軟體不支援選擇特定檔案類型，您可以嘗試更改為可接受的副檔名。\nAwoo Installer 在透過網路安裝時不限定副檔名。\n如果還是搞不懂，请複製檔案到 SD 卡並嘗試在主選單中選擇「透過 SD 卡安裝」。"
+            },
+            "top_info": "USB 連接成功! 正等待接收檔案列表...",
+            "top_info2": "選擇您想透過 USB 安裝的檔案, 然後按 \ue0ef 鍵。",
+            "error": "USB 傳輸超時或失敗",
+            "source_string": " 透過 USB",
+            "buttons": "\ue0e2 (按住) 幫助　\ue0e1 (按住) 取消",
+            "buttons2": "\ue0e0 選擇檔案　\ue0e3 全選　\ue0ef 安裝選中檔案　\ue0e1 取消"
+        },
+        "target": {
+            "desc0": "將 ",
+            "desc1": " 安裝到哪？",
+            "desc00": "將已選擇的 ",
+            "desc01": " 個檔案安裝到哪?",
+            "opt0": "SD 卡",
+            "opt1": "內部記憶體"
+        },
+        "info_page": {
+            "top_info0": "正在安裝 ",
+            "preparing": "正準備安裝...",
+            "failed": "安裝失敗 ",
+            "failed_desc": "不完全安裝的內容可從系統設定中刪除。",
+            "complete": "安裝完成",
+            "desc0": " 個檔案安裝成功!",
+            "desc1": " 已安裝!",
+            "downloading": "正在下載 ",
+            "at": " 從 "
+        },
+        "nca_verify": {
+            "title": "偵測到無效 NCA 簽名！",
+            "desc": "請確認非正規簽名的檔案來源可靠。\n包含重新打包或 DLC 解鎖器的檔案將始終顯示此警告。\n您可以在 Awoo Installer 設定中關閉此項檢查。\n您確定要繼續安裝嗎？",
+            "opt1": "是的，我知道風險在哪",
+            "error": "請求安裝的 NCA 沒有正規簽名: "
+        },
+        "finished": [
+            "享受您的「合法備份檔」吧！",
+            "我相信您在試玩遊戲後，將更有興趣購買它！",
+            "您買了這遊戲吧？任天堂感謝您！",
+            "繞過 DRM 就是讚。",
+            "您拒絕購買遊戲的行為實際上還保護了環境！",
+            "任天堂法務部已經向您投遞律師函，請注意查收。",
+            "八國語言無中文？英文親切，樂享遊戲！"
+        ]
+    },
+    "sig": {
+        "install": "安裝",
+        "uninstall": "卸載",
+        "update": "更新",
+        "version_text": "您目前已安裝的簽名補丁適用於此 HOS 最高版本：",
+        "title0": "安裝簽名補丁？",
+        "desc0": "安裝遊玩官方軟體需要簽名補丁。",
+        "backup_failed": "無法備份 Hekate 的patches.ini! 繼續安裝？",
+        "backup_failed_desc": "如果您沒在用 Hekate，可以忽略這個警告！",
+        "download_failed": "無法下載簽名補丁",
+        "download_failed_desc": "您可能在設定中提供了無效的來源,\n或者伺服器正好掛了。",
+        "version_text2": "簽名補丁已更新至 HOS 最高適用版本：",
+        "install_complete": "安裝完成！",
+        "complete_desc": "重啟主機以生效",
+        "restart": "立即重啟",
+        "later": "稍後重啟",
+        "extract_failed": "無法解壓檔案！",
+        "restore_failed": "不能回復原有 Hekate 的 patches.ini！要繼續卸載嗎？",
+        "uninstall_complete": "卸載完成",
+        "remove_failed": "無法移除簽名補丁",
+        "remove_failed_desc": "檔案已經被重命名或刪除",
+        "generic_error": "安裝簽名補丁失敗！"
+    },
+    "options": {
+        "menu_items": {
+            "ignore_firm": "忽略軟體所需最低韌體版本資訊",
+            "nca_verify": "安裝前驗證 NCA 簽名",
+            "boost_mode": "安裝過程中開啟\"加速模式\"",
+            "ask_delete": "安裝後詢問是否刪除原檔案",
+            "auto_update": "自動檢查 Awoo Installer 更新",
+            "gay_option": "移除動漫元素",
+            "sig_url": "簽名補丁來源 URL: ",
+            "language": "語言： ",
+            "check_update": "檢查更新",
+            "credits": "感謝名單"
+        },
+        "nca_warn": {
+            "title": "警告！",
+            "desc": "有些可安裝檔案可能存在木馬！\n您要非常信任安裝檔案才能關閉此驗證。\n您是否確定要關閉 NCA 簽名驗證？",
+            "opt1": "是的，我不怕變黑磚"
+        },
+        "sig_hint": "鍵入簽名補丁的來源 URL",
+        "update": {
+            "title": "發現新版本",
+            "desc0": "Awoo Installer ",
+            "desc1": " 已經釋出！要更新嗎？",
+            "opt0": "更新",
+            "top_info": "正在更新 ...",
+            "bot_info": "正在下載 ...",
+            "bot_info2": "正在解壓 ...",
+            "complete": "更新完成！",
+            "failed": "更新失敗！",
+            "end_desc": "此程式將關閉。",
+            "title_check_fail": "沒有找到更新",
+            "desc_check_fail": "當前 Awoo Installer 已是最新版！"
+        },
+        "credits": {
+            "title": "感謝下列人士",
+            "desc": "- 來自HookedBehemoth 的巨大貢獻\n- Adubbz 以及其他為Tinfoil貢獻過的人\n- XorTroll 強大的Plutonium庫和Goldleaf\n- blawar (wife strangulator)和nicoboss 對NSZ 格式的支持\n- 來自AtlasNX Discuck的好心人 (至少其中一部分)\n- 來自RetroNX Discuck的好心人 (雖然沒直接參與)\n- 來自namako8982的Momiji美術\n- 也特別感謝TheXzoron"
+        },
+        "language": {
+            "title": "選擇 Awoo Installer 語言",
+            "desc": "更改語言後本程式將關閉。請重新打開， 或按 \ue0e1 取消。",
+            "system_language": "系統預設"
+        },
+        "title": "更改 Awoo Installer 的設定！",
+        "buttons": "\ue0e0 選擇/更改　\ue0e1 取消"
+    },
+    "common": {
+        "ok": "確定",
+        "cancel": "取消",
+        "close": "關閉",
+        "yes": "是",
+        "no": "否",
+        "cancel_desc": "按 \ue0e1 取消"
+    }
+}

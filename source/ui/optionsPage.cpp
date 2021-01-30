@@ -102,8 +102,10 @@ namespace inst::ui {
             case 10:
                 return languageStrings[7];
             case 6:
+            case 15:
                 return languageStrings[8];
             case 11:
+            case 16:
                 return languageStrings[9];
             default:
                 return "options.language.system_language"_lang;
@@ -264,10 +266,10 @@ namespace inst::ui {
                             inst::config::languageSetting = 10;
                             break;
                         case 8:
-                            inst::config::languageSetting = 6;
+                            inst::config::languageSetting = 15;
                             break;
                         case 9:
-                            inst::config::languageSetting = 11;
+                            inst::config::languageSetting = 16;
                             break;
                         default:
                             inst::config::languageSetting = 99;
