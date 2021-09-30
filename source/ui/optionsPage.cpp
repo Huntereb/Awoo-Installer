@@ -151,10 +151,10 @@ namespace inst::ui {
     }
 
     void optionsPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
-        if (Down & KEY_B) {
+        if (Down & HidNpadButton_B) {
             mainApp->LoadLayout(mainApp->mainPage);
         }
-        if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
+        if ((Down & HidNpadButton_A) || (Up & TouchPseudoKey)) {
             std::string keyboardResult;
             int rc;
             std::vector<std::string> downloadUrl;

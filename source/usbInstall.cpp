@@ -62,10 +62,10 @@ namespace usbInstStuff {
         TUSHeader header;
         while(true) {
             if (bufferData(&header, sizeof(TUSHeader), 500000000) != 0) break;
-            hidScanInput();
-            u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-            if (kDown & KEY_B) return {};
-            if (kDown & KEY_X) inst::ui::mainApp->CreateShowDialog("inst.usb.help.title"_lang, "inst.usb.help.desc"_lang, {"common.ok"_lang}, true);
+            inst::ui::mainApp->UpdateButtons();
+            u64 kDown = inst::ui::mainApp->GetButtonsDown();
+            if (kDown & HidNpadButton_B) return {};
+            if (kDown & HidNpadButton_X) inst::ui::mainApp->CreateShowDialog("inst.usb.help.title"_lang, "inst.usb.help.desc"_lang, {"common.ok"_lang}, true);
             if (!inst::util::usbIsConnected()) return {};
         }
 
