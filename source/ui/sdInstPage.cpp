@@ -128,16 +128,16 @@ namespace inst::ui {
     }
 
     void sdInstPage::onInput(u64 Down, u64 Up, u64 Held, pu::ui::Touch Pos) {
-        if (Down & KEY_B) {
+        if (Down & HidNpadButton_B) {
             mainApp->LoadLayout(mainApp->mainPage);
         }
-        if ((Down & KEY_A) || (Up & KEY_TOUCH)) {
+        if ((Down & HidNpadButton_A) || (Up & TouchPseudoKey)) {
             this->selectNsp(this->menu->GetSelectedIndex());
             if (this->ourFiles.size() == 1 && this->selectedTitles.size() == 1) {
                 this->startInstall();
             }
         }
-        if ((Down & KEY_Y)) {
+        if ((Down & HidNpadButton_Y)) {
             if (this->selectedTitles.size() == this->ourFiles.size()) this->drawMenuItems(true, currentDir);
             else {
                 int topDir = 0;
@@ -149,10 +149,10 @@ namespace inst::ui {
                 this->drawMenuItems(false, currentDir);
             }
         }
-        if ((Down & KEY_X)) {
+        if ((Down & HidNpadButton_X)) {
             inst::ui::mainApp->CreateShowDialog("inst.sd.help.title"_lang, "inst.sd.help.desc"_lang, {"common.ok"_lang}, true);
         }
-        if (Down & KEY_PLUS) {
+        if (Down & HidNpadButton_Plus) {
             if (this->selectedTitles.size() == 0 && this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetIcon() == "romfs:/images/icons/checkbox-blank-outline.png") {
                 this->selectNsp(this->menu->GetSelectedIndex());
             }

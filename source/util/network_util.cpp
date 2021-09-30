@@ -28,6 +28,11 @@ SOFTWARE.
 #include <cstring>
 #include <sstream>
 #include "util/error.hpp"
+#include "ui/MainApplication.hpp"
+
+namespace inst::ui {
+    extern MainApplication *mainApp;
+}
 
 namespace tin::network
 {
@@ -250,7 +255,9 @@ namespace tin::network
 
         while (written < len)
         {            
-            if (hidKeysDown(CONTROLLER_P1_AUTO) & KEY_B)  // Break if user clicks 'B'
+            inst::ui::mainApp->UpdateButtons();
+            u64 kDown = inst::ui::mainApp->GetButtonsDown();
+            if (kDown & HidNpadButton_B)  // Break if user clicks 'B'
                 break;
 
             errno = 0;
