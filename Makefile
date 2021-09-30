@@ -66,6 +66,7 @@ ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
 LIBS	:=  `curl-config --libs` # Networking
+LIBS	+=	-lusbhsfs -llwext4 -lntfs-3g
 LIBS	+=	-lSDL2_mixer -lopusfile -lopus -lmodplug -lmpg123 -lvorbisidec -logg # Audio
 LIBS	+=	-lpu -lSDL2_gfx -lSDL2_image -lwebp -lpng -ljpeg `sdl2-config --libs` `freetype-config --libs` # Graphics
 LIBS	+=	-lmbedtls -lmbedcrypto -lminizip -lzstd # Memes

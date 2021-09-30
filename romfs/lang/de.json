@@ -3,7 +3,7 @@
         "menu": {
             "sd": "Von SD-Karte installieren",
             "net": "Über LAN oder Internet installieren",
-            "usb": "Über USB installieren",
+            "usb": "Über USB/USB HDD installieren",
             "sig": "Verwalte Signatur-Patches",
             "set": "Einstellungen",
             "exit": "Beenden"

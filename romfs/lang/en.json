@@ -3,7 +3,7 @@
         "menu": {
             "sd": "Install from SD card",
             "net": "Install over LAN or internet",
-            "usb": "Install over USB",
+            "usb": "Install over USB/USB HDD",
             "sig": "Manage signature patches",
             "set": "Settings",
             "exit": "Exit"

@@ -3,7 +3,7 @@
         "menu": {
             "sd": "Installer à partir de la carte SD",
             "net": "Installer à partir d'un LAN ou d'internet",
-            "usb": "Installer à partir d'un périphèrique USB",
+            "usb": "Installer à partir d'un périphèrique USB/USB HDD",
             "sig": "Gérer les sigpatches",
             "set": " Paramètres",
             "exit": " Quitter"

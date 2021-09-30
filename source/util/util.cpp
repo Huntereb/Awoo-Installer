@@ -15,6 +15,7 @@
 #include "ui/MainApplication.hpp"
 #include "util/usb_comms_awoo.h"
 #include "util/json.hpp"
+#include "nx/usbhdd.h"
 
 namespace inst::util {
     void initApp () {
@@ -29,9 +30,11 @@ namespace inst::util {
             nxlinkStdio();
         #endif
         awoo_usbCommsInitialize();
+        nx::hdd::init();
     }
 
     void deinitApp () {
+        nx::hdd::exit();
         socketExit();
         awoo_usbCommsExit();
     }

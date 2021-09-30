@@ -3,7 +3,7 @@
         "menu": {
             "sd": "通過SD卡安裝",
             "net": "通過網路安裝",
-            "usb": "通過USB安裝",
+            "usb": "通過USB/USB HDD安裝",
             "sig": "管理簽名補丁（signature patches）",
             "set": "設置",
             "exit": "退出"

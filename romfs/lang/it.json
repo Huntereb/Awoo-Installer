@@ -3,7 +3,7 @@
         "menu": {
             "sd": "Installa dalla SD",
             "net": "Installa via LAN o da internet",
-            "usb": "Installa via USB",
+            "usb": "Installa via USB/USB HDD",
             "sig": "Gestisci le SigPatches",
             "set": "Impostazioni",
             "exit": "Esci"

@@ -3,7 +3,7 @@
         "menu": {
             "sd": "Instalar desde tarjeta SD",
             "net": "Instalar a través de red local o Internet",
-            "usb": "Instalar por USB",
+            "usb": "Instalar por USB/USB HDD",
             "sig": "Administrar sigpatches",
             "set": "Ajustes",
             "exit": "Salir"

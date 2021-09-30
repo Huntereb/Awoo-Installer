@@ -47,8 +47,9 @@ namespace inst::ui {
 
     void sdInstPage::drawMenuItems(bool clearItems, std::filesystem::path ourPath) {
         if (clearItems) this->selectedTitles = {};
-        if (ourPath == "sdmc:") this->currentDir = std::filesystem::path(ourPath.string() + "/");
-        else this->currentDir = ourPath;
+        this->currentDir = ourPath;
+        auto pathStr = this->currentDir.string();
+        if(pathStr.length() && pathStr[pathStr.length() - 1] == ':') this->currentDir = this->currentDir / "";
         this->menu->ClearItems();
         try {
             this->ourDirectories = util::getDirsAtPath(this->currentDir);
@@ -57,13 +58,11 @@ namespace inst::ui {
             this->drawMenuItems(false, this->currentDir.parent_path());
             return;
         }
-        if (this->currentDir != "sdmc:/") {
-            std::string itm = "..";
-            auto ourEntry = pu::ui::elm::MenuItem::New(itm);
-            ourEntry->SetColor(COLOR("#FFFFFFFF"));
-            ourEntry->SetIcon("romfs:/images/icons/folder-upload.png");
-            this->menu->AddItem(ourEntry);
-        }
+        std::string itm = "..";
+        auto ourEntry = pu::ui::elm::MenuItem::New(itm);
+        ourEntry->SetColor(COLOR("#FFFFFFFF"));
+        ourEntry->SetIcon("romfs:/images/icons/folder-upload.png");
+        this->menu->AddItem(ourEntry);
         for (auto& file: this->ourDirectories) {
             if (file == "..") break;
             std::string itm = file.filename().string();
@@ -89,10 +88,8 @@ namespace inst::ui {
     void sdInstPage::followDirectory() {
         int selectedIndex = this->menu->GetSelectedIndex();
         int dirListSize = this->ourDirectories.size();
-        if (this->currentDir != "sdmc:/") {
-            dirListSize++;
-            selectedIndex--;
-        }
+        dirListSize++;
+        selectedIndex--;
         if (selectedIndex < dirListSize) {
             if (this->menu->GetItems()[this->menu->GetSelectedIndex()]->GetName() == ".." && this->menu->GetSelectedIndex() == 0) {
                 this->drawMenuItems(true, this->currentDir.parent_path());
@@ -105,7 +102,7 @@ namespace inst::ui {
 
     void sdInstPage::selectNsp(int selectedIndex) {
         int dirListSize = this->ourDirectories.size();
-        if (this->currentDir != "sdmc:/") dirListSize++;
+        dirListSize++;
         if (this->menu->GetItems()[selectedIndex]->GetIcon() == "romfs:/images/icons/check-box-outline.png") {
             for (long unsigned int i = 0; i < this->selectedTitles.size(); i++) {
                 if (this->selectedTitles[i] == this->ourFiles[selectedIndex - dirListSize]) this->selectedTitles.erase(this->selectedTitles.begin() + i);
@@ -141,7 +138,7 @@ namespace inst::ui {
             if (this->selectedTitles.size() == this->ourFiles.size()) this->drawMenuItems(true, currentDir);
             else {
                 int topDir = 0;
-                if (this->currentDir != "sdmc:/") topDir++;
+                topDir++;
                 for (long unsigned int i = this->ourDirectories.size() + topDir; i < this->menu->GetItems().size(); i++) {
                     if (this->menu->GetItems()[i]->GetIcon() == "romfs:/images/icons/check-box-outline.png") continue;
                     else this->selectNsp(i);
