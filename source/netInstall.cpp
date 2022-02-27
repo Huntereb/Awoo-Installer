@@ -248,18 +248,18 @@ namespace netInstStuff{
                 }
 
                 // Break on input pressed
-                hidScanInput();
-                u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+                inst::ui::mainApp->UpdateButtons();
+                u64 kDown = inst::ui::mainApp->GetButtonsDown();
 
-                if (kDown & KEY_B)
+                if (kDown & HidNpadButton_B)
                 {
                     break;
                 }
-                if (kDown & KEY_Y)
+                if (kDown & HidNpadButton_Y)
                 {
                     return {"supplyUrl"};
                 }
-                if (kDown & KEY_X)
+                if (kDown & HidNpadButton_X)
                 {
                     inst::ui::mainApp->CreateShowDialog("inst.net.help.title"_lang, "inst.net.help.desc"_lang, {"common.ok"_lang}, true);
                 }
