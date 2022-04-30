@@ -103,18 +103,18 @@
         },
         "nca_verify": {
             "title": "Ungültige NCA-Signatur erkannt!",
-            "desc": "Unsachgemäß signierte Software sollte nur von vertrauenswürdigen Quellen\ninstalliert werden. Dateien von gepackten Spiele Modulen und DLC-Freischaltung enthalten,\nwerden immer diese Warnung anzeigen. Du kannst diese Prüfung in den Einstellungen des Awoo Installer deaktivieren.\nBist du sicher, dass du die Installation fortsetzen möchten?",
+            "desc": "Unsachgemäß signierte Software sollte nur von vertrauenswürdigen Quellen\ninstalliert werden. Dateien von gepackten Spiele Modulen und DLC-Freischaltung enthalten,\nwerden immer diese Warnung anzeigen. Du kannst diese Prüfung in den Einstellungen von Awoo Installer deaktivieren.\nBist du sicher, dass du die Installation fortsetzen möchtest?",
             "opt1": "Ja, ich verstehe die Risiken",
             "error": "Die gewünschte NCA ist nicht richtig signiert: "
         },
         "finished": [
             "Genieße deine \"legalen Sicherheitskopien\"!",
             "Ich bin mir sicher nachdem du das Spiel probiert hast wirst du Spaß dabei haben das Spiel tatsächlich zu kaufen!",
-            "Du hast das Spiel sicher gekauft? Nintendo sagt danke für deinen Kauf!",
-            "DRM zu umgehen ist toll, stimmt es?",
-            "Du hast wahrscheinlich sechs Bäume gerettet. Dadurch dass du das Spiel nicht gekauft hast!\nAll das Plastik geht irgendwo hin!",
+            "Du hast das Spiel sicher gekauft? Nintendo dankt für deinen Kauf!",
+            "DRM zu umgehen ist toll, nicht wahr?",
+            "Du hast wahrscheinlich sechs Bäume gerettet, dadurch dass du das Spiel nicht gekauft hast!\nAll das Plastik geht irgendwo hin!",
             "Nintendo Ninjas wurden zu deinem Standort gesendet.",
-            "Und wir mussten dir nicht mal politische Ideologien in den Rachen stopfen!"
+            "Und wir mussten nicht mal politische Ideologien in deinen Rachen stopfen!"
         ]
     },
     "sig": {
@@ -128,12 +128,12 @@
         "backup_failed_desc": "Falls du hekate nicht nutzt, kannst du diese Warnung ignorieren.",
         "download_failed": "Konnte die Signatur Patches nicht herunterladen",
         "download_failed_desc": "Eventuell hast du eine ungültige Quelle in den Einstellung\nvom Awoo Installer eingestellt oder der Host ist derzeitig offline.",
-        "version_text2": "Deine Signatur Patches wurden aktualisiert, für deine HOS Version ",
+        "version_text2": "Deine Signatur Patches wurden für deine HOS Version aktualisiert ",
         "install_complete": "Installation abgeschlossen!",
         "complete_desc": "Starte die Konsole neu um die Änderung zu übernehmen",
         "restart": "Neustarten",
         "later": "Mach ich später",
-        "extract_failed": "Konnte die Dateien nicht extrahieren!",
+        "extract_failed": "Konnte die Dateien nicht entpacken!",
         "restore_failed": "Konnte die originale hekate patches.ini nicht wiederherstellen! Deinstallation fortsetzen?",
         "uninstall_complete": "Deinstallation vollständig",
         "remove_failed": "Konnte die Signatur Patches nicht entfernen",
@@ -164,9 +164,9 @@
             "desc0": "Awoo Installer ",
             "desc1": " ist jetzt verfügbar! Bereit zu aktualisieren?",
             "opt0": "Aktualisieren",
-            "top_info": "Aktualisierung zu Awoo Installer ",
-            "bot_info": "Beziehe Awoo Installer ",
-            "bot_info2": "Extrahiere Awoo Installer ",
+            "top_info": "Aktualisierung von Awoo Installer ",
+            "bot_info": "Lade Awoo Installer herunter ",
+            "bot_info2": "Entpacke Awoo Installer ",
             "complete": "Aktualisierung vollständig!",
             "failed": "Aktualisierung fehlgeschlagen!",
             "end_desc": "Die Software wird nun beendet.",
