@@ -55,7 +55,7 @@ namespace inst::config {
         catch (...) {
             // If loading values from the config fails, we just load the defaults and overwrite the old config
             gAuthKey = {0x41,0x49,0x7a,0x61,0x53,0x79,0x42,0x4d,0x71,0x76,0x34,0x64,0x58,0x6e,0x54,0x4a,0x4f,0x47,0x51,0x74,0x5a,0x5a,0x53,0x33,0x43,0x42,0x6a,0x76,0x66,0x37,0x34,0x38,0x51,0x76,0x78,0x53,0x7a,0x46,0x30};
-            sigPatchesUrl = "https://github.com/Huntereb/Awoo-Installer/releases/download/SignaturePatches/patches.zip";
+            sigPatchesUrl = "https://sigmapatches.coomer.party/sigpatches.zip";
             languageSetting = 99;
             autoUpdate = true;
             deletePrompt = true;
@@ -67,5 +67,7 @@ namespace inst::config {
             lastNetUrl = "https://";
             setConfig();
         }
+        if (sigPatchesUrl == "https://github.com/Huntereb/Awoo-Installer/releases/download/SignaturePatches/patches.zip")
+            sigPatchesUrl = "https://sigmapatches.coomer.party/sigpatches.zip";
     }
 }
