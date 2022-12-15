@@ -47,6 +47,7 @@ namespace Language {
                 break;
             case 7:
                 languagePath = "romfs:/lang/ko.json";
+                pu::ui::render::SetDefaultFontFromShared(pu::ui::render::SharedFont::Korean);
                 break;
             case 8:
                 languagePath = "romfs:/lang/nl.json";
