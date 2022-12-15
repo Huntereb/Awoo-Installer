@@ -46,7 +46,7 @@ bool _makeDirectoryParents(std::string path)
             case EEXIST:
                 //Done!
                 bSuccess = true;
-                break;std::string getHost();
+                break;
             default:
                 bSuccess = false;
                 break;
