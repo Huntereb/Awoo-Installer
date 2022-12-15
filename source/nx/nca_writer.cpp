@@ -179,6 +179,7 @@ public:
                processChunk(m_buffer.data(), m_buffer.size());
           }
 
+          encrypt(m_deflateBuffer.data(), m_deflateBuffer.size(), m_offset);
           flush();
 
           return true;
@@ -235,40 +236,48 @@ public:
           return true;
      }
 
-     u64 processChunk(const  u8* ptr, u64 sz)
+     u64 processChunk(const u8* ptr, u64 sz)
      {
-          ZSTD_inBuffer input = { ptr, sz, 0 };
-          m_deflateBuffer.resize(sz);
-          m_deflateBuffer.resize(0);
-
-          while (input.pos < input.size)
+          while(sz > 0)
           {
-               ZSTD_outBuffer output = { buffOut, buffOutSize, 0 };
-               size_t const ret = ZSTD_decompressStream(dctx, &output, &input);
+               const size_t readChunkSz = std::min(sz, buffInSize);
+               ZSTD_inBuffer input = { ptr, readChunkSz, 0 };
 
-               if (ZSTD_isError(ret))
+               while(input.pos < input.size)
                {
-                    LOG_DEBUG("%s\n", ZSTD_getErrorName(ret));
-                    return false;
+                    ZSTD_outBuffer output = { buffOut, buffOutSize, 0 };
+                    size_t const ret = ZSTD_decompressStream(dctx, &output, &input);
+
+                    if (ZSTD_isError(ret))
+                    {
+                         LOG_DEBUG("%s\n", ZSTD_getErrorName(ret));
+                         return 0;
+                    }
+
+                    size_t len = output.pos;
+                    u8* p = (u8*)buffOut;                         
+
+                    while(len)
+                    {
+                         const size_t writeChunkSz = std::min(0x1000000 - m_deflateBuffer.size(), len);
+
+                         append(m_deflateBuffer, p, writeChunkSz);
+
+                         if(m_deflateBuffer.size() >= 0x1000000)
+                         {
+                              encrypt(m_deflateBuffer.data(), m_deflateBuffer.size(), m_offset);
+                              flush();
+                         }
+
+                         p += writeChunkSz;
+                         len -= writeChunkSz;
+                    }
                }
 
-               append(m_deflateBuffer, (const u8*)buffOut, output.pos);
-
-               if (m_deflateBuffer.size() >= 0x1000000) // 16 MB
-               {
-                    encrypt(m_deflateBuffer.data(), m_deflateBuffer.size(), m_offset);
-
-                    flush();
-               }
-
+               sz -= readChunkSz;
+               ptr += readChunkSz;
           }
 
-          if (m_deflateBuffer.size())
-          {
-               encrypt(m_deflateBuffer.data(), m_deflateBuffer.size(), m_offset);
-
-               flush();
-          }
           return 1;
      }
 
