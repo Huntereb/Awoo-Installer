@@ -1,0 +1,196 @@
+{
+    "main":{
+        "menu": {
+            "sd": "使用SD卡進行安裝",
+            "net": "使用網路進行安裝",
+            "usb": "使用USB進行安裝",
+            "sig": "管理簽名修補程式",
+            "set": "設定",
+            "exit": "退出"
+        },
+        "net": {
+            "title": "網路連線錯誤",
+            "desc": "請檢查已關閉飛航模式，並確認目前連線的網路狀態是否正常。"
+        },
+        "usb": {
+            "warn": {
+                "title": "注意！",
+                "desc": "使用USB進行安裝時，在部分型號設備或少數軟體可能無法\"正確執行\"。\n如果使用USB安裝失敗時，可以改用NS-USBloader來進行USB安裝；\n如果有配置高速網卡建構的網路環境，也可以透過區網/無線網路來進行遠端安裝。\n\n嘗試其他安裝方式，大部分的狀況都可以迎刃而解。",
+                "opt1": "不再顯示此提醒訊息"
+            },
+            "error": {
+                "title": "沒有偵測到USB裝置",
+                "desc": "請用USB線將主機連接到電腦"
+            }
+        },
+        "applet": {
+            "title": "不支援Applet模式",
+            "desc": "在Applet模式下執行Awoo Installer可能會產生安裝錯誤。\n請在hbmenu模式(啟動任何一個遊戲時按住R)，再執行Awoo Installer！"
+        },
+        "buttons": "\ue0e0 選擇    \ue0e1 退出"
+    },   
+    "inst": {
+        "net": {
+            "help": {
+                "title": "說明",
+                "desc": "在Tinfoil模式下，檔案可透過NS-USBloader這類工具來進行遠端安裝。\n要將檔案上傳到你的Switch，請輸入Switch的IP位址 (按照畫面上顯示)，\n並從電腦或手機上選定要傳輸的檔案，點擊等待檔案傳輸完成即可。\n如果遠端傳輸工具不支援某些檔案格式，可以嘗試修改為可接受的副檔名，\n透過網路遠端進行安裝時，Awoo Installer並不會檢查副檔名。\n\n如果不確定如何遠端操作，可以將檔案複製到記憶卡，從程式主畫面執行\"使用SD卡進行安裝\""
+            },
+            "src": {
+                "title": "要從什麼路徑來源進行安裝？",
+                "opt0": "URL網路位址",
+                "opt1": "Google網路硬碟"
+            },
+            "url": {
+                "hint": "請輸入檔案的URL網路位址",
+                "invalid": "URL網路位址無效！",
+                "source_string": "來源為URL"
+            },
+            "gdrive": {
+                "hint": "請輸入Google網路硬碟的共享檔案ID",
+                "alt_name": "Google網路硬碟檔案",
+                "source_string": "來源為Google網路硬碟"
+            },
+            "top_info": "選定要從伺服器安裝的檔案後，請按+鈕",
+            "top_info1": "正在等待連線中... 你的Switch主機IP是: ",
+            "failed": "遠端安裝失敗！",
+            "transfer_interput": "檔案傳輸時發生錯誤，請檢查網路連線狀態是否正常",
+            "source_string": " 透過區網進行安裝",
+            "buttons": "\ue0e3 透過網路安裝    \ue0e2 說明    \ue0e1 取消",
+            "buttons1": "\ue0e0 選擇檔案    \ue0e3 全選    \ue0ef 安裝所選的檔案    \ue0e1 取消"
+        },
+        "sd": {
+            "help": {
+                "title": "說明",
+                "desc": "請先將NSP、NSZ、XCI或XCZ檔案複製到SD卡，\n選定要進行安裝的檔案後，請按+鈕"
+            },
+            "top_info": "選定要進行安裝的檔案後，請按+鈕",
+            "source_string": " 從SD卡",
+            "delete_info": " 安裝完成！是否將檔案從SD卡刪除？",
+            "delete_info_multi": " 所選的檔案均安裝完成！是否將所選的檔案從SD卡刪除？",
+            "delete_desc": "安裝完成後，不會再使用到原始檔案",
+            "buttons": "\ue0e0 選擇檔案    \ue0e3 全選    \ue0ef 安裝所選的檔案    \ue0e2 說明    \ue0e1 取消"
+        },
+        "usb": {
+            "help": {
+                "title": "說明",
+                "desc": "在Tinfoil模式下，檔案也可透過NS-USBloader這類工具來進行USB安裝。\n要將檔案上傳到你的Switch，在電腦或手機上選定要傳輸的檔案，點擊等待完成即可。\n\n然而透過USB安裝時，在某些平台上需要特定的設備，可能衍生更多的問題。\n如果不確定如何使用USB安裝，可以改為嘗試透過區網或網路遠端安裝，\n或者將檔案複製到記憶卡，從程式主畫面執行\"使用SD卡進行安裝\""
+            },
+            "top_info": "USB連接成功！正在接收檔案列表...",
+            "top_info2": "選定要從USB安裝的檔案後，請按+鈕",
+            "error": "USB傳輸逾時或失敗",
+            "source_string": " 透過USB",
+            "buttons": "\ue0e2 (長按) 說明    \ue0e1 (長按) 取消",
+            "buttons2": "\ue0e0 選擇檔案    \ue0e3 全選    \ue0ef 安裝所選的檔案    \ue0e1 取消"
+        },
+        "target": {
+            "desc0": "要將遊戲",
+            "desc1": "安裝到哪裡？",
+            "desc00": "要將所選的遊戲 ",
+            "desc01": "安裝到哪裡？",
+            "opt0": "SD卡",
+            "opt1": "內部儲存空間"
+        },
+        "info_page": {
+            "top_info0": "正在安裝 ",
+            "preparing": "正在初始化安裝程序...",
+            "failed": "安裝失敗 ",
+            "failed_desc": "請使用主機設定內的資料管理來移除未完整安裝的遊戲",
+            "complete": "安裝完成",
+            "desc0": " 所選的檔案已全部安裝！",
+            "desc1": " 已安裝！",
+            "downloading": "正在下載 ",
+            "at": " 在 "
+        },
+        "nca_verify": {
+            "title": "偵測到無效的NCA簽名！",
+            "desc": "要安裝簽名驗證失敗的遊戲，檔案來源必須為可信任的。\n經過重新封裝或有合併更新檔與DLC的檔案，程序會顯示此訊息提醒。\n如需隱藏此提醒通知，可從Awoo Installer設定內取消勾選檢查。\n\n是否確認要繼續安裝？",
+            "opt1": "好，我已瞭解可能的風險",
+            "error": "必要的NCA簽名驗證失敗: "
+        },
+        "finished": [
+            "請盡情享受\"合法備份的遊戲\"！",
+            "我敢保證就算是試玩的遊戲，也能跟購買的遊戲帶來相同樂趣！",
+            "買遊戲嗎？任天堂感謝玩家購買支持！",
+            "能繞過DRM驗證，沒錯吧？",
+            "沒有購買實體遊戲，可拯救六棵樹免於被砍伐。所有生產的塑膠製品最後都被集中處理了。",
+            "查驗任天堂遊戲版權的忍者，已經火速前往你所在的位置。",
+            "我們甚至還沒有表達政治立場傾向就已經完成這整個過程了。"
+        ]
+    },
+    "sig": {
+        "install": "安裝",
+        "uninstall": "移除",
+        "update": "更新",
+        "version_text": "目前已安裝適用於HOS版本的簽名修補程式",
+        "title0": "是否安裝簽名修補程式？",
+        "desc0": "必須先安裝簽名修補程式，才能正確安裝與執行官方遊戲",
+        "backup_failed": "無法備份Hekate的patches.ini！是否確認要繼續安裝？",
+        "backup_failed_desc": "如果並未使用Hekate，可略過此提醒通知！",
+        "download_failed": "無法下載簽名修補程式",
+        "download_failed_desc": "在Awoo Installer的設定內可能輸入了無效的來源，\n或者伺服器目前為離線狀態。",
+        "version_text2": "已將簽名修補程式更新為適用HOS的版本",
+        "install_complete": "安裝完成！",
+        "complete_desc": "需要重新啟動主機以套用更新",
+        "restart": "立即重啟",
+        "later": "稍後重啟",
+        "extract_failed": "無法將檔案解壓縮！",
+        "restore_failed": "無法復原Hekate的patches.ini！是否確認要繼續移除嗎？",
+        "uninstall_complete": "移除完成",
+        "remove_failed": "無法刪除簽名修補程式",
+        "remove_failed_desc": "檔案可能已被重新命名或刪除",
+        "generic_error": "安裝簽名修補程式失敗！"
+    },
+    "options": {
+        "menu_items": {
+            "ignore_firm": "略過檢查遊戲最低系統版本要求",
+            "nca_verify": "進行安裝前驗證NCA簽名",
+            "boost_mode": "在進行安裝時啟用\"超頻\"模式",
+            "ask_delete": "在安裝完成後，詢問是否刪除原始檔案",
+            "auto_update": "自動檢查Awoo Installer的更新版本",
+            "gay_option": "移除程序介面的動漫圖案",
+            "sig_url": "簽名修補程式來源URL: ",
+            "language": "介面語系： ",
+            "check_update": "檢查Awoo Installer的更新版本",
+            "credits": "感謝名單"
+        },
+        "nca_warn": {
+            "title": "注意！",
+            "desc": "雖然是極少數的情況，但檔案還是有可能會被加入損害主機的惡意代碼！\n除非確保所有檔案都從可信任的來源下載，否則不建議關閉簽名驗證。\n\n是否確認要關閉NCA簽名驗證？",
+            "opt1": "好，我已瞭解可能的風險"
+        },
+        "sig_hint": "請輸入下載簽名修補程式的URL網路位址",
+        "update": {
+            "title": "有可用的更新版本",
+            "desc0": "Awoo Installer ",
+            "desc1": " 發佈了新版本！是否立刻進行更新？",
+            "opt0": "更新",
+            "top_info": "正在更新Awoo Installer",
+            "bot_info": "正在下載Awoo Installer",
+            "bot_info2": "正在解壓Awoo Installer",
+            "complete": "更新完成！",
+            "failed": "更新失敗！",
+            "end_desc": "本程式即將關閉！",
+            "title_check_fail": "沒有更新版本",
+            "desc_check_fail": "目前使用的Awoo Installer是最新版本！"
+        },
+        "credits": {
+            "title": "感謝所有幫助過我們的人",
+            "desc": "- HookedBehemoth for A LOT of contributions\n- Adubbz and other contributors for Tinfoil\n- XorTroll for Plutonium and Goldleaf\n- blawar (wife strangulator) and nicoboss for NSZ support\n- The kind folks at the AtlasNX Discuck (or at least some of them)\n- The also kind folks at the RetroNX Discuck (of no direct involvement)\n- namako8982 for the Momiji art\n- TheXzoron for being a baka"
+        },
+        "language": {
+            "title": "設定Awoo Installer的介面語系",
+            "desc": "當確認變更介面語系後，程式會結束並退出。按B鈕取消變更。",
+            "system_language": "系統預設"
+        },
+        "title": "變更Awoo Installer的設定！",
+        "buttons": "\ue0e0 選擇/變更    \ue0e1 取消"
+    },
+    "common": {
+        "ok": "確定",
+        "cancel": "取消",
+        "close": "關閉",
+        "yes": "是",
+        "no": "否",
+        "cancel_desc": "按B鈕取消"
+    }
+}
