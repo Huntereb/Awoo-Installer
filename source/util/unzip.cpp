@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-// https://github.com/AtlasNX/Kosmos-Updater/blob/master/source/FileManager.cpp
+// https://github.com/AtlasNX/Kosmos
 
 unz_file_info_s * _getFileInfo(unzFile unz) {
     unz_file_info_s * fileInfo = (unz_file_info_s*) malloc(sizeof(unz_file_info_s));
