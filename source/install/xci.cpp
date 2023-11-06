@@ -150,22 +150,33 @@ namespace tin::install::xci
         return fileEntry;
     }
 
-    std::vector<const HFS0FileEntry*> XCI::GetFileEntriesByExtension(std::string extension)
-    {
-        std::vector<const HFS0FileEntry*> entryList;
+    std::vector<const PFS0FileEntry*> NSP::GetFileEntriesByExtension(std::string extension)
+	{
+		std::vector<const PFS0FileEntry*> entryList;
 
-        for (unsigned int i = 0; i < this->GetSecureHeader()->numFiles; i++)
-        {
-            const HFS0FileEntry* fileEntry = this->GetFileEntry(i);
-            std::string name(this->GetFileEntryName(fileEntry));
-            auto foundExtension = name.substr(name.find(".") + 1); 
+		for (unsigned int i = 0; i < this->GetBaseHeader()->numFiles; i++)
+		{
+			const PFS0FileEntry* fileEntry = this->GetFileEntry(i);
+			std::string name(this->GetFileEntryName(fileEntry));
+			auto foundExtension = name.substr(name.find(".") + 1);
+				
+			// fix cert filename extension becoming corrupted when xcz/nsz is installing certs.
+			std::string cert ("cert");
+			std::size_t found = name.find(cert);
+			if (found!=std::string::npos){
+				int pos = 0;
+				std::string mystr = name;
+				pos = mystr.find_last_of('.');
+				mystr = mystr.substr(5, pos);
+				foundExtension = mystr.substr(mystr.find(".") + 1);
+			}
 
-            if (foundExtension == extension)
-                entryList.push_back(fileEntry);
-        }
+			if (foundExtension == extension)
+				entryList.push_back(fileEntry);
+		}
 
-        return entryList;
-    }
+		return entryList;
+	}
 
     const char* XCI::GetFileEntryName(const HFS0FileEntry* fileEntry)
     {
