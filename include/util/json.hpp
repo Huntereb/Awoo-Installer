@@ -14698,7 +14698,7 @@ The invariants are checked by member function assert_invariant().
 @endinternal
 
 @see [RFC 7159: The JavaScript Object Notation (JSON) Data Interchange
-Format](http://rfc7159.net/rfc7159)
+Format](https://datatracker.ietf.org/doc/html/rfc7159)
 
 @since version 1.0.0
 
@@ -14939,7 +14939,7 @@ class basic_json
     /*!
     @brief a type for an object
 
-    [RFC 7159](http://rfc7159.net/rfc7159) describes JSON objects as follows:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) describes JSON objects as follows:
     > An object is an unordered collection of zero or more name/value pairs,
     > where a name is a string and a value is a string, number, boolean, null,
     > object, or array.
@@ -14993,7 +14993,7 @@ class basic_json
 
     #### Limits
 
-    [RFC 7159](http://rfc7159.net/rfc7159) specifies:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) specifies:
     > An implementation may set limits on the maximum depth of nesting.
 
     In this class, the object's limit of nesting is not explicitly constrained.
@@ -15016,7 +15016,7 @@ class basic_json
     name/value pairs in a different order than they were originally stored. In
     fact, keys will be traversed in alphabetical order as `std::map` with
     `std::less` is used by default. Please note this behavior conforms to [RFC
-    7159](http://rfc7159.net/rfc7159), because any order implements the
+    7159](https://datatracker.ietf.org/doc/html/rfc7159), because any order implements the
     specified "unordered" nature of JSON objects.
     */
     using object_t = ObjectType<StringType,
@@ -15028,7 +15028,7 @@ class basic_json
     /*!
     @brief a type for an array
 
-    [RFC 7159](http://rfc7159.net/rfc7159) describes JSON arrays as follows:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) describes JSON arrays as follows:
     > An array is an ordered sequence of zero or more values.
 
     To store objects in C++, a type is defined by the template parameters
@@ -15052,7 +15052,7 @@ class basic_json
 
     #### Limits
 
-    [RFC 7159](http://rfc7159.net/rfc7159) specifies:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) specifies:
     > An implementation may set limits on the maximum depth of nesting.
 
     In this class, the array's limit of nesting is not explicitly constrained.
@@ -15074,7 +15074,7 @@ class basic_json
     /*!
     @brief a type for a string
 
-    [RFC 7159](http://rfc7159.net/rfc7159) describes JSON strings as follows:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) describes JSON strings as follows:
     > A string is a sequence of zero or more Unicode characters.
 
     To store objects in C++, a type is defined by the template parameter
@@ -15101,7 +15101,7 @@ class basic_json
 
     #### String comparison
 
-    [RFC 7159](http://rfc7159.net/rfc7159) states:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) states:
     > Software implementations are typically required to test names of object
     > members for equality. Implementations that transform the textual
     > representation into sequences of Unicode code units and then perform the
@@ -15127,7 +15127,7 @@ class basic_json
     /*!
     @brief a type for a boolean
 
-    [RFC 7159](http://rfc7159.net/rfc7159) implicitly describes a boolean as a
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) implicitly describes a boolean as a
     type which differentiates the two literals `true` and `false`.
 
     To store objects in C++, a type is defined by the template parameter @a
@@ -15153,7 +15153,7 @@ class basic_json
     /*!
     @brief a type for a number (integer)
 
-    [RFC 7159](http://rfc7159.net/rfc7159) describes numbers as follows:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) describes numbers as follows:
     > The representation of numbers is similar to that used in most
     > programming languages. A number is represented in base 10 using decimal
     > digits. It contains an integer component that may be prefixed with an
@@ -15191,7 +15191,7 @@ class basic_json
 
     #### Limits
 
-    [RFC 7159](http://rfc7159.net/rfc7159) specifies:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) specifies:
     > An implementation may set limits on the range and precision of numbers.
 
     When the default type is used, the maximal integer number that can be
@@ -15202,7 +15202,7 @@ class basic_json
     will be automatically be stored as @ref number_unsigned_t or @ref
     number_float_t.
 
-    [RFC 7159](http://rfc7159.net/rfc7159) further states:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) further states:
     > Note that when such software is used, numbers that are integers and are
     > in the range \f$[-2^{53}+1, 2^{53}-1]\f$ are interoperable in the sense
     > that implementations will agree exactly on their numeric values.
@@ -15225,7 +15225,7 @@ class basic_json
     /*!
     @brief a type for a number (unsigned)
 
-    [RFC 7159](http://rfc7159.net/rfc7159) describes numbers as follows:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) describes numbers as follows:
     > The representation of numbers is similar to that used in most
     > programming languages. A number is represented in base 10 using decimal
     > digits. It contains an integer component that may be prefixed with an
@@ -15263,7 +15263,7 @@ class basic_json
 
     #### Limits
 
-    [RFC 7159](http://rfc7159.net/rfc7159) specifies:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) specifies:
     > An implementation may set limits on the range and precision of numbers.
 
     When the default type is used, the maximal integer number that can be
@@ -15273,7 +15273,7 @@ class basic_json
     deserialization, too large or small integer numbers will be automatically
     be stored as @ref number_integer_t or @ref number_float_t.
 
-    [RFC 7159](http://rfc7159.net/rfc7159) further states:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) further states:
     > Note that when such software is used, numbers that are integers and are
     > in the range \f$[-2^{53}+1, 2^{53}-1]\f$ are interoperable in the sense
     > that implementations will agree exactly on their numeric values.
@@ -15296,7 +15296,7 @@ class basic_json
     /*!
     @brief a type for a number (floating-point)
 
-    [RFC 7159](http://rfc7159.net/rfc7159) describes numbers as follows:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) describes numbers as follows:
     > The representation of numbers is similar to that used in most
     > programming languages. A number is represented in base 10 using decimal
     > digits. It contains an integer component that may be prefixed with an
@@ -15334,7 +15334,7 @@ class basic_json
 
     #### Limits
 
-    [RFC 7159](http://rfc7159.net/rfc7159) states:
+    [RFC 7159](https://datatracker.ietf.org/doc/html/rfc7159) states:
     > This specification allows implementations to set limits on the range and
     > precision of numbers accepted. Since software that implements IEEE
     > 754-2008 binary64 (double precision) numbers is generally available and
