@@ -9,7 +9,7 @@ A No-Bullshit NSP, NSZ, XCI, and XCZ Installer for Nintendo Switch
 - Installs NSP/NSZ/XCI/XCZ files over the internet by URL or Google Drive
 - Verifies NCAs by header signature before they're installed
 - Installs and manages the latest signature patches quickly and easily
-- Based on [Adubbz Tinfoil](https://github.com/Adubbz/Tinfoil)
+- Based on [Adubbz](https://github.com/Adubbz/) Tinfoil (the repo does not exist anymore)
 - Uses [XorTroll's Plutonium](https://github.com/XorTroll/Plutonium) for a pretty graphical interface
 - Just werks
 
@@ -20,7 +20,7 @@ If you want to do other things like manage installed tickets, titles, and user a
 
 ## Thanks to
 - HookedBehemoth for A LOT of contributions
-- Adubbz and other contributors for [Tinfoil](https://github.com/Adubbz/Tinfoil)
+- Adubbz and other contributors for Tinfoil (the repo does not exist anymore)
 - XorTroll for [Plutonium](https://github.com/XorTroll/Plutonium) and [Goldleaf](https://github.com/XorTroll/Goldleaf)
 - blawar (wife strangulator) and nicoboss for [NSZ](https://github.com/nicoboss/nsz) support
 - The kind folks at the AtlasNX Discuck (or at least some of them)
