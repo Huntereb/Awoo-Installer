@@ -20186,7 +20186,7 @@ class basic_json
     @note Floating-point inside JSON values numbers are compared with
     `json::number_float_t::operator==` which is `double::operator==` by
     default. To compare floating-point while respecting an epsilon, an alternative
-    [comparison function](https://github.com/mariokonrad/marnav/blob/01c55205736fcc8157891b84e3efe387a221ff3a/include/marnav/math/floatingpoint.hpp#L4)
+    [comparison function](https://github.com/mariokonrad/marnav/blob/01c55205736fcc8157891b84e3efe387a221ff3a/include/marnav/math/floatingpoint.hpp#L33-#L38)
     could be used, for instance
     @code {.cpp}
     template<typename T, typename = typename std::enable_if<std::is_floating_point<T>::value, T>::type>
