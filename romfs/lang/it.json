@@ -75,7 +75,7 @@
                 "title": "Aiuto",
                 "desc": "I file possono essere installati via USB da altri dispositivi utilizzando programmi come\nNS-USBloader in modalità \"Tinfoil\". Per inviare i file, apri uno di\nquesti software sul tuo PC, seleziona i file, poi mandali\nalla console!\n\nSfortunatamente l'installazione via USB richiede configurazioni specifiche in certe\npiattaforme, che possono non funzionare correttamente alle volte. Se proprio non riesci,\ndai una possibilità all'installazione via LAN/internet, o copia i file nella SD e\nseleziona l'opzione \"Installa dalla SD\" nel menù principale!"
             },
-            "top_info": "Connessione USB avvenuta correttamete! Aspetto che la lista dei file venga inviata...",
+            "top_info": "Connessione USB avvenuta correttamente! Aspetto che la lista dei file venga inviata...",
             "top_info2": "Seleziona quali file vuoi installare via USB, poi premi il tasto Più!",
             "error": "Trasferimento USB scaduto o fallito",
             "source_string": " via USB",
