@@ -47,7 +47,7 @@ namespace usbInstStuff {
         u32 magic; // TUL0 (Tinfoil Usb List 0)
         u32 titleListSize;
         u64 padding;
-    } PACKED;
+    } __attribute__((packed));
 
     int bufferData(void* buf, size_t size, u64 timeout = 5000000000)
     {

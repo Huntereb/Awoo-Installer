@@ -41,7 +41,7 @@ namespace tin::util
         u32 cmdId;
         u64 dataSize;
         u8 reserved[0xC] = {0};
-    } PACKED;
+    } __attribute__((packed));
 
     static_assert(sizeof(USBCmdHeader) == 0x20, "USBCmdHeader must be 0x20!");
 

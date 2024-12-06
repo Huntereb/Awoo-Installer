@@ -77,7 +77,7 @@ public:
           u64 padding2;
           u8 cryptoKey[0x10];
           u8 cryptoCounter[0x10];
-     } PACKED;
+     } __attribute__((packed));
 
      class SectionContext : public Section
      {
@@ -139,7 +139,7 @@ protected:
      u64 m_magic;
      u64 m_sectionCount;
      Section m_sections[1];
-} PACKED;
+} __attribute__((packed));
 
 class NczBodyWriter : public NcaBodyWriter
 {

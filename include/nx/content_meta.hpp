@@ -34,7 +34,7 @@ namespace nx::ncm
     {
         u8 hash[0x20];
         NcmContentInfo content_info;
-    } PACKED;
+    } __attribute__((packed));
 
     struct PackagedContentMetaHeader
     {
