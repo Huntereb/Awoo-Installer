@@ -148,6 +148,10 @@ namespace tin::install::xci
         std::vector<const HFS0FileEntry*> tikFileEntries = m_xci->GetFileEntriesByExtension("tik");
         std::vector<const HFS0FileEntry*> certFileEntries = m_xci->GetFileEntriesByExtension("cert");
 
+        if (tikFileEntries.size() != certFileEntries.size()) {
+            THROW_FORMAT("Ticket / Cert missmatch");
+        }
+
         for (size_t i = 0; i < tikFileEntries.size(); i++)
         {
             if (tikFileEntries[i] == nullptr)

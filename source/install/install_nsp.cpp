@@ -150,6 +150,10 @@ namespace tin::install::nsp
         std::vector<const PFS0FileEntry*> tikFileEntries = m_NSP->GetFileEntriesByExtension("tik");
         std::vector<const PFS0FileEntry*> certFileEntries = m_NSP->GetFileEntriesByExtension("cert");
 
+        if (tikFileEntries.size() != certFileEntries.size()) {
+            THROW_FORMAT("Ticket / Cert missmatch");
+        }
+
         for (size_t i = 0; i < tikFileEntries.size(); i++)
         {
             if (tikFileEntries[i] == nullptr) {
