@@ -14,7 +14,7 @@ namespace tin::install
         u32 hashedSize;
         u64 padding;
         unsigned char hash[0x20];
-    } PACKED;
+    } NX_PACKED;
 
     static_assert(sizeof(HFS0FileEntry) == 0x40, "HFS0FileEntry must be 0x18");
 
@@ -24,7 +24,7 @@ namespace tin::install
         u32 numFiles;
         u32 stringTableSize;
         u32 reserved;
-    } PACKED;
+    } NX_PACKED;
 
     static_assert(sizeof(HFS0BaseHeader) == 0x10, "HFS0BaseHeader must be 0x10");
 

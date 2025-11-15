@@ -32,7 +32,7 @@ namespace tin::install
         u64 fileSize;
         u32 stringTableOffset;
         u32 padding;
-    } PACKED;
+    } NX_PACKED;
 
     static_assert(sizeof(PFS0FileEntry) == 0x18, "PFS0FileEntry must be 0x18");
 
@@ -42,7 +42,7 @@ namespace tin::install
         u32 numFiles;
         u32 stringTableSize;
         u32 reserved;
-    } PACKED;
+    } NX_PACKED;
 
     static_assert(sizeof(PFS0BaseHeader) == 0x10, "PFS0BaseHeader must be 0x10");
 }

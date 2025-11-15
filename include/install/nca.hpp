@@ -29,7 +29,7 @@ namespace tin::install
             };
         };
         u8 _0x148[0xB8]; /* Padding. */
-    } PACKED;
+    } NX_PACKED;
 
     static_assert(sizeof(NcaFsHeader) == 0x200, "NcaFsHeader must be 0x200");
 
@@ -38,7 +38,7 @@ namespace tin::install
         u32 media_start_offset;
         u32 media_end_offset;
         u8 _0x8[0x8]; /* Padding. */
-    } PACKED;
+    } NX_PACKED;
 
     static_assert(sizeof(NcaSectionEntry) == 0x10, "NcaSectionEntry must be 0x10");
 
@@ -71,7 +71,7 @@ namespace tin::install
         u8 m_keys[4 * 0x10]; /* Encrypted key area. */
         u8 _0x340[0xC0]; /* Padding. */
         NcaFsHeader fs_headers[4]; /* FS section headers. */
-    } PACKED;
+    } NX_PACKED;
 
     static_assert(sizeof(NcaHeader) == 0xc00, "NcaHeader must be 0xc00");
 }
