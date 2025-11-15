@@ -4,6 +4,11 @@
 #include <pu/Plutonium>
 #include "util/lang.hpp"
 #include "util/config.hpp"
+#include <sstream>
+#include <fstream>
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 namespace Language {
     json lang;
@@ -80,6 +85,17 @@ namespace Language {
         }
         lang = json::parse(ifs);
         ifs.close();
+    }
+
+    inline json GetRelativeJson(json j, std::string key) {
+        std::istringstream ss(key);
+        std::string token;
+
+        while (std::getline(ss, token, '.') && j != nullptr) {
+            j = j[token];
+        }
+
+        return j;
     }
 
     std::string LanguageEntry(std::string key) {

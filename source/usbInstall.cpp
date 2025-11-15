@@ -23,6 +23,7 @@ SOFTWARE.
 #include <string>
 #include <thread>
 #include <malloc.h>
+#include <algorithm>
 #include "usbInstall.hpp"
 #include "install/usb_nsp.hpp"
 #include "install/install_nsp.hpp"

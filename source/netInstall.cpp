@@ -27,6 +27,7 @@ SOFTWARE.
 #include <sstream>
 #include <curl/curl.h>
 #include <thread>
+#include <algorithm>
 #include <switch.h>
 #include "netInstall.hpp"
 #include "install/install_nsp.hpp"
